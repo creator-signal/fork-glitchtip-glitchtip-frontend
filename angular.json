@@ -130,7 +130,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/marketing",
+            "outputPath": "dist/browser",
             "index": "projects/marketing/src/index.html",
             "main": "projects/marketing/src/main.ts",
             "polyfills": "projects/marketing/src/polyfills.ts",
@@ -233,6 +233,29 @@
           "configurations": {
             "production": {
               "devServerTarget": "marketing:serve:production"
+            }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "projects/marketing/src/main.server.ts",
+            "tsConfig": "projects/marketing/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/marketing/src/environments/environment.ts",
+                  "with": "projects/marketing/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": {
+                "scripts": false,
+                "styles": true
+              }
             }
           }
         }
