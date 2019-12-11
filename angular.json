@@ -141,6 +141,7 @@
               "projects/marketing/src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "projects/marketing/src/styles.scss"
             ],
             "scripts": []
@@ -205,9 +206,7 @@
               "projects/marketing/src/favicon.ico",
               "projects/marketing/src/assets"
             ],
-            "styles": [
-              "projects/marketing/src/styles.scss"
-            ],
+            "styles": ["projects/marketing/src/styles.scss"],
             "scripts": []
           }
         },
@@ -219,9 +218,7 @@
               "projects/marketing/tsconfig.spec.json",
               "projects/marketing/e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

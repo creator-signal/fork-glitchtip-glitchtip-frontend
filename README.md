@@ -28,4 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 # GlitchTip Marketing site
 
-In here as its own project. `npm run start-marketing` to run the project, and `build:marketingssr` and `serve:ssr` to run a static version of it.
+In here as its own project. `npm run start-marketing` or `npm start marketing` to run the project, and `build:marketingssr` and `serve:ssr` to run a static version of it.
