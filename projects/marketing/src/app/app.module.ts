@@ -6,10 +6,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule.withServerTransition({ appId: "serverApp" }),
-    MatToolbarModule
-  ],
+  imports: [BrowserModule, MatToolbarModule],
   providers: [],
   bootstrap: [AppComponent]
 })
