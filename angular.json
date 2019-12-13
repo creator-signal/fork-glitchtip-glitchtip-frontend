@@ -140,10 +140,7 @@
               "projects/marketing/src/favicon.ico",
               "projects/marketing/src/assets"
             ],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "projects/marketing/src/styles.scss"
-            ],
+            "styles": ["projects/marketing/src/styles.scss"],
             "scripts": []
           },
           "configurations": {

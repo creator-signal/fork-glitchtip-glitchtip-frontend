@@ -1,0 +1,50 @@
+.hero-and-nav-container {
+  background: #ead5d0;
+  background: linear-gradient(45deg, #faddff 0%, #ffd3b9 100%);
+  background-image: url("../assets/glitchy.png"),
+    linear-gradient(45deg, #faddff 0%, #ffd3b9 100%);
+  background-size: cover, cover;
+  padding-bottom: 30px;
+}
+
+.hero {
+  overflow: hidden;
+  padding: 20px 10vw 40px;
+  text-align: center;
+
+  .content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .mat-body-1 {
+    font-size: 1.25em;
+    line-height: 1.5em;
+  }
+}
+
+.mat-toolbar {
+  background: transparent;
+}
+
+.mat-display-2 {
+  color: white;
+  background: #8a2387; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #8a2387,
+    #e94057,
+    #f27121
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #8a2387,
+    #e94057,
+    #f27121
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-decoration-break: clone;
+  margin: 20px 0 30px;
+}
