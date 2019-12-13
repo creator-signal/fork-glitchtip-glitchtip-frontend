@@ -1,13 +1,11 @@
+@import "~@angular/material/theming";
 @import "./assets/styles/font-files";
 @import "./assets/styles/variables";
 @import "./assets/styles/resets";
 
-@import "~@angular/material/theming";
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
+// Common styles for Angular Material. Included so that we only have to load a
+// single CSS file for Angular Material in our app.
+// Don't include this anywhere else!
 @include mat-core();
 
 // Include theme styles for core and each component used in your app.
@@ -17,16 +15,7 @@
 
 @include mat-base-typography($custom-typography);
 
-.logo-test {
-  font-family: mat-font-family($custom-typography);
-  font-size: 22px;
-  font-style: italic;
-  font-weight: 700;
-  color: #e94056;
-  text-shadow: 1px 1px 0 #ca95f7;
-}
-
 a {
-  color: #e94056;
+  color: $amaranth;
   font-weight: 500;
 }

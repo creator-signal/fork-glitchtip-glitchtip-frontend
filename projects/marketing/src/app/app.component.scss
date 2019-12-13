@@ -1,3 +1,15 @@
+@import "../assets/styles/variables";
+
+.logo-test {
+  font-family: mat-font-family($custom-typography);
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  // font-style: italic;
+  font-weight: 700;
+  color: $amaranth;
+  // text-shadow: 1px 1px 0 #ca95f7;
+}
+
 .hero-and-nav-container {
   background: #ead5d0;
   background: linear-gradient(45deg, #faddff 0%, #ffd3b9 100%);
@@ -8,10 +20,6 @@
 }
 
 .hero {
-  overflow: hidden;
-  padding: 20px 10vw 40px;
-  text-align: center;
-
   .content {
     max-width: 600px;
     margin: 0 auto;
@@ -23,13 +31,28 @@
   }
 }
 
+.centered-block {
+  text-align: center;
+  padding: 20px 10vw 40px;
+  overflow: hidden;
+
+  .content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
 .mat-toolbar {
   background: transparent;
 }
 
-.mat-display-2 {
+.divider {
+  border-top: 1px solid lightgray;
+}
+
+.fancy {
   color: white;
-  background: #8a2387; /* fallback for old browsers */
+  background: $amaranth; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to left,
     #8a2387,
@@ -46,5 +69,5 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   box-decoration-break: clone;
-  margin: 20px 0 30px;
+  margin: 0.5em 0 1em;
 }
