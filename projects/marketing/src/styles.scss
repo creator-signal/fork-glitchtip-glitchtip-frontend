@@ -15,6 +15,11 @@
 
 @include mat-base-typography($custom-typography);
 
+// Responsive type maybe?
+@media screen and (max-width: 767px) {
+  @include mat-base-typography($mobile-typography);
+}
+
 a {
   color: $amaranth;
   font-weight: 500;

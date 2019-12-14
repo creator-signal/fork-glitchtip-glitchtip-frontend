@@ -35,39 +35,6 @@ $amaranth-palette: (
   )
 );
 
-$red-orange: (
-  50: #ffe9e4,
-  100: #ffc8bc,
-  200: #ffa38f,
-  300: #ff7e62,
-  400: #ff6240,
-  500: #ff461e,
-  600: #ff3f1a,
-  700: #ff3716,
-  800: #ff2f12,
-  900: #ff200a,
-  A100: #ffffff,
-  A200: #fff5f5,
-  A400: #ffc6c2,
-  A700: #ffaea8,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000
-  )
-);
-
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -97,4 +64,12 @@ $custom-typography: mat-typography-config(
   $display-1: mat-typography-level(34px, 40px, 400, "Plex Serif"),
   $body-2: mat-typography-level(16px, 28px, 500),
   $body-1: mat-typography-level(16px, 24px, 400)
+);
+
+$mobile-typography: mat-typography-config(
+  $font-family: "Plex Sans",
+  $display-4: mat-typography-level(90px, 102px, 300, "Plex Serif", -0.05em),
+  $display-3: mat-typography-level(45px, 55px, 400, "Plex Serif", -0.02em),
+  $display-2: mat-typography-level(36px, 46px, 400, "Plex Serif", -0.005em),
+  $display-1: mat-typography-level(28px, 33px, 400, "Plex Serif")
 );
