@@ -8,7 +8,7 @@ import { MatCardModule } from "@angular/material/card";
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, MatToolbarModule, MatButtonModule, MatCardModule],
+  imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }), MatToolbarModule, MatButtonModule, MatCardModule],
   providers: [],
   bootstrap: [AppComponent]
 })
