@@ -76,7 +76,7 @@
             [attr.colspan]="displayedColumns.length"
             class="footer"
           >
-            <ng-container *ngIf="(loading$ | async) === false">
+            <ng-container>
               <button
                 [routerLink]="[]"
                 [queryParams]="paginator.previousPageParams || {}"
@@ -96,13 +96,6 @@
                 <mat-icon>keyboard_arrow_right</mat-icon>
               </button>
             </ng-container>
-            <div *ngIf="loading$ | async" class="spinner-container">
-              <mat-progress-spinner
-                [diameter]="33"
-                color="primary"
-                mode="indeterminate"
-              ></mat-progress-spinner>
-            </div>
           </td>
         </ng-container>
         <tr

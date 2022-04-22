@@ -17,7 +17,6 @@ export class MonitorChecksComponent {
   ];
   @Input() monitor?: MonitorDetail;
   @Input() monitorChecks?: MonitorCheck[] | null;
-  @Input() loading?: boolean | null;
   @Input() paginator?: Paginator | null;
 
   constructor() {}

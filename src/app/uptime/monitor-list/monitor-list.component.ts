@@ -19,11 +19,13 @@ export class MonitorListComponent
   tooltipDisabled = false;
 
   monitors$ = this.uptimeService.monitors$;
-  loading$ = this.uptimeService.getState$.pipe(
-    map((state) => state.pagination.loading)
-  );
   routerEventSubscription: Subscription;
-  displayedColumns: string[] = ["statusColor", "name-and-url", "check-chart", "status"];
+  displayedColumns: string[] = [
+    "statusColor",
+    "name-and-url",
+    "check-chart",
+    "status",
+  ];
   navigationEnd$ = this.cursorNavigationEnd$.pipe(
     withLatestFrom(this.route.params, this.route.queryParams),
     map(([_, params, queryParams]) => {

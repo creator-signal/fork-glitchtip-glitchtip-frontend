@@ -17,9 +17,6 @@ export class MonitorDetailComponent
 {
   monitor$ = this.uptimeService.activeMonitor$;
   monitorChecks$ = this.uptimeService.monitorChecks$;
-  loading$ = this.uptimeService.getState$.pipe(
-    map((state) => state.pagination.loading)
-  );
   uptimeAlertCount$ = this.uptimeService.uptimeAlertCount$;
   alertCountLoading$ = this.uptimeService.alertCountLoading$;
   associatedProjectSlug$ = this.uptimeService.associatedProjectSlug$;
