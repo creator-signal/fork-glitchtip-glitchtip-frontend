@@ -41,7 +41,7 @@
           <div class="name-and-project">
             <div (mouseover)="checkIfTooltipIsNecessary($event)">
               <a
-                [matTooltip]="group.transaction"
+                [matTooltip]="setTitleTooltip(group)"
                 matTooltipPosition="above"
                 [matTooltipDisabled]="tooltipDisabled"
                 [routerLink]="group.id"
