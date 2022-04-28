@@ -46,8 +46,15 @@
                 [matTooltipDisabled]="tooltipDisabled"
                 [routerLink]="group.id"
                 queryParamsHandling="merge"
-                >{{ group.transaction }}</a
               >
+                <span *ngIf="group.method">
+                  {{ group.method }}
+                </span>
+                {{ group.transaction }}
+                <span *ngIf="group.method === null">
+                  {{ group.op }}
+                </span>
+              </a>
             </div>
             <div class="mat-caption">
               <span *ngIf="(appliedProjectCount$ | async) !== 1">
