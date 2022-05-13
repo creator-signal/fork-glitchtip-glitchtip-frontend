@@ -1,0 +1,131 @@
+<div class="box-alignment">
+  <div class="body">
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel #expansionPanel class="mat-elevation-z1">
+        <mat-expansion-panel-header>
+          <mat-panel-title>05/11/22 02:23:55-05/11/22 02:23:55</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="standard-filter">
+          <button
+            mat-flat-button
+            class="shortcut-option"
+            color="basic"
+            (click)="setFormFromShortcut('now-1h')"
+          >
+            Last hour
+          </button>
+        </div>
+        <div class="standard-filter">
+          <button
+            mat-flat-button
+            color="basic"
+            (click)="setFormFromShortcut('now-1d')"
+          >
+            Last day
+          </button>
+        </div>
+        <div class="standard-filter">
+          <button
+            mat-flat-button
+            color="basic"
+            (click)="setFormFromShortcut('now-7d')"
+          >
+            Last week
+          </button>
+        </div>
+        <div class="range-selection">
+          <form [formGroup]="dateForm" (ngSubmit)="onSubmit()">
+            <div>
+              <mat-form-field>
+                <mat-label>From</mat-label>
+                <input
+                  matInput
+                  formControlName="startDate"
+                  [errorStateMatcher]="matcher"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  [ngClass]="startMenuTrigger.menuOpen ? 'active' : 'inActive'"
+                  #startMenuTrigger="matMenuTrigger"
+                  [matMenuTriggerFor]="startCalendarMenu"
+                  aria-label="Calendar"
+                >
+                  <mat-icon>calendar_today</mat-icon>
+                </button>
+                <mat-error>
+                  <span *ngIf="formStartDate?.errors?.invalidDatetime"
+                    >Enter a valid datetime</span
+                  >
+                </mat-error>
+              </mat-form-field>
+              <mat-menu #startCalendarMenu>
+                <div
+                  class="calendar-container"
+                  (click)="$event.stopPropagation()"
+                >
+                  <mat-calendar
+                    #startCalendar
+                    [selected]="formStartDateValue$ | async"
+                    (selectedChange)="setDatefromCalendar($event, true)"
+                  ></mat-calendar>
+                </div>
+              </mat-menu>
+              <mat-form-field>
+                <mat-label>To</mat-label>
+                <input
+                  matInput
+                  formControlName="endDate"
+                  [errorStateMatcher]="matcher"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  [ngClass]="endMenuTrigger.menuOpen ? 'active' : 'inActive'"
+                  #endMenuTrigger="matMenuTrigger"
+                  [matMenuTriggerFor]="endCalendarMenu"
+                  aria-label="Calendar"
+                >
+                  <mat-icon>calendar_today</mat-icon>
+                </button>
+                <mat-error>
+                  <span *ngIf="formEndDate?.errors?.invalidDatetime"
+                    >Enter a valid datetime</span
+                  >
+                </mat-error>
+              </mat-form-field>
+              <mat-menu #endCalendarMenu>
+                <div
+                  class="calendar-container"
+                  (click)="$event.stopPropagation()"
+                >
+                  <mat-calendar
+                    #endCalendar
+                    [selected]="formEndDateValue$ | async"
+                    (selectedChange)="setDatefromCalendar($event)"
+                  ></mat-calendar>
+                </div>
+              </mat-menu>
+            </div>
+            <div class="range-buttons">
+              <button mat-flat-button type="submit" color="primary">
+                Submit
+              </button>
+              <button
+                type="button"
+                mat-stroked-button
+                color="primary"
+                (click)="dateFormClear()"
+              >
+                Clear
+              </button>
+            </div>
+            <div class="mat-caption"><b>Timezone:</b>&nbsp;UTC</div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+@import "src/assets/styles/variables";
+
+.box-alignment {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.body {
+  width: 350px;
+}
+
+.calendar-container {
+  height: 340px;
+  width: 280px;
+}
+
+mat-form-field {
+  margin-top: 10px;
+  width: 100%;
+}
+
+mat-expansion-panel {
+  .standard-filter {
+    margin-left: -16px;
+    padding-bottom: 5px !important;
+  }
+}
+
+.range-selection {
+  width: 100%;
+}
+
+.range-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px
+}
+
+.mat-caption {
+  margin-top: 10px
+}
+
+.active {
+  color: $amaranth;
+}
+
+.inactive {
+  color: black;
+}
