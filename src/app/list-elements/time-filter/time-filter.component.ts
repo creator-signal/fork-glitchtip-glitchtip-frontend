@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -30,7 +30,7 @@ function datetimeValidator(control: AbstractControl): ValidationErrors | null {
   templateUrl: "./time-filter.component.html",
   styleUrls: ["./time-filter.component.scss"],
 })
-export class TimeFilterComponent implements OnInit {
+export class TimeFilterComponent {
   @ViewChild("expansionPanel") expansionPanel?: MatExpansionPanel;
   @ViewChild("startMenuTrigger") startMenuTrigger?: MatMenuTrigger;
   @ViewChild("endMenuTrigger") endMenuTrigger?: MatMenuTrigger;
@@ -59,8 +59,6 @@ export class TimeFilterComponent implements OnInit {
   matcher = new LessAnnoyingErrorStateMatcher();
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   setFormFromShortcut(relativeTime: string) {
     this.formStartDate.setValue(relativeTime);
