@@ -6,12 +6,12 @@ import {
   FormGroup,
   ValidationErrors,
 } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { MatMenuTrigger } from "@angular/material/menu";
+import { ActivatedRoute, Router } from "@angular/router";
+import { defer } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { LessAnnoyingErrorStateMatcher } from "src/app/shared/less-annoying-error-state-matcher";
-import { defer } from "rxjs";
 
 const relativeTimeRegex = /now(\+|\-)\d+(m|h|d)/;
 
@@ -69,11 +69,13 @@ export class TimeFilterComponent implements OnInit {
       if (relativeTimeRegex.test(start!) && end === "now") {
         return `Last ${this.convertTimeUnits(start!)}`;
       } else if (start && end) {
-        return `${this.convertToTitleDate(start)} to ${this.convertToTitleDate(end)}`;
+        return `${this.convertToTitleDate(start)} to ${this.convertToTitleDate(
+          end
+        )}`;
       } else if (start) {
         return `From ${this.convertToTitleDate(start)}`;
       } else if (end) {
-        return `to ${this.convertToTitleDate(end)}`;
+        return `To ${this.convertToTitleDate(end)}`;
       } else return null;
     })
   );
@@ -140,7 +142,7 @@ export class TimeFilterComponent implements OnInit {
     }
     const convertedDate = new Date(dateString.replace("Z", ""));
     if (!isNaN(convertedDate.getTime())) {
-      return formatDate(convertedDate, "MM/dd/yyyy HH:mm:ss", "en-us")
+      return formatDate(convertedDate, "MM/dd/yyyy HH:mm:ss", "en-us");
     } else {
       return null;
     }
@@ -180,7 +182,7 @@ export class TimeFilterComponent implements OnInit {
         end = this.convertToZTime(this.formEndDate.value);
       }
 
-      this.expansionPanel?.close()
+      this.expansionPanel?.close();
 
       this.router.navigate([], {
         queryParams: { start, end },
