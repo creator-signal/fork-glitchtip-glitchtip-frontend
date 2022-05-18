@@ -3,7 +3,23 @@
     <mat-accordion displayMode="flat">
       <mat-expansion-panel #expansionPanel class="mat-elevation-z1">
         <mat-expansion-panel-header>
-          <mat-panel-title>05/11/22 02:23:55-05/11/22 02:23:55</mat-panel-title>
+          <mat-panel-title>
+            <div class="title-text">
+            <ng-container
+              *ngIf="expansionPanel.expanded === false; else generic"
+            >
+              <ng-container
+                *ngIf="queryParams$ | async as timeDisplay; else allTimes"
+              >
+                {{ queryParams$ | async }}
+              </ng-container>
+              <ng-template #allTimes>
+                All times
+              </ng-template>
+            </ng-container>
+            <ng-template #generic> Time filter </ng-template>
+          </div>
+          </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="standard-filter">
           <button
@@ -30,7 +46,7 @@
             color="basic"
             (click)="setFormFromShortcut('now-7d')"
           >
-            Last week
+            Last 7 days
           </button>
         </div>
         <div class="range-selection">

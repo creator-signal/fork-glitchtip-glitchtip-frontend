@@ -5,7 +5,7 @@ import { GlitchtipTestingModule } from "src/app/glitchtip-testing/glitchtip-test
 import { TimeFilterModule } from "./time-filter.module";
 
 export default {
-  title: "List elements/Project Filter Bar",
+  title: "List elements/Time Filter Bar",
   decorators: [
     moduleMetadata({
       imports: [GlitchtipTestingModule, TimeFilterModule],
