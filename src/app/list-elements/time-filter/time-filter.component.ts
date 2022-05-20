@@ -13,7 +13,7 @@ import { defer } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { LessAnnoyingErrorStateMatcher } from "src/app/shared/less-annoying-error-state-matcher";
 
-const relativeTimeRegex = /now\-\d+(m|h|d)$/;
+const relativeTimeRegex = /now\s*\-\s*\d+\s*(m|h|d)\s*$/;
 
 function datetimeValidator(control: AbstractControl): ValidationErrors | null {
   if (
@@ -55,12 +55,15 @@ export class TimeFilterComponent implements OnInit {
     );
   });
 
-  formEndDateValue$ = this.formEndDate.valueChanges.pipe(
-    map((_) => {
-      const dateConversion = new Date(this.formEndDate.value);
-      return isNaN(dateConversion.getTime()) ? null : dateConversion;
-    })
-  );
+  formEndDateValue$ = defer(() => {
+    return this.formEndDate.valueChanges.pipe(
+      startWith(this.formEndDate.value),
+      map((_) => {
+        const dateConversion = new Date(this.formEndDate.value);
+        return isNaN(dateConversion.getTime()) ? null : dateConversion;
+      })
+    );
+  });
 
   queryParams$ = this.route.queryParams.pipe(
     map(() => {
@@ -149,8 +152,9 @@ export class TimeFilterComponent implements OnInit {
   }
 
   convertTimeUnits(relativeTime: string) {
-    const number = relativeTime.match(/([0-9]+)/)![1];
-    const unit = relativeTime.split(number)[1];
+    const spacesStripped = relativeTime.replace(/\s/g, "");
+    const number = spacesStripped.match(/([0-9]+)/)![1];
+    const unit = spacesStripped.split(number)[1];
     const conversions: { [key: string]: string } = {
       m: "minutes",
       h: "hours",
