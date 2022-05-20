@@ -13,7 +13,7 @@ import { defer } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { LessAnnoyingErrorStateMatcher } from "src/app/shared/less-annoying-error-state-matcher";
 
-const relativeTimeRegex = /now(\+|\-)\d+(m|h|d)/;
+const relativeTimeRegex = /now\-\d+(m|h|d)$/;
 
 function datetimeValidator(control: AbstractControl): ValidationErrors | null {
   if (
