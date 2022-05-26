@@ -1,24 +1,30 @@
 <div class="box-alignment">
   <div class="body">
     <mat-accordion displayMode="flat">
-      <mat-expansion-panel #expansionPanel class="mat-elevation-z1">
+      <mat-expansion-panel
+        #expansionPanel
+        (opened)="alternativeCloseSubscribe()"
+        (closed)="alternativeCloseUnsubscribe()"
+        class="mat-elevation-z1"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title>
             <div class="title-text">
-            <ng-container
-              *ngIf="expansionPanel.expanded === false; else generic"
-            >
               <ng-container
-                *ngIf="queryParams$ | async as timeDisplay; else allTimes"
+                *ngIf="expansionPanel.expanded === false; else generic"
               >
-                {{ queryParams$ | async }}
+                <ng-container
+                  *ngIf="
+                    displayFromQueryParams$ | async as timeDisplay;
+                    else allTimes
+                  "
+                >
+                  {{ timeDisplay }}
+                </ng-container>
+                <ng-template #allTimes> All times </ng-template>
               </ng-container>
-              <ng-template #allTimes>
-                All times
-              </ng-template>
-            </ng-container>
-            <ng-template #generic> Time filter </ng-template>
-          </div>
+              <ng-template #generic> Time filter </ng-template>
+            </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="standard-filter">

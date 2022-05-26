@@ -1,5 +1,5 @@
 import { formatDate } from "@angular/common";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -9,8 +9,8 @@ import {
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { ActivatedRoute, Router } from "@angular/router";
-import { defer } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+import { defer, fromEvent, merge, Subscription } from "rxjs";
+import { filter, map, startWith } from "rxjs/operators";
 import { LessAnnoyingErrorStateMatcher } from "src/app/shared/less-annoying-error-state-matcher";
 
 const relativeTimeRegex = /now\s*\-\s*\d+\s*(m|h|d)\s*$/;
@@ -35,6 +35,8 @@ function datetimeValidator(control: AbstractControl): ValidationErrors | null {
 })
 export class TimeFilterComponent implements OnInit {
   @ViewChild("expansionPanel") expansionPanel?: MatExpansionPanel;
+  @ViewChild("expansionPanel", { read: ElementRef })
+  panelElement?: ElementRef<HTMLElement>;
   @ViewChild("startMenuTrigger") startMenuTrigger?: MatMenuTrigger;
   @ViewChild("endMenuTrigger") endMenuTrigger?: MatMenuTrigger;
   dateForm = new FormGroup({
@@ -65,7 +67,7 @@ export class TimeFilterComponent implements OnInit {
     );
   });
 
-  queryParams$ = this.route.queryParams.pipe(
+  displayFromQueryParams$ = this.route.queryParams.pipe(
     map(() => {
       const start: string | undefined = this.route.snapshot.queryParams.start;
       const end: string | undefined = this.route.snapshot.queryParams.end;
@@ -83,6 +85,26 @@ export class TimeFilterComponent implements OnInit {
     })
   );
 
+  escapeKeyListener$ = fromEvent(document, "keydown").pipe(
+    filter((event) => {
+      if (event instanceof KeyboardEvent) {
+        return event.key === "Escape" ? true : false;
+      } else {
+        return false;
+      }
+    })
+  );
+
+  outsideClickListener$ = fromEvent(document, "click").pipe(
+    filter((clickEvent) => {
+      const target = clickEvent.target as HTMLElement;
+      const panelHTML = this.panelElement?.nativeElement as HTMLElement;
+      return panelHTML.contains(target) ? false : true;
+    })
+  );
+
+  outsideClickSubscription?: Subscription;
+
   matcher = new LessAnnoyingErrorStateMatcher();
 
   constructor(private route: ActivatedRoute, private router: Router) {}
@@ -96,6 +118,21 @@ export class TimeFilterComponent implements OnInit {
         endDate: end ? this.convertToInputDate(end) : null,
       });
     });
+  }
+
+  alternativeCloseSubscribe() {
+    this.outsideClickSubscription = merge(
+      this.escapeKeyListener$,
+      this.outsideClickListener$
+    ).subscribe(() => {
+      this.startMenuTrigger?.closeMenu();
+      this.endMenuTrigger?.closeMenu();
+      this.expansionPanel?.close();
+    });
+  }
+
+  alternativeCloseUnsubscribe() {
+    this.outsideClickSubscription?.unsubscribe();
   }
 
   setFormFromShortcut(relativeTime: string) {
