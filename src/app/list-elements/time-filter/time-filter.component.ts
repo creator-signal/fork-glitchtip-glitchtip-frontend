@@ -103,7 +103,7 @@ export class TimeFilterComponent implements OnInit {
     })
   );
 
-  outsideClickSubscription?: Subscription;
+  alternativeCloseSubscription?: Subscription;
 
   matcher = new LessAnnoyingErrorStateMatcher();
 
@@ -121,7 +121,7 @@ export class TimeFilterComponent implements OnInit {
   }
 
   alternativeCloseSubscribe() {
-    this.outsideClickSubscription = merge(
+    this.alternativeCloseSubscription = merge(
       this.escapeKeyListener$,
       this.outsideClickListener$
     ).subscribe(() => {
@@ -132,7 +132,7 @@ export class TimeFilterComponent implements OnInit {
   }
 
   alternativeCloseUnsubscribe() {
-    this.outsideClickSubscription?.unsubscribe();
+    this.alternativeCloseSubscription?.unsubscribe();
   }
 
   setFormFromShortcut(relativeTime: string) {
