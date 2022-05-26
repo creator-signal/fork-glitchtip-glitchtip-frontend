@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { Router, RoutesRecognized } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router, RoutesRecognized } from "@angular/router";
 import { map, filter, take, exhaustMap, tap } from "rxjs/operators";
 import { combineLatest } from "rxjs";
 import { AuthService } from "./api/auth/auth.service";
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private organizationService: OrganizationsService,
     private settings: SettingsService,
+    private route: ActivatedRoute,
     private router: Router,
     private titleService: Title
   ) {}
@@ -60,6 +61,12 @@ export class AppComponent implements OnInit {
           titleTag = event.state.root.firstChild!.data.title + " | GlitchTip";
         }
         this.titleService.setTitle(titleTag);
+      }
+
+      if (event instanceof NavigationEnd) {
+          const params = this.route.snapshot.firstChild?.params
+          const orgSlug = params ? params["org-slug"] : undefined;
+          this.settings.triggerPlausibleReport(orgSlug);
       }
     });
 
