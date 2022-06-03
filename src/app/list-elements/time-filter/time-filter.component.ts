@@ -210,7 +210,7 @@ export class TimeFilterComponent implements OnInit {
       ) {
         start = this.formStartDate.value;
       } else if (this.formStartDate.value) {
-        start = this.convertToZTime(this.dateForm?.value.startDate);
+        start = this.convertToZTime(this.formStartDate.value);
       }
 
       var end = null;
