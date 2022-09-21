@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatTableModule } from "@angular/material/table";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
@@ -31,6 +32,7 @@ import { UptimeRoutingModule } from "./uptime-routing.module";
   imports: [
     CommonModule,
     UptimeRoutingModule,
+    MatAutocompleteModule,
     MatTableModule,
     MaterialModule,
     SharedModule,

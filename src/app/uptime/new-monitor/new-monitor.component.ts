@@ -1,7 +1,13 @@
 import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
-import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  UntypedFormGroup,
+  UntypedFormControl,
+  ValidatorFn,
+  Validators,
+} from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { map } from "rxjs";
+import { filter, lastValueFrom, map, take, tap } from "rxjs";
 import { OrganizationsService } from "src/app/api/organizations/organizations.service";
 import { UptimeService } from "../uptime.service";
 import { SubscriptionsService } from "src/app/api/subscriptions/subscriptions.service";
@@ -9,12 +15,27 @@ import { LessAnnoyingErrorStateMatcher } from "src/app/shared/less-annoying-erro
 import { numberValidator, urlRegex } from "src/app/shared/validators";
 import { EventInfoComponent } from "src/app/shared/event-info/event-info.component";
 import { MonitorType } from "../uptime.interfaces";
+import { OrganizationProject } from "src/app/api/organizations/organizations.interface";
 
 const defaultUrlValidators = [
   Validators.pattern(urlRegex),
   Validators.required,
   Validators.maxLength(2000),
 ];
+
+function orgProjectValidator(
+  validOptions: Array<OrganizationProject>
+): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (control.value === null || control.value === "") {
+      return null;
+    }
+    if (validOptions.indexOf(control.value) !== -1) {
+      return null;
+    }
+    return { invalidAutocompleteString: { value: control.value } };
+  };
+}
 
 @Component({
   selector: "gt-new-monitor",
@@ -38,7 +59,10 @@ export class NewMonitorComponent implements OnInit {
 
   newMonitorForm = new UntypedFormGroup({
     monitorType: new UntypedFormControl("Ping", [Validators.required]),
-    name: new UntypedFormControl("", [Validators.required, Validators.maxLength(200)]),
+    name: new UntypedFormControl("", [
+      Validators.required,
+      Validators.maxLength(200),
+    ]),
     url: new UntypedFormControl("https://", defaultUrlValidators),
     expectedStatus: new UntypedFormControl(200, [
       Validators.required,
@@ -54,10 +78,15 @@ export class NewMonitorComponent implements OnInit {
   });
 
   formName = this.newMonitorForm.get("name") as UntypedFormControl;
-  formMonitorType = this.newMonitorForm.get("monitorType") as UntypedFormControl;
+  formMonitorType = this.newMonitorForm.get(
+    "monitorType"
+  ) as UntypedFormControl;
   formUrl = this.newMonitorForm.get("url") as UntypedFormControl;
-  formExpectedStatus = this.newMonitorForm.get("expectedStatus") as UntypedFormControl;
+  formExpectedStatus = this.newMonitorForm.get(
+    "expectedStatus"
+  ) as UntypedFormControl;
   formInterval = this.newMonitorForm.get("interval") as UntypedFormControl;
+  formProject = this.newMonitorForm.get("project") as UntypedFormControl;
 
   intervalPerMonth = 2592000 / this.formInterval.value;
 
@@ -72,9 +101,49 @@ export class NewMonitorComponent implements OnInit {
 
   ngOnInit(): void {
     this.uptimeService.callSubscriptionDetails();
+    this.orgProjects$
+      .pipe(
+        filter((orgProjects) => !!orgProjects),
+        take(1)
+      )
+      .subscribe((orgProjects) => {
+        if (orgProjects) {
+          this.formProject.addValidators(orgProjectValidator(orgProjects));
+          if (!orgProjects.length) {
+            this.formProject.disable();
+          }
+        } 
+      });
+    // Handle typed input for projects
+    this.formProject.valueChanges.subscribe((value) => {
+      if (typeof value === "string" && value !== "") {
+        lastValueFrom(
+          this.orgProjects$.pipe(
+            filter((orgProjects) => !!orgProjects),
+            take(1),
+            map((orgProjects) =>
+              orgProjects?.find((project) => project.name === value)
+            ),
+            tap((result) => {
+              if (result) {
+                this.formProject.setValue(result);
+              }
+            })
+          )
+        );
+      }
+    });
     this.formInterval.valueChanges.subscribe((interval) => {
       this.intervalPerMonth = Math.floor(2592000 / interval);
     });
+  }
+
+  getProjectName(project: OrganizationProject) {
+    return project ? project.name : "";
+  }
+
+  clearAssociatedProject() {
+    this.formProject.setValue("");
   }
 
   updateRequiredFields() {
@@ -97,7 +166,10 @@ export class NewMonitorComponent implements OnInit {
 
   onSubmit() {
     if (this.newMonitorForm.valid) {
-      this.uptimeService.createMonitor(this.newMonitorForm.value);
+      this.uptimeService.createMonitor({
+        ...this.newMonitorForm.value,
+        project: this.formProject.value ? this.formProject.value.id : null,
+      });
     }
   }
 }
