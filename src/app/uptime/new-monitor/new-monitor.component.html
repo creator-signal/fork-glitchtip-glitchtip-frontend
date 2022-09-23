@@ -140,10 +140,10 @@
                 [displayWith]="getProjectName.bind(this)"
               >
                 <mat-option
-                  *ngFor="let orgProject of orgProjects$ | async"
-                  [value]="orgProject"
+                  *ngFor="let option of filteredProjectOptions | async"
+                  [value]="option"
                 >
-                  {{ orgProject.name }}
+                  {{ option.name }}
                 </mat-option>
               </mat-autocomplete>
               <mat-error>

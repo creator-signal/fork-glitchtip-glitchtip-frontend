@@ -7,7 +7,16 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, lastValueFrom, map, take, tap } from "rxjs";
+import {
+  combineLatest,
+  filter,
+  lastValueFrom,
+  map,
+  Observable,
+  startWith,
+  take,
+  tap,
+} from "rxjs";
 import { OrganizationsService } from "src/app/api/organizations/organizations.service";
 import { UptimeService } from "../uptime.service";
 import { SubscriptionsService } from "src/app/api/subscriptions/subscriptions.service";
@@ -44,8 +53,11 @@ function orgProjectValidator(
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewMonitorComponent implements OnInit {
+  activeOrganizationLoaded$ =
+    this.organizationsService.activeOrganizationLoaded$;
   error$ = this.uptimeService.error$;
   orgProjects$ = this.organizationsService.activeOrganizationProjects$;
+  filteredProjectOptions: Observable<OrganizationProject[]>;
   loading$ = this.uptimeService.createLoading$;
   totalEventsAllowed$ = this.subscriptionsService.subscription$.pipe(
     map((subscription) =>
@@ -97,7 +109,19 @@ export class NewMonitorComponent implements OnInit {
     private subscriptionsService: SubscriptionsService,
     private uptimeService: UptimeService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.filteredProjectOptions = combineLatest([
+      this.activeOrganizationLoaded$,
+      this.formProject.valueChanges.pipe(startWith("")),
+      this.orgProjects$,
+    ]).pipe(
+      map(([_, value, orgProjects]) => {
+        const projectArray = orgProjects || [];
+        const name = typeof value === "string" ? value : value?.name;
+        return name ? this._filter(name as string, projectArray) : projectArray;
+      })
+    );
+  }
 
   ngOnInit(): void {
     this.uptimeService.callSubscriptionDetails();
@@ -112,8 +136,9 @@ export class NewMonitorComponent implements OnInit {
           if (!orgProjects.length) {
             this.formProject.disable();
           }
-        } 
+        }
       });
+
     // Handle typed input for projects
     this.formProject.valueChanges.subscribe((value) => {
       if (typeof value === "string" && value !== "") {
@@ -122,7 +147,9 @@ export class NewMonitorComponent implements OnInit {
             filter((orgProjects) => !!orgProjects),
             take(1),
             map((orgProjects) =>
-              orgProjects?.find((project) => project.name === value)
+              orgProjects?.find(
+                (project) => project.name.toLowerCase() === value.toLowerCase()
+              )
             ),
             tap((result) => {
               if (result) {
@@ -136,6 +163,15 @@ export class NewMonitorComponent implements OnInit {
     this.formInterval.valueChanges.subscribe((interval) => {
       this.intervalPerMonth = Math.floor(2592000 / interval);
     });
+  }
+
+  private _filter(
+    input: string,
+    orgProjects: OrganizationProject[]
+  ): OrganizationProject[] {
+    return orgProjects.filter((option) =>
+      option.name.toLowerCase().includes(input.toLowerCase())
+    );
   }
 
   getProjectName(project: OrganizationProject) {
