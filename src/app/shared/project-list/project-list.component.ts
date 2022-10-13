@@ -18,20 +18,24 @@ import { ProjectsService } from "src/app/projects/projects.service";
 export class ProjectListComponent implements OnInit {
   @Input() activeOrgOnly = false;
 
-  activeOrganizationDetail$ = this.organizationsService
-    .activeOrganizationDetail$;
+  activeOrganizationDetail$ =
+    this.organizationsService.activeOrganizationDetail$;
   projects$ = this.projectsService.projects$;
   organizations$ = this.organizationsService.organizations$;
   orgsAndProjects$ = combineLatest([this.organizations$, this.projects$]).pipe(
     map(([organizations, projects]) =>
-      organizations.map((organization) => ({
-        ...organization,
-        projects: projects
-          ? projects.filter(
-              (project) => project.organization.id === organization.id
-            )
-          : [],
-      }))
+      organizations
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((organization) => ({
+          ...organization,
+          projects: projects
+            ? projects
+                .filter(
+                  (project) => project.organization.id === organization.id
+                )
+                .sort((a, b) => a.name.localeCompare(b.name))
+            : [],
+        }))
     )
   );
 
