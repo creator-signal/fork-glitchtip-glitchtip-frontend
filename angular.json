@@ -167,7 +167,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": ["./src/assets/styles"]
+              "includePaths": ["./src/assets/styles", "./node_modules"]
             },
             "scripts": []
           }
