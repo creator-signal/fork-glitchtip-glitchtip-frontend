@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -33,10 +39,12 @@ import { MonitorChartComponent } from "../monitor-chart/monitor-chart.component"
     ListTitleComponent,
   ],
 })
-export class MonitorListComponent extends PaginationBaseComponent<
-  MonitorListState,
-  MonitorListService
-> {
+export class MonitorListComponent
+  extends PaginationBaseComponent<MonitorListState, MonitorListService>
+  implements OnChanges
+{
+  @Input("org-slug") orgSlug?: string;
+  @Input("cursor") cursor?: string;
   tooltipDisabled = false;
 
   monitors$ = this.service.monitors$;
@@ -62,11 +70,20 @@ export class MonitorListComponent extends PaginationBaseComponent<
   ) {
     super(service, router, route);
 
-    this.activeCombinedParams$.subscribe(([params, queryParams]) => {
-      if (params["org-slug"]) {
-        this.service.getMonitors(params["org-slug"], queryParams.cursor);
-      }
-    });
+    //previous code for calling getMonitors on route changes
+
+    // this.activeCombinedParams$.subscribe(([params, queryParams]) => {
+    //   if (params["org-slug"]) {
+    //     this.service.getMonitors(params["org-slug"], queryParams.cursor);
+    //   }
+    // });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Assuming there were other inputs, we could wrap this in an if statement to check for relevant currentvalues
+    if (this.orgSlug) {
+      this.service.getMonitors(this.orgSlug, changes.cursor?.currentValue);
+    }
   }
 
   checkIfTooltipIsNecessary($event: Event) {

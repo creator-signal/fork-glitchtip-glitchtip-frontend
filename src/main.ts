@@ -26,6 +26,7 @@ import {
 } from "@angular/common/http";
 import {
   provideRouter,
+  withComponentInputBinding,
   withInMemoryScrolling,
   withPreloading,
   withRouterConfig,
@@ -62,6 +63,7 @@ const bootstrap = () =>
     providers: [
       provideRouter(
         routes,
+        withComponentInputBinding(),
         withPreloading(CustomPreloadingStrategy),
         withInMemoryScrolling({
           scrollPositionRestoration: "enabled",
