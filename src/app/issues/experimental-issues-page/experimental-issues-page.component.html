@@ -1,0 +1,25 @@
+<div>
+  <button (click)="queryForIgnored()">Ignored</button>
+  <button (click)="queryForUnresolved()">Unresolved</button>
+  <button (click)="sortNewestFirst()">Show newest first</button>
+  <button (click)="sortOldestFirst()">Show oldest first</button>
+</div>
+<div *ngIf="paginator$ | async as paginator">
+  <button
+    [routerLink]="[]"
+    [queryParams]="paginator.previousPageParams || {}"
+    queryParamsHandling="merge"
+    [disabled]="paginator.hasPreviousPage === false"
+    >Previous page</button
+  >
+  <button
+    [routerLink]="[]"
+    [queryParams]="paginator.nextPageParams || {}"
+    queryParamsHandling="merge"
+    [disabled]="paginator.hasNextPage === false"
+    >Next page</button
+  >
+</div>
+<div *ngFor="let issue of issues$ | async" class="issue-div">
+  {{ issue.title }}
+</div>

@@ -89,7 +89,7 @@ export class IssuesService extends PaginationStatefulService<IssuesState> {
     orgSlug: string,
     cursor: string | undefined,
     query: string = "is:unresolved",
-    project: number[] | null,
+    project: number[] | null | undefined,
     start: string | undefined,
     end: string | undefined,
     sort: string | undefined,

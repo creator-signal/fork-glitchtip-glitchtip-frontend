@@ -6,14 +6,16 @@ import { EventDetailComponent } from "./issue-detail/event-detail/event-detail.c
 import { UserReportsIssueComponent } from "./user-reports-issue/user-reports-issue.component";
 import { importProvidersFrom } from "@angular/core";
 import { MarkdownModule } from "ngx-markdown";
+import { ExperimentalIssuesPageComponent } from "./experimental-issues-page/experimental-issues-page.component";
 
 export default [
   {
-    path: "",
+    path: "real",
     component: IssuesPageComponent,
 
     providers: [importProvidersFrom(MarkdownModule.forRoot({}))],
   },
+  { path: "", component: ExperimentalIssuesPageComponent },
   {
     path: ":issue-id",
     component: IssueDetailComponent,
