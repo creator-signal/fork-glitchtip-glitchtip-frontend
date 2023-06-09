@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { ProjectFilterBarComponent } from "src/app/list-elements/project-filter-bar/project-filter-bar.component";
 import { IssuesService, IssuesState } from "../issues.service";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { lastValueFrom } from "rxjs";
+// import { lastValueFrom } from "rxjs";
 import { PaginationBaseComponent } from "src/app/shared/stateful-service/pagination-base.component";
 
 @Component({
@@ -36,23 +36,23 @@ export class ExperimentalIssuesPageComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    console.log(this.orgSlug);
+    // console.log(changes);
+    // console.log(this.orgSlug);
 
-    if (this.orgSlug) {
-      lastValueFrom(
-        this.service.getIssues(
-          this.orgSlug,
-          this.cursor,
-          this.query,
-          this.project,
-          this.start,
-          this.end,
-          this.sort,
-          this.environment
-        )
-      );
-    }
+    // if (this.orgSlug) {
+    //   lastValueFrom(
+    //     this.service.getIssues(
+    //       this.orgSlug,
+    //       this.cursor,
+    //       this.query,
+    //       this.project,
+    //       this.start,
+    //       this.end,
+    //       this.sort,
+    //       this.environment
+    //     )
+    //   );
+    // }
   }
 
   queryForIgnored() {

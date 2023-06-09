@@ -7,6 +7,7 @@ import { UserReportsIssueComponent } from "./user-reports-issue/user-reports-iss
 import { importProvidersFrom } from "@angular/core";
 import { MarkdownModule } from "ngx-markdown";
 import { ExperimentalIssuesPageComponent } from "./experimental-issues-page/experimental-issues-page.component";
+import { IssuesResolver } from "./experimental-issues-page/issues.resolver";
 
 export default [
   {
@@ -15,7 +16,12 @@ export default [
 
     providers: [importProvidersFrom(MarkdownModule.forRoot({}))],
   },
-  { path: "", component: ExperimentalIssuesPageComponent },
+  {
+    path: "",
+    component: ExperimentalIssuesPageComponent,
+    runGuardsAndResolvers: "always",
+    resolve: { something: IssuesResolver },
+  },
   {
     path: ":issue-id",
     component: IssueDetailComponent,
