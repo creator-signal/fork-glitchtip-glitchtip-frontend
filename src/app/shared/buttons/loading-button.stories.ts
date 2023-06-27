@@ -4,7 +4,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { moduleMetadata, Story } from "@storybook/angular";
 
-import { LoadingButtonComponent } from "../loading-button/loading-button.component";
+import { LoadingButtonComponent } from "./loading-button.component";
 
 export default {
   title: "Shared/Loading button",

@@ -11,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import { map } from "rxjs/operators";
 import { OrganizationsService } from "src/app/api/organizations/organizations.service";
 import { SettingsService } from "src/app/api/settings.service";
-import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../../shared/buttons/loading-button.component";
 import { MatOptionModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
 import { MatRadioModule } from "@angular/material/radio";

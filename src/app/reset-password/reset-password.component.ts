@@ -9,7 +9,7 @@ import { ResetPasswordService } from "../api/reset-password/reset-password.servi
 import { SettingsService } from "../api/settings.service";
 import { RouterLink } from "@angular/router";
 import { MatButtonModule } from "@angular/material/button";
-import { LoadingButtonComponent } from "../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../shared/buttons/loading-button.component";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { NgIf, AsyncPipe } from "@angular/common";

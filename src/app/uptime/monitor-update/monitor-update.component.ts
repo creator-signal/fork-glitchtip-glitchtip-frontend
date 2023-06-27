@@ -3,16 +3,15 @@ import { CommonModule } from "@angular/common";
 import { ActivatedRoute, RouterModule } from "@angular/router";
 import { tap, filter, take } from "rxjs/operators";
 import { lastValueFrom } from "rxjs";
-import { LoadingButtonComponent } from "src/app/shared/loading-button/loading-button.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
 import { MonitorFormComponent } from "../monitor-form/monitor-form.component";
 import { MonitorInput } from "../uptime.interfaces";
 import { MonitorService, MonitorState } from "../monitor.service";
+import { LoadingButtonComponent } from "src/app/shared/buttons/loading-button.component";
 import { StatefulBaseComponent } from "src/app/shared/stateful-service/stateful-base.component";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { DeleteIconComponent } from "src/app/shared/buttons/delete-icon/delete-icon.component";
 
 @Component({
   standalone: true,
@@ -23,12 +22,11 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     CommonModule,
     RouterModule,
     LoadingButtonComponent,
-    MatButtonModule,
     MatCardModule,
     MatDividerModule,
-    MatIconModule,
     MonitorFormComponent,
     DetailHeaderComponent,
+    DeleteIconComponent,
   ],
 })
 export class MonitorUpdateComponent
@@ -68,12 +66,6 @@ export class MonitorUpdateComponent
   }
 
   delete() {
-    if (
-      window.confirm(
-        `Are you sure you want delete this monitor? You will permanently lose all associated uptime data.`
-      )
-    ) {
-      this.service.deleteMonitor();
-    }
+    this.service.deleteMonitor();
   }
 }

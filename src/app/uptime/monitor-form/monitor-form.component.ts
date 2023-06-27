@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { LoadingButtonComponent } from "src/app/shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "src/app/shared/buttons/loading-button.component";
 import {
   FormGroup,
   FormControl,
@@ -16,8 +16,6 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatInputModule } from "@angular/material/input";
 import { MatOptionModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
-import { MatIconModule } from "@angular/material/icon";
-import { MatButtonModule } from "@angular/material/button";
 import { map, Observable, of, startWith } from "rxjs";
 import { MonitorDetail, MonitorInput, MonitorType } from "../uptime.interfaces";
 import { intRegex, urlRegex } from "src/app/shared/validators";
@@ -64,11 +62,9 @@ const portUrlValidators = [
     RouterModule,
     EventInfoComponent,
     LoadingButtonComponent,
-    MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatOptionModule,
-    MatIconModule,
     MatSelectModule,
     MatDividerModule,
     MatInputModule,

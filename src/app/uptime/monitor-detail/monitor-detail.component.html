@@ -14,9 +14,12 @@
       >
         Settings
       </button>
-      <button mat-icon-button class="medium-icon-button" (click)="delete()">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <gt-delete-icon
+        label="Delete Monitor"
+        i18n-confirmMessage
+        confirmMessage="Are you sure you want delete this monitor? You will permanently lose all associated uptime data."
+        (delete)="delete()"
+      />
     </gt-detail-header>
     <mat-card>
       <mat-card-header>

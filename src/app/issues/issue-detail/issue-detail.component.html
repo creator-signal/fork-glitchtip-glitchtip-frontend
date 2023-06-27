@@ -58,9 +58,12 @@
     >
       Ignore
     </button>
-    <button mat-icon-button class="medium-icon-button" (click)="deleteIssue()">
-      <mat-icon>delete</mat-icon>
-    </button>
+    <gt-delete-icon
+      label="Delete issue"
+      i18n-confirmMessage
+      confirmMessage="Are you sure you want delete this issue? You will permanently lose this issue and all associated events."
+      (delete)="deleteIssue()"
+    />
   </gt-detail-header>
 
   <div class="row">

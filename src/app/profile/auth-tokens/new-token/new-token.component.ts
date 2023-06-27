@@ -10,7 +10,7 @@ import {
 import { MatCheckbox, MatCheckboxModule } from "@angular/material/checkbox";
 import { AuthTokensService, AuthTokensState } from "../auth-tokens.service";
 import { StatefulBaseComponent } from "src/app/shared/stateful-service/stateful-base.component";
-import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../../shared/buttons/loading-button.component";
 import { MatInputModule } from "@angular/material/input";
 import { NgIf, NgFor, AsyncPipe } from "@angular/common";
 import { MatFormFieldModule } from "@angular/material/form-field";

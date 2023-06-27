@@ -10,7 +10,7 @@ import { RecipientType } from "src/app/api/projects/project-alerts/project-alert
 import { ProjectAlertsService } from "../project-alerts.service";
 import { urlRegex } from "src/app/shared/validators";
 import { MatButtonModule } from "@angular/material/button";
-import { LoadingButtonComponent } from "../../../../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../../../../shared/buttons/loading-button.component";
 import { MatInputModule } from "@angular/material/input";
 import { MatOptionModule } from "@angular/material/core";
 import { CommonModule } from "@angular/common";
@@ -75,7 +75,7 @@ export class NewRecipientComponent implements OnInit {
         ]);
       } else if (type === "email") {
         this.url.setValue("");
-      } else if(type == 'discord') {
+      } else if (type == "discord") {
         this.url.setValue("");
       }
       this.url.updateValueAndValidity();

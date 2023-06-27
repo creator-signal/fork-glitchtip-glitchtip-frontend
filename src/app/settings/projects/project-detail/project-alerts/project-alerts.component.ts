@@ -9,7 +9,7 @@ import { NewRecipientComponent } from "./new-recipient/new-recipient.component";
 import { AlertFormComponent } from "./alert-form/alert-form.component";
 import { distinctUntilChanged } from "rxjs";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { LoadingButtonComponent } from "../../../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../../../shared/buttons/loading-button.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatIconModule } from "@angular/material/icon";
 import { NgIf, NgFor, AsyncPipe } from "@angular/common";

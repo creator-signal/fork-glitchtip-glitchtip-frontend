@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { map } from "rxjs/operators";
 import { ResetPasswordService } from "src/app/api/reset-password/reset-password.service";
-import { LoadingButtonComponent } from "../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../shared/buttons/loading-button.component";
 import { InputMatcherDirective } from "../../shared/input-matcher.directive";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";

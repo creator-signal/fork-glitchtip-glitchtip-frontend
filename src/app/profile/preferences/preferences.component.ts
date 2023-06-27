@@ -10,7 +10,7 @@ import {
 import { filter, map, Observable, startWith, take } from "rxjs";
 import { SettingsService } from "src/app/api/settings.service";
 import { UserService } from "src/app/api/user/user.service";
-import { LoadingButtonComponent } from "../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../shared/buttons/loading-button.component";
 import { MatOptionModule } from "@angular/material/core";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";

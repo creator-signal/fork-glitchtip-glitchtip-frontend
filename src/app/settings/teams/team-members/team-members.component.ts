@@ -7,7 +7,7 @@ import { Member } from "src/app/api/organizations/organizations.interface";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { UserService } from "src/app/api/user/user.service";
 import { UntypedFormControl, ReactiveFormsModule } from "@angular/forms";
-import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../../shared/buttons/loading-button.component";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatOptionModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
@@ -16,23 +16,23 @@ import { NgIf, NgFor, AsyncPipe } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 
 @Component({
-    selector: "gt-team-members",
-    templateUrl: "./team-members.component.html",
-    styleUrls: ["./team-members.component.scss"],
-    standalone: true,
-    imports: [
-        MatCardModule,
-        NgIf,
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        NgFor,
-        MatOptionModule,
-        MatDividerModule,
-        RouterLink,
-        LoadingButtonComponent,
-        AsyncPipe,
-    ],
+  selector: "gt-team-members",
+  templateUrl: "./team-members.component.html",
+  styleUrls: ["./team-members.component.scss"],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    NgIf,
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    NgFor,
+    MatOptionModule,
+    MatDividerModule,
+    RouterLink,
+    LoadingButtonComponent,
+    AsyncPipe,
+  ],
 })
 export class TeamMembersComponent implements OnInit {
   teamMembers$ = this.teamsService.teamMembers$;

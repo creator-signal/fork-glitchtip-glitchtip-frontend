@@ -14,6 +14,7 @@ import { DaysAgoPipe } from "../../shared/days-ago.pipe";
 import { IssueDetailTagsComponent } from "./issue-detail-tags/issue-detail-tags.component";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
+import { DeleteIconComponent } from "src/app/shared/buttons/delete-icon/delete-icon.component";
 
 @Component({
   selector: "gt-issue-detail",
@@ -32,6 +33,7 @@ import { MatButtonModule } from "@angular/material/button";
     IssueDetailTagsComponent,
     DaysAgoPipe,
     DetailHeaderComponent,
+    DeleteIconComponent,
   ],
 })
 export class IssueDetailComponent implements OnInit {
@@ -127,12 +129,7 @@ export class IssueDetailComponent implements OnInit {
     this.issueIdParam$
       .pipe(
         tap((id) => {
-          if (
-            id &&
-            window.confirm(
-              `Are you sure you want delete this issue? You will permanently lose this issue and all associated events.`
-            )
-          ) {
+          if (id) {
             this.issueService.deleteIssue(id.toString());
           }
         })

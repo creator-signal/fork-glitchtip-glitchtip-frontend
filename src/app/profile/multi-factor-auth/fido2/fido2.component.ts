@@ -13,7 +13,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../../shared/buttons/loading-button.component";
 import { FormErrorComponent } from "../../../shared/forms/form-error/form-error.component";
 import { NgIf, NgFor, AsyncPipe } from "@angular/common";
 import { MatDividerModule } from "@angular/material/divider";

@@ -13,7 +13,7 @@ import { AuthService } from "src/app/api/auth/auth.service";
 import { map, take, mergeMap, tap } from "rxjs/operators";
 import { EMPTY } from "rxjs";
 import { MatIconModule } from "@angular/material/icon";
-import { LoadingButtonComponent } from "../../shared/loading-button/loading-button.component";
+import { LoadingButtonComponent } from "../../shared/buttons/loading-button.component";
 import { InputMatcherDirective } from "../../shared/input-matcher.directive";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";

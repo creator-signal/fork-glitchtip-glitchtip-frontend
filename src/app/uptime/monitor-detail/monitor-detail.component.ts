@@ -1,22 +1,22 @@
 import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
-import { MonitorState, MonitorService } from "../monitor.service";
 import { ActivatedRoute, RouterModule } from "@angular/router";
 import { map, tap } from "rxjs/operators";
-import { StatefulBaseComponent } from "src/app/shared/stateful-service/stateful-base.component";
-import { CopyInputComponent } from "src/app/shared/copy-input/copy-input.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
 import { CommonModule } from "@angular/common";
-import { MonitorChecksComponent } from "../monitor-checks/monitor-checks.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatButtonModule } from "@angular/material/button";
+import { lastValueFrom } from "rxjs";
+import { CopyInputComponent } from "src/app/shared/copy-input/copy-input.component";
+import { StatefulBaseComponent } from "src/app/shared/stateful-service/stateful-base.component";
+import { MonitorChecksComponent } from "../monitor-checks/monitor-checks.component";
 import { MonitorResponseChartComponent } from "../monitor-response-chart/monitor-response-chart.component";
 import { HumanizeDurationPipe } from "src/app/shared/seconds-or-ms.pipe";
 import { MonitorChartComponent } from "../monitor-chart/monitor-chart.component";
 import { TimeForPipe } from "src/app/shared/days-ago.pipe";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { lastValueFrom } from "rxjs";
+import { MonitorState, MonitorService } from "../monitor.service";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { DeleteIconComponent } from "src/app/shared/buttons/delete-icon/delete-icon.component";
 
 @Component({
   standalone: true,
@@ -37,8 +37,8 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     MatCardModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    MatIconModule,
     DetailHeaderComponent,
+    DeleteIconComponent,
   ],
 })
 export class MonitorDetailComponent
@@ -103,12 +103,6 @@ export class MonitorDetailComponent
   }
 
   delete() {
-    if (
-      window.confirm(
-        `Are you sure you want delete this monitor? You will permanently lose all associated uptime data.`
-      )
-    ) {
-      this.service.deleteMonitor();
-    }
+    this.service.deleteMonitor();
   }
 }
