@@ -1,16 +1,14 @@
-import { user } from "../fixtures/users";
-
 export function seedBackend(doExtraStuff = false) {
   const url = `/api/test/seed/${doExtraStuff ? "?extras=true" : ""}`;
   cy.request("POST", url);
 }
 
-export function requestLogin() {
+export function requestLogin(adminUser : object) {
   const url = "/rest-auth/login/";
   cy.setLocalStorage("auth", JSON.stringify({ isLoggedIn: true }));
   return cy.request("POST", url, {
-    email: user.email,
-    password: user.password,
+    email: adminUser.email,
+    password: adminUser.password,
   });
 }
 

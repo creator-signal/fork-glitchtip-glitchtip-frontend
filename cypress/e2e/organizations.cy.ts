@@ -1,10 +1,11 @@
 import { seedBackend, requestLogin } from "./utils.cy";
 import { organization } from "../fixtures/variables";
+import { adminUser } from "../fixtures/users";
 
 describe("Organizations", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
   });
 
   it("should create an org and more", () => {

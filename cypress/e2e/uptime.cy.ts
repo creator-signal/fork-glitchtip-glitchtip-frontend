@@ -1,10 +1,11 @@
 import { seedBackend, requestLogin } from "./utils.cy";
 import { organization } from "../fixtures/variables";
+import { adminUser } from "../fixtures/users";
 
 describe("List, add, update and delete uptime Monitors", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
   });
 
   it("Should list a single monitor, see alert info for that monitor, then update that monitor and see updated monitor on list", () => {

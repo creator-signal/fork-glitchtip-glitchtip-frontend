@@ -1,5 +1,6 @@
 import { requestLogin, seedBackend } from "./utils.cy";
 import { project } from "../fixtures/variables";
+import { adminUser } from "../fixtures/users";
 
 describe("Home page", () => {
   beforeEach(() => {
@@ -7,7 +8,7 @@ describe("Home page", () => {
   });
 
   it("should show a list of projects", () => {
-    requestLogin();
+    requestLogin(adminUser);
     cy.visit("/");
     cy.contains(project.name);
   });

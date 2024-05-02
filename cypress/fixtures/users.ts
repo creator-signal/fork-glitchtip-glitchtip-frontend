@@ -1,4 +1,4 @@
-export const user = {
+export const adminUser = {
   email: "cypresstest@example.com",
   password: "hunter22",
 };

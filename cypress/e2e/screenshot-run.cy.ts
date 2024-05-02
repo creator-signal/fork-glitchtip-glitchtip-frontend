@@ -2,6 +2,7 @@ import { seedBackend, requestLogin, getDSN } from "./utils.cy";
 import * as jsErrors from "../fixtures/events";
 import * as djangoErrors from "../fixtures/django-events";
 import { organization, project2, project3 } from "../fixtures/variables";
+import { adminUser } from "../fixtures/users";
 
 function seedJavaScriptIssues(dsn: string) {
   const url = getDSN(dsn);
@@ -38,7 +39,7 @@ describe("Screenshot Run", () => {
   if (Cypress.env("screenshot")) {
     beforeEach(() => {
       seedBackend(true);
-      requestLogin();
+      requestLogin(adminUser);
       cy.visit(`/${organization.slug}/issues`);
       cy.get("gt-project-filter-bar mat-expansion-panel-header").click();
       cy.get("gt-project-filter-bar").contains(project3.name).click();
