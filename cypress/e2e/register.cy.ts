@@ -17,7 +17,7 @@ describe("Register", () => {
     cy.get("input[formcontrolname=password1]").type(registeringUser.password);
     cy.get("input[formcontrolname=password2]").type(registeringUser.password);
     cy.get("#submit").click();
-    cy.url().should("eq", "http://localhost:4200/");
+    cy.url().should("eq", "http://localhost:4200/organizations/new");
   });
 
   it("should prevent duplicate registration", () => {
