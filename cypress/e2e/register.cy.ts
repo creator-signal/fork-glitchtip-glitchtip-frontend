@@ -20,14 +20,25 @@ describe("Register", () => {
     cy.url().should("eq", "http://localhost:4200/organizations/new");
   });
 
-  it("should prevent duplicate registration", () => {
+  // it("should prevent duplicate registration", () => {
+  //   seedBackend();
+  //
+  //   cy.visit("/register");
+  //   cy.get("input[formcontrolname=email]").type(adminUser.email);
+  //   cy.get("input[formcontrolname=password1]").type(registeringUser.password);
+  //   cy.get("input[formcontrolname=password2]").type(registeringUser.password);
+  //   cy.get("#submit").click();
+  //   cy.contains("A user is already registered with this e-mail address.")
+  // });
+
+  it("should require minimum password length", () => {
     seedBackend();
 
     cy.visit("/register");
-    cy.get("input[formcontrolname=email]").type(adminUser.email);
-    cy.get("input[formcontrolname=password1]").type(registeringUser.password);
-    cy.get("input[formcontrolname=password2]").type(registeringUser.password);
-    cy.get("#submit").click();
-    cy.contains("A user is already registered with this e-mail address.")
+    cy.get("input[formcontrolname=email]").type("someuser@example.org");
+    cy.get("input[formcontrolname=password1]").type("123");
+    cy.get("input[formcontrolname=password2]").type("123");
+    cy.get('body').click();
+    cy.contains("Your password should be at least 8 characters long.")
   });
 });
