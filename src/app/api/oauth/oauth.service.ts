@@ -11,6 +11,41 @@ interface RestAuthConnectData {
   tags?: string | null;
 }
 
+function postForm(action: string, data: any) {
+  const f = document.createElement("form");
+  f.method = "POST";
+  f.action = action;
+
+  for (const key in data) {
+    const d = document.createElement("input");
+    d.type = "hidden";
+    d.name = key;
+    d.value = data[key];
+    f.appendChild(d);
+  }
+  document.body.appendChild(f);
+  f.submit();
+}
+
+function getCookie(name: string) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+export function getCSRFToken() {
+  return getCookie("csrftoken");
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -27,7 +62,7 @@ export class GlitchTipOAuthService {
     provider: string,
     isConnect: boolean,
     accessToken: string | null,
-    code: string | null
+    code: string | null,
   ) {
     let data: RestAuthConnectData = {};
     if (accessToken) {
@@ -50,15 +85,11 @@ export class GlitchTipOAuthService {
 
   // /** Redirect user to OAuth provider auth URL */
   initOAuthLogin(socialApp: SocialApp) {
-    const params: Record<string, string> = {
-      response_type: "code",
-      client_id: socialApp.client_id,
-      redirect_uri: window.location.origin + "/auth/" + socialApp.provider,
-      scope: socialApp.scopes.join(" "),
-    };
-
-    const urlParams = new URLSearchParams(params);
-    const url = `${socialApp.authorize_url}?${urlParams.toString()}`;
-    window.location.href = url;
+    postForm("/_allauth/browser/v1/auth/provider/redirect", {
+      provider: socialApp.provider,
+      process: "login",
+      callback_url: "/account/provider/callback",
+      csrfmiddlewaretoken: getCSRFToken(),
+    });
   }
 }
