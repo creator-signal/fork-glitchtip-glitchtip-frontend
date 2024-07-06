@@ -252,6 +252,13 @@
         </ul>
       </mat-card-content>
     </mat-card>
+
+    <mat-card *ngIf="databaseSizePretty$.length !== 0" class="nagware">
+      <mat-card-content>
+        <h2 i18n>Database Size</h2>
+        <p> {{ databaseSizePretty$ }}</p>
+      </mat-card-content>
+    </mat-card>
   </mat-sidenav>
 
   <mat-sidenav-content>
