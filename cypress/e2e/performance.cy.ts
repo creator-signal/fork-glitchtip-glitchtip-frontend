@@ -1,11 +1,12 @@
 import { seedBackend, requestLogin, getDSN } from "./utils.cy";
 import * as testTransactions from "../fixtures/transactions";
 import { organization } from "../fixtures/variables";
+import { adminUser } from "../fixtures/users";
 
 describe("Transaction Groups Page", () => {
   beforeEach(() => {
     seedBackend(true);
-    requestLogin();
+    requestLogin(adminUser);
     cy.visit(`/${organization.slug}/issues`);
     // Need the DSN to do this from the frontend
     cy.get("gt-project-filter-bar mat-expansion-panel-header").click();

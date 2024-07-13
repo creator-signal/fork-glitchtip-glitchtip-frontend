@@ -1,10 +1,11 @@
 import { requestLogin, seedBackend } from "./utils.cy";
 import { organization } from "../fixtures/variables";
+import { adminUser } from "../fixtures/users";
 
 describe("Organization Settings", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
   });
 
   it("updates the org name", () => {

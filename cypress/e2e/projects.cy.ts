@@ -5,11 +5,12 @@ import {
   newProject,
   project,
 } from "../fixtures/variables";
+import { adminUser } from "../fixtures/users";
 
 describe("Create New Project", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
   });
 
   it("should render appropriate field and server side errors", () => {
@@ -61,7 +62,7 @@ describe("Create New Project", () => {
 describe("Edit and Delete a project", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
     cy.visit(`/${organization.slug}/settings/projects/${project.slug}`);
   });
 
@@ -103,7 +104,7 @@ describe("Edit and Delete a project", () => {
 describe("Add and edit alerts", () => {
   beforeEach(() => {
     seedBackend(true);
-    requestLogin();
+    requestLogin(adminUser);
     cy.visit(`/${organization.slug}/settings/projects/${project.slug}`);
   });
 

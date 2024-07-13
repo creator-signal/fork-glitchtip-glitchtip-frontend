@@ -1,10 +1,10 @@
 import { seedBackend, requestLogin } from "./utils.cy";
-import { changePassword, user } from "../fixtures/users";
+import { changePassword, adminUser } from "../fixtures/users";
 
 describe("Change Password", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
     cy.visit("/profile");
   });
 
@@ -24,7 +24,7 @@ describe("Change Password", () => {
   });
 
   it("Should confirm the user's password was saved", () => {
-    cy.get("input[formcontrolname=old_password]").type(user.password);
+    cy.get("input[formcontrolname=old_password]").type(adminUser.password);
     cy.get("input[formcontrolname=new_password1]").type(
       changePassword.new_password1
     );

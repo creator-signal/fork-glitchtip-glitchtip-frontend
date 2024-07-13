@@ -1,7 +1,7 @@
 import { seedBackend, requestLogin, getDSN } from "./utils.cy";
 import * as jsErrors from "../fixtures/events";
 import { organization, environments } from "../fixtures/variables";
-
+import { adminUser } from "../fixtures/users";
 function seedIssues(dsn: string) {
   const url = getDSN(dsn);
   cy.request("POST", url, jsErrors.jsRangeError);
@@ -14,7 +14,7 @@ function seedIssues(dsn: string) {
 describe("Issues Page", () => {
   beforeEach(() => {
     seedBackend(true);
-    requestLogin();
+    requestLogin(adminUser);
     cy.visit(`/${organization.slug}/issues`);
     // Need the DSN to do this from the frontend
     cy.get("gt-project-filter-bar mat-expansion-panel-header").click();

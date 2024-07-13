@@ -1,11 +1,11 @@
 import { seedBackend, requestLogin } from "./utils.cy";
 import { organization, newTeam, team } from "../fixtures/variables";
-import { user } from "../fixtures/users";
+import { adminUser } from "../fixtures/users";
 
 describe("Create New Team", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
   });
 
   it("should add and update teams", () => {
@@ -30,7 +30,7 @@ describe("Create New Team", () => {
 describe("List Team Members", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
   });
 
   it("should add and list team member", () => {
@@ -40,9 +40,9 @@ describe("List Team Members", () => {
       .click()
       .get("mat-select")
       .get("mat-option")
-      .contains(user.email)
+      .contains(adminUser.email)
       .click();
-    cy.get("[data-test-list] li").first().contains(user.email);
+    cy.get("[data-test-list] li").first().contains(adminUser.email);
   });
 
   it("should remove a team member", () => {
@@ -51,7 +51,7 @@ describe("List Team Members", () => {
       .click()
       .get("mat-select")
       .get("mat-option")
-      .contains(user.email)
+      .contains(adminUser.email)
       .click();
     cy.get("#remove-team-member").click();
     cy.contains("This team doesn't have any members");

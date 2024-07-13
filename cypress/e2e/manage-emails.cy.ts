@@ -1,9 +1,9 @@
 import { seedBackend, requestLogin } from "./utils.cy";
-
+import { adminUser } from "../fixtures/users";
 describe("Change Password", () => {
   beforeEach(() => {
     seedBackend();
-    requestLogin();
+    requestLogin(adminUser);
     cy.visit("/profile");
   });
 
