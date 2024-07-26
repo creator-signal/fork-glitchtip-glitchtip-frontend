@@ -42,6 +42,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 export class MainNavComponent {
   activeOrganizationLoaded = false;
   activeOrganizationSlug = "";
+  databaseSizePretty$ = "";
   /* TODO: Add primary color to mat-sidenav
   https://stackoverflow.com/questions/54248944/angular-6-7-how-to-apply-default-theme-color-to-mat-sidenav-background */
   activeOrganizationDetail$ =
@@ -89,6 +90,18 @@ export class MainNavComponent {
       (organization) =>
         (this.activeOrganizationSlug = organization ? organization.slug : "")
     );
+    this.settingsService.databaseSize$.subscribe((size) => {
+      const formatBytes = (bytes: number): string => {
+        if (bytes === 0) return "";
+        const sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        const size = sizes[i];
+        const value = (bytes / Math.pow(1024, i)).toFixed(2);
+        return `${value} ${size}`;
+      };
+
+      this.databaseSizePretty$ = formatBytes(size);
+    });
   }
 
   logout() {

@@ -23,6 +23,7 @@ interface SettingsState {
   version: string | null;
   serverTimeZone: string | null;
   initialLoad: boolean;
+  databaseSize: number;
 }
 
 const initialState: SettingsState = {
@@ -40,6 +41,7 @@ const initialState: SettingsState = {
   version: null,
   serverTimeZone: null,
   initialLoad: false,
+  databaseSize: 0,
 };
 
 @Injectable({
@@ -61,6 +63,7 @@ export class SettingsService {
   enableOrganizationCreation$ = this.state.pipe(
     map((settings) => settings.enableOrganizationCreation)
   );
+  databaseSize$ = this.state.pipe(map((settings) => settings.databaseSize));
   serverTimeZone$ = this.state.pipe(map((settings) => settings.serverTimeZone));
   initialLoad$ = this.state.pipe(map((settings) => settings.initialLoad));
   private readonly url = "/api/settings/";
