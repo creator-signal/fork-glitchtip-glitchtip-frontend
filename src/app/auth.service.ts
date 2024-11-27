@@ -1,4 +1,10 @@
-import { Injectable, WritableSignal, effect, signal } from "@angular/core";
+import {
+  computed,
+  Injectable,
+  WritableSignal,
+  effect,
+  signal,
+} from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import {
   EMPTY,
@@ -43,6 +49,13 @@ export class AuthService {
     filter(([isLoggedIn, initialized]) => isLoggedIn || initialized),
     map(([isLoggedIn]) => isLoggedIn),
   );
+
+  newLoggedInGuard$ = computed(() => {
+    if (this.initialized()) {
+      return this.isAuthenticated();
+    }
+    return false;
+  });
 
   constructor(private authenticationService: AuthenticationService) {
     effect(() => {

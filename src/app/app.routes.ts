@@ -6,6 +6,7 @@ import {
   createUrlTreeFromSnapshot,
 } from "@angular/router";
 import { Injectable, inject } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { map } from "rxjs";
 import { LoggedInComponent } from "./logged-in.component";
 import { alreadyLoggedInGuard } from "./guards/already-logged-in.guard";
@@ -55,7 +56,7 @@ export const routes: Routes = [
     component: LoggedInComponent,
     canActivate: [
       (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) =>
-        inject(AuthService).loggedInGuard$.pipe(
+        toObservable(inject(AuthService).newLoggedInGuard$).pipe(
           map((isLoggedIn) => {
             if (isLoggedIn) {
               return true;
