@@ -158,7 +158,7 @@ export function timedeltaToMS(value: string) {
 }
 
 export function normalizeProjectParams(
-  projects: string | string[] | undefined | null,
+  projects: string | string[] | undefined | null
 ) {
   if (Array.isArray(projects)) {
     return projects.map((id) => parseInt(id, 10));
@@ -175,34 +175,5 @@ export function parseErrorMessage(err: HttpErrorResponse): string[] {
     return errorValues.reduce((a, v) => a.concat(v), []);
   } else {
     return [err.message];
-  }
-}
-
-export function setTheme(preferredTheme?: string | null) {
-  function setDark() {
-    document.documentElement.classList.remove("light");
-    document.documentElement.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  }
-
-  function setLight() {
-    document.documentElement.classList.remove("dark");
-    document.documentElement.classList.add("light");
-    localStorage.setItem("theme", "light");
-  }
-
-  const systemTheme = matchMedia("(prefers-color-scheme: dark)");
-  const isSystem = preferredTheme === "system";
-
-  if (isSystem) {
-    if (systemTheme.matches) {
-      setDark();
-    } else {
-      setLight();
-    }
-  } else if (preferredTheme === "dark") {
-    setDark();
-  } else {
-    setLight();
   }
 }

@@ -59,10 +59,6 @@ export class PreferencesComponent implements OnInit {
     timeZone: new FormControl("", {
       validators: [autocompleteStringValidator(this.timeZones)],
     }),
-    theme: new FormControl(
-      "",
-      autocompleteStringValidator(["system", "light", "dark"]),
-    ),
   });
   filteredOptions?: Observable<string[]>;
   userDetails$ = this.service.userDetails$;
@@ -73,14 +69,14 @@ export class PreferencesComponent implements OnInit {
 
   constructor(
     private service: UserService,
-    private settings: SettingsService,
+    private settings: SettingsService
   ) {}
 
   ngOnInit() {
     this.serverTimeZone$
       .pipe(
         filter((serverTimeZone) => !!serverTimeZone),
-        take(1),
+        take(1)
       )
       .subscribe((serverTimeZone) => {
         this.defaultTimeZone = this.defaultTimeZone + ` \(${serverTimeZone}\)`;
@@ -99,15 +95,10 @@ export class PreferencesComponent implements OnInit {
         }
         this.form.controls.timeZone.setValue(user.options.timezone);
       }
-      if (user?.options.preferredTheme) {
-        this.form.controls.theme.setValue(user.options.preferredTheme);
-      } else {
-        this.form.controls.theme.setValue("light");
-      }
     });
     this.filteredOptions = this.form.controls["timeZone"].valueChanges.pipe(
       startWith(""),
-      map((value) => this._filter(value || "")),
+      map((value) => this._filter(value || ""))
     );
   }
 
@@ -115,7 +106,7 @@ export class PreferencesComponent implements OnInit {
     const filterValue = value.toLowerCase().replace(/\s/g, "_");
 
     return this.timeZones.filter((option) =>
-      option.toLowerCase().includes(filterValue),
+      option.toLowerCase().includes(filterValue)
     );
   }
 
@@ -127,14 +118,12 @@ export class PreferencesComponent implements OnInit {
     if (this.form.valid) {
       const name = this.form.value.name!;
       let timeZone = this.form.value.timeZone;
-      const preferredTheme = this.form.value.theme;
 
       if (timeZone === this.defaultTimeZone) {
         timeZone = "";
       }
       const options = {
         ...(timeZone !== null && { timezone: timeZone }),
-        ...(preferredTheme !== null && { preferredTheme }),
       };
       this.service.updateUser(name, options);
     }
