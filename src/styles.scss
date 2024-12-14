@@ -1,230 +1,237 @@
-@use "sass:meta";
+// @use "sass:meta";
 @use "@angular/material" as mat;
-@use "src/assets/styles/collect-themes";
-@use "src/assets/styles/themes";
-@import "./assets/styles/variables";
-@import "./assets/styles/font-files";
-@import "./assets/styles/resets";
+// @use "src/assets/styles/collect-themes";
+// @use "src/assets/styles/themes";
+// @import "./assets/styles/variables";
+// @import "./assets/styles/resets";
 
-// material-icons
-@import "material-icons/iconfont/material-icons.css";
+// // partials
+// @import "./scss/auth-forms";
+// @import "./scss/data-filter-bar";
+// @import "./scss/nav-lists";
 
-// partials
-@import "./scss/auth-forms";
-@import "./scss/data-filter-bar";
-@import "./scss/nav-lists";
+// // Common styles for Angular Material. Included so that we only have to load a
+// // single CSS file for Angular Material in our app.
+// // Don't include this anywhere else!
 
-// Common styles for Angular Material. Included so that we only have to load a
-// single CSS file for Angular Material in our app.
-// Don't include this anywhere else!
+// @include mat.elevation-classes();
+// @include mat.app-background();
+// @include mat.all-component-typographies(themes.$custom-typography);
+// @include mat.card-typography(themes.$custom-card-typography);
+// @include mat.table-typography(themes.$custom-table-typography);
 
-@include mat.elevation-classes();
-@include mat.app-background();
-@include mat.all-component-typographies(themes.$custom-typography);
-@include mat.card-typography(themes.$custom-card-typography);
-@include mat.table-typography(themes.$custom-table-typography);
+// // Include theme styles for core and each component used in your app.
+// // Alternatively, you can import and @include the theme mixins for each component
+// // that you are using.
+// @include mat.all-component-themes(themes.$candy-app-theme);
+// @include themes.theme-extension(themes.$candy-app-theme);
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes(themes.$candy-app-theme);
-@include themes.theme-extension(themes.$candy-app-theme);
 
-.light {
-  @include meta.load-css("prismjs/themes/prism.css");
-  @include collect-themes.generate-light-rules(themes.$candy-app-theme);
+html {
+  color-scheme: light dark;
+  @include mat.theme((
+    color: mat.$red-palette,
+    typography:  IBM Plex Sans,
+  ));
+  
 }
 
-.dark {
-  @include mat.all-component-colors(themes.$candy-app-theme-dark);
-  @include themes.theme-extension(themes.$candy-app-theme-dark);
-  @include meta.load-css("prismjs/themes/prism-twilight.css");
-  @include collect-themes.generate-dark-rules(themes.$candy-app-theme-dark);
-}
 
-.light,
-.dark {
-  @include meta.load-css("prismjs/plugins/line-numbers/prism-line-numbers.css");
-  @include meta.load-css(
-    "prismjs/plugins/line-highlight/prism-line-highlight.css"
-  );
-}
+// .light {
+//   @include meta.load-css("prismjs/themes/prism.css");
+//   @include collect-themes.generate-light-rules(themes.$candy-app-theme);
+// }
 
-// Responsive type maybe?
-@media screen and (max-width: 767px) {
-  @include mat.all-component-typographies(themes.$mobile-typography);
-  @include mat.card-typography(themes.$custom-card-typography);
-  @include mat.table-typography(themes.$custom-mobile-table-typography);
-}
+// .dark {
+//   @include mat.all-component-colors(themes.$candy-app-theme-dark);
+//   @include themes.theme-extension(themes.$candy-app-theme-dark);
+//   @include meta.load-css("prismjs/themes/prism-twilight.css");
+//   @include collect-themes.generate-dark-rules(themes.$candy-app-theme-dark);
+// }
 
-mat-card-content {
-  font-family: $font-sans-serif;
-}
+// .light,
+// .dark {
+//   @include meta.load-css("prismjs/plugins/line-numbers/prism-line-numbers.css");
+//   @include meta.load-css(
+//     "prismjs/plugins/line-highlight/prism-line-highlight.css"
+//   );
+// }
 
-mat-card-title {
-  padding-bottom: 8px;
-}
+// // Responsive type maybe?
+// @media screen and (max-width: 767px) {
+//   @include mat.all-component-typographies(themes.$mobile-typography);
+//   @include mat.card-typography(themes.$custom-card-typography);
+//   @include mat.table-typography(themes.$custom-mobile-table-typography);
+// }
 
-.vertical-card-header {
-  flex-direction: column;
-}
+// mat-card-content {
+//   font-family: $font-sans-serif;
+// }
 
-a {
-  font-weight: 500;
-}
+// mat-card-title {
+//   padding-bottom: 8px;
+// }
 
-ul {
-  list-style: none;
-  padding: unset;
-}
+// .vertical-card-header {
+//   flex-direction: column;
+// }
 
-svg {
-  fill: currentColor;
-}
+// a {
+//   font-weight: 500;
+// }
 
-.project-card-wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax((290px), 1fr));
-  grid-gap: 24px;
-}
+// ul {
+//   list-style: none;
+//   padding: unset;
+// }
 
-header.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+// svg {
+//   fill: currentColor;
+// }
 
-  > * {
-    margin: 0;
-  }
-}
+// .project-card-wrapper {
+//   display: grid;
+//   grid-template-columns: repeat(auto-fill, minmax((290px), 1fr));
+//   grid-gap: 24px;
+// }
 
-.l-body {
-  max-width: 1100px;
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-top: 16px;
-  margin-left: auto;
-  margin-right: auto;
+// header.page-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 20px;
 
-  &--full-width {
-    max-width: 100%;
-  }
+//   > * {
+//     margin: 0;
+//   }
+// }
 
-  @media screen and (max-width: $small - 1) {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-}
+// .l-body {
+//   max-width: 1100px;
+//   padding-left: 24px;
+//   padding-right: 24px;
+//   margin-top: 16px;
+//   margin-left: auto;
+//   margin-right: auto;
 
-.u-hidden {
-  display: none;
-}
+//   &--full-width {
+//     max-width: 100%;
+//   }
 
-.mat-headline-3,
-.mat-headline-4 {
-  margin-bottom: 1.2em;
-}
+//   @media screen and (max-width: $small - 1) {
+//     padding-left: 15px;
+//     padding-right: 15px;
+//   }
+// }
 
-.marginless {
-  margin: 0;
-}
+// .u-hidden {
+//   display: none;
+// }
 
-.full-width {
-  width: 100%;
-}
+// .mat-headline-3,
+// .mat-headline-4 {
+//   margin-bottom: 1.2em;
+// }
 
-.flex-common {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
+// .marginless {
+//   margin: 0;
+// }
 
-.tt-wrapping {
-  overflow-wrap: break-word;
-  height: auto;
-}
+// .full-width {
+//   width: 100%;
+// }
 
-.ngx-charts-tooltip-content.type-tooltip {
-  font-family: $font-sans-serif !important;
-}
+// .flex-common {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   flex-wrap: wrap;
+// }
 
-.line-highlight {
-  max-width: 100%;
-}
+// .tt-wrapping {
+//   overflow-wrap: break-word;
+//   height: auto;
+// }
 
-.mat-mdc-header-cell {
-  font-size: 12px;
-}
+// .ngx-charts-tooltip-content.type-tooltip {
+//   font-family: $font-sans-serif !important;
+// }
 
-// Taken from https://stackoverflow.com/a/57759753
-.small-icon-button {
-  width: 24px !important;
-  height: 24px !important;
-  padding: 0px !important;
-  display: inline-flex !important;
-  margin-right: 8px;
-  align-items: center;
-  justify-content: center;
+// .line-highlight {
+//   max-width: 100%;
+// }
 
-  & > *[role="img"] {
-    width: 16px;
-    height: 16px;
-    font-size: 16px;
+// .mat-mdc-header-cell {
+//   font-size: 12px;
+// }
 
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-}
+// // Taken from https://stackoverflow.com/a/57759753
+// .small-icon-button {
+//   width: 24px !important;
+//   height: 24px !important;
+//   padding: 0px !important;
+//   display: inline-flex !important;
+//   margin-right: 8px;
+//   align-items: center;
+//   justify-content: center;
 
-.medium-icon-button {
-  width: 36px !important;
-  height: 36px !important;
-  padding: 0px !important;
+//   & > *[role="img"] {
+//     width: 16px;
+//     height: 16px;
+//     font-size: 16px;
 
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
+//     svg {
+//       width: 16px;
+//       height: 16px;
+//     }
+//   }
+// }
 
-  & > *[role="img"] {
-    width: 24px;
-    height: 24px;
-    font-size: 24px;
+// .medium-icon-button {
+//   width: 36px !important;
+//   height: 36px !important;
+//   padding: 0px !important;
 
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-  }
-}
+//   display: inline-flex !important;
+//   align-items: center;
+//   justify-content: center;
 
-.comment-markdown {
-  ul {
-    list-style: disc outside;
-    padding-left: 20px;
-  }
+//   & > *[role="img"] {
+//     width: 24px;
+//     height: 24px;
+//     font-size: 24px;
 
-  pre {
-    margin-bottom: 20px;
-  }
+//     svg {
+//       width: 24px;
+//       height: 24px;
+//     }
+//   }
+// }
 
-  blockquote {
-    margin: 0 0 20px 0;
-    padding: 20px 20px 20px 20px;
+// .comment-markdown {
+//   ul {
+//     list-style: disc outside;
+//     padding-left: 20px;
+//   }
 
-    p:first-child {
-      margin-top: 0;
-    }
+//   pre {
+//     margin-bottom: 20px;
+//   }
 
-    p:last-child {
-      margin-bottom: 0;
-    }
+//   blockquote {
+//     margin: 0 0 20px 0;
+//     padding: 20px 20px 20px 20px;
 
-    blockquote:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
+//     p:first-child {
+//       margin-top: 0;
+//     }
+
+//     p:last-child {
+//       margin-bottom: 0;
+//     }
+
+//     blockquote:last-child {
+//       margin-bottom: 0;
+//     }
+//   }
+// }
