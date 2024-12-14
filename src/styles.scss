@@ -26,6 +26,8 @@
 // @include mat.all-component-themes(themes.$candy-app-theme);
 // @include themes.theme-extension(themes.$candy-app-theme);
 
+// More subtle but present rounding
+$shape-size: 4px;
 
 html {
   color-scheme: light dark;
@@ -33,7 +35,15 @@ html {
     color: mat.$red-palette,
     typography:  IBM Plex Sans,
   ));
-  
+  @include mat.card-overrides((
+    elevated-container-shape: $shape-size,
+  ));
+  @include mat.list-overrides((
+    active-indicator-shape: $shape-size,
+  ));
+  @include mat.button-overrides((
+    outlined-container-shape: $shape-size,
+  ));
 }
 
 
