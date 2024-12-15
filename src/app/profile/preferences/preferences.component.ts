@@ -59,10 +59,6 @@ export class PreferencesComponent implements OnInit {
     timeZone: new FormControl("", {
       validators: [autocompleteStringValidator(this.timeZones)],
     }),
-    theme: new FormControl(
-      "",
-      autocompleteStringValidator(["system", "light", "dark"]),
-    ),
   });
   filteredOptions?: Observable<string[]>;
   userDetails$ = this.service.userDetails$;
@@ -99,11 +95,6 @@ export class PreferencesComponent implements OnInit {
         }
         this.form.controls.timeZone.setValue(user.options.timezone);
       }
-      if (user?.options.preferredTheme) {
-        this.form.controls.theme.setValue(user.options.preferredTheme);
-      } else {
-        this.form.controls.theme.setValue("light");
-      }
     });
     this.filteredOptions = this.form.controls["timeZone"].valueChanges.pipe(
       startWith(""),
@@ -127,14 +118,12 @@ export class PreferencesComponent implements OnInit {
     if (this.form.valid) {
       const name = this.form.value.name!;
       let timeZone = this.form.value.timeZone;
-      const preferredTheme = this.form.value.theme;
 
       if (timeZone === this.defaultTimeZone) {
         timeZone = "";
       }
       const options = {
         ...(timeZone !== null && { timezone: timeZone }),
-        ...(preferredTheme !== null && { preferredTheme }),
       };
       this.service.updateUser(name, options);
     }

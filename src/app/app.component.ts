@@ -7,8 +7,6 @@ import {
 } from "@angular/router";
 import { lastValueFrom } from "rxjs";
 import { SettingsService } from "./api/settings.service";
-import { UserService } from "./api/user/user.service";
-import { setTheme } from "./shared/shared.utils";
 import { AuthService } from "./auth.service";
 import { MatIconRegistry } from "@angular/material/icon";
 
@@ -23,8 +21,7 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService,
-    private matIconRegistry: MatIconRegistry
+    private matIconRegistry: MatIconRegistry,
   ) {
     this.matIconRegistry.setDefaultFontSetClass("material-symbols-outlined");
   }
@@ -37,17 +34,6 @@ export class AppComponent implements OnInit {
         const orgSlug = params ? params["org-slug"] : undefined;
         this.settings.triggerPlausibleReport(orgSlug);
       }
-    });
-
-    const systemTheme = matchMedia("(prefers-color-scheme: dark)");
-    this.userService.userDetails$.subscribe((user) => {
-      setTheme(user?.options.preferredTheme || localStorage.getItem("theme"));
-    });
-    systemTheme.addEventListener("change", () => {
-      const s = this.userService.userDetails$.subscribe((user) => {
-        setTheme(user?.options.preferredTheme);
-      });
-      s.unsubscribe();
     });
 
     lastValueFrom(this.authService.checkServerAuthStatus());
