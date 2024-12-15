@@ -6,8 +6,11 @@
 @import "./assets/styles/font-files";
 @import "./assets/styles/resets";
 
-// material-icons
-@import "material-icons/iconfont/material-icons.css";
+// Default to material symbols filled (instead of outline)
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+}
 
 // partials
 @import "./scss/auth-forms";
