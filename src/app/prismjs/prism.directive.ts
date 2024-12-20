@@ -39,17 +39,19 @@ export class PrismDirective implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    const language = this.getLanguage();
-    if (language) {
-      const code = this.code || this.el.nativeElement.innerText;
-      if (PRISM_SUPPORTED_GRAMMAR.includes(language)) {
-        const grammar = Prism.languages[language];
-        const html = Prism.highlight(code, grammar, language);
-        this.el.nativeElement.innerHTML = html;
+    setTimeout(() => {
+      const language = this.getLanguage();
+      if (language) {
+        const code = this.code || this.el.nativeElement.innerText;
+        if (PRISM_SUPPORTED_GRAMMAR.includes(language)) {
+          const grammar = Prism.languages[language];
+          const html = Prism.highlight(code, grammar, language);
+          this.el.nativeElement.innerHTML = html;
 
-        Prism.highlightElement(this.el.nativeElement); // Necessary for prism plugins
+          Prism.highlightElement(this.el.nativeElement); // Necessary for prism plugins
+        }
       }
-    }
+    });
   }
 
   getLanguage() {
