@@ -220,7 +220,7 @@
             "outputPath": "dist/marketing",
             "index": "projects/marketing/src/index.html",
             "browser": "projects/marketing/src/main.ts",
-            "polyfills": ["zone.js", "@angular/localize/init"],
+            "polyfills": ["@angular/localize/init"],
             "tsConfig": "projects/marketing/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

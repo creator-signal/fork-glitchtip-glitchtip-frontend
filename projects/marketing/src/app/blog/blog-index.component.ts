@@ -1,6 +1,11 @@
 import { DatePipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { RouterLink } from "@angular/router";
 
@@ -16,6 +21,7 @@ interface BlogItem {
   imports: [RouterLink, MatCard, MatCardContent, DatePipe],
   templateUrl: "./blog-index.component.html",
   styleUrl: "./blog-index.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogIndexComponent implements OnInit {
   private http = inject(HttpClient);
