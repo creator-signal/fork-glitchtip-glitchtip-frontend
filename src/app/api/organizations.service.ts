@@ -1,5 +1,6 @@
 import {
   computed,
+  effect,
   inject,
   Injectable,
   resource,
@@ -18,6 +19,7 @@ import { refreshInterval } from "../shared/shared.utils";
 export class OrganizationsService {
   authService = inject(AuthService);
 
+  initialLoad = signal(false);
   #activeOrganizationSlug = signal<string | null>(null);
   activeOrganizationSlug = computed(
     () =>
@@ -63,11 +65,6 @@ export class OrganizationsService {
     () => this.activeOrganization()?.projects || []
   );
   projectsCount = computed(() => this.activeOrganizationProjects().length);
-  initialLoad = computed(
-    () =>
-      this.organizationsResource.status() >= ResourceStatus.Resolved &&
-      this.activeOrganizationLoaded()
-  );
 
   // For compatibility, remove when possible
   activeOrganization$ = toObservable(this.activeOrganization);
@@ -76,6 +73,15 @@ export class OrganizationsService {
 
   constructor() {
     this.refresh();
+
+    effect(() => {
+      if (
+        this.organizationsResource.status() >= ResourceStatus.Resolved &&
+        this.activeOrganizationLoaded()
+      ) {
+        this.initialLoad.set(true);
+      }
+    });
   }
 
   setActiveOrganizationSlug(slug: string | null) {
