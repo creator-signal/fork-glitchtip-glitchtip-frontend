@@ -5,6 +5,7 @@ import {
   inject,
   computed,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { MatMenuTrigger, MatMenuModule } from "@angular/material/menu";
 import { MainNavService } from "../main-nav.service";
 import { SettingsService } from "src/app/api/settings.service";
@@ -39,6 +40,7 @@ import { OrganizationsService } from "src/app/api/organizations.service";
   ],
 })
 export class MainNavComponent {
+  private router = inject(Router);
   private mainNav = inject(MainNavService);
   private organizationsService = inject(OrganizationsService);
   private auth = inject(AuthService);
@@ -75,7 +77,7 @@ export class MainNavComponent {
 
   async logout() {
     await this.auth.logout();
-    window.location.href = "/login";
+    this.router.navigate(["/login"])
   }
 
   toggleSideNav() {

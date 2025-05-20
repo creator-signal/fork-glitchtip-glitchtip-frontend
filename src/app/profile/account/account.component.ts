@@ -1,4 +1,5 @@
 import { Component, OnDestroy, inject } from "@angular/core";
+import { Router } from "@angular/router";
 import { UserService } from "src/app/api/user/user.service";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDividerModule } from "@angular/material/divider";
@@ -26,6 +27,7 @@ import { AuthService } from "src/app/auth.service";
   ],
 })
 export class AccountComponent implements OnDestroy {
+  private router = inject(Router)
   private userService = inject(UserService);
   private authService = inject(AuthService);
 
@@ -40,7 +42,7 @@ export class AccountComponent implements OnDestroy {
     ) {
       this.userService.deleteUser().then((result) => {
         this.authService.expireAuth();
-        window.location.href = "/login";
+        this.router.navigate(["/login"])
       });
     }
   }
