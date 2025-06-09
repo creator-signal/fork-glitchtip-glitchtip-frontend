@@ -61,11 +61,11 @@
                   ) {
                     @if ((fileListErrors$ | async)?.length) {
                       @if ((fileListErrors$ | async)?.length === 1) {
-                        <h3 class="mat-headline-4">
+                        <h3 class="section-header-text">
                           There was an error processing your request
                         </h3>
                       } @else {
-                        <h3 class="mat-headline-4">
+                        <h3 class="section-header-text">
                           There were errors while processing your request
                         </h3>
                       }

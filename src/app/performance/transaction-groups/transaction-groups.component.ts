@@ -25,6 +25,7 @@ import { ProjectFilterBarComponent } from "../../list-elements/project-filter-ba
 import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { EnvironmentsService } from "src/app/api/environments.service";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   selector: "gt-transaction-groups",
@@ -36,6 +37,7 @@ import { EnvironmentsService } from "src/app/api/environments.service";
     ListTitleComponent,
     ProjectFilterBarComponent,
     MatTableModule,
+    MatCardModule,
     DataFilterBarComponent,
     MatTooltipModule,
     RouterLink,

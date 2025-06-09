@@ -3,12 +3,12 @@
     @if (organization$ | async; as organization) {
       <mat-card class="auth-form transaction-group-404">
         <mat-card-content>
-          <h1 class="mat-headline-4">Transaction group not found</h1>
-          <p class="mat-body-1">
+          <h1 class="section-header-text">Transaction group not found</h1>
+          <p class="body-text">
             This may be because the URL is pointing to a transaction group that
             doesn't exist or was deleted.
           </p>
-          <p class="mat-body-1">
+          <p class="body-text">
             It's also possible that this transaction group was reported to a
             project that you are not able to access.
           </p>
@@ -37,24 +37,24 @@
           <mat-card-content>
             <dl>
               <div>
-                <dt class="mat-caption">Average Duration</dt>
-                <dd class="mat-body-1">
+                <dt class="caption-text">Average Duration</dt>
+                <dd class="body-text">
                   {{ group.avgDuration | humanizeDuration }}
                 </dd>
               </div>
               <div>
-                <dt class="mat-caption">Transaction Count</dt>
-                <dd class="mat-body-1">{{ group.transactionCount }}</dd>
+                <dt class="caption-text">Transaction Count</dt>
+                <dd class="body-text">{{ group.transactionCount }}</dd>
               </div>
               <div>
-                <dt class="mat-caption">Operation</dt>
-                <dd class="mat-body-1">{{ group.op }}</dd>
+                <dt class="caption-text">Operation</dt>
+                <dd class="body-text">{{ group.op }}</dd>
               </div>
               <div>
                 @if (group.method) {
-                  <dt class="mat-caption">Method</dt>
+                  <dt class="caption-text">Method</dt>
                 }
-                <dd class="mat-body-1">{{ group.method }}</dd>
+                <dd class="body-text">{{ group.method }}</dd>
               </div>
             </dl>
           </mat-card-content>
