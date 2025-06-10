@@ -27,6 +27,7 @@ import { ProjectFilterBarComponent } from "../../list-elements/project-filter-ba
 import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 import type { components } from "src/app/api/api-schema";
 import {
@@ -58,6 +59,7 @@ type Issue = components["schemas"]["IssueSchema"];
     DaysAgoPipe,
     DaysOldPipe,
     I18nPluralPipe,
+    TopAppBarComponent,
   ],
   providers: [IssuesService],
 })

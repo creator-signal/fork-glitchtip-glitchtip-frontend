@@ -25,6 +25,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { normalizeProjectParams } from "src/app/shared/shared.utils";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-project-filter-bar",
@@ -39,6 +40,7 @@ import { OrganizationsService } from "src/app/api/organizations.service";
     MatInputModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    TopAppBarComponent,
   ],
   templateUrl: "./project-filter-bar.component.html",
   styleUrls: ["./project-filter-bar.component.scss"],

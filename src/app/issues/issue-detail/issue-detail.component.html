@@ -26,36 +26,45 @@
   </section>
 }
 @if (issue(); as issue) {
-  <section class="l-body l-body--full-width">
-    <gt-detail-header
-      [backLinkText]="'View all issues for ' + issue.project.name"
-      [backLinkParams]="generateBackLink(issue.project.id)"
-      [title]="issueTitle()!"
-      [subtitle]="issueSubtitle()"
-    >
-      @if (issue?.status !== "resolved") {
-        <button mat-flat-button color="primary" (click)="markResolved()">
-          <mat-icon aria-hidden="true">done</mat-icon>
-          Resolve
-        </button>
-      }
-      @if (issue?.status !== "unresolved") {
-        <button mat-flat-button color="primary" (click)="markUnresolved()">
-          <mat-icon aria-hidden="true">done</mat-icon>
-          Reopen
-        </button>
-      }
-      @if (issue?.status !== "ignored") {
-        <button mat-stroked-button (click)="markIgnored()"> Ignore </button>
-      }
-      <button
-        mat-icon-button
-        class="medium-icon-button"
-        (click)="deleteIssue()"
+  <gt-top-app-bar>
+    <div class="top-bar">
+      <gt-detail-header
+        [backLinkText]="'View all issues for ' + issue.project.name"
+        [backLinkParams]="generateBackLink(issue.project.id)"
       >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </gt-detail-header>
+      </gt-detail-header>
+
+      <div class="app-buttons">
+        @if (issue?.status !== "resolved") {
+          <button mat-flat-button color="primary" (click)="markResolved()">
+            <mat-icon aria-hidden="true">done</mat-icon>
+            Resolve
+          </button>
+        }
+        @if (issue?.status !== "unresolved") {
+          <button mat-flat-button color="primary" (click)="markUnresolved()">
+            <mat-icon aria-hidden="true">done</mat-icon>
+            Reopen
+          </button>
+        }
+        @if (issue?.status !== "ignored") {
+          <button mat-stroked-button (click)="markIgnored()"> Ignore </button>
+        }
+        <button
+          mat-icon-button
+          class="medium-icon-button"
+          (click)="deleteIssue()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </gt-top-app-bar>
+
+  <section class="l-body l-body--full-width">
+    <gt-list-title i18n-title [title]="issueTitle()![1] || issueTitle()![0]">
+    </gt-list-title>
+    <p class="subtitle">{{ issueSubtitle() }}</p>
     <div class="row">
       <mat-card class="event-detail-card left">
         <div class="tab-nav-container">

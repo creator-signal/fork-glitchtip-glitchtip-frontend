@@ -1,3 +1,5 @@
+<gt-project-filter-bar />
+
 <section class="l-body l-body--full-width mat-elevation-z0">
   <header class="page-header">
     <gt-list-title
@@ -6,7 +8,6 @@
       [searchHits]="paginator()?.count"
     ></gt-list-title>
   </header>
-  <gt-project-filter-bar></gt-project-filter-bar>
 
   <mat-card appearance="outlined" class="table-card">
     @if (issues(); as issues) {
