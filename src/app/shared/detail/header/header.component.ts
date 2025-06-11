@@ -13,7 +13,6 @@ import { MatButtonModule } from "@angular/material/button";
   imports: [RouterLink, MatIconModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"],
 })
 export class DetailHeaderComponent {
   readonly backLinkParams = input<{
