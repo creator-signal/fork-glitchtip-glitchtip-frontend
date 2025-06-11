@@ -8,6 +8,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTableModule } from "@angular/material/table";
 import { CommonModule } from "@angular/common";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   templateUrl: "./release-detail.component.html",
@@ -18,6 +20,8 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     MatTooltipModule,
     ListFooterComponent,
     DetailHeaderComponent,
+    TopAppBarComponent,
+    MatCardModule,
   ],
 })
 export class ReleaseDetailComponent implements OnDestroy {

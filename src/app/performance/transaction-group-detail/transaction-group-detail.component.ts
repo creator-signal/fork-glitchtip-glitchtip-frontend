@@ -9,6 +9,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
 import { TransactionGroupDetailService } from "./transaction-group-detail.service";
 import { HumanizeDurationPipe } from "../../shared/seconds-or-ms.pipe";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-transaction-group-detail",
@@ -21,6 +22,7 @@ import { OrganizationsService } from "src/app/api/organizations.service";
     MatIconModule,
     HumanizeDurationPipe,
     DetailHeaderComponent,
+    TopAppBarComponent,
   ],
 })
 export class TransactionGroupDetailComponent implements OnInit, OnDestroy {

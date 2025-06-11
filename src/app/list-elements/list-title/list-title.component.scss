@@ -1,6 +1,11 @@
 .section-header-text {
   margin-bottom: 0px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.count-display {
+  font-weight: 400;
+  margin-left: 8px;
+  padding-inline: 8px;
+  border-radius: 4px;
+  background-color: var(--mat-sys-surface-container-highest);
 }

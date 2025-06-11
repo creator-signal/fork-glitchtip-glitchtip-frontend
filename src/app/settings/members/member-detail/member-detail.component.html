@@ -1,6 +1,8 @@
 @if (member(); as member) {
-  <section class="l-body">
+  <gt-top-app-bar alignment="start">
     <gt-detail-header [title]="member.email" backLinkText="Back to Members" />
+  </gt-top-app-bar>
+  <section class="l-body">
     <mat-card>
       <mat-card-header>
         <mat-card-title il8n>Basics</mat-card-title>

@@ -1,9 +1,11 @@
-<section class="l-body">
+<gt-top-app-bar alignment="start">
   <gt-detail-header
     backLinkText="Back to Teams"
     [title]="'#' + (teamSlug$ | async)!"
   />
+</gt-top-app-bar>
 
+<section class="l-body">
   <nav mat-tab-nav-bar mat-stretch-tabs="false" [tabPanel]="tabPanel">
     @for (link of navLinks; track link) {
       <a

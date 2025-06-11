@@ -2,7 +2,7 @@
   <h1 class="section-header-text" data-cy="list-title">
     {{ title }}
     @if (searchHits) {
-      ({{ searchHits }})
+      <span class="count-display">{{ searchHits }}</span>
     }
   </h1>
 }

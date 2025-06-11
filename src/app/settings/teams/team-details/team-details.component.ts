@@ -11,6 +11,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-team-details",
@@ -25,6 +26,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     RouterLinkActive,
     RouterOutlet,
     DetailHeaderComponent,
+    TopAppBarComponent,
   ],
 })
 export class TeamDetailsComponent {

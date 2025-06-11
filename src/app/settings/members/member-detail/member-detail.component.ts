@@ -24,6 +24,7 @@ import { MemberDetailService } from "src/app/settings/members/member-detail/memb
 import { MemberRole } from "src/app/api/organizations/organizations.interface";
 import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-member-detail",
@@ -44,6 +45,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     LoadingButtonComponent,
     MatListModule,
     DetailHeaderComponent,
+    TopAppBarComponent,
   ],
 })
 export class MemberDetailComponent implements OnInit, OnDestroy {
