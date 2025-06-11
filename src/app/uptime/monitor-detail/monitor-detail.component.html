@@ -1,23 +1,25 @@
+<gt-top-app-bar alignment="start">
+  <gt-detail-header
+    [title]="['Uptime details for ' + monitor.name, null]"
+    backLinkText="View all uptime monitors"
+  >
+    <button
+      id="monitor-settings"
+      mat-flat-button
+      color="primary"
+      [disabled]="false"
+      [routerLink]="['./update']"
+      i18n
+    >
+      Settings
+    </button>
+    <button mat-icon-button class="medium-icon-button" (click)="delete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </gt-detail-header>
+</gt-top-app-bar>
 <section class="l-body">
   @if (monitor(); as monitor) {
-    <gt-detail-header
-      [title]="['Uptime details for ' + monitor.name, null]"
-      backLinkText="View all uptime monitors"
-    >
-      <button
-        id="monitor-settings"
-        mat-flat-button
-        color="primary"
-        [disabled]="false"
-        [routerLink]="['./update']"
-        i18n
-      >
-        Settings
-      </button>
-      <button mat-icon-button class="medium-icon-button" (click)="delete()">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </gt-detail-header>
     <mat-card>
       <mat-card-header>
         <mat-card-title>

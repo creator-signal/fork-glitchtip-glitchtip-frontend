@@ -26,6 +26,7 @@ import { ListTitleComponent } from "../../list-elements/list-title/list-title.co
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { EnvironmentsService } from "src/app/api/environments.service";
 import { MatCardModule } from "@angular/material/card";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-transaction-groups",
@@ -43,6 +44,7 @@ import { MatCardModule } from "@angular/material/card";
     RouterLink,
     ListFooterComponent,
     HumanizeDurationPipe,
+    TopAppBarComponent,
   ],
 })
 export class TransactionGroupsComponent implements OnInit, OnDestroy {

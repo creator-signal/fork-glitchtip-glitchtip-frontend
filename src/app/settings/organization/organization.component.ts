@@ -10,6 +10,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatCardModule } from "@angular/material/card";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { toObservable } from "@angular/core/rxjs-interop";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-organization",
@@ -22,6 +23,7 @@ import { toObservable } from "@angular/core/rxjs-interop";
     MatFormFieldModule,
     MatInputModule,
     LoadingButtonComponent,
+    TopAppBarComponent,
   ],
 })
 export class OrganizationComponent implements OnInit {

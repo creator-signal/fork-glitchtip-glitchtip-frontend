@@ -104,3 +104,12 @@ table.mat-table {
   align-items: center;
   justify-content: space-between;
 }
+
+.page-header {
+  width: 70%;
+
+  gt-list-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -24,3 +24,9 @@
 gt-loading-button ::ng-deep button {
   width: 180px;
 }
+
+.prefrence-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}

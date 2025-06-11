@@ -1,24 +1,27 @@
 @if (paginator(); as paginator) {
+  <gt-top-app-bar>
+    <a
+      id="add-monitor"
+      mat-stroked-button
+      color="primary"
+      [routerLink]="['new']"
+    >
+      <mat-icon>add</mat-icon>
+      Add monitor
+    </a>
+  </gt-top-app-bar>
   <section class="l-body l-body--full-width mat-elevation-z0">
     <header class="page-header">
       <gt-list-title
         title="Uptime Monitors"
         [searchHits]="paginator.count"
       ></gt-list-title>
-      <a
-        id="add-monitor"
-        mat-stroked-button
-        color="primary"
-        [routerLink]="['new']"
-      >
-        <mat-icon>add</mat-icon>
-        Add monitor
-      </a>
     </header>
+
     @if (monitors(); as monitors) {
       <div class="wrapper">
-        <mat-card appearance="outlined" class="table-card">
-          @if (monitors.length > 0) {
+        @if (monitors.length > 0) {
+          <mat-card appearance="outlined" class="table-card">
             <table mat-table [dataSource]="monitors" class="mat-elevation-z2">
               <ng-container matColumnDef="statusColor">
                 <td
@@ -100,8 +103,8 @@
                 *matFooterRowDef="['pagination']"
               ></tr>
             </table>
-          }
-        </mat-card>
+          </mat-card>
+        }
       </div>
     }
   </section>

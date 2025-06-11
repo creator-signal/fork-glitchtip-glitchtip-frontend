@@ -21,6 +21,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
 import { StatefulComponent } from "src/app/shared/stateful-service/signal-state.component";
 import { DecimalPipe, I18nPluralPipe } from "@angular/common";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-monitor-detail",
@@ -42,6 +43,7 @@ import { DecimalPipe, I18nPluralPipe } from "@angular/common";
     MatProgressSpinnerModule,
     MatIconModule,
     DetailHeaderComponent,
+    TopAppBarComponent,
   ],
 })
 export class MonitorDetailComponent

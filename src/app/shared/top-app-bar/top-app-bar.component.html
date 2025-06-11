@@ -1,4 +1,7 @@
-<div class="filter-container">
+<div
+  class="filter-container"
+  [style.justify-content]="alignment === 'start' ? 'flex-start' : 'flex-end'"
+>
   <ng-content></ng-content>
 </div>
 <mat-divider></mat-divider>

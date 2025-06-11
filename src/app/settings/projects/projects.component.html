@@ -1,9 +1,11 @@
+<gt-top-app-bar>
+  <a mat-flat-button [routerLink]="['new']" color="primary" i18n
+    >Create New Project</a
+  >
+</gt-top-app-bar>
 <section class="l-body">
   <header class="page-header">
     <h1 class="section-header-text" i18n>Projects</h1>
-    <a mat-flat-button [routerLink]="['new']" color="primary" i18n
-      >Create New Project</a
-    >
   </header>
   <div>
     @if (projects()?.length === 0) {

@@ -16,6 +16,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { components } from "src/app/api/api-schema";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 type Member = components["schemas"]["OrganizationUserSchema"];
 
@@ -32,6 +33,7 @@ type Member = components["schemas"]["OrganizationUserSchema"];
     MatChipsModule,
     LoadingButtonComponent,
     MatTooltipModule,
+    TopAppBarComponent,
   ],
   providers: [MembersService],
 })

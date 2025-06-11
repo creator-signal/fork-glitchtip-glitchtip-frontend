@@ -9,8 +9,8 @@
     ></gt-list-title>
   </header>
 
-  <mat-card appearance="outlined" class="table-card">
-    @if (issues(); as issues) {
+  @if (issues(); as issues) {
+    <mat-card appearance="outlined" class="table-card">
       <div class="wrapper">
         <table
           mat-table
@@ -273,6 +273,6 @@
           ></tr>
         </table>
       </div>
-    }
-  </mat-card>
+    </mat-card>
+  }
 </section>

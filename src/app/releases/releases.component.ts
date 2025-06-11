@@ -8,6 +8,8 @@ import { ListTitleComponent } from "../list-elements/list-title/list-title.compo
 import { ListFooterComponent } from "../list-elements/list-footer/list-footer.component";
 import { ReleasesService } from "./releases.service";
 import { combineLatest, map } from "rxjs";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   templateUrl: "./releases.component.html",
@@ -19,6 +21,8 @@ import { combineLatest, map } from "rxjs";
     RouterLink,
     MatTooltipModule,
     ListFooterComponent,
+    TopAppBarComponent,
+    MatCardModule,
   ],
 })
 export class ReleasesComponent implements OnDestroy {

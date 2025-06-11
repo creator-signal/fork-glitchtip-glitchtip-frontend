@@ -1,4 +1,5 @@
 @if (initialLoadComplete() && issue() === null) {
+  <gt-top-app-bar> </gt-top-app-bar>
   <section class="l-body l-body--full-width">
     @if (organization(); as organization) {
       <mat-card class="auth-form issue-404">
@@ -62,8 +63,10 @@
   </gt-top-app-bar>
 
   <section class="l-body l-body--full-width">
-    <gt-list-title i18n-title [title]="issueTitle()![1] || issueTitle()![0]">
-    </gt-list-title>
+    <header class="page-header">
+      <gt-list-title i18n-title [title]="issueTitle()![1] || issueTitle()![0]">
+      </gt-list-title>
+    </header>
     <p class="subtitle">{{ issueSubtitle() }}</p>
     <div class="row">
       <mat-card class="event-detail-card left">
