@@ -263,13 +263,3 @@ mat-sidenav-content {
     color: var(--mat-sys-on-primary) !important;
   }
 }
-
-.mat-sidenav {
-  mat-nav-list {
-    padding: 4px;
-
-    .mat-mdc-list-item {
-      border-radius: 4px;
-    }
-  }
-}
