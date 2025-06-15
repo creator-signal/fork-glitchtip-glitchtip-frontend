@@ -1,5 +1,5 @@
 @if (initialLoadComplete() && issue() === null) {
-  <gt-top-app-bar />
+  <gt-top-app-bar [isSubPage]="true" />
   <section class="l-body l-body--full-width">
     @if (organization(); as organization) {
       <mat-card class="auth-form issue-404">
@@ -27,7 +27,7 @@
   </section>
 }
 @if (issue(); as issue) {
-  <gt-top-app-bar>
+  <gt-top-app-bar [isSubPage]="true">
     <div class="top-bar">
       <gt-detail-header
         [backLinkText]="'View all issues for ' + issue.project.name"

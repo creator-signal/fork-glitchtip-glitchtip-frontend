@@ -1,5 +1,5 @@
 @if ((initialLoadComplete$ | async) && (transactionGroup$ | async) === null) {
-  <gt-top-app-bar />
+  <gt-top-app-bar alignment="start" [isSubPage]="true" />
   <section class="l-body l-body--full-width">
     @if (organization$ | async; as organization) {
       <mat-card class="auth-form transaction-group-404">
@@ -27,7 +27,7 @@
   </section>
 }
 @if (transactionGroup$ | async; as group) {
-  <gt-top-app-bar alignment="start">
+  <gt-top-app-bar alignment="start" [isSubPage]="true">
     <gt-detail-header
       [title]="[group.transaction, null]"
       backLinkText="View all transaction groups"

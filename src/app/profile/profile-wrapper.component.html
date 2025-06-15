@@ -1,12 +1,9 @@
-<gt-top-app-bar />
+<gt-top-app-bar title="User Profile" />
 <section class="l-body">
-  <header class="page-header">
-    <h1 class="section-header-text">User Profile</h1>
-    @if (user(); as user) {
-      <p class="body-text">
-        {{ user.email }}
-      </p>
-    }
-  </header>
+  @if (user(); as user) {
+    <p class="body-text">
+      {{ user.email }}
+    </p>
+  }
   <router-outlet></router-outlet>
 </section>

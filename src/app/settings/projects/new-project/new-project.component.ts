@@ -28,6 +28,7 @@ import { MatCardModule } from "@angular/material/card";
 import { NewProjectService } from "./new-project.service";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 @Component({
   selector: "gt-new-project",
@@ -46,6 +47,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
     MatTooltipModule,
     MatIconModule,
     LoadingButtonComponent,
+    TopAppBarComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NewProjectService],

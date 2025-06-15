@@ -6,6 +6,7 @@ import {
   HostListener,
   ElementRef,
   inject,
+  Input,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
@@ -50,6 +51,9 @@ export class ProjectFilterBarComponent implements OnInit {
   private organizationsService = inject(OrganizationsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+
+  @Input() title?: string;
+  @Input() searchHits?: string;
 
   orgSlug$ = this.organizationsService.activeOrganizationSlug$;
   /** All projects available */

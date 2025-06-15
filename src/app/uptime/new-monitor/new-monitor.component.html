@@ -1,8 +1,11 @@
-<section class="l-body">
+<gt-top-app-bar alignment="start" [isSubPage]="true">
   <gt-detail-header
     [title]="['Create a New Uptime Monitor', null]"
     backLinkText="View all uptime monitors"
   />
+</gt-top-app-bar>
+
+<section class="l-body">
   <gt-monitor-form
     [loading]="loading() === true"
     [formError]="error()"

@@ -1,4 +1,8 @@
-<gt-top-app-bar>
+<gt-top-app-bar
+  [title]="
+    activeOrgOnly ? 'Projects' : orgsAndProjects()[0]?.name || 'Organizations'
+  "
+>
   @if (activeOrgOnly && activeOrganization()) {
     <a
       mat-stroked-button
@@ -44,11 +48,6 @@
       (activeOrgOnly && organization.id === activeOrganization()?.id)
     ) {
       <section class="org-projects-section">
-        <header class="projects-section-header">
-          <h2 class="section-header-text">
-            {{ activeOrgOnly ? "Projects" : organization.name }}
-          </h2>
-        </header>
         @if (organization.projects?.length === 0) {
           <gt-empty-projects
             [activeOrgOnly]="activeOrgOnly"

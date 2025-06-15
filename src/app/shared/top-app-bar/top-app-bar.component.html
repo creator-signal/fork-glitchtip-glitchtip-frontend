@@ -1,7 +1,17 @@
-<div
-  class="top-app-container"
-  [style.justify-content]="alignment === 'start' ? 'flex-start' : 'flex-end'"
->
-  <ng-content></ng-content>
+<div class="top-app-container">
+  <header
+    class="page-header"
+    [style.display]="isSubPage ? 'none' : 'block'"
+    [style.width]="isSubPage ? '0%' : '30%'"
+  >
+    <gt-list-title i18n-title [title]="title" [searchHits]="searchHits" />
+  </header>
+  <div
+    class="page-content"
+    [style.justify-content]="alignment === 'start' ? 'flex-start' : 'flex-end'"
+    [style.width]="isSubPage ? '100%' : '70%'"
+  >
+    <ng-content />
+  </div>
 </div>
-<mat-divider></mat-divider>
+<mat-divider />

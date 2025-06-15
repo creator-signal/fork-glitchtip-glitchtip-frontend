@@ -1,4 +1,4 @@
-<gt-top-app-bar>
+<gt-top-app-bar [title]="title" [searchHits]="searchHits">
   @if (projects$ | async; as projects) {
     <section [class.no-projects]="(projects$ | async)?.length === 0">
       <div [class.no-projects__picker]="!projects.length" id="project-picker">

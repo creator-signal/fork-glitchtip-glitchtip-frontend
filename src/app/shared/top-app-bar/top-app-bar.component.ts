@@ -12,4 +12,7 @@ import { ListTitleComponent } from "src/app/list-elements/list-title/list-title.
 })
 export class TopAppBarComponent {
   @Input() alignment: "start" | "end" = "end";
+  @Input() title?: string;
+  @Input() searchHits?: string;
+  @Input() isSubPage: boolean = false;
 }
