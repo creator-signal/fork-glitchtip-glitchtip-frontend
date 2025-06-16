@@ -4,7 +4,6 @@ import { CommonModule } from "@angular/common";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTableModule } from "@angular/material/table";
 import { checkForOverflow } from "src/app/shared/shared.utils";
-import { ListTitleComponent } from "../list-elements/list-title/list-title.component";
 import { ListFooterComponent } from "../list-elements/list-footer/list-footer.component";
 import { ReleasesService } from "./releases.service";
 import { combineLatest, map } from "rxjs";
@@ -16,7 +15,6 @@ import { MatCardModule } from "@angular/material/card";
   styleUrls: ["./releases.component.scss"],
   imports: [
     CommonModule,
-    ListTitleComponent,
     MatTableModule,
     RouterLink,
     MatTooltipModule,

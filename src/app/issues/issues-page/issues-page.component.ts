@@ -24,10 +24,8 @@ import { IssueZeroStatesComponent } from "../issue-zero-states/issue-zero-states
 import { ListFooterComponent } from "../../list-elements/list-footer/list-footer.component";
 import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data-filter-bar.component";
 import { ProjectFilterBarComponent } from "../../list-elements/project-filter-bar/project-filter-bar.component";
-import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
-import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
 
 import type { components } from "src/app/api/api-schema";
 import {
@@ -44,7 +42,6 @@ type Issue = components["schemas"]["IssueSchema"];
   styleUrls: ["./issues-page.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ListTitleComponent,
     ProjectFilterBarComponent,
     MatTableModule,
     DataFilterBarComponent,
@@ -59,7 +56,6 @@ type Issue = components["schemas"]["IssueSchema"];
     DaysAgoPipe,
     DaysOldPipe,
     I18nPluralPipe,
-    TopAppBarComponent,
   ],
   providers: [IssuesService],
 })

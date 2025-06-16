@@ -22,7 +22,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data-filter-bar.component";
 import { MatTableModule } from "@angular/material/table";
 import { ProjectFilterBarComponent } from "../../list-elements/project-filter-bar/project-filter-bar.component";
-import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { EnvironmentsService } from "src/app/api/environments.service";
 import { MatCardModule } from "@angular/material/card";
@@ -35,7 +34,6 @@ import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.compo
   imports: [
     AsyncPipe,
     I18nPluralPipe,
-    ListTitleComponent,
     ProjectFilterBarComponent,
     MatTableModule,
     MatCardModule,
