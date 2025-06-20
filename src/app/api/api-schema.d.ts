@@ -553,6 +553,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/0/organizations/{organization_slug}/issues-stats/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve Statistics for a Set of Issues
+         * @description Retrieves aggregated statistics for a given list of issue groups.
+         *
+         *     This endpoint returns data for the last 24 hours, formatted as a series of
+         *     [timestamp, count] pairs.
+         */
+        get: operations["apps_issue_events_api_issues_issue_stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/0/issues/{issue_id}/user-reports/": {
         parameters: {
             query?: never;
@@ -3209,6 +3232,38 @@ export interface components {
             /** Key */
             key: string;
         };
+        /** IssueStatsFilters */
+        IssueStatsFilters: {
+            /** Groups */
+            groups: number[];
+        };
+        /**
+         * IssueStatsResponse
+         * @description Defines the structure for a single issue's statistics in the response.
+         */
+        IssueStatsResponse: {
+            /** Id */
+            id: string;
+            /** Count */
+            count: string;
+            /** Usercount */
+            userCount: number;
+            /** Firstseen */
+            firstSeen: string;
+            /** Lastseen */
+            lastSeen: string;
+            /** Isunhandled */
+            isUnhandled: boolean;
+            stats: components["schemas"]["StatsDetailSchema"];
+        };
+        /**
+         * StatsDetailSchema
+         * @description Represents the 24-hour statistics block.
+         */
+        StatsDetailSchema: {
+            /** Stats 24H */
+            stats_24h: number[][];
+        };
         /** IssueHashSchema */
         IssueHashSchema: {
             /** Id */
@@ -5503,6 +5558,30 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["IssueTagSchema"][];
+                };
+            };
+        };
+    };
+    apps_issue_events_api_issues_issue_stats: {
+        parameters: {
+            query: {
+                groups: number[];
+            };
+            header?: never;
+            path: {
+                organization_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssueStatsResponse"][];
                 };
             };
         };
