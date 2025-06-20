@@ -153,6 +153,7 @@
                   >
                     {{ element.lastSeen | daysAgo }}
                   </time>
+                  {{ element.stats }}
                 }
               </span>
               @if (element.type && element.type === "csp") {
