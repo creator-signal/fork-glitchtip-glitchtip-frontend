@@ -3,8 +3,21 @@
   height: 80px;
   padding: 24px;
   align-items: center;
-}
 
-.page-content {
-  display: flex;
+  .page-header {
+    width: 30%;
+  }
+
+  .header-actions {
+    display: flex;
+    width: 70%;
+    justify-content: flex-end;
+  }
+
+  &.sub-page {
+    .header-actions {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
 }

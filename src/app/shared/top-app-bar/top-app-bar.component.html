@@ -1,16 +1,10 @@
-<div class="top-app-container">
-  <header
-    class="page-header"
-    [style.display]="isSubPage ? 'none' : 'block'"
-    [style.width]="isSubPage ? '0%' : '30%'"
-  >
-    <gt-list-title i18n-title [title]="title" [searchHits]="searchHits" />
-  </header>
-  <div
-    class="page-content"
-    [style.justify-content]="alignment === 'start' ? 'flex-start' : 'flex-end'"
-    [style.width]="isSubPage ? '100%' : '70%'"
-  >
+<div class="top-app-container" [class.sub-page]="!title">
+  @if (title) {
+    <header class="page-header">
+      <gt-list-title i18n-title [title]="title" [searchHits]="searchHits" />
+    </header>
+  }
+  <div class="header-actions">
     <ng-content />
   </div>
 </div>
