@@ -1,23 +1,30 @@
-<section class="l-body">
-  @if (monitor(); as monitor) {
-    <gt-detail-header
-      [title]="['Uptime details for ' + monitor.name, null]"
-      backLinkText="View all uptime monitors"
-    >
-      <button
-        id="monitor-settings"
-        mat-flat-button
-        color="primary"
-        [disabled]="false"
-        [routerLink]="['./update']"
-        i18n
-      >
-        Settings
-      </button>
-      <button mat-icon-button class="medium-icon-button" (click)="delete()">
-        <mat-icon>delete</mat-icon>
-      </button>
+<gt-top-app-bar>
+  <div slot="left">
+    <gt-detail-header backLinkText="View all uptime monitors">
     </gt-detail-header>
+  </div>
+
+  <div slot="right" class="top-bar-actions">
+    <button
+      id="monitor-settings"
+      mat-flat-button
+      color="primary"
+      [disabled]="false"
+      [routerLink]="['./update']"
+      i18n
+    >
+      Settings
+    </button>
+    <button mat-icon-button class="medium-icon-button" (click)="delete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</gt-top-app-bar>
+
+<section class="l-body">
+  <!--   TODO: Replace Header with New Component for Detail Header-->
+  <header>Uptime details for {{ monitor()?.name }}</header>
+  @if (monitor(); as monitor) {
     <mat-card>
       <mat-card-header>
         <mat-card-title>

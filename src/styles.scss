@@ -67,6 +67,12 @@ html {
 //   @include mat.table-typography(themes.$custom-mobile-table-typography);
 // }
 
+// Used to Style Top App Bar Actions
+.top-bar-actions {
+  display: flex;
+  gap: 8px;
+}
+
 mat-card-content {
   font-family: vars.$font-sans-serif;
 }

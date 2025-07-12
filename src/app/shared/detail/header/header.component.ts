@@ -23,19 +23,19 @@ export class DetailHeaderComponent {
   readonly title = input<string | [string, string | null]>("");
   readonly subtitle = input<string | null>();
 
-  getTitle() {
-    const title = this.title();
-    if (Array.isArray(title)) {
-      return title[0];
-    }
-    return title;
-  }
+  //   getTitle() {
+  //     const title = this.title();
+  //     if (Array.isArray(title)) {
+  //       return title[0];
+  //     }
+  //     return title;
+  //   }
 
-  getTitleSuffix() {
-    const title = this.title();
-    if (Array.isArray(title)) {
-      return title[1];
-    }
-    return null;
-  }
+  //   getTitleSuffix() {
+  //     const title = this.title();
+  //     if (Array.isArray(title)) {
+  //       return title[1];
+  //     }
+  //     return null;
+  //   }
 }
