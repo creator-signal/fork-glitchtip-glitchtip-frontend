@@ -26,6 +26,7 @@ import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data
 import { ProjectFilterBarComponent } from "../../list-elements/project-filter-bar/project-filter-bar.component";
 import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { MatCardModule } from "@angular/material/card";
 
 import {
   stringArrAttribute,
@@ -44,6 +45,7 @@ import { EnvironmentsService } from "src/app/api/environments.service";
     MatTableModule,
     DataFilterBarComponent,
     MatCheckboxModule,
+    MatCardModule,
     MatButtonModule,
     MatIconModule,
     RouterLink,

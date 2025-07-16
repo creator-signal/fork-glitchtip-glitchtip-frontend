@@ -1,8 +1,8 @@
 @if (template() === "buttons") {
   <div class="heading">
     <div class="text-info">
-      <label for="project-picker" class="mat-body-1">Platform</label>
-      <p class="mat-caption">
+      <label for="project-picker" class="body-text">Platform</label>
+      <p class="caption-text">
         The primary platform for this project. Used for documentation.
       </p>
     </div>
@@ -76,7 +76,7 @@
 }
 
 @if (template() === "dropdown") {
-  <label class="mat-caption">Platform</label>
+  <label class="caption-text">Platform</label>
   <mat-accordion displayMode="flat">
     <mat-expansion-panel
       #expansionPanel
@@ -105,7 +105,7 @@
               id="picker-button-other"
               type="button"
               (click)="writeValue('other')"
-              class="mat-body-1 picker-button"
+              class="body-text picker-button"
               [class.active]="activePlatform === getPlatformId('other')"
             >
               Other
@@ -119,7 +119,7 @@
               id="picker-button-{{ platform.id }}"
               type="button"
               (click)="writeValue(platform.id)"
-              class="mat-body-1 picker-button"
+              class="body-text picker-button"
               [class.active]="activePlatform === getPlatformId(platform.id)"
             >
               {{ platform.name }}

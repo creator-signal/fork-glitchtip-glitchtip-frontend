@@ -2,7 +2,10 @@
 @import "variables";
 
 mat-card-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 12px;
 
   mat-card-title {
@@ -68,6 +71,10 @@ mat-card-header {
 }
 
 .alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
   padding-top: 16px;
 }
 

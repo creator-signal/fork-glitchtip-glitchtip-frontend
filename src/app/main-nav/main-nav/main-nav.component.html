@@ -68,145 +68,60 @@
           </span>
         }
       </mat-menu>
-      <mat-nav-list class="nav-link-list">
-        <a
-          mat-list-item
-          [disabled]="!activeOrganization()"
-          [routerLink]="[activeOrganizationSlug(), 'issues']"
-          routerLinkActive="active-route"
-          i18n
-          >Issues</a
+      <mat-nav-list>
+        <mat-tree
+          #tree
+          [dataSource]="menuData"
+          [childrenAccessor]="childrenAccessor"
         >
-        <a
-          mat-list-item
-          [disabled]="!activeOrganization()"
-          [routerLink]="[activeOrganizationSlug(), 'uptime-monitors']"
-          routerLinkActive="active-route"
-          i18n
-          >Uptime Monitors</a
-        >
-        <a
-          mat-list-item
-          [disabled]="!activeOrganization()"
-          [routerLink]="[
-            activeOrganizationSlug(),
-            'performance',
-            'transaction-groups',
-          ]"
-          routerLinkActive="active-route"
-          i18n
-          >Performance</a
-        >
-        <mat-divider class="org-details-divider"></mat-divider>
-        <a
-          mat-list-item
-          [disabled]="!activeOrganization()"
-          [routerLink]="[activeOrganizationSlug(), 'projects']"
-          routerLinkActive="active-route"
-          i18n
-          >Projects</a
-        >
-        <a
-          mat-list-item
-          [disabled]="!activeOrganization()"
-          [routerLink]="[activeOrganizationSlug(), 'releases']"
-          routerLinkActive="active-route"
-          i18n
-          >Releases</a
-        >
-        <a
-          data-test-settings
-          mat-list-item
-          [disabled]="!activeOrganization()"
-          [routerLink]="[activeOrganizationSlug(), 'settings']"
-          routerLinkActive="active-route"
-          i18n
-          >Settings</a
-        >
-        <a
-          class="sub-items"
-          mat-list-item
-          [disabled]="!activeOrganization()"
-          [routerLink]="['/', activeOrganizationSlug(), 'settings', 'projects']"
-          routerLinkActive="active-route"
-          i18n
-          >Projects</a
-        >
-        @if (billingEnabled()) {
-          <a
-            class="sub-items"
-            mat-list-item
-            [routerLink]="[
-              '/',
-              activeOrganizationSlug(),
-              'settings',
-              'subscription',
-            ]"
-            routerLinkActive="active-route"
-            i18n
-            >Subscription</a
+          <!-- Default template for navigable items -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            @if (activeOrganization() || !node.requiresActiveOrg) {
+              <a
+                mat-list-item
+                [routerLink]="getRouteWithOrgSlug(node.route)"
+                routerLinkActive
+                [routerLinkActiveOptions]="{ exact: node.useExactRoute ?? false }"
+                #issuesLink="routerLinkActive"
+                [activated]="issuesLink.isActive"
+                >{{ node.name }}</a
+              >
+            } @else {
+              <mat-list-item disabled>
+                {{ node.name }}
+              </mat-list-item>
+            }
+          </mat-tree-node>
+
+          <!-- Hide subscription route when billing is not enabled -->
+          <mat-tree-node
+            *matTreeNodeDef="let node; when: hideBilling"
+            matTreeNodePadding
+            style="display: none"
+          />
+
+          <!-- Template for expandable nav nodes -->
+          <mat-tree-node
+            *matTreeNodeDef="let node; when: hasChild"
+            matTreeNodePadding
+            matTreeNodeToggle
+            [isDisabled]="!activeOrganization() && node.requiresActiveOrg"
+            [cdkTreeNodeTypeaheadLabel]="node.name"
           >
-        }
-        <a
-          mat-list-item
-          [routerLink]="['/', activeOrganizationSlug(), 'settings', 'teams']"
-          routerLinkActive="active-route"
-          class="sub-items"
-          i18n
-          >Teams</a
-        >
-        <a
-          mat-list-item
-          [routerLink]="['/', activeOrganizationSlug(), 'settings', 'members']"
-          routerLinkActive="active-route"
-          class="sub-items"
-          i18n
-          >Members</a
-        >
-        <mat-divider class="org-details-divider"></mat-divider>
-        <a
-          mat-list-item
-          [routerLink]="['/profile']"
-          routerLinkActive="active-route"
-          i18n
-          >Profile</a
-        >
-        <a
-          mat-list-item
-          [routerLink]="['/profile']"
-          routerLinkActive="active-route"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="sub-items"
-          i18n
-          >Account</a
-        >
-        <a
-          mat-list-item
-          [routerLink]="['/profile', 'multi-factor-auth']"
-          routerLinkActive="active-route"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="sub-items"
-          i18n
-          >Multi-factor Authentication</a
-        >
-        <a
-          mat-list-item
-          [routerLink]="['/profile', 'notifications']"
-          routerLinkActive="active-route"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="sub-items"
-          i18n
-          >Notifications</a
-        >
-        <a
-          mat-list-item
-          [routerLink]="['/profile', 'auth-tokens']"
-          routerLinkActive="active-route"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="sub-items"
-          i18n
-          >Auth Tokens</a
-        >
+            <mat-list-item
+              [disabled]="!activeOrganization() && node.requiresActiveOrg"
+            >
+              <span matListItemTitle>{{ node.name }}</span>
+              <div matListItemMeta>
+                <mat-icon>
+                  {{
+                    tree.isExpanded(node) ? "arrow_drop_down" : "arrow_right"
+                  }}
+                </mat-icon>
+              </div>
+            </mat-list-item>
+          </mat-tree-node>
+        </mat-tree>
         <button mat-menu-item (click)="this.logout()" i18n>Log Out</button>
       </mat-nav-list>
       @if (paidForGlitchTip() === false) {
@@ -217,7 +132,7 @@
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <ul class="mat-body-1">
+            <ul class="body-text">
               <li i18n
                 >Donate
                 <a
