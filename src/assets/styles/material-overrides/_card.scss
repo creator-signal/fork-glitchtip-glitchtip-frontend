@@ -1,0 +1,11 @@
+@use "@angular/material" as mat;
+@use "variables" as vars;
+
+@include mat.card-overrides(
+  (
+    elevated-container-shape: vars.$shape-radius,
+    elevated-container-color: var(--mat-sys-surface-container-high),
+    outlined-container-shape: vars.$shape-radius,
+    // outlined-container-color: transparent,
+  )
+);

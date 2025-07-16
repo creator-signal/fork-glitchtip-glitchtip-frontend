@@ -5,15 +5,19 @@
         <a
           mat-list-item
           routerLink="./"
-          routerLinkActive="active-route"
           [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive
+          #settingsLink="routerLinkActive"
+          [activated]="settingsLink.isActive"
         >
           General Settings
         </a>
         <a
           mat-list-item
           routerLink="./projects"
-          routerLinkActive="active-route"
+          routerLinkActive
+          #projectsSettingsLink="routerLinkActive"
+          [activated]="projectsSettingsLink.isActive"
         >
           Projects
         </a>
@@ -21,15 +25,29 @@
           <a
             mat-list-item
             routerLink="./subscription"
-            routerLinkActive="active-route"
+            routerLinkActive
+            #subscriptionLink="routerLinkActive"
+            [activated]="subscriptionLink.isActive"
           >
             Subscription
           </a>
         }
-        <a mat-list-item routerLink="./teams" routerLinkActive="active-route">
+        <a
+          mat-list-item
+          routerLink="./teams"
+          routerLinkActive
+          #teamsLink="routerLinkActive"
+          [activated]="teamsLink.isActive"
+        >
           Teams
         </a>
-        <a mat-list-item routerLink="./members" routerLinkActive="active-route">
+        <a
+          mat-list-item
+          routerLink="./members"
+          routerLinkActive
+          #membersLink="routerLinkActive"
+          [activated]="membersLink.isActive"
+        >
           Members
         </a>
       </mat-nav-list>

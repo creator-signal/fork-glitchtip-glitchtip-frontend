@@ -11,7 +11,7 @@
           <mat-expansion-panel-header
             [class.disabled-looking]="projects.length === 0"
           >
-            <mat-panel-title class="mat-body-1">
+            <mat-panel-title class="body-text">
               {{ selectedProjectsString() }}
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -30,7 +30,7 @@
               <li class="list-item">
                 <button
                   id="picker-button-{{ project.id }}"
-                  class="picker-button mat-body-1"
+                  class="picker-button body-text"
                   [class.disabled]="!project.isMember"
                   (click)="selectProjectAndClose(forceString(project.id))"
                 >

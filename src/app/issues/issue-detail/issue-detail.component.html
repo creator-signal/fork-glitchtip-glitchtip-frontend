@@ -3,12 +3,12 @@
     @if (organization(); as organization) {
       <mat-card class="auth-form issue-404">
         <mat-card-content>
-          <h1 class="mat-headline-4" i18n>Issue not found</h1>
-          <p class="mat-body-1" i18n
+          <h1 class="section-header-text" i18n>Issue not found</h1>
+          <p class="body-text" i18n
             >This may be because the URL is pointing to an issue that doesn't
             exist or was deleted.</p
           >
-          <p class="mat-body-1" i18n
+          <p class="body-text" i18n
             >It's also possible that this issue was reported to a project that
             you are not able to access.</p
           >
@@ -142,28 +142,28 @@
           <mat-card-content>
             <dl>
               <div>
-                <dt class="mat-caption">Issue #</dt>
-                <dd class="mat-body-1">{{ issue?.shortId }}</dd>
+                <dt class="caption-text">Issue #</dt>
+                <dd class="body-text">{{ issue?.shortId }}</dd>
               </div>
               <div>
-                <dt class="mat-caption">Events</dt>
-                <dd class="mat-body-1">{{ issue?.count }}</dd>
+                <dt class="caption-text">Events</dt>
+                <dd class="body-text">{{ issue?.count }}</dd>
               </div>
               <div>
-                <dt class="mat-caption">Level</dt>
-                <dd class="mat-body-1">{{ issue.level | titlecase }}</dd>
+                <dt class="caption-text">Level</dt>
+                <dd class="body-text">{{ issue.level | titlecase }}</dd>
               </div>
               <div>
-                <dt class="mat-caption">First Seen</dt>
-                <dd class="mat-body-1">{{ issue.firstSeen | daysAgo }}</dd>
-                <dd class="mat-caption">
+                <dt class="caption-text">First Seen</dt>
+                <dd class="body-text">{{ issue.firstSeen | daysAgo }}</dd>
+                <dd class="caption-text">
                   {{ issue?.firstSeen | date: "long" }}
                 </dd>
               </div>
               <div>
-                <dt class="mat-caption">Last Seen</dt>
-                <dd class="mat-body-1">{{ issue.lastSeen | daysAgo }}</dd>
-                <dd class="mat-caption">
+                <dt class="caption-text">Last Seen</dt>
+                <dd class="body-text">{{ issue.lastSeen | daysAgo }}</dd>
+                <dd class="caption-text">
                   {{ issue?.lastSeen | date: "long" }}
                 </dd>
               </div>

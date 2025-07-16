@@ -98,6 +98,10 @@ mat-card {
   display: block;
 }
 
+.vertical-card-header {
+  flex-direction: column;
+}
+
 gt-loading-button ::ng-deep button {
   width: 140px;
 }
