@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/angular";
 import { MonitorResponseChart } from "./monitor-response-chart";
-// FIX: Import the actual interface from your application to ensure type safety.
 import { ResponseTimeSeries } from "../uptime.interfaces";
 
 // --- MOCK DATA GENERATION ---
@@ -29,7 +28,6 @@ const generateSeries = (
   count: number,
   valueFn: () => number,
 ) => {
-  // The type here will now be correctly inferred from the imported interface
   const series: { name: Date; value: number }[] = [];
   for (let i = 0; i < count; i++) {
     series.push({
@@ -42,32 +40,31 @@ const generateSeries = (
 
 // Functions to generate random but plausible response times.
 const upValue = () => Math.floor(Math.random() * 150) + 50; // Random value between 50-200ms
-const downValue = () => 5000; // A fixed high value for a "down" state
+const hardDownValue = () => 5000; // A fixed high value for a "hard down" state
+const degradedValue = () => Math.floor(Math.random() * 1000) + 1500; // Random high value between 1500-2500ms
+const stableValue = () => Math.floor(Math.random() * 50) + 70; // Very stable, low response time
 
-// This data is crafted to show multiple segments and edge cases.
-const storyData: ResponseTimeSeries[] = [
-  {
-    name: "Up",
-    series: generateSeries(0, 10, upValue), // 10 "Up" points (50 minutes)
-  },
-  {
-    name: "Down",
-    series: generateSeries(50, 5, downValue), // 5 "Down" points (25 minutes)
-  },
-  {
-    name: "Up",
-    series: generateSeries(75, 8, upValue), // 8 "Up" points (40 minutes)
-  },
-  {
-    name: "Down",
-    // The "single ping" edge case: one "Down" data point.
-    series: generateSeries(115, 1, downValue),
-  },
-  {
-    name: "Up",
-    // The chart should immediately flow back into the "Up" state.
-    series: generateSeries(120, 6, upValue), // 6 "Up" points (30 minutes)
-  },
+// Data for the "Default" story with hard downtime.
+const hardDownStoryData: ResponseTimeSeries[] = [
+  { name: "Up", series: generateSeries(0, 10, upValue) },
+  { name: "Down", series: generateSeries(50, 5, hardDownValue) },
+  { name: "Up", series: generateSeries(75, 8, upValue) },
+  { name: "Down", series: generateSeries(115, 1, hardDownValue) },
+  { name: "Up", series: generateSeries(120, 6, upValue) },
+];
+
+// Data for the "DegradedPerformance" story.
+const degradedStoryData: ResponseTimeSeries[] = [
+  { name: "Up", series: generateSeries(0, 10, upValue) },
+  { name: "Down", series: generateSeries(50, 5, degradedValue) },
+  { name: "Up", series: generateSeries(75, 8, upValue) },
+  { name: "Down", series: generateSeries(115, 1, degradedValue) },
+  { name: "Up", series: generateSeries(120, 6, upValue) },
+];
+
+// Data for the new "StableUptime" story.
+const stableUptimeStoryData: ResponseTimeSeries[] = [
+  { name: "Up", series: generateSeries(0, 30, stableValue) },
 ];
 
 // --- STORYBOOK CONFIGURATION ---
@@ -81,25 +78,34 @@ const meta: Meta<MonitorResponseChart> = {
       control: "object",
       description: 'The time-series data, split into "Up" and "Down" segments.',
     },
-    scale: {
-      control: "object",
-      description: "Defines the min/max values for the chart axes.",
-    },
+    // The scale arg is removed as it's not used in the real app.
   },
 };
 
 export default meta;
 type Story = StoryObj<MonitorResponseChart>;
 
-export const Default: Story = {
+export const HardDowntime: Story = {
+  name: "Hard Downtime",
   args: {
-    data: storyData,
-    scale: {
-      // Set the scale based on the mock data
-      yScaleMin: 0,
-      yScaleMax: 6000, // A bit higher than our "down" value of 5000
-      // FIX: The type of `name` is now guaranteed to be a Date, resolving the error.
-      xScaleMin: storyData[0].series[0].name, // Start the chart at the first data point
-    },
+    data: hardDownStoryData,
+    // scale arg removed
+  },
+};
+
+export const DegradedPerformance: Story = {
+  name: "Degraded Performance",
+  args: {
+    data: degradedStoryData,
+    // scale arg removed
+  },
+};
+
+// NEW: Add a story for the 100% uptime, stable performance case.
+export const StableUptime: Story = {
+  name: "100% Uptime",
+  args: {
+    data: stableUptimeStoryData,
+    // scale arg removed
   },
 };

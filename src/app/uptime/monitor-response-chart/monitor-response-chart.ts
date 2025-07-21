@@ -21,6 +21,9 @@ import {
   Filler,
   Tooltip,
   Tick,
+  // Import components for the bar chart type
+  BarController,
+  BarElement,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { BaseChartDirective, provideCharts } from "ng2-charts";
@@ -64,13 +67,16 @@ function roundDownToNearest5Minutes(date: Date): Date {
   providers: [
     provideCharts({
       registerables: [
-        TimeScale, // For time-based X-axis
-        LinearScale, // For numeric Y-axis
-        LineController, // For 'line' type charts
-        LineElement, // For drawing the lines
-        PointElement, // For drawing points on hover
-        Filler, // For the 'fill' (area chart) functionality
-        Tooltip, // For the hover tooltip
+        TimeScale,
+        LinearScale,
+        LineController,
+        LineElement,
+        PointElement,
+        Filler,
+        Tooltip,
+        // Register the bar chart components
+        BarController,
+        BarElement,
       ],
     }),
   ],
@@ -111,6 +117,7 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
 
   private createChart(canvas: HTMLCanvasElement): void {
     this.chart = new Chart(canvas, {
+      // The default type is 'line', but we override it per-dataset
       type: "line",
       data: this.chartData(),
       options: this.chartOptions() as any,
@@ -124,19 +131,54 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
     }
     return {
       datasets: chartData.map((series) => {
-        let seriesData = series.series.map((point) => ({
+        const seriesData = series.series.map((point) => ({
           x: new Date(point.name).getTime(),
           y: point.value,
         }));
 
-        // If a segment has only one point, duplicate it to give the area fill a small width, making it visible.
-        if (seriesData.length === 1) {
-          const singlePoint = seriesData[0];
-          const phantomPoint = { x: singlePoint.x + 1000, y: singlePoint.y };
-          seriesData.push(phantomPoint);
+        const isSinglePoint = series.series.length === 1;
+
+        // Common gradient logic for both chart types
+        const backgroundColor = (
+          context: ScriptableContext<"line" | "bar">,
+        ) => {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+          if (!chartArea) {
+            return "rgba(0,0,0,0)";
+          }
+          const isUp = context.dataset.label === "Up";
+          const gradient = ctx.createLinearGradient(
+            0,
+            chartArea.top,
+            0,
+            chartArea.bottom,
+          );
+          // FIX: Use rgba values based on the exact hex codes from the real app
+          if (isUp) {
+            gradient.addColorStop(0, "rgba(120, 184, 124, 0.9)"); // Top: #78b87c
+            gradient.addColorStop(1, "rgba(206, 230, 207, 0.7)"); // Bottom: #cee6cf
+          } else {
+            gradient.addColorStop(0, "rgba(226, 42, 70, 0.9)"); // Dark Red
+            gradient.addColorStop(1, "rgba(243, 180, 189, 0.7)"); // Light Red
+          }
+          return gradient;
+        };
+
+        // If the segment is a single point, render it as a bar
+        if (isSinglePoint) {
+          return {
+            type: "bar" as const,
+            label: String(series.name),
+            data: seriesData,
+            backgroundColor: backgroundColor,
+            barThickness: 2,
+          };
         }
 
+        // Otherwise, render as a standard area chart
         return {
+          type: "line" as const,
           label: String(series.name),
           data: seriesData,
           fill: "origin",
@@ -144,30 +186,7 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
           pointRadius: 0,
           pointHoverRadius: 5,
           tension: 0.1,
-          backgroundColor: (context: ScriptableContext<"line">) => {
-            const chart = context.chart;
-            const { ctx, chartArea } = chart;
-            if (!chartArea) {
-              return "rgba(0,0,0,0)";
-            }
-            const isUp = context.dataset.label === "Up";
-            const gradient = ctx.createLinearGradient(
-              0,
-              chartArea.top,
-              0,
-              chartArea.bottom,
-            );
-            if (isUp) {
-              gradient.addColorStop(0, "#7aba7e");
-              gradient.addColorStop(0.5, "#96c99a");
-              gradient.addColorStop(1, "#b9dbbc");
-            } else {
-              gradient.addColorStop(0, "#e22a46");
-              gradient.addColorStop(0.5, "#ea6f81");
-              gradient.addColorStop(1, "#f3b4bd");
-            }
-            return gradient;
-          },
+          backgroundColor: backgroundColor,
         };
       }),
     };
@@ -249,14 +268,15 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
         },
         tooltip: {
           callbacks: {
-            title: (context: TooltipItem<"line">[]) => {
+            // The context can now come from either a 'line' or 'bar' chart
+            title: (context: TooltipItem<"line" | "bar">[]) => {
               const date = new Date(context[0].parsed.x);
               return date.toLocaleString(undefined, {
                 dateStyle: "medium",
                 timeStyle: "short",
               });
             },
-            label: (context: TooltipItem<"line">) => {
+            label: (context: TooltipItem<"line" | "bar">) => {
               return `${context.dataset.label}: ${context.parsed.y}ms`;
             },
           },
