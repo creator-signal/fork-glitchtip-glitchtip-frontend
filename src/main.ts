@@ -31,7 +31,7 @@ import {
 } from "@angular/router";
 import { CustomPreloadingStrategy } from "./app/preloadingStrategy";
 import { APP_BASE_HREF } from "@angular/common";
-import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
+import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 
 let snackBarDuration = 4000;
 if (window.Cypress) {
@@ -81,7 +81,7 @@ const bootstrap = () =>
     providers: [
       ...extraProviders,
       provideZonelessChangeDetection(),
-      provideAnimationsAsync(), // ngx-charts uses this, should be removed
+      provideCharts(withDefaultRegisterables()),
       provideRouter(
         routes,
         withComponentInputBinding(),

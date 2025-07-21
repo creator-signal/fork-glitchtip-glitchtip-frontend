@@ -21,7 +21,12 @@
     "target": "ES2022",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2022", "dom"],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths": {
+      "chart.js/dist/types/utils": [
+        "node_modules/chart.js/dist/types/utils.d.ts"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
