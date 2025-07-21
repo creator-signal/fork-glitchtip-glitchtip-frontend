@@ -13,7 +13,6 @@ import {
   Chart,
   ScriptableContext,
   TooltipItem,
-  // FIX: Import necessary components for a time-series line chart
   TimeScale,
   LinearScale,
   LineController,
@@ -22,21 +21,24 @@ import {
   Filler,
   Tooltip,
   Legend,
+  Tick,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
+import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 
 import { ResponseTimeSeries } from "../uptime.interfaces";
 
-// FIX: Register all the components you intend to use with Chart.js
+// By registering components manually, we ensure that only the necessary parts of
+// Chart.js are included in the final bundle, optimizing for bundle size.
 Chart.register(
-  TimeScale,
-  LinearScale,
-  LineController,
-  LineElement,
-  PointElement,
-  Filler,
-  Tooltip,
-  Legend,
+  TimeScale, // For time-based X-axis
+  LinearScale, // For numeric Y-axis
+  LineController, // For 'line' type charts
+  LineElement, // For drawing the lines
+  PointElement, // For drawing points on hover
+  Filler, // For the 'fill' (area chart) functionality
+  Tooltip, // For the hover tooltip
+  Legend, // For the dataset labels (even if not displayed)
 );
 
 /**
@@ -73,6 +75,7 @@ function roundDownToNearest5Minutes(date: Date): Date {
       width: 100%;
     }
   `,
+  providers: [provideCharts(withDefaultRegisterables())],
 })
 export class MonitorResponseChart implements AfterViewInit, OnDestroy {
   @ViewChild("chartCanvas") chartCanvas?: ElementRef<HTMLCanvasElement>;
@@ -91,7 +94,6 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
       untracked(() => {
         if (this.chart) {
           this.chart.data = data;
-          // Type assertion to satisfy the strict options type
           this.chart.options = options as any;
           this.chart.update();
         }
@@ -113,7 +115,7 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
     this.chart = new Chart(canvas, {
       type: "line",
       data: this.chartData(),
-      options: this.chartOptions(),
+      options: this.chartOptions() as any,
     });
   }
 
@@ -123,42 +125,53 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
       return { datasets: [] };
     }
     return {
-      datasets: chartData.map((series) => ({
-        label: String(series.name),
-        data: series.series.map((point) => ({
+      datasets: chartData.map((series) => {
+        let seriesData = series.series.map((point) => ({
           x: new Date(point.name).getTime(),
           y: point.value,
-        })),
-        fill: "origin",
-        borderWidth: 0,
-        pointRadius: 0,
-        pointHoverRadius: 5,
-        tension: 0.1,
-        backgroundColor: (context: ScriptableContext<"line">) => {
-          const chart = context.chart;
-          const { ctx, chartArea } = chart;
-          if (!chartArea) {
-            return "rgba(0,0,0,0)";
-          }
-          const isUp = context.dataset.label === "Up";
-          const gradient = ctx.createLinearGradient(
-            0,
-            chartArea.top,
-            0,
-            chartArea.bottom,
-          );
-          if (isUp) {
-            gradient.addColorStop(0, "#7aba7e");
-            gradient.addColorStop(0.5, "#96c99a");
-            gradient.addColorStop(1, "#b9dbbc");
-          } else {
-            gradient.addColorStop(0, "#e22a46");
-            gradient.addColorStop(0.5, "#ea6f81");
-            gradient.addColorStop(1, "#f3b4bd");
-          }
-          return gradient;
-        },
-      })),
+        }));
+
+        // If a segment has only one point, duplicate it to give the area fill a small width, making it visible.
+        if (seriesData.length === 1) {
+          const singlePoint = seriesData[0];
+          const phantomPoint = { x: singlePoint.x + 1000, y: singlePoint.y };
+          seriesData.push(phantomPoint);
+        }
+
+        return {
+          label: String(series.name),
+          data: seriesData,
+          fill: "origin",
+          borderWidth: 0,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          tension: 0.1,
+          backgroundColor: (context: ScriptableContext<"line">) => {
+            const chart = context.chart;
+            const { ctx, chartArea } = chart;
+            if (!chartArea) {
+              return "rgba(0,0,0,0)";
+            }
+            const isUp = context.dataset.label === "Up";
+            const gradient = ctx.createLinearGradient(
+              0,
+              chartArea.top,
+              0,
+              chartArea.bottom,
+            );
+            if (isUp) {
+              gradient.addColorStop(0, "#7aba7e");
+              gradient.addColorStop(0.5, "#96c99a");
+              gradient.addColorStop(1, "#b9dbbc");
+            } else {
+              gradient.addColorStop(0, "#e22a46");
+              gradient.addColorStop(0.5, "#ea6f81");
+              gradient.addColorStop(1, "#f3b4bd");
+            }
+            return gradient;
+          },
+        };
+      }),
     };
   });
 
@@ -171,12 +184,14 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
     return {
       responsive: true,
       maintainAspectRatio: false,
+      clip: false,
       animation: {
         duration: 0,
       },
       interaction: {
         intersect: false,
-        mode: "index" as const,
+        mode: "nearest" as const,
+        axis: "x" as const,
       },
       elements: {
         line: {
@@ -206,12 +221,26 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
         y: {
           min: Math.max(scale?.yScaleMin ?? 0, 0),
           max: scale?.yScaleMax,
+          drawBorder: false,
           title: {
             display: true,
             text: "Response Time (ms)",
             font: {
               size: 14,
               weight: "bold" as const,
+            },
+          },
+          ticks: {
+            callback: function (
+              value: string | number,
+              index: number,
+              ticks: Tick[],
+            ) {
+              // Hides the top-most label on the y-axis for a cleaner look.
+              if (index === ticks.length - 1) {
+                return null;
+              }
+              return value;
             },
           },
         },

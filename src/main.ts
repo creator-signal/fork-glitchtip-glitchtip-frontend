@@ -31,7 +31,6 @@ import {
 } from "@angular/router";
 import { CustomPreloadingStrategy } from "./app/preloadingStrategy";
 import { APP_BASE_HREF } from "@angular/common";
-import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 
 let snackBarDuration = 4000;
 if (window.Cypress) {
@@ -81,7 +80,6 @@ const bootstrap = () =>
     providers: [
       ...extraProviders,
       provideZonelessChangeDetection(),
-      provideCharts(withDefaultRegisterables()),
       provideRouter(
         routes,
         withComponentInputBinding(),
