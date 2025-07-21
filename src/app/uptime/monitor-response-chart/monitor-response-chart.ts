@@ -20,26 +20,12 @@ import {
   PointElement,
   Filler,
   Tooltip,
-  Legend,
   Tick,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-import { provideCharts, withDefaultRegisterables } from "ng2-charts";
+import { BaseChartDirective, provideCharts } from "ng2-charts";
 
 import { ResponseTimeSeries } from "../uptime.interfaces";
-
-// By registering components manually, we ensure that only the necessary parts of
-// Chart.js are included in the final bundle, optimizing for bundle size.
-Chart.register(
-  TimeScale, // For time-based X-axis
-  LinearScale, // For numeric Y-axis
-  LineController, // For 'line' type charts
-  LineElement, // For drawing the lines
-  PointElement, // For drawing points on hover
-  Filler, // For the 'fill' (area chart) functionality
-  Tooltip, // For the hover tooltip
-  Legend, // For the dataset labels (even if not displayed)
-);
 
 /**
  * Helper function to round a date down to the nearest 5-minute interval.
@@ -57,11 +43,11 @@ function roundDownToNearest5Minutes(date: Date): Date {
 
 @Component({
   selector: "gt-monitor-response-chart",
-  imports: [],
-  standalone: true,
+  imports: [BaseChartDirective],
   template: `
     <div class="chart-container">
       <canvas
+        baseChart
         #chartCanvas
         aria-label="A line chart showing monitor response times over the selected period."
         role="img"
@@ -75,7 +61,19 @@ function roundDownToNearest5Minutes(date: Date): Date {
       width: 100%;
     }
   `,
-  providers: [provideCharts(withDefaultRegisterables())],
+  providers: [
+    provideCharts({
+      registerables: [
+        TimeScale, // For time-based X-axis
+        LinearScale, // For numeric Y-axis
+        LineController, // For 'line' type charts
+        LineElement, // For drawing the lines
+        PointElement, // For drawing points on hover
+        Filler, // For the 'fill' (area chart) functionality
+        Tooltip, // For the hover tooltip
+      ],
+    }),
+  ],
 })
 export class MonitorResponseChart implements AfterViewInit, OnDestroy {
   @ViewChild("chartCanvas") chartCanvas?: ElementRef<HTMLCanvasElement>;
