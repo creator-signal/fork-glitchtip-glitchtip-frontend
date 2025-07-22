@@ -1,16 +1,5 @@
+import { Component, computed, input } from "@angular/core";
 import {
-  Component,
-  computed,
-  input,
-  ViewChild,
-  ElementRef,
-  AfterViewInit,
-  OnDestroy,
-  effect,
-  untracked,
-} from "@angular/core";
-import {
-  Chart,
   ScriptableContext,
   TooltipItem,
   TimeScale,
@@ -21,24 +10,83 @@ import {
   Filler,
   Tooltip,
   Tick,
-  // Import components for the bar chart type
   BarController,
   BarElement,
+  Plugin,
+  ChartOptions,
+  Scale,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { BaseChartDirective, provideCharts } from "ng2-charts";
 
 import { ResponseTimeSeries } from "../uptime.interfaces";
 
+// A robust, type-safe way to manage state for our custom plugin.
+// This Map will store the hover state for each chart instance, keyed by the chart's id.
+const hoverState = new Map<string, { x: number; draw: boolean }>();
+
+// This is our custom plugin to draw the vertical hover line.
+const lineHoverPlugin: Plugin = {
+  id: "lineHover",
+  afterInit: (chart) => {
+    hoverState.set(chart.id, { x: 0, draw: false });
+  },
+  afterDestroy: (chart) => {
+    hoverState.delete(chart.id);
+  },
+  afterEvent: (chart, args) => {
+    const { event } = args;
+    const state = hoverState.get(chart.id);
+
+    if (state) {
+      state.x = event.x ?? 0;
+      state.draw = args.inChartArea;
+    }
+    chart.draw();
+  },
+  beforeDatasetsDraw: (chart) => {
+    const { ctx } = chart;
+    const { top, bottom } = chart.chartArea;
+    const state = hoverState.get(chart.id);
+
+    if (!state?.draw || typeof state.x !== "number") {
+      return;
+    }
+
+    // Draw the vertical line
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(156, 163, 175, 0.7)"; // A visible gray color
+    ctx.moveTo(state.x, bottom);
+    ctx.lineTo(state.x, top);
+    ctx.stroke();
+    ctx.restore();
+  },
+};
+
 /**
  * Helper function to round a date down to the nearest 5-minute interval.
- * @param date The date to round.
- * @returns A new Date object with the time rounded down.
  */
 function roundDownToNearest5Minutes(date: Date): Date {
   const newDate = new Date(date);
   const minutes = newDate.getMinutes();
   newDate.setMinutes(minutes - (minutes % 5));
+  newDate.setSeconds(0);
+  newDate.setMilliseconds(0);
+  return newDate;
+}
+
+/**
+ * Helper function to round a date up to the nearest 5-minute interval.
+ */
+function roundUpToNearest5Minutes(date: Date): Date {
+  const newDate = new Date(date);
+  const minutes = newDate.getMinutes();
+  const remainder = minutes % 5;
+  if (remainder !== 0) {
+    newDate.setMinutes(minutes + (5 - remainder));
+  }
   newDate.setSeconds(0);
   newDate.setMilliseconds(0);
   return newDate;
@@ -51,7 +99,10 @@ function roundDownToNearest5Minutes(date: Date): Date {
     <div class="chart-container">
       <canvas
         baseChart
-        #chartCanvas
+        [data]="chartData()"
+        [options]="chartOptions()"
+        [plugins]="plugins"
+        [type]="'line'"
         aria-label="A line chart showing monitor response times over the selected period."
         role="img"
       ></canvas>
@@ -74,57 +125,22 @@ function roundDownToNearest5Minutes(date: Date): Date {
         PointElement,
         Filler,
         Tooltip,
-        // Register the bar chart components
         BarController,
         BarElement,
       ],
     }),
   ],
 })
-export class MonitorResponseChart implements AfterViewInit, OnDestroy {
-  @ViewChild("chartCanvas") chartCanvas?: ElementRef<HTMLCanvasElement>;
-  private chart?: Chart;
+export class MonitorResponseChart {
+  // Pass our custom plugin to the chart
+  public plugins: Plugin[] = [lineHoverPlugin];
 
   data = input<ResponseTimeSeries[] | undefined | null>();
   scale = input<
     { yScaleMin: number; yScaleMax: number; xScaleMin: Date } | undefined
   >();
 
-  constructor() {
-    effect(() => {
-      const data = this.chartData();
-      const options = this.chartOptions();
-
-      untracked(() => {
-        if (this.chart) {
-          this.chart.data = data;
-          this.chart.options = options as any;
-          this.chart.update();
-        }
-      });
-    });
-  }
-
-  ngAfterViewInit(): void {
-    if (this.chartCanvas) {
-      this.createChart(this.chartCanvas.nativeElement);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.chart?.destroy();
-  }
-
-  private createChart(canvas: HTMLCanvasElement): void {
-    this.chart = new Chart(canvas, {
-      // The default type is 'line', but we override it per-dataset
-      type: "line",
-      data: this.chartData(),
-      options: this.chartOptions() as any,
-    });
-  }
-
-  private chartData = computed(() => {
+  chartData = computed(() => {
     const chartData = this.data();
     if (!chartData) {
       return { datasets: [] };
@@ -138,7 +154,6 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
 
         const isSinglePoint = series.series.length === 1;
 
-        // Common gradient logic for both chart types
         const backgroundColor = (
           context: ScriptableContext<"line" | "bar">,
         ) => {
@@ -154,18 +169,16 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
             0,
             chartArea.bottom,
           );
-          // FIX: Use rgba values based on the exact hex codes from the real app
           if (isUp) {
-            gradient.addColorStop(0, "rgba(120, 184, 124, 0.9)"); // Top: #78b87c
-            gradient.addColorStop(1, "rgba(206, 230, 207, 0.7)"); // Bottom: #cee6cf
+            gradient.addColorStop(0, "rgba(34, 197, 94, 0.85)");
+            gradient.addColorStop(1, "rgba(74, 222, 128, 0.65)");
           } else {
-            gradient.addColorStop(0, "rgba(226, 42, 70, 0.9)"); // Dark Red
-            gradient.addColorStop(1, "rgba(243, 180, 189, 0.7)"); // Light Red
+            gradient.addColorStop(0, "rgba(239, 68, 68, 0.85)");
+            gradient.addColorStop(1, "rgba(248, 113, 113, 0.65)");
           }
           return gradient;
         };
 
-        // If the segment is a single point, render it as a bar
         if (isSinglePoint) {
           return {
             type: "bar" as const,
@@ -176,7 +189,6 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
           };
         }
 
-        // Otherwise, render as a standard area chart
         return {
           type: "line" as const,
           label: String(series.name),
@@ -192,16 +204,32 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
     };
   });
 
-  private chartOptions = computed(() => {
+  chartOptions = computed((): ChartOptions => {
     const scale = this.scale();
-    const roundedXMin = scale?.xScaleMin
-      ? roundDownToNearest5Minutes(scale.xScaleMin).getTime()
-      : undefined;
+    const chartData = this.data();
+
+    let calculatedMin: number | undefined;
+    let calculatedMax: number | undefined;
+
+    if (chartData && chartData.length > 0) {
+      const allPoints = chartData.flatMap((series) => series.series);
+      if (allPoints.length > 0) {
+        const minTime = Math.min(
+          ...allPoints.map((p) => new Date(p.name).getTime()),
+        );
+        const maxTime = Math.max(
+          ...allPoints.map((p) => new Date(p.name).getTime()),
+        );
+
+        calculatedMin = roundDownToNearest5Minutes(new Date(minTime)).getTime();
+        calculatedMax = roundUpToNearest5Minutes(new Date(maxTime)).getTime();
+      }
+    }
 
     return {
       responsive: true,
       maintainAspectRatio: false,
-      clip: false,
+      clip: false as const,
       animation: {
         duration: 0,
       },
@@ -225,20 +253,35 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
               minute: "h:mm a",
             },
           },
-          min: roundedXMin,
+          min: calculatedMin,
+          max: calculatedMax,
           ticks: {
             maxRotation: 0,
-            autoSkip: true,
-            maxTicksLimit: 7,
+            callback: function (this: Scale, tickValue: string | number) {
+              const date = new Date(tickValue);
+              // Only show labels for ticks that are a multiple of 5 minutes
+              if (date.getMinutes() % 5 === 0) {
+                // FIX: Manually format the time to be concise, like "8:45 PM"
+                return date.toLocaleTimeString(navigator.language, {
+                  hour: "numeric",
+                  minute: "2-digit",
+                });
+              }
+              // Return null for all other ticks to hide them
+              return null;
+            },
           },
           grid: {
-            display: false,
+            display: true,
+            color: "rgba(200, 200, 200, 0.2)",
           },
         },
         y: {
           min: Math.max(scale?.yScaleMin ?? 0, 0),
           max: scale?.yScaleMax,
-          drawBorder: false,
+          border: {
+            display: false,
+          },
           title: {
             display: true,
             text: "Response Time (ms)",
@@ -247,13 +290,15 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
               weight: "bold" as const,
             },
           },
+          grid: {
+            color: "rgba(200, 200, 200, 0.2)",
+          },
           ticks: {
             callback: function (
               value: string | number,
               index: number,
               ticks: Tick[],
             ) {
-              // Hides the top-most label on the y-axis for a cleaner look.
               if (index === ticks.length - 1) {
                 return null;
               }
@@ -268,7 +313,6 @@ export class MonitorResponseChart implements AfterViewInit, OnDestroy {
         },
         tooltip: {
           callbacks: {
-            // The context can now come from either a 'line' or 'bar' chart
             title: (context: TooltipItem<"line" | "bar">[]) => {
               const date = new Date(context[0].parsed.x);
               return date.toLocaleString(undefined, {
