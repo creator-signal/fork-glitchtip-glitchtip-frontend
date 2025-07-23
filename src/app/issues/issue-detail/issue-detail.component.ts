@@ -20,6 +20,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { DatePipe, TitleCasePipe } from "@angular/common";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 
 @Component({
   selector: "gt-issue-detail",
@@ -38,6 +39,7 @@ import { DatePipe, TitleCasePipe } from "@angular/common";
     DatePipe,
     DaysAgoPipe,
     DetailHeaderComponent,
+    BackLinkComponent,
   ],
 })
 export class IssueDetailComponent implements OnInit {

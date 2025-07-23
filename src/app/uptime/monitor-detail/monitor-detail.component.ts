@@ -23,6 +23,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
 import { StatefulComponent } from "src/app/shared/stateful-service/signal-state.component";
 import { DecimalPipe, I18nPluralPipe } from "@angular/common";
 import { TopAppBarComponent } from "src/app/shared/top-app-bar/top-app-bar.component";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 
 function booleanDefaultTrueAttribute(value: unknown): boolean {
   return value === undefined ? true : booleanAttribute(value);
@@ -49,6 +50,7 @@ function booleanDefaultTrueAttribute(value: unknown): boolean {
     MatIconModule,
     DetailHeaderComponent,
     TopAppBarComponent,
+    BackLinkComponent,
   ],
 })
 export class MonitorDetailComponent

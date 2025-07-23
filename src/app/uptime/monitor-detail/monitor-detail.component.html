@@ -1,10 +1,9 @@
 <gt-top-app-bar>
   <div slot="left">
-    <gt-detail-header backLinkText="View all uptime monitors">
-    </gt-detail-header>
+    <gt-back-link backLinkText="View all uptime monitors" />
   </div>
 
-  <div slot="right" class="top-bar-actions">
+  <ng-container slot="right" class="top-bar-actions">
     <button
       id="monitor-settings"
       mat-flat-button
@@ -18,13 +17,13 @@
     <button mat-icon-button class="medium-icon-button" (click)="delete()">
       <mat-icon>delete</mat-icon>
     </button>
-  </div>
+  </ng-container>
 </gt-top-app-bar>
 
 <section class="l-body">
-  <!--   TODO: Replace Header with New Component for Detail Header-->
-  <header>Uptime details for {{ monitor()?.name }}</header>
   @if (monitor(); as monitor) {
+    <gt-detail-header [title]="['Uptime details for ' + monitor.name, null]">
+    </gt-detail-header>
     <mat-card>
       <mat-card-header>
         <mat-card-title>

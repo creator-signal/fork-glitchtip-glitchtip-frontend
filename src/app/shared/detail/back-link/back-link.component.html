@@ -1,0 +1,9 @@
+<a
+  mat-stroked-button
+  class="back-link"
+  [routerLink]="['..']"
+  [queryParams]="backLinkParams()"
+>
+  <mat-icon>keyboard_arrow_left</mat-icon>
+  {{ backLinkText() }}
+</a>

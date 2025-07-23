@@ -27,12 +27,11 @@
 }
 @if (issue(); as issue) {
   <section class="l-body l-body--full-width">
-    <gt-detail-header
+    <gt-back-link
       [backLinkText]="'View all issues for ' + issue.project.name"
       [backLinkParams]="generateBackLink(issue.project.id)"
-      [title]="issueTitle()!"
-      [subtitle]="issueSubtitle()"
-    >
+    />
+    <gt-detail-header [title]="issueTitle()!" [subtitle]="issueSubtitle()">
       @if (issue?.status !== "resolved") {
         <button mat-flat-button color="primary" (click)="markResolved()">
           <mat-icon aria-hidden="true">done</mat-icon>
