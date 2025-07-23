@@ -6,6 +6,7 @@ import { MonitorFormComponent } from "../monitor-form/monitor-form.component";
 import { MonitorInput } from "../uptime.interfaces";
 import { MonitorService } from "../monitor.service";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 
 @Component({
   selector: "gt-new-monitor",
@@ -17,6 +18,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     MatButtonModule,
     MatIconModule,
     DetailHeaderComponent,
+    BackLinkComponent,
   ],
 })
 export class NewMonitorComponent {

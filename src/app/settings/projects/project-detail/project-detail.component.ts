@@ -30,6 +30,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
 import { ProjectDetailService } from "./project-detail.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 
 @Component({
   selector: "gt-project-detail",
@@ -50,6 +51,7 @@ import { OrganizationsService } from "src/app/api/organizations.service";
     MatButtonModule,
     RouterLink,
     DetailHeaderComponent,
+    BackLinkComponent,
   ],
   providers: [ProjectDetailService],
 })

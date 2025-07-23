@@ -4,6 +4,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 
 @Component({
   templateUrl: "./team-details.component.html",
@@ -16,6 +17,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     RouterLinkActive,
     RouterOutlet,
     DetailHeaderComponent,
+    BackLinkComponent,
   ],
 })
 export class TeamDetailsComponent {
