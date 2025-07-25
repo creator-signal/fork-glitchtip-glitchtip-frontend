@@ -7,8 +7,8 @@ import { MatDividerModule } from "@angular/material/divider";
   selector: "gt-top-app-bar",
   standalone: true,
   imports: [CommonModule, MatToolbarModule, MatDividerModule],
-  templateUrl: "./top-app-bar.component.html",
-  styleUrls: ["./top-app-bar.component.scss"],
+  templateUrl: "./top-app-bar.html",
+  styleUrls: ["./top-app-bar.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopAppBarComponent {}
