@@ -1,11 +1,10 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ViewChild,
   inject,
   computed,
 } from "@angular/core";
-import { MatMenuTrigger, MatMenuModule } from "@angular/material/menu";
+import { Router } from "@angular/router";
 import { MainNavService } from "../main-nav.service";
 import { SettingsService } from "src/app/api/settings.service";
 import { UserService } from "src/app/api/user/user.service";
@@ -21,6 +20,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { AuthService } from "src/app/auth.service";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { MatSelect, MatSelectChange, MatSelectModule } from "@angular/material/select";
 
 interface NavNode {
   name: string;
@@ -28,7 +28,7 @@ interface NavNode {
   requiresBilling?: boolean;
   requiresActiveOrg?: boolean;
   children?: NavNode[];
-  useExactRoute?: boolean; 
+  useExactRoute?: boolean;
 }
 
 const MENU_DATA: NavNode[] = [
@@ -117,7 +117,7 @@ const MENU_DATA: NavNode[] = [
     MatIconModule,
     RouterLink,
     MatButtonModule,
-    MatMenuModule,
+    MatSelectModule,
     MatDividerModule,
     MatListModule,
     RouterLinkActive,
@@ -126,6 +126,7 @@ const MENU_DATA: NavNode[] = [
   ],
 })
 export class MainNavComponent {
+  private router = inject(Router);
   private mainNav = inject(MainNavService);
   private organizationsService = inject(OrganizationsService);
   private auth = inject(AuthService);
@@ -160,7 +161,6 @@ export class MainNavComponent {
   paidForGlitchTip = this.settingsService.paidForGlitchTip;
   mobileNav = this.mainNav.mobileNav;
   version = this.settingsService.version;
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined = undefined;
 
   contextLoaded = computed(
     () =>
@@ -187,11 +187,15 @@ export class MainNavComponent {
 
   closeSideNav() {
     this.mainNav.getClosedNav();
-    this.trigger?.closeMenu();
   }
 
-  setOrganization(slug: string) {
-    this.organizationsService.setActiveOrganizationSlug(slug);
+  onOrgSelectChange(event: MatSelectChange<string | undefined>, component: MatSelect) {
+    if (event.value) {
+      this.organizationsService.setActiveOrganizationSlug(event.value);
+    } else {
+      component.value = this.activeOrganizationSlug()
+      this.router.navigate(["organizations", "new"])
+    }
   }
 
   reload() {
