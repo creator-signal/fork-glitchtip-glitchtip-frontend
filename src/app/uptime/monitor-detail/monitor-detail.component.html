@@ -1,9 +1,10 @@
-<section class="l-body">
-  @if (monitor(); as monitor) {
-    <gt-detail-header
-      [title]="['Uptime details for ' + monitor.name, null]"
-      backLinkText="View all uptime monitors"
-    >
+<gt-top-app-bar>
+  <div slot="left">
+    <gt-back-link backLinkText="View all uptime monitors" />
+  </div>
+
+  <ng-container slot="right">
+    <div class="top-bar-actions">
       <button
         id="monitor-settings"
         mat-flat-button
@@ -17,6 +18,13 @@
       <button mat-icon-button class="medium-icon-button" (click)="delete()">
         <mat-icon>delete</mat-icon>
       </button>
+    </div>
+  </ng-container>
+</gt-top-app-bar>
+
+<section class="l-body">
+  @if (monitor(); as monitor) {
+    <gt-detail-header [title]="['Uptime details for ' + monitor.name, null]">
     </gt-detail-header>
     <mat-card>
       <mat-card-header>

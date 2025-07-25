@@ -1,9 +1,7 @@
 @if (activeProject(); as project) {
   <section class="l-body">
-    <gt-detail-header
-      [title]="'Settings for ' + project.name"
-      backLinkText="Back to Projects"
-    />
+    <gt-back-link backLinkText="Back to Projects" />
+    <gt-detail-header [title]="'Settings for ' + project.name" />
     @if (project.isMember === false) {
       <mat-card
         ><mat-card-content class="note-padding">

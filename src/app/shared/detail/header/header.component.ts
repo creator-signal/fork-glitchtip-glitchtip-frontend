@@ -4,10 +4,6 @@ import { RouterLink } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 
-/**
- * Header with title, back button, and action buttons for a object detail page
- * Action buttons may be added as child elements
- */
 @Component({
   selector: "gt-detail-header",
   imports: [RouterLink, MatIconModule, MatButtonModule],
@@ -16,10 +12,6 @@ import { MatButtonModule } from "@angular/material/button";
   styleUrls: ["./header.component.scss"],
 })
 export class DetailHeaderComponent {
-  readonly backLinkParams = input<{
-    [key: string]: string | number;
-  }>({});
-  readonly backLinkText = input("");
   readonly title = input<string | [string, string | null]>("");
   readonly subtitle = input<string | null>();
 

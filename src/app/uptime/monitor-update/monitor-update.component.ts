@@ -9,6 +9,7 @@ import { MonitorInput } from "../uptime.interfaces";
 import { MonitorService, MonitorState } from "../monitor.service";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
 import { StatefulComponent } from "src/app/shared/stateful-service/signal-state.component";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 
 @Component({
   selector: "gt-monitor-update",
@@ -22,6 +23,7 @@ import { StatefulComponent } from "src/app/shared/stateful-service/signal-state.
     MatIconModule,
     MonitorFormComponent,
     DetailHeaderComponent,
+    BackLinkComponent,
   ],
 })
 export class MonitorUpdateComponent

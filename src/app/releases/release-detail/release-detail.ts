@@ -11,6 +11,7 @@ import { ReleaseDetailService } from "./release-detail-state";
 import { checkForOverflow } from "src/app/shared/shared.utils";
 import { ListFooterComponent } from "../../list-elements/list-footer/list-footer.component";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 
 @Component({
   templateUrl: "./release-detail.html",
@@ -20,6 +21,7 @@ import { DetailHeaderComponent } from "src/app/shared/detail/header/header.compo
     MatTooltipModule,
     ListFooterComponent,
     DetailHeaderComponent,
+    BackLinkComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ReleaseDetailService],

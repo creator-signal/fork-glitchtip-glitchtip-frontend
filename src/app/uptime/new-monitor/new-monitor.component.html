@@ -1,8 +1,6 @@
 <section class="l-body">
-  <gt-detail-header
-    [title]="['Create a New Uptime Monitor', null]"
-    backLinkText="View all uptime monitors"
-  />
+  <gt-back-link backLinkText="View monitor details" />
+  <gt-detail-header [title]="['Create a New Uptime Monitor', null]" />
   <gt-monitor-form
     [loading]="loading() === true"
     [formError]="error()"
