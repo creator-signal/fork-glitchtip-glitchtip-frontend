@@ -1,5 +1,5 @@
 @use "@angular/material" as mat;
-@import "variables";
+@use "variables" as vars;
 
 h3 {
   padding-top: 32px;
@@ -86,7 +86,7 @@ table {
 
   .column-three {
     width: 60%;
-    font-family: $font-mono;
+    font-family: vars.$font-mono;
     word-break: break-all;
   }
 

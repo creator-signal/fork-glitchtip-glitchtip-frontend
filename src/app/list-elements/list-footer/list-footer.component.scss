@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as vars;
 
 .footer {
   text-align: right;
@@ -17,7 +17,7 @@
     align-items: center;
   }
 
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     justify-content: space-between;
 
     .button-left {

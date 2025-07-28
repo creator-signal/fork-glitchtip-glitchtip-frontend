@@ -1,5 +1,5 @@
 @use "@angular/material" as mat;
-@import "variables";
+@use "variables" as vars;
 
 .delete {
   margin-top: 20px;
@@ -9,7 +9,7 @@
     justify-content: space-between;
     align-items: center;
 
-    @media (max-width: $tablet - 1) {
+    @media (max-width: vars.$tablet - 1) {
       flex-direction: column;
       align-items: flex-start;
     }

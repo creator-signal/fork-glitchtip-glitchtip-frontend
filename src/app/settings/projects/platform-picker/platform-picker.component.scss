@@ -1,11 +1,11 @@
-@import "variables";
+@use "variables" as vars;
 
 .heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     flex-direction: column;
     align-items: unset;
   }
@@ -38,13 +38,13 @@ li {
   width: 33%;
   padding: 5px 10px 5px 0;
 
-  @media screen and (min-width: $small) {
+  @media screen and (min-width: vars.$small) {
     &:nth-child(3n) {
       padding-right: 0;
     }
   }
 
-  @media screen and (max-width: $small - 1) {
+  @media screen and (max-width: vars.$small - 1) {
     width: 50%;
 
     &:nth-child(2n) {

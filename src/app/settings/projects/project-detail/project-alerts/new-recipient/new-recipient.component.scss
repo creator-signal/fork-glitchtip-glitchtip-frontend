@@ -1,9 +1,9 @@
-@import "variables";
+@use "variables" as vars;
 
 .dialog-wrapper {
   width: 500px;
 
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     width: 100%;
   }
 

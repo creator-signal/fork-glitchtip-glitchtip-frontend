@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as vars;
 
 $iconWidth: 56px;
 
@@ -25,13 +25,13 @@ table {
   overflow: hidden;
   max-width: fit-content;
 
-  @media screen and (max-width: $large - 1) {
+  @media screen and (max-width: vars.$large - 1) {
     width: 500px;
   }
-  @media screen and (max-width: $medium - 1) {
+  @media screen and (max-width: vars.$medium - 1) {
     width: 400px;
   }
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     width: 200px;
   }
 }
