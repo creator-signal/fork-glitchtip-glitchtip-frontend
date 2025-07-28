@@ -1,6 +1,4 @@
-@import "variables";
-
-$iconWidth: 56px;
+@use "variables" as vars;
 
 table {
   width: 100%;
@@ -16,7 +14,7 @@ table {
 
 .mat-column-responseTime {
   padding-right: 75px;
-  @media screen and (max-width: ($small - 1)) {
+  @media screen and (max-width: (vars.$small - 1)) {
     display: none;
   }
 }

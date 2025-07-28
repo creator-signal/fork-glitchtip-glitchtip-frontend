@@ -1,11 +1,11 @@
-@import "variables";
+@use "variables" as vars;
 
 .section-header-text-light {
   padding-right: 20px;
 }
 
 header {
-  @media screen and (max-width: ($tablet - 1)) {
+  @media screen and (max-width: (vars.$tablet - 1)) {
     margin-bottom: 20px;
   }
 
@@ -13,7 +13,7 @@ header {
     display: flex;
     justify-content: space-between;
 
-    @media screen and (max-width: ($tablet - 1)) {
+    @media screen and (max-width: (vars.$tablet - 1)) {
       flex-direction: column;
     }
   }

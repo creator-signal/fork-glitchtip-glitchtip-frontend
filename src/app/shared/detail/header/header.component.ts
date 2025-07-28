@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
-import { RouterLink } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: "gt-detail-header",
-  imports: [RouterLink, MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],

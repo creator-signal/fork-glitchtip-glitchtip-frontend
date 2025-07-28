@@ -1,11 +1,11 @@
 @use "@angular/material" as mat;
-@import "variables";
+@use "variables" as vars;
 
 mat-toolbar {
   display: none;
   cursor: pointer; // The whole toolbar is clickable
 
-  @media (max-width: $tablet - 1) {
+  @media (max-width: vars.$tablet - 1) {
     display: flex;
     padding-left: 0;
   }

@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as vars;
 
 button {
   display: block;
@@ -16,7 +16,7 @@ mat-drawer-container {
 mat-drawer {
   min-width: 200px;
 
-  @media (max-width: $tablet - 1) {
+  @media (max-width: vars.$tablet - 1) {
     display: none;
   }
 }

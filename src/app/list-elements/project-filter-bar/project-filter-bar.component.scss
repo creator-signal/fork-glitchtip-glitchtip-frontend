@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as vars;
 
 section {
   display: flex;
@@ -10,7 +10,7 @@ section {
 
 .no-projects {
   &__picker {
-    @media screen and (max-width: $small - 1) {
+    @media screen and (max-width: vars.$small - 1) {
       display: none;
     }
   }
@@ -19,8 +19,8 @@ section {
 #project-picker {
   position: relative;
   flex: 1;
-  @media screen and (min-width: ($small - 1)) {
-    max-width: calc(100% - $side-nav-width);
+  @media screen and (min-width: (vars.$small - 1)) {
+    max-width: calc(100% - vars.$side-nav-width);
   }
 }
 
@@ -141,7 +141,7 @@ mat-expansion-panel::ng-deep {
 .nav-action-group {
   margin-left: 10px;
 
-  @media screen and (max-width: $medium - 1) {
+  @media screen and (max-width: vars.$medium - 1) {
     display: flex;
     flex-direction: column;
 
@@ -150,7 +150,7 @@ mat-expansion-panel::ng-deep {
     }
   }
 
-  @media screen and (max-width: $small - 1) {
+  @media screen and (max-width: vars.$small - 1) {
     margin-left: 0;
   }
 }
@@ -158,7 +158,7 @@ mat-expansion-panel::ng-deep {
 .nav-action {
   margin: 0 0 0 10px;
 
-  @media screen and (max-width: $small - 1) {
+  @media screen and (max-width: vars.$small - 1) {
     display: none;
 
     .no-projects & {
