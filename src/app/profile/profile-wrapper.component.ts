@@ -1,12 +1,13 @@
 import { Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { UserService } from "../api/user/user.service";
+import { TopAppBar } from "../shared/top-app-bar/top-app-bar";
 
 @Component({
   selector: "gt-profile",
   templateUrl: "./profile-wrapper.component.html",
   styleUrls: ["./profile-wrapper.component.scss"],
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, TopAppBar],
 })
 export class ProfilWrapperComponent {
   private userService = inject(UserService);
