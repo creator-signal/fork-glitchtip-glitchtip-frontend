@@ -17,6 +17,7 @@ import { TimeForPipe } from "src/app/shared/days-ago.pipe";
 import { MonitorChartComponent } from "../monitor-chart/monitor-chart.component";
 import { MonitorListService } from "./monitor-list.service";
 import { MatCardModule } from "@angular/material/card";
+import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
 
 @Component({
   selector: "gt-monitor-list",
@@ -34,6 +35,7 @@ import { MatCardModule } from "@angular/material/card";
     MatTableModule,
     MatIconModule,
     ListTitleComponent,
+    TopAppBar,
   ],
   providers: [MonitorListService],
 })
