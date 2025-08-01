@@ -11,4 +11,4 @@ import { MatDividerModule } from "@angular/material/divider";
   styleUrls: ["./top-app-bar.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopAppBarComponent {}
+export class TopAppBar {}

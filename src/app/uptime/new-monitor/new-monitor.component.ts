@@ -7,6 +7,7 @@ import { MonitorInput } from "../uptime.interfaces";
 import { MonitorService } from "../monitor.service";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
 import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
+import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
 
 @Component({
   selector: "gt-new-monitor",
@@ -18,6 +19,7 @@ import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.com
     MatButtonModule,
     MatIconModule,
     DetailHeaderComponent,
+    TopAppBar,
     BackLinkComponent,
   ],
 })
