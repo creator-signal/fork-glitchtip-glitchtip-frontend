@@ -10,6 +10,7 @@ import { NewMemberComponent } from "./members/new-member/new-member.component";
 import { TeamProjectsComponent } from "./teams/team-projects/team-projects.component";
 import { TeamDetailsComponent } from "./teams/team-details/team-details.component";
 import { TeamSettingsComponent } from "./teams/team-settings/team-settings.component";
+import { TeamsComponent } from "./teams/teams.component";
 
 export default [
   { path: "", component: OrganizationComponent },
@@ -23,10 +24,7 @@ export default [
   {
     path: "teams",
     children: [
-      { path: "", component: OrganizationComponent },
-      { path: "projects", component: ProjectsComponent },
-      { path: "projects/new", component: NewProject },
-      { path: "projects/:project-slug", component: ProjectDetailComponent },
+      { path: "", component: TeamsComponent },
       {
         path: ":team-slug",
         component: TeamDetailsComponent,
