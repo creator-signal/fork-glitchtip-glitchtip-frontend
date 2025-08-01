@@ -1,6 +1,8 @@
-<section class="l-body mat-typography">
-  <header class="page-header">
+<gt-top-app-bar>
+  <ng-container slot="left">
     <h1 class="section-header-text">Organization Members</h1>
+  </ng-container>
+  <ng-container slot="right">
     <a
       mat-flat-button
       color="primary"
@@ -8,7 +10,9 @@
       [disabled]="!accessMemberWrite()"
       >Invite Member</a
     >
-  </header>
+  </ng-container>
+</gt-top-app-bar>
+<section class="l-body">
   <mat-card>
     <mat-card-header>
       <mat-card-title>

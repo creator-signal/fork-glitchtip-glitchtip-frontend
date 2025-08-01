@@ -1,7 +1,9 @@
-<section class="l-body">
-  <header class="page-header">
+<gt-top-app-bar>
+  <ng-container slot="left">
     <h1 class="section-header-text">General Settings</h1>
-  </header>
+  </ng-container>
+</gt-top-app-bar>
+<section class="l-body">
   @if (activeOrganizationDetail(); as activeOrg) {
     <mat-card>
       <mat-card-header>
