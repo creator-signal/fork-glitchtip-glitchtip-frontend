@@ -255,6 +255,21 @@ mat-sidenav-content {
   }
 }
 
+// Override for ngx-mat-select-search
+.project-multiselect__search-field.mdc-list-item--disabled {
+  mat-checkbox {
+    padding-left: 10px;
+  }
+
+  .mdc-checkbox {
+    opacity: 1 !important;
+  }
+
+  .mat-select-search-input::placeholder {
+    opacity: 0.5;
+  }
+}
+
 //Override for routerLinkActiveOptions in the side-nav
 .mat-mdc-list-item.mdc-list-item--activated {
   background-color: var(--mat-sys-primary) !important;

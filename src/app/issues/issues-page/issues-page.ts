@@ -34,6 +34,8 @@ import {
 } from "src/app/shared/shared.utils";
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { EnvironmentsService } from "src/app/api/environments.service";
+import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
+import { ProjectMultiselect } from "src/app/shared/project-multiselect/project-multiselect";
 
 @Component({
   templateUrl: "./issues-page.html",
@@ -55,6 +57,8 @@ import { EnvironmentsService } from "src/app/api/environments.service";
     DaysAgoPipe,
     DaysOldPipe,
     I18nPluralPipe,
+    TopAppBar,
+    ProjectMultiselect,
   ],
   providers: [IssuesService],
 })
