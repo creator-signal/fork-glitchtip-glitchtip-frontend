@@ -255,7 +255,7 @@ mat-sidenav-content {
   }
 }
 
-// Override for ngx-mat-select-search
+// Overrides for ngx-mat-select-search
 .project-multiselect__search-field.mdc-list-item--disabled {
   mat-checkbox {
     padding-left: 10px;
@@ -267,6 +267,10 @@ mat-sidenav-content {
 
   .mat-select-search-input::placeholder {
     opacity: 0.5;
+  }
+
+  .mat-select-search-clear {
+    position: relative;
   }
 }
 

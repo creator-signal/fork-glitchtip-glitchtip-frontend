@@ -17,14 +17,16 @@ import { MatBadge } from "@angular/material/badge";
 import { MatSelectModule } from "@angular/material/select";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: "gt-project-multiselect",
   imports: [
     ReactiveFormsModule,
     MatBadge,
-    MatFormFieldModule,
     MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     NgxMatSelectSearchModule,
@@ -40,10 +42,10 @@ export class ProjectMultiselect {
   activeOrgProjects = this.organizationsService.activeOrganizationProjects;
   projectsForm = new FormControl<string[]>([]);
   projectSearchForm = new FormControl("");
-  projectFormFieldChanges = toSignal(this.projectsForm.valueChanges);
+  projectsFormChanges = toSignal(this.projectsForm.valueChanges);
   projectSearchChanges = toSignal(this.projectSearchForm.valueChanges);
 
-  // All active org projects, with currently queried projects at beginning
+  // All active org projects, with currently queried projects listed first
   sortedProjects = computed(() => {
     let query = this.queriedProjects();
     let selectedProjects = this.activeOrgProjects().filter((project) =>
@@ -73,14 +75,14 @@ export class ProjectMultiselect {
   });
   allFilteredProjectsSelected = computed(() => {
     this.projectSearchChanges();
-    this.projectFormFieldChanges();
+    this.projectsFormChanges();
     return this.sortedProjects().every((project) =>
       this.projectsForm.value?.includes(project.id),
     );
   });
   someFilteredProjectsSelected = computed(() => {
     this.projectSearchChanges();
-    this.projectFormFieldChanges();
+    this.projectsFormChanges();
     return (
       this.sortedProjects().some((project) =>
         this.projectsForm.value?.includes(project.id),
@@ -89,7 +91,7 @@ export class ProjectMultiselect {
   });
   selectedProjectDisplay = computed(() => {
     this.queriedProjects();
-    this.projectFormFieldChanges();
+    this.projectsFormChanges();
     if (this.projectsForm.value?.length) {
       const numProjectsSelected = this.projectsForm.value.length;
       if (
@@ -128,6 +130,7 @@ export class ProjectMultiselect {
 
   onSubmit() {
     let projects = this.projectsForm.value;
+    this.projectSearchForm.reset()
     this.router.navigate([], {
       queryParams: { project: projects ? projects : null },
       queryParamsHandling: "merge",

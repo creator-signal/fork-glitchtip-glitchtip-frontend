@@ -5,6 +5,7 @@
 >
   <mat-select
     [formControl]="projectsForm"
+    i18n-placeholder
     placeholder="All projects"
     multiple
     (closed)="onSubmit()"
@@ -22,16 +23,18 @@
     </mat-select-trigger>
     <mat-option class="project-multiselect__search-field">
       <ngx-mat-select-search
+        i18n-placeholderLabel
         placeholderLabel="Search"
+        i18n-noEntriesFoundLabel
+        noEntriesFoundLabel="No projects found"
         [formControl]="projectSearchForm"
         [preventHomeEndKeyPropagation]="true"
         [showToggleAllCheckbox]="true"
         [toggleAllCheckboxIndeterminate]="someFilteredProjectsSelected()"
         [toggleAllCheckboxChecked]="allFilteredProjectsSelected()"
         (toggleAll)="toggleSelectAll($event)"
-      >
-        <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
-      </ngx-mat-select-search>
+        closeIcon="close"
+      />
     </mat-option>
     @for (project of filteredProjects(); track project) {
     <mat-option [value]="project.id"> {{ project.name }} </mat-option>
