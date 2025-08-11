@@ -1,0 +1,29 @@
+<gt-top-app-bar>
+  <ng-container slot="left">
+    <gt-list-title
+      i18n-title
+      [title]="title()"
+      [searchHits]="searchHits()"
+    ></gt-list-title>
+  </ng-container>
+  @if (activeOrgLoaded()) {
+  <ng-container slot="right">
+    @if (queriedProjects(); as queriedProjects) {
+    <div class="project-multiselect-container">
+      @if (displayAddProject() && activeOrgHasNoProjects()) {
+      <a
+        mat-flat-button
+        color="primary"
+        class="add-project-button"
+        [routerLink]="['/', activeOrgSlug, 'settings', 'projects', 'new']"
+      >
+        <mat-icon>add</mat-icon>
+        <ng-container i18n>Add Project</ng-container>
+      </a>
+      } @else {
+      <gt-project-multiselect [queriedProjects]="queriedProjects" />
+      }
+    </div>
+    } </ng-container
+  >}
+</gt-top-app-bar>

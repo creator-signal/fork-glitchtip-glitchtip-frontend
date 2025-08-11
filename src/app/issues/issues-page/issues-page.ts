@@ -23,8 +23,6 @@ import { DaysAgoPipe, DaysOldPipe } from "../../shared/days-ago.pipe";
 import { IssueZeroStatesComponent } from "../issue-zero-states/issue-zero-states.component";
 import { ListFooterComponent } from "../../list-elements/list-footer/list-footer.component";
 import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data-filter-bar.component";
-import { ProjectFilterBarComponent } from "../../list-elements/project-filter-bar/project-filter-bar.component";
-import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
 
@@ -34,16 +32,13 @@ import {
 } from "src/app/shared/shared.utils";
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { EnvironmentsService } from "src/app/api/environments.service";
-import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
-import { ProjectMultiselect } from "src/app/shared/project-multiselect/project-multiselect";
+import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
 
 @Component({
   templateUrl: "./issues-page.html",
   styleUrls: ["./issues-page.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ListTitleComponent,
-    ProjectFilterBarComponent,
     MatTableModule,
     DataFilterBarComponent,
     MatCheckboxModule,
@@ -57,8 +52,7 @@ import { ProjectMultiselect } from "src/app/shared/project-multiselect/project-m
     DaysAgoPipe,
     DaysOldPipe,
     I18nPluralPipe,
-    TopAppBar,
-    ProjectMultiselect,
+    ListAppBar,
   ],
   providers: [IssuesService],
 })

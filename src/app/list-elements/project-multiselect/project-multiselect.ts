@@ -36,22 +36,26 @@ import { OrganizationsService } from "src/app/api/organizations.service";
 export class ProjectMultiselect {
   private organizationsService = inject(OrganizationsService);
   private router = inject(Router);
-  projectsQuery = input<string[]>([]);
+  queriedProjects = input<string[]>([]);
   activeOrgProjects = this.organizationsService.activeOrganizationProjects;
   projectsForm = new FormControl<string[]>([]);
   projectSearchForm = new FormControl("");
   projectFormFieldChanges = toSignal(this.projectsForm.valueChanges);
   projectSearchChanges = toSignal(this.projectSearchForm.valueChanges);
+
+  // All active org projects, with currently queried projects at beginning
   sortedProjects = computed(() => {
-    let query = this.projectsQuery();
+    let query = this.queriedProjects();
     let selectedProjects = this.activeOrgProjects().filter((project) =>
-      query.includes(project.name),
+      query.includes(project.id),
     );
     let unselectedProjects = this.activeOrgProjects().filter(
       (project) => !selectedProjects.includes(project),
     );
     return selectedProjects.concat(unselectedProjects);
   });
+
+  //  Projects filtered by name for multiselect search
   filteredProjects = computed(() => {
     this.projectSearchChanges();
     if (!this.sortedProjects()) {
@@ -84,11 +88,14 @@ export class ProjectMultiselect {
     );
   });
   selectedProjectDisplay = computed(() => {
-    this.projectsQuery();
+    this.queriedProjects();
     this.projectFormFieldChanges();
     if (this.projectsForm.value?.length) {
       const numProjectsSelected = this.projectsForm.value.length;
-      if (numProjectsSelected === this.activeOrgProjects().length) {
+      if (
+        numProjectsSelected > 1 &&
+        numProjectsSelected === this.activeOrgProjects().length
+      ) {
         return undefined;
       }
       const firstProjectName = this.activeOrgProjects().find(
@@ -102,7 +109,7 @@ export class ProjectMultiselect {
 
   constructor() {
     effect(() => {
-      this.projectsForm.setValue(this.projectsQuery());
+      this.projectsForm.setValue(this.queriedProjects());
     });
   }
 
@@ -121,7 +128,6 @@ export class ProjectMultiselect {
 
   onSubmit() {
     let projects = this.projectsForm.value;
-    console.log(projects);
     this.router.navigate([], {
       queryParams: { project: projects ? projects : null },
       queryParamsHandling: "merge",
