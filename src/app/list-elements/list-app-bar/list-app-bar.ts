@@ -29,7 +29,7 @@ import { MatIcon } from "@angular/material/icon";
 })
 export class ListAppBar {
   private organizationsService = inject(OrganizationsService);
-  title = input("");
+  listTitle = input("");
   searchHits = input<string>();
   // Project-multiselect will not be shown if not provided
   queriedProjects = input<string[]>();
@@ -42,4 +42,5 @@ export class ListAppBar {
     this.organizationsService.activeOrganizationProjects().length === 0
   );
   activeOrgSlug = this.organizationsService.activeOrganizationSlug;
+  accessProjectWrite = this.organizationsService.accessProjectWrite
 }

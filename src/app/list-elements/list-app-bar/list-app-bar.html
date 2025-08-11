@@ -2,7 +2,7 @@
   <ng-container slot="left">
     <gt-list-title
       i18n-title
-      [title]="title()"
+      [title]="listTitle()"
       [searchHits]="searchHits()"
     ></gt-list-title>
   </ng-container>
@@ -14,8 +14,9 @@
       <a
         mat-flat-button
         color="primary"
+        [disabled]="!accessProjectWrite()"
         class="add-project-button"
-        [routerLink]="['/', activeOrgSlug, 'settings', 'projects', 'new']"
+        [routerLink]="['/', activeOrgSlug(), 'settings', 'projects', 'new']"
       >
         <mat-icon>add</mat-icon>
         <ng-container i18n>Add Project</ng-container>
