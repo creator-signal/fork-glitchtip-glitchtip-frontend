@@ -27,6 +27,7 @@ import { ProjectFilterBarComponent } from "../../list-elements/project-filter-ba
 import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
+import { IssueChartComponent } from "./charts/issue-chart";
 
 import type { components } from "src/app/api/api-schema";
 import {
@@ -58,6 +59,7 @@ type Issue = components["schemas"]["IssueSchema"];
     DaysAgoPipe,
     DaysOldPipe,
     I18nPluralPipe,
+    IssueChartComponent,
   ],
   providers: [IssuesService],
 })
@@ -78,7 +80,7 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
   projects = input([], { alias: "project", transform: stringArrAttribute });
   environment = input(undefined, { transform: stringAttribute });
 
-  displayedColumns: string[] = ["select", "title", "events"];
+  displayedColumns: string[] = ["select", "title", "trend", "events"];
   paginator = this.service.paginator;
   loading = this.service.loading;
   initialLoad = this.service.initialLoad;
