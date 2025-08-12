@@ -4,6 +4,7 @@ import {
   input,
   signal,
   OnInit,
+  HostListener,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
@@ -30,6 +31,20 @@ export class IssueChartComponent implements OnInit {
 
   // Internal loading state signal for skeleton
   isLoading = signal(true);
+
+  @HostListener("mousemove", ["$event"])
+  onMouseMove(event: MouseEvent) {
+    if (this.hoveredBar) {
+      document.documentElement.style.setProperty(
+        "--tooltip-x",
+        event.clientX + "px",
+      );
+      document.documentElement.style.setProperty(
+        "--tooltip-y",
+        event.clientY - 80 + "px",
+      );
+    }
+  }
 
   // Generate skeleton bars with random heights
   get skeletonBars(): { height: number }[] {

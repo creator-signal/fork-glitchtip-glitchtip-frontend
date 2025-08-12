@@ -1,13 +1,61 @@
-.custom-chart-tooltip {
-  position: absolute;
-  pointer-events: none;
-  z-index: 999999;
-  bottom: 35px;
-  left: 150px;
-  background-color: rgb(255, 255, 255);
-  height: 50px;
-}
+// .custom-chart-tooltip {
+//   position: absolute;
+//   pointer-events: none;
+//   z-index: 999999;
+//   bottom: 35px;
+//   left: 150px;
+//   background-color: rgb(255, 255, 255);
+//   height: 50px;
+// }
 
+.custom-chart-tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+
+  // Add these lines for simple positioning:
+  left: var(--tooltip-x, 50%);
+  top: var(--tooltip-y, 50px);
+  transform: translateX(-50%);
+
+  // Your existing Material Design styling
+  background: rgba(97, 97, 97, 0.92);
+  color: white;
+  border-radius: 4px;
+  box-shadow:
+    0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+
+  animation: tooltip-fade-in 150ms cubic-bezier(0, 0, 0.2, 1);
+  transform-origin: center bottom;
+
+  .tooltip-content {
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 16px;
+
+    .tooltip-header {
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .tooltip-value {
+      font-weight: 400;
+      opacity: 0.9;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(97, 97, 97, 0.92);
+  }
+}
 ::ng-deep {
   .ngx-charts {
     // Hide tick labels
