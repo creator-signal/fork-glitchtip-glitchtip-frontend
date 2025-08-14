@@ -1,6 +1,13 @@
-@use '@angular/material' as mat;
+.selected-project-count {
+  padding-right: 24px;
+}
 
+mat-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-.project-multiselect-formfield {
-  width: 225px;
+mat-divider {
+  height: 24px;
 }

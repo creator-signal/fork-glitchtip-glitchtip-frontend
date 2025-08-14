@@ -1,7 +1,7 @@
 <mat-form-field
   appearance="outline"
   subscriptSizing="dynamic"
-  class="project-multiselect-formfield"
+  class="project-multiselect-formfield top-app-bar-field"
 >
   <mat-select
     [formControl]="projectsForm"
@@ -19,7 +19,12 @@
         class="selected-project-count"
         >{{ selectedProjectDisplay.firstProjectName }}</span
       >
-      } @else { All projects }
+      } @else { All projects } @if (projectsForm.value?.length) {
+      <mat-divider [vertical]="true"></mat-divider>
+      <button mat-icon-button (click)="clearSelection($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+      }
     </mat-select-trigger>
     <mat-option class="project-multiselect__search-field">
       <ngx-mat-select-search

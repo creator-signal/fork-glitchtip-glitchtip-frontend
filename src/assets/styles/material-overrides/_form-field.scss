@@ -1,0 +1,10 @@
+@use "@angular/material" as mat;
+
+.top-app-bar-field {
+  @include mat.form-field-overrides(
+    (
+      outlined-outline-color: transparent,
+      outlined-hover-outline-color: transparent,
+    )
+  );
+}

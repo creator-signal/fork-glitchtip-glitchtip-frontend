@@ -18,6 +18,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatIconModule } from "@angular/material/icon";
+import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
   selector: "gt-project-multiselect",
@@ -30,6 +31,7 @@ import { MatIconModule } from "@angular/material/icon";
     MatInputModule,
     MatSelectModule,
     NgxMatSelectSearchModule,
+    MatDividerModule,
   ],
   templateUrl: "./project-multiselect.html",
   styleUrl: "./project-multiselect.scss",
@@ -128,9 +130,15 @@ export class ProjectMultiselect {
     }
   }
 
+  clearSelection(event: Event) {
+    event.stopPropagation();
+    this.projectsForm.setValue([]);
+    this.onSubmit();
+  }
+
   onSubmit() {
     let projects = this.projectsForm.value;
-    this.projectSearchForm.reset()
+    this.projectSearchForm.reset();
     this.router.navigate([], {
       queryParams: { project: projects ? projects : null },
       queryParamsHandling: "merge",

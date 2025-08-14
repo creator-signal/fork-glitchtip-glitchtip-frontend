@@ -1,0 +1,7 @@
+@use "@angular/material" as mat;
+
+@include mat.badge-overrides(
+  (
+    container-offset: -18px,
+  )
+);
