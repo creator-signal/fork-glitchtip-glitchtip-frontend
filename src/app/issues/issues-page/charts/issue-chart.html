@@ -28,17 +28,33 @@
     [barPadding]="8"
     [trimXAxisTicks]="false"
     [roundEdges]="false"
+    [tooltipDisabled]="true"
     (select)="onSelect($event)"
     (activate)="onActivate($event)"
     (deactivate)="onDeactivate($event)"
   >
+    >
   </ngx-charts-bar-vertical>
+  <!-- 
+    (select)="onSelect($event)"
+    (activate)="onActivate($event)"
+    (deactivate)="onDeactivate($event)" -->
+
+  <!-- Custom tooltip overlay -->
+  <!-- <div *ngIf="hoveredBar" class="custom-chart-tooltip">
+    <div class="tooltip-content">
+      <div class="tooltip-header">Hour: 12 pm</div>
+      <div class="tooltip-value">Events: 25 events</div>
+    </div>
+  </div></div
+> -->
 
   <!-- Custom tooltip overlay -->
   <div *ngIf="hoveredBar" class="custom-chart-tooltip">
     <div class="tooltip-content">
-      <div class="tooltip-header">Hour: 12 pm</div>
-      <div class="tooltip-value">Events: 25 events</div>
+      <div>Debug: {{ hoveredBar | json }}</div>
+      <div class="tooltip-header">{{ formatHour(hoveredBar.name) }}</div>
+      <div class="tooltip-value">{{ hoveredBar.value }}</div>
     </div>
   </div></div
 >

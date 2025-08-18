@@ -252,7 +252,13 @@
               [class.ignored]="element.status === 'ignored'"
               class="trend-cell"
             >
-              <gt-issue-chart [view]="[300, 40]"></gt-issue-chart>
+              <!-- Debug: Show what stats data looks like -->
+              <div style="font-size: 10px; margin-bottom: 5px">
+                Stats: {{ element.stats | json }}
+              </div>
+
+              <gt-issue-chart [view]="[300, 40]" [issueStats]="element.stats">
+              </gt-issue-chart>
             </td>
           </ng-container>
           <ng-container matColumnDef="pagination">

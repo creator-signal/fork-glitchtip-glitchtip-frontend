@@ -8,7 +8,7 @@ import {
   OnInit,
   OnDestroy,
 } from "@angular/core";
-import { DatePipe, I18nPluralPipe } from "@angular/common";
+import { DatePipe, I18nPluralPipe, JsonPipe } from "@angular/common";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -30,6 +30,7 @@ import { MatCardModule } from "@angular/material/card";
 import { IssueChartComponent } from "./charts/issue-chart";
 
 import type { components } from "src/app/api/api-schema";
+
 import {
   stringArrAttribute,
   stringAttribute,
@@ -60,6 +61,7 @@ type Issue = components["schemas"]["IssueSchema"];
     DaysOldPipe,
     I18nPluralPipe,
     IssueChartComponent,
+    JsonPipe,
   ],
   providers: [IssuesService],
 })
