@@ -1,0 +1,58 @@
+<!-- Skeleton loader -->
+<div
+  *ngIf="showLoading"
+  class="chart-skeleton"
+  [style.width.px]="view()[0]"
+  [style.height.px]="view()[1]"
+>
+  <div class="skeleton-bars">
+    <div
+      *ngFor="let bar of skeletonBars"
+      class="skeleton-bar"
+      [style.height.%]="bar.height"
+    ></div>
+  </div>
+</div>
+
+<!-- Chart container with custom tooltip -->
+<div class="chart-container" *ngIf="!showLoading" style="position: relative">
+  <!-- Actual chart with tooltips disabled and hover events -->
+  <ngx-charts-bar-vertical
+    [results]="chartData"
+    [view]="view()"
+    [scheme]="colorScheme"
+    [customColors]="customColors"
+    [xAxis]="true"
+    [animations]="true"
+    [showDataLabel]="false"
+    [barPadding]="8"
+    [trimXAxisTicks]="false"
+    [roundEdges]="false"
+    [tooltipDisabled]="true"
+    (activate)="onActivate($event)"
+    (deactivate)="onDeactivate($event)"
+  >
+    >
+  </ngx-charts-bar-vertical>
+  <!-- 
+    (select)="onSelect($event)"
+    (activate)="onActivate($event)"
+    (deactivate)="onDeactivate($event)" -->
+
+  <!-- Custom tooltip overlay -->
+  <!-- <div *ngIf="hoveredBar" class="custom-chart-tooltip">
+    <div class="tooltip-content">
+      <div class="tooltip-header">Hour: 12 pm</div>
+      <div class="tooltip-value">Events: 25 events</div>
+    </div>
+  </div></div
+> -->
+
+  <!-- Custom tooltip overlay -->
+  <div *ngIf="hoveredBar" class="custom-chart-tooltip">
+    <div class="tooltip-content">
+      <div class="tooltip-header">{{ formatHour(hoveredBar.name) }}</div>
+      <div class="tooltip-value">{{ hoveredBar.value }}</div>
+    </div>
+  </div></div
+>

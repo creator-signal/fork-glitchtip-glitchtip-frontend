@@ -33,6 +33,7 @@ import {
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { EnvironmentsService } from "src/app/api/environments.service";
 import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
+import { IssueChartComponent } from "./charts/issue-chart";
 
 @Component({
   templateUrl: "./issues-page.html",
@@ -53,6 +54,7 @@ import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
     DaysOldPipe,
     I18nPluralPipe,
     ListAppBar,
+    IssueChartComponent,
   ],
   providers: [IssuesService],
 })
@@ -73,7 +75,7 @@ export class IssuesPage implements OnInit, OnDestroy {
   projects = input([], { alias: "project", transform: stringArrAttribute });
   environment = input(undefined, { transform: stringAttribute });
 
-  displayedColumns: string[] = ["select", "title", "events"];
+  displayedColumns: string[] = ["select", "title", "trend", "events"];
   paginator = this.service.paginator;
   loading = this.service.loading;
   initialLoad = this.service.initialLoad;
@@ -95,6 +97,7 @@ export class IssuesPage implements OnInit, OnDestroy {
   });
 
   issues = this.service.issuesWithSelected;
+
   areAllSelected = this.service.areAllSelected;
   multipleProjectIssuesSelected = computed(() => {
     let selectedProjects = this.issues()
@@ -103,6 +106,7 @@ export class IssuesPage implements OnInit, OnDestroy {
     let selectedProjectsSet = new Set(selectedProjects);
     return selectedProjectsSet.size > 1;
   });
+
   thereAreSelectedIssues = this.service.thereAreSelectedIssues;
   allResultsSelected = this.service.allResultsSelected;
   numberOfSelectedIssues = this.service.numberOfSelectedIssues;

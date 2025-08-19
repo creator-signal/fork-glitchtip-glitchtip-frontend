@@ -150,12 +150,13 @@ export class IssuesService extends StatefulService<IssuesState> {
       return [];
     }
     // Overwrite stats from the issue API (which is always empty and for compat only)
-    return issues.map((issue) => ({
+    const theresult = issues.map((issue) => ({
       ...issue,
       stats:
         this.issueStatsResource.value()?.find((stat) => stat.id === issue.id)
           ?.stats || issue.stats,
     }));
+    return theresult;
   });
   selectedIssues = computed(() => this.state().selectedIssues);
   issuesWithSelected = computed(() =>

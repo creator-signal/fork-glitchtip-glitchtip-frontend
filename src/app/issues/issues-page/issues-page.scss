@@ -176,3 +176,32 @@ table {
     width: 3px;
   }
 }
+
+.trend-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+}
+
+.trend-period-toggle {
+  display: flex;
+  gap: 8px;
+
+  .period-btn {
+    padding: 2px 8px;
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    cursor: pointer;
+
+    &.active {
+      font-weight: bold;
+      color: #333;
+    }
+
+    &.inactive {
+      color: #999;
+    }
+  }
+}
