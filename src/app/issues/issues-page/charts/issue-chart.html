@@ -1,10 +1,5 @@
 <!-- Skeleton loader -->
-<div
-  *ngIf="showLoading"
-  class="chart-skeleton"
-  [style.width.px]="view()[0]"
-  [style.height.px]="view()[1]"
->
+<div *ngIf="showLoading" class="chart-skeleton">
   <div class="skeleton-bars">
     <div
       *ngFor="let bar of skeletonBars"
@@ -20,17 +15,17 @@
   <ngx-charts-bar-vertical
     [results]="chartData"
     [view]="view()"
-    [scheme]="colorScheme"
     [customColors]="customColors"
     [xAxis]="true"
     [animations]="true"
     [showDataLabel]="false"
-    [barPadding]="8"
+    [barPadding]="timeRange() === '14d' ? 17 : 8"
     [trimXAxisTicks]="false"
     [roundEdges]="false"
     [tooltipDisabled]="true"
     (activate)="onActivate($event)"
     (deactivate)="onDeactivate($event)"
+    [noBarWhenZero]="false"
   >
     >
   </ngx-charts-bar-vertical>
@@ -49,10 +44,19 @@
 > -->
 
   <!-- Custom tooltip overlay -->
+  <!-- <div *ngIf="hoveredBar" class="custom-chart-tooltip">
+  <div class="tooltip-content">
+    <div class="tooltip-header">{{ formatHour(getTooltipHour()) }}</div>
+    <div class="tooltip-value">{{ getTooltipEventCount() }} events</div>
+  </div>
+</div> -->
+
   <div *ngIf="hoveredBar" class="custom-chart-tooltip">
     <div class="tooltip-content">
-      <div class="tooltip-header">{{ formatHour(hoveredBar.name) }}</div>
-      <div class="tooltip-value">{{ hoveredBar.value }}</div>
+      <div class="tooltip-header"
+        >{{ formatEventDateTime(getActualTimestamp()) }}</div
+      >
+      <div class="tooltip-value">{{ getTooltipEventCount() }} events</div>
     </div>
-  </div></div
->
+  </div>
+</div>

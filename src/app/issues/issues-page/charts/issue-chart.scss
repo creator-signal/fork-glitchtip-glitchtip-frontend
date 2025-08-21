@@ -1,13 +1,3 @@
-// .custom-chart-tooltip {
-//   position: absolute;
-//   pointer-events: none;
-//   z-index: 999999;
-//   bottom: 35px;
-//   left: 150px;
-//   background-color: rgb(255, 255, 255);
-//   height: 50px;
-// }
-
 .custom-chart-tooltip {
   position: fixed;
   pointer-events: none;
@@ -63,32 +53,22 @@
     .tick text {
       display: none !important;
     }
-
-    // .bar {
-    //   cursor: pointer;
-    //   transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-
-    //   &:hover {
-    //     opacity: 0.8;
-    //     transform: translateY(-1px);
-    //   }
-    // }
   }
 }
 
 // Skeleton styles
 .chart-skeleton {
   display: flex;
-  align-items: flex-end;
-  padding: 1px;
+  align-items: center;
+  margin-left: 20px;
+  width: 270px; // Fixed width to match chart
+  height: 40px; // Fixed height to match chart
 
   .skeleton-bars {
     display: flex;
-    align-items: flex-end;
     justify-content: space-between;
     width: 100%;
-    height: 100%;
-    gap: 8px;
+    gap: 10px;
   }
 
   .skeleton-bar {

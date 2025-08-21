@@ -23,14 +23,14 @@ interface ChartData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IssueChartComponent implements OnInit {
-  // Input for issue stats data - ONLY real data, no mock data
   issueStats = input<any>();
-
-  // Loading state input
   loading = input<boolean>(false);
+  timeRange = input<"24h" | "14d">("24h");
 
-  // Internal loading state signal
+  view = input<[number, number]>([300, 40]);
+
   isLoading = signal(true);
+  hoveredBar: any = null;
 
   @HostListener("mousemove", ["$event"])
   onMouseMove(event: MouseEvent) {
@@ -46,66 +46,21 @@ export class IssueChartComponent implements OnInit {
     }
   }
 
-  // Chart configuration
-  view = input<[number, number]>([700, 300]);
-
-  // Simple color scheme
-  colorScheme = "cool";
-
-  // Custom tooltip state
-  hoveredBar: any = null;
-
-  // Generate skeleton bars with random heights
   get skeletonBars(): { height: number }[] {
-    const barCount = 24; // 24 hours
+    const barCount = this.timeRange() === "14d" ? 14 : 24;
     return Array.from({ length: barCount }, () => ({
-      height: 0, // Random height between 20% and 80%
+      height: 0,
     }));
   }
 
-  // ngOnInit() {
-  //   // If external loading prop is provided, use that
-  //   if (this.loading()) {
-  //     this.isLoading.set(true);
-  //     return;
-  //   }
-
-  // }
-
-  //   ngOnInit() {
-  //   console.log('Issue stats received:', this.issueStats());
-  //   console.log('Loading state:', this.loading());
-
-  //   // If external loading prop is provided, use that
-  //   if (this.loading()) {
-  //     this.isLoading.set(true);
-  //     return;
-  //   }
-  // }
-
   ngOnInit() {
-    // If external loading prop is provided, use that
     if (this.loading()) {
       this.isLoading.set(true);
       return;
     }
-
-    // If no real data provided, show skeleton for 5 seconds then show mock data
-
-    setTimeout(() => {
-      this.isLoading.set(false);
-    }, 7000); // 5 seconds
-
-    // If real data is provided, don't show skeleton
     this.isLoading.set(false);
   }
 
-  // // Handle bar click/hover events
-  // onSelect(event: any): void {
-  //   console.log("Bar selected:", event);
-  // }
-
-  // Handle mouse events for custom tooltip
   onActivate(event: any): void {
     this.hoveredBar = event;
   }
@@ -114,69 +69,162 @@ export class IssueChartComponent implements OnInit {
     this.hoveredBar = null;
   }
 
-  // Convert issue stats to chart format - REAL DATA ONLY
+  // Updated to handle both time ranges
   private convertStatsToChartData(stats: any): ChartData[] {
-    if (!stats || !stats["24h"] || !Array.isArray(stats["24h"])) {
-      return this.createEmptyHourData();
+    if (!stats) {
+      return this.createEmptyData();
     }
 
-    // Create 24-hour array (one for each hour 0-23)
-    const hourlyData: ChartData[] = [];
+    const timeRange = this.timeRange();
 
-    for (let hour = 0; hour < 24; hour++) {
-      const dataPoint = stats["24h"][hour];
-      let eventCount = 0;
+    if (timeRange === "14d") {
+      return this.convert14DayStats(stats);
+    } else {
+      return this.convert24HourStats(stats);
+    }
+  }
 
+  // Handle 24h data (renamed from original method)
+  private convert24HourStats(stats: any): ChartData[] {
+    if (!stats["24h"] || !Array.isArray(stats["24h"])) {
+      return this.createEmpty24HourData();
+    }
+
+    // Initialize 24-hour array with zero counts
+    const hourlyData: { [hour: number]: number } = {};
+    for (let i = 0; i < 24; i++) {
+      hourlyData[i] = 0;
+    }
+
+    // Process each data point in the stats array
+    stats["24h"].forEach((dataPoint: any) => {
       if (dataPoint && Array.isArray(dataPoint) && dataPoint.length >= 2) {
-        eventCount = dataPoint[1] || 0; // Second element is the event count
+        const timestamp = dataPoint[0];
+        const eventCount = dataPoint[1] || 0;
+        const date = new Date(timestamp * 1000);
+        const hour = date.getHours();
+        hourlyData[hour] += eventCount;
       }
+    });
 
-      hourlyData.push({
-        name: hour.toString().padStart(2, "0"), // "00", "01", "02", etc.
-        value: eventCount,
+    // Convert to ChartData format
+    const result: ChartData[] = [];
+    for (let hour = 0; hour < 24; hour++) {
+      result.push({
+        name: hour.toString().padStart(2, "0"),
+        value: hourlyData[hour],
       });
     }
 
-    return hourlyData;
+    return result;
   }
 
-  // Create empty data structure if no real data (24 hours with 0 events)
-  private createEmptyHourData(): ChartData[] {
+  // Handle 14d data (new method)
+  private convert14DayStats(stats: any): ChartData[] {
+    if (!stats["14d"] || !Array.isArray(stats["14d"])) {
+      return this.createEmpty14DayData();
+    }
+
+    // Create a map to store daily data (similar to hourlyData for 24h)
+    const dailyData: { [dateKey: string]: number } = {};
+
+    // Initialize all 14 days with zero counts
+    for (let i = 0; i < 14; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - (13 - i)); // 13 days ago to today
+      const dateKey = `${date.getMonth() + 1}/${date.getDate()}`;
+      dailyData[dateKey] = 0;
+    }
+
+    // Process each data point from the API
+    stats["14d"].forEach((dataPoint: any) => {
+      if (dataPoint && Array.isArray(dataPoint) && dataPoint.length >= 2) {
+        const timestamp = dataPoint[0];
+        const eventCount = dataPoint[1] || 0;
+        const date = new Date(timestamp * 1000);
+        const dateKey = `${date.getMonth() + 1}/${date.getDate()}`;
+
+        // Add events to the corresponding day (if it exists in our 14-day range)
+        if (dailyData.hasOwnProperty(dateKey)) {
+          dailyData[dateKey] += eventCount;
+        }
+      }
+    });
+
+    // Convert to ChartData format (ensuring correct order)
+    const result: ChartData[] = [];
+    for (let i = 0; i < 14; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - (13 - i)); // 13 days ago to today
+      const dateKey = `${date.getMonth() + 1}/${date.getDate()}`;
+
+      result.push({
+        name: dateKey,
+        value: dailyData[dateKey],
+      });
+    }
+
+    return result;
+  }
+
+  // Updated empty data methods
+  private createEmpty24HourData(): ChartData[] {
     return Array.from({ length: 24 }, (_, hour) => ({
       name: hour.toString().padStart(2, "0"),
       value: 0,
     }));
   }
 
-  // Get chart data - ONLY REAL DATA
+  private createEmpty14DayData(): ChartData[] {
+    return Array.from({ length: 14 }, (_, day) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (13 - day));
+      return {
+        name: `${date.getMonth() + 1}/${date.getDate()}`,
+        value: 0,
+      };
+    });
+  }
+
+  private createEmptyData(): ChartData[] {
+    return this.timeRange() === "14d"
+      ? this.createEmpty14DayData()
+      : this.createEmpty24HourData();
+  }
+
+  // Updated chartData getter
   get chartData(): ChartData[] {
     if (this.issueStats()) {
       return this.convertStatsToChartData(this.issueStats());
     }
-
-    // Return empty data if no real data available
-    return this.createEmptyHourData();
+    return this.createEmptyData();
   }
 
-  // Check if we should show loading state
-  // get showLoading(): boolean {
-  //   return this.loading() || this.isLoading();
-  // }
+  // Updated showLoading to check both time ranges
   get showLoading(): boolean {
-    // Show loading if explicitly told to load
+    // If explicitly loading, show skeleton
     if (this.loading()) {
       return true;
     }
 
-    // Show loading if we don't have valid stats data yet
     const stats = this.issueStats();
-    const hasValidStats =
-      stats &&
-      stats["24h"] &&
-      Array.isArray(stats["24h"]) &&
-      stats["24h"].length > 0;
 
-    return !hasValidStats;
+    // If we have no stats object at all, show skeleton
+    if (!stats) {
+      return true;
+    }
+
+    const timeRange = this.timeRange();
+    const dataKey = timeRange === "14d" ? "14d" : "24h";
+
+    // If the expected data property exists (even if empty array), hide skeleton
+    // This means we got a response from the API, even if no events occurred
+    if (stats.hasOwnProperty(dataKey) && Array.isArray(stats[dataKey])) {
+      return false; // Hide skeleton - we have data structure, even if empty
+    }
+
+    // If we don't have the expected data structure, keep showing skeleton
+    return true;
   }
 
   // Format hour for display in tooltip
@@ -192,40 +240,98 @@ export class IssueChartComponent implements OnInit {
     return `${hour - 12} PM`;
   }
 
-  // Extract hour from the complex tooltip data structure
+  // Updated to handle both time ranges
+  getActualTimestamp(): number | null {
+    if (!this.hoveredBar) return null;
+
+    const stats = this.issueStats();
+    const timeRange = this.timeRange();
+    const dataKey = timeRange === "14d" ? "14d" : "24h";
+
+    if (!stats || !stats[dataKey] || !Array.isArray(stats[dataKey])) {
+      return null;
+    }
+
+    const hoveredName = this.getTooltipHour();
+
+    if (timeRange === "14d") {
+      // For 14d, match by date string
+      for (const dataPoint of stats["14d"]) {
+        if (dataPoint && Array.isArray(dataPoint) && dataPoint.length >= 2) {
+          const timestamp = dataPoint[0];
+          const date = new Date(timestamp * 1000);
+          const dateString = `${date.getMonth() + 1}/${date.getDate()}`;
+
+          if (dateString === hoveredName) {
+            return timestamp;
+          }
+        }
+      }
+    } else {
+      // For 24h, match by hour
+      const hour = parseInt(hoveredName, 10);
+      for (const dataPoint of stats["24h"]) {
+        if (dataPoint && Array.isArray(dataPoint) && dataPoint.length >= 2) {
+          const timestamp = dataPoint[0];
+          const date = new Date(timestamp * 1000);
+
+          if (date.getHours() === hour) {
+            return timestamp;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  formatEventDateTime(timestamp: number | null): string {
+    if (!timestamp) {
+      return this.timeRange() === "14d"
+        ? "No events this day"
+        : "No events this hour";
+    }
+
+    const date = new Date(timestamp * 1000);
+
+    const options: Intl.DateTimeFormatOptions = {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "UTC",
+      timeZoneName: "short",
+    };
+
+    return date.toLocaleDateString("en-US", options);
+  }
+
   getTooltipHour(): string {
     if (!this.hoveredBar) return "";
-
-    // From debug: hoveredBar has structure like { "value": { "name": "04", "value": 2, "label": "04" } }
     const data = this.hoveredBar.value || this.hoveredBar;
     return data?.name || data?.label || "";
   }
 
-  // Extract event count from the complex tooltip data structure
   getTooltipEventCount(): number {
     if (!this.hoveredBar) return 0;
-
     const data = this.hoveredBar.value || this.hoveredBar;
     return data?.value || 0;
   }
 
-  // Generate custom colors based on data thresholds
   get customColors(): any[] {
     const data = this.chartData;
     if (data.length === 0) return [];
 
-    // Find the maximum value to calculate thresholds
     const maxValue = Math.max(...data.map((d) => d.value));
 
-    // Avoid division by zero
     if (maxValue === 0) {
       return data.map((item) => ({
         name: item.name,
-        value: "#e0e0e0ff", // Gray for all zero values
+        value: "#e0e0e0ff",
       }));
     }
 
-    // Calculate thresholds (80% and 50% of max)
     const highThreshold = maxValue * 0.8;
     const mediumThreshold = maxValue * 0.5;
 
@@ -233,12 +339,12 @@ export class IssueChartComponent implements OnInit {
       name: item.name,
       value:
         item.value >= highThreshold
-          ? "#d06868ff" // Red for high
+          ? "#d06868ff"
           : item.value >= mediumThreshold
-            ? "#f4a261ff" // Orange for medium
+            ? "#f4a261ff"
             : item.value > 0
-              ? "#2a9d8fff" // Teal for low but not zero
-              : "#e0e0e0ff", // Gray for zero
+              ? "#2a9d8fff"
+              : "#e0e0e0ff",
     }));
   }
 }

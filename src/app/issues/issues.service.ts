@@ -55,6 +55,7 @@ export class IssuesService extends StatefulService<IssuesState> {
   private router = inject(Router);
   protected route = inject(ActivatedRoute);
   private params = signal<DataParams | undefined>(undefined);
+  private statsTimeRange = signal<"24h" | "14d">("24h");
 
   private issuesResource = resource({
     params: () => ({ params: this.params() }),
@@ -116,27 +117,38 @@ export class IssuesService extends StatefulService<IssuesState> {
   private issueStatsParams = computed(() => {
     const params = this.params();
     const issues = this.issues();
+    const timeRange = this.statsTimeRange();
     if (!params || !issues) {
       return undefined;
     }
     return {
       issueIDs: issues.map((issue) => parseInt(issue.id)),
       orgSlug: params.orgSlug,
+      timeRange,
     };
   });
-  private issueStatsResource = apiResource(this.issueStatsParams, (params) => ({
-    url: "/api/0/organizations/{organization_slug}/issues-stats/",
-    options: {
-      params: {
-        path: {
-          organization_slug: params.orgSlug,
-        },
-        query: {
-          groups: params.issueIDs,
+  private issueStatsResource = apiResource(this.issueStatsParams, (params) => {
+    const queryParams: any = {
+      groups: params.issueIDs,
+    };
+
+    // Add statsPeriod if requesting 14d data
+    if (params.timeRange === "14d") {
+      queryParams.statsPeriod = "14d";
+    }
+
+    return {
+      url: "/api/0/organizations/{organization_slug}/issues-stats/",
+      options: {
+        params: {
+          path: {
+            organization_slug: params.orgSlug,
+          },
+          query: queryParams,
         },
       },
-    },
-  }));
+    };
+  });
 
   pagination = computed(() => this.issuesResource.value()?.pagination);
   paginator = computed(() => getPaginator(this.pagination()));
@@ -367,5 +379,13 @@ export class IssuesService extends StatefulService<IssuesState> {
       }
       return update;
     });
+  }
+
+  setStatsTimeRange(timeRange: "24h" | "14d") {
+    this.statsTimeRange.set(timeRange);
+  }
+
+  getStatsTimeRange() {
+    return this.statsTimeRange();
   }
 }

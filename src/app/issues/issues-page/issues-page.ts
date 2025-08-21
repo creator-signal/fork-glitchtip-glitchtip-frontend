@@ -7,6 +7,7 @@ import {
   computed,
   OnInit,
   OnDestroy,
+  signal,
 } from "@angular/core";
 import { DatePipe, I18nPluralPipe } from "@angular/common";
 import { FormControl, FormGroup } from "@angular/forms";
@@ -74,6 +75,8 @@ export class IssuesPage implements OnInit, OnDestroy {
   sort = input(undefined, { transform: stringAttribute });
   projects = input([], { alias: "project", transform: stringArrAttribute });
   environment = input(undefined, { transform: stringAttribute });
+
+  trendTimeRange = signal<"24h" | "14d">("24h");
 
   displayedColumns: string[] = ["select", "title", "trend", "events"];
   paginator = this.service.paginator;
@@ -347,4 +350,14 @@ export class IssuesPage implements OnInit, OnDestroy {
       queryParamsHandling: "merge",
     });
   }
+
+  toggleTrendTimeRange(period: "24h" | "14d") {
+    this.trendTimeRange.set(period);
+    this.service.setStatsTimeRange(period);
+  }
+
+  // Add computed to check active period
+  isTrendPeriodActive = computed(() => (period: "24h" | "14d") => {
+    return this.trendTimeRange() === period;
+  });
 }
