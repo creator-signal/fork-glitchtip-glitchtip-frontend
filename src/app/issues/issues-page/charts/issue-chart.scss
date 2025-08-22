@@ -7,12 +7,10 @@
   top: var(--tooltip-y, 50px);
   transform: translateX(-50%);
 
-  // Using Material surface colors for better theme integration
   background: var(--mat-sys-inverse-surface);
   color: var(--mat-sys-inverse-on-surface);
   border-radius: 8px;
 
-  // Material elevation shadow (level 3)
   box-shadow:
     0px 3px 5px -1px rgba(0, 0, 0, 0.2),
     0px 6px 10px 0px rgba(0, 0, 0, 0.14),

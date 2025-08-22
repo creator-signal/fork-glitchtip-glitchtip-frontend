@@ -7,7 +7,13 @@
   </div>
 </div>
 } @if (!showLoadingValue) {
-<div class="chart-container" style="position: relative">
+<div
+  #chartContainer
+  class="chart-container"
+  style="position: relative"
+  (mousemove)="onChartMouseMove($event)"
+  (mouseleave)="onChartMouseLeave()"
+>
   <ngx-charts-bar-vertical
     [results]="chartDataValue"
     [view]="view()"
@@ -24,7 +30,7 @@
   >
   </ngx-charts-bar-vertical>
 
-  @if (hoveredBar) {
+  @if (hoveredBar || hoveredColumnIndex !== null) {
   <div class="custom-chart-tooltip">
     <div class="tooltip-content">
       <div class="tooltip-header"

@@ -4,6 +4,8 @@ import {
   input,
   HostListener,
   computed,
+  ElementRef,
+  ViewChild,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
@@ -38,12 +40,15 @@ type TimeRange = "24h" | "14d";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IssueChartComponent {
+  @ViewChild("chartContainer", { static: false }) chartContainer!: ElementRef;
+
   issueStats = input<IssueStats>();
   loading = input<boolean>(false);
   timeRange = input<TimeRange>("24h");
   view = input<[number, number]>([300, 40]);
 
   hoveredBar: HoveredBarData | null = null;
+  hoveredColumnIndex: number | null = null;
 
   private readonly TOOLTIP_Y_OFFSET = 70;
   private readonly HIGH_THRESHOLD_RATIO = 0.8;
@@ -89,11 +94,40 @@ export class IssueChartComponent {
   get skeletonBarsValue() {
     return Array.from({ length: this.TIME_RANGE_COUNTS[this.timeRange()] });
   }
+
   @HostListener("mousemove", ["$event"])
   onMouseMove(event: MouseEvent): void {
-    if (this.hoveredBar) {
+    if (this.hoveredBar || this.hoveredColumnIndex !== null) {
       this.updateTooltipPosition(event.clientX, event.clientY);
     }
+  }
+
+  onChartMouseMove(event: MouseEvent): void {
+    if (!this.chartContainer) return;
+
+    const chartRect = this.chartContainer.nativeElement.getBoundingClientRect();
+    const relativeX = event.clientX - chartRect.left;
+
+    // Calculate which column we're hovering over
+    const chartWidth = this.view()[0];
+    const columnCount = this.TIME_RANGE_COUNTS[this.timeRange()];
+    const columnWidth = chartWidth / columnCount;
+    const columnIndex = Math.floor(relativeX / columnWidth);
+
+    if (
+      columnIndex >= 0 &&
+      columnIndex < columnCount &&
+      columnIndex < this.chartData().length
+    ) {
+      this.hoveredColumnIndex = columnIndex;
+      this.updateTooltipPosition(event.clientX, event.clientY);
+    } else {
+      this.hoveredColumnIndex = null;
+    }
+  }
+
+  onChartMouseLeave(): void {
+    this.hoveredColumnIndex = null;
   }
 
   onActivate(event: HoveredBarData): void {
@@ -105,30 +139,43 @@ export class IssueChartComponent {
   }
 
   getTooltipHour(): string {
-    if (!this.hoveredBar) return "";
+    if (this.hoveredBar) {
+      const data = (this.hoveredBar as any).value || this.hoveredBar;
+      return data?.name || data?.label || "";
+    }
 
-    const data = (this.hoveredBar as any).value || this.hoveredBar;
-    return data?.name || data?.label || "";
+    if (this.hoveredColumnIndex !== null) {
+      const chartData = this.chartData();
+      return chartData[this.hoveredColumnIndex]?.name || "";
+    }
+
+    return "";
   }
 
   getTooltipEventCount(): number {
-    if (!this.hoveredBar) return 0;
+    if (this.hoveredBar) {
+      const data = (this.hoveredBar as any).value || this.hoveredBar;
+      return data?.value || 0;
+    }
 
-    const data = (this.hoveredBar as any).value || this.hoveredBar;
-    return data?.value || 0;
+    if (this.hoveredColumnIndex !== null) {
+      const chartData = this.chartData();
+      return chartData[this.hoveredColumnIndex]?.value || 0;
+    }
+
+    return 0;
   }
 
   getActualTimestamp(): number | null {
-    if (!this.hoveredBar) return null;
+    const hoveredName = this.getTooltipHour();
+    if (!hoveredName) return null;
 
     const stats = this.issueStats();
     const timeRange = this.timeRange();
-    const dataKey = timeRange;
 
-    if (!stats?.[dataKey]) return null;
+    if (!stats?.[timeRange]) return null;
 
-    const hoveredName = this.getTooltipHour();
-    const dataPoints = stats[dataKey];
+    const dataPoints = stats[timeRange];
 
     if (timeRange === "14d") {
       return this.findTimestampByDate(dataPoints, hoveredName);
