@@ -108,7 +108,6 @@ export class IssueChartComponent {
     const chartRect = this.chartContainer.nativeElement.getBoundingClientRect();
     const relativeX = event.clientX - chartRect.left;
 
-    // Calculate which column we're hovering over
     const chartWidth = this.view()[0];
     const columnCount = this.TIME_RANGE_COUNTS[this.timeRange()];
     const columnWidth = chartWidth / columnCount;
@@ -173,32 +172,45 @@ export class IssueChartComponent {
     const stats = this.issueStats();
     const timeRange = this.timeRange();
 
-    if (!stats?.[timeRange]) return null;
+    if (!stats?.[timeRange] || timeRange === "14d") return null;
 
     const dataPoints = stats[timeRange];
-
-    if (timeRange === "14d") {
-      return this.findTimestampByDate(dataPoints, hoveredName);
-    } else {
-      return this.findTimestampByHour(dataPoints, parseInt(hoveredName, 10));
-    }
+    return this.findTimestampByHour(dataPoints, parseInt(hoveredName, 10));
   }
 
-  formatEventDateTime(timestamp: number | null): string {
-    const date = timestamp
-      ? new Date(timestamp * 1000)
-      : this.createFallbackDate();
+  formatEventDateTime(): string {
+    const timeRange = this.timeRange();
 
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "UTC",
-      timeZoneName: "short",
-    });
+    if (timeRange === "14d") {
+      const hoveredName = this.getTooltipHour();
+      if (!hoveredName) return "";
+
+      const [month, day] = hoveredName.split("/").map(Number);
+      const date = new Date();
+      date.setMonth(month - 1, day);
+
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } else {
+      const timestamp = this.getActualTimestamp();
+      const date = timestamp
+        ? new Date(timestamp * 1000)
+        : this.createFallbackDate();
+
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "UTC",
+        timeZoneName: "short",
+      });
+    }
   }
 
   private updateTooltipPosition(x: number, y: number): void {
@@ -301,38 +313,15 @@ export class IssueChartComponent {
   }
 
   private createFallbackDate(): Date {
-    const timeRange = this.timeRange();
     const hoveredName = this.getTooltipHour();
     const date = new Date();
 
-    if (!hoveredName) return date;
-
-    if (timeRange === "14d") {
-      const [month, day] = hoveredName.split("/").map(Number);
-      date.setMonth(month - 1, day);
-      date.setHours(0, 0, 0, 0);
-    } else {
+    if (hoveredName) {
       const hour = parseInt(hoveredName, 10);
       date.setHours(hour, 0, 0, 0);
     }
 
     return date;
-  }
-
-  private findTimestampByDate(
-    dataPoints: [number, number][],
-    targetDate: string,
-  ): number | null {
-    for (const [timestamp] of dataPoints) {
-      if (timestamp) {
-        const date = new Date(timestamp * 1000);
-        const dateString = this.getDateKey(date);
-        if (dateString === targetDate) {
-          return timestamp;
-        }
-      }
-    }
-    return null;
   }
 
   private findTimestampByHour(

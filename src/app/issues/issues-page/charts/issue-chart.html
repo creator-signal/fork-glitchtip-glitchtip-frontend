@@ -33,9 +33,7 @@
   @if (hoveredBar || hoveredColumnIndex !== null) {
   <div class="custom-chart-tooltip">
     <div class="tooltip-content">
-      <div class="tooltip-header"
-        >{{ formatEventDateTime(getActualTimestamp()) }}</div
-      >
+      <div class="tooltip-header">{{ formatEventDateTime() }}</div>
       <div class="tooltip-value">{{ getTooltipEventCount() }} events</div>
     </div>
   </div>
