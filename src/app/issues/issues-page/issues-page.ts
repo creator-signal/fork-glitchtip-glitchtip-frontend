@@ -26,6 +26,7 @@ import { ListFooterComponent } from "../../list-elements/list-footer/list-footer
 import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data-filter-bar.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 import {
   stringArrAttribute,
@@ -56,6 +57,7 @@ import { IssueChartComponent } from "./charts/issue-chart";
     I18nPluralPipe,
     ListAppBar,
     IssueChartComponent,
+    MatButtonToggleModule,
   ],
   providers: [IssuesService],
 })

@@ -1,21 +1,17 @@
-<!-- Skeleton loader -->
-<div *ngIf="showLoading" class="chart-skeleton">
+@if (showLoadingValue) {
+<div class="chart-skeleton">
   <div class="skeleton-bars">
-    <div
-      *ngFor="let bar of skeletonBars"
-      class="skeleton-bar"
-      [style.height.%]="bar.height"
-    ></div>
+    @for (bar of skeletonBarsValue; track $index) {
+    <div class="skeleton-bar"></div>
+    }
   </div>
 </div>
-
-<!-- Chart container with custom tooltip -->
-<div class="chart-container" *ngIf="!showLoading" style="position: relative">
-  <!-- Actual chart with tooltips disabled and hover events -->
+} @if (!showLoadingValue) {
+<div class="chart-container" style="position: relative">
   <ngx-charts-bar-vertical
-    [results]="chartData"
+    [results]="chartDataValue"
     [view]="view()"
-    [customColors]="customColors"
+    [customColors]="customColorsValue"
     [xAxis]="true"
     [animations]="true"
     [showDataLabel]="false"
@@ -25,33 +21,11 @@
     [tooltipDisabled]="true"
     (activate)="onActivate($event)"
     (deactivate)="onDeactivate($event)"
-    [noBarWhenZero]="false"
   >
-    >
   </ngx-charts-bar-vertical>
-  <!-- 
-    (select)="onSelect($event)"
-    (activate)="onActivate($event)"
-    (deactivate)="onDeactivate($event)" -->
 
-  <!-- Custom tooltip overlay -->
-  <!-- <div *ngIf="hoveredBar" class="custom-chart-tooltip">
-    <div class="tooltip-content">
-      <div class="tooltip-header">Hour: 12 pm</div>
-      <div class="tooltip-value">Events: 25 events</div>
-    </div>
-  </div></div
-> -->
-
-  <!-- Custom tooltip overlay -->
-  <!-- <div *ngIf="hoveredBar" class="custom-chart-tooltip">
-  <div class="tooltip-content">
-    <div class="tooltip-header">{{ formatHour(getTooltipHour()) }}</div>
-    <div class="tooltip-value">{{ getTooltipEventCount() }} events</div>
-  </div>
-</div> -->
-
-  <div *ngIf="hoveredBar" class="custom-chart-tooltip">
+  @if (hoveredBar) {
+  <div class="custom-chart-tooltip">
     <div class="tooltip-content">
       <div class="tooltip-header"
         >{{ formatEventDateTime(getActualTimestamp()) }}</div
@@ -59,4 +33,6 @@
       <div class="tooltip-value">{{ getTooltipEventCount() }} events</div>
     </div>
   </div>
+  }
 </div>
+}
