@@ -6,9 +6,11 @@ import {
   computed,
   ElementRef,
   ViewChild,
+  signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { ChartTooltipComponent } from "src/app/shared/chart-tooltip/chart-tooltip";
 
 interface ChartData {
   name: string;
@@ -34,7 +36,7 @@ type TimeRange = "24h" | "14d";
 @Component({
   selector: "gt-issue-chart",
   standalone: true,
-  imports: [CommonModule, NgxChartsModule],
+  imports: [CommonModule, NgxChartsModule, ChartTooltipComponent],
   templateUrl: "./issue-chart.html",
   styleUrl: "./issue-chart.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,14 +49,28 @@ export class IssueChartComponent {
   timeRange = input<TimeRange>("24h");
   view = input<[number, number]>([300, 40]);
 
-  hoveredBar: HoveredBarData | null = null;
-  hoveredColumnIndex: number | null = null;
+  // Reactive state using signals
+  private hoveredBarSignal = signal<HoveredBarData | null>(null);
+  private hoveredColumnIndexSignal = signal<number | null>(null);
+  private tooltipPosition = signal({ x: 0, y: 0 });
 
   private readonly TOOLTIP_Y_OFFSET = 70;
   private readonly HIGH_THRESHOLD_RATIO = 0.8;
   private readonly TIME_RANGE_COUNTS = { "14d": 14, "24h": 24 } as const;
 
+  // Computed properties
   chartData = computed(() => this.convertStatsToChartData(this.issueStats()));
+  
+  tooltipVisible = computed(() => 
+    this.hoveredBarSignal() !== null || this.hoveredColumnIndexSignal() !== null
+  );
+  
+  tooltipHeader = computed(() => this.formatEventDateTime());
+  
+  tooltipValue = computed(() => `${this.getTooltipEventCount()} events`);
+  
+  tooltipX = computed(() => this.tooltipPosition().x);
+  tooltipY = computed(() => this.tooltipPosition().y);
 
   showLoading = computed(() => {
     if (this.loading()) return true;
@@ -82,6 +98,7 @@ export class IssueChartComponent {
       }));
   });
 
+  // Getters for template
   get chartDataValue() {
     return this.chartData();
   }
@@ -97,9 +114,7 @@ export class IssueChartComponent {
 
   @HostListener("mousemove", ["$event"])
   onMouseMove(event: MouseEvent): void {
-    if (this.hoveredBar || this.hoveredColumnIndex !== null) {
-      this.updateTooltipPosition(event.clientX, event.clientY);
-    }
+    this.updateTooltipPosition(event.clientX, event.clientY);
   }
 
   onChartMouseMove(event: MouseEvent): void {
@@ -118,54 +133,81 @@ export class IssueChartComponent {
       columnIndex < columnCount &&
       columnIndex < this.chartData().length
     ) {
-      this.hoveredColumnIndex = columnIndex;
+      this.hoveredColumnIndexSignal.set(columnIndex);
       this.updateTooltipPosition(event.clientX, event.clientY);
     } else {
-      this.hoveredColumnIndex = null;
+      this.hoveredColumnIndexSignal.set(null);
     }
   }
 
   onChartMouseLeave(): void {
-    this.hoveredColumnIndex = null;
+    this.hoveredColumnIndexSignal.set(null);
+    this.hoveredBarSignal.set(null);
   }
 
-  onActivate(event: HoveredBarData): void {
-    this.hoveredBar = event;
+  onActivate(event: any): void {
+    if (!event) return;
+    
+    // Handle different event formats from ngx-charts
+    let wrappedData: HoveredBarData;
+    
+    // Check if it's already in the expected format
+    if (event.value && typeof event.value === 'object') {
+      wrappedData = event as HoveredBarData;
+    }
+    // If event has name and value properties directly
+    else if ('name' in event && 'value' in event) {
+      wrappedData = {
+        value: {
+          name: event.name,
+          value: event.value,
+          label: event.name
+        }
+      };
+    } else {
+      return; // Unknown format, ignore
+    }
+    
+    this.hoveredBarSignal.set(wrappedData);
   }
 
   onDeactivate(event?: any): void {
-    this.hoveredBar = null;
+    this.hoveredBarSignal.set(null);
   }
 
-  getTooltipHour(): string {
-    if (this.hoveredBar) {
-      const data = (this.hoveredBar as any).value || this.hoveredBar;
-      return data?.name || data?.label || "";
+  private getTooltipHour(): string {
+    const hoveredBar = this.hoveredBarSignal();
+    const hoveredColumnIndex = this.hoveredColumnIndexSignal();
+    
+    if (hoveredBar) {
+      return hoveredBar.value?.name || hoveredBar.value?.label || "";
     }
 
-    if (this.hoveredColumnIndex !== null) {
+    if (hoveredColumnIndex !== null) {
       const chartData = this.chartData();
-      return chartData[this.hoveredColumnIndex]?.name || "";
+      return chartData[hoveredColumnIndex]?.name || "";
     }
 
     return "";
   }
 
-  getTooltipEventCount(): number {
-    if (this.hoveredBar) {
-      const data = (this.hoveredBar as any).value || this.hoveredBar;
-      return data?.value || 0;
+  private getTooltipEventCount(): number {
+    const hoveredBar = this.hoveredBarSignal();
+    const hoveredColumnIndex = this.hoveredColumnIndexSignal();
+    
+    if (hoveredBar) {
+      return hoveredBar.value?.value || 0;
     }
 
-    if (this.hoveredColumnIndex !== null) {
+    if (hoveredColumnIndex !== null) {
       const chartData = this.chartData();
-      return chartData[this.hoveredColumnIndex]?.value || 0;
+      return chartData[hoveredColumnIndex]?.value || 0;
     }
 
     return 0;
   }
 
-  getActualTimestamp(): number | null {
+  private getActualTimestamp(): number | null {
     const hoveredName = this.getTooltipHour();
     if (!hoveredName) return null;
 
@@ -178,7 +220,7 @@ export class IssueChartComponent {
     return this.findTimestampByHour(dataPoints, parseInt(hoveredName, 10));
   }
 
-  formatEventDateTime(): string {
+  private formatEventDateTime(): string {
     const timeRange = this.timeRange();
 
     if (timeRange === "14d") {
@@ -186,6 +228,8 @@ export class IssueChartComponent {
       if (!hoveredName) return "";
 
       const [month, day] = hoveredName.split("/").map(Number);
+      if (isNaN(month) || isNaN(day)) return "";
+      
       const date = new Date();
       date.setMonth(month - 1, day);
 
@@ -214,9 +258,10 @@ export class IssueChartComponent {
   }
 
   private updateTooltipPosition(x: number, y: number): void {
-    const root = document.documentElement.style;
-    root.setProperty("--tooltip-x", `${x}px`);
-    root.setProperty("--tooltip-y", `${y - this.TOOLTIP_Y_OFFSET}px`);
+    this.tooltipPosition.set({ 
+      x, 
+      y: y - this.TOOLTIP_Y_OFFSET 
+    });
   }
 
   private convertStatsToChartData(stats: IssueStats | undefined): ChartData[] {
@@ -318,7 +363,9 @@ export class IssueChartComponent {
 
     if (hoveredName) {
       const hour = parseInt(hoveredName, 10);
-      date.setHours(hour, 0, 0, 0);
+      if (!isNaN(hour)) {
+        date.setHours(hour, 0, 0, 0);
+      }
     }
 
     return date;

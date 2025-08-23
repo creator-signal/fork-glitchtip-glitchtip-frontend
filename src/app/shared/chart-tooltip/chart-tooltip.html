@@ -1,0 +1,16 @@
+@if (shouldShow()) {
+<div 
+  class="custom-chart-tooltip" 
+  [style.left.px]="x()" 
+  [style.top.px]="y()"
+>
+  <div class="tooltip-content">
+    @if (header()) {
+    <div class="tooltip-header">{{ header() }}</div>
+    }
+    @if (value()) {
+    <div class="tooltip-value">{{ value() }}</div>
+    }
+  </div>
+</div>
+}

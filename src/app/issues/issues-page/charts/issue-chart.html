@@ -1,3 +1,5 @@
+
+
 @if (showLoadingValue) {
 <div class="chart-skeleton">
   <div class="skeleton-bars">
@@ -29,14 +31,12 @@
     (deactivate)="onDeactivate($event)"
   >
   </ngx-charts-bar-vertical>
-
-  @if (hoveredBar || hoveredColumnIndex !== null) {
-  <div class="custom-chart-tooltip">
-    <div class="tooltip-content">
-      <div class="tooltip-header">{{ formatEventDateTime() }}</div>
-      <div class="tooltip-value">{{ getTooltipEventCount() }} events</div>
-    </div>
-  </div>
-  }
+  <gt-chart-tooltip
+    [visible]="tooltipVisible()"
+    [header]="tooltipHeader()"
+    [value]="tooltipValue()"
+    [x]="tooltipX()"
+    [y]="tooltipY()"
+  ></gt-chart-tooltip>
 </div>
 }
