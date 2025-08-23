@@ -49,7 +49,6 @@ export class IssueChartComponent {
   timeRange = input<TimeRange>("24h");
   view = input<[number, number]>([300, 40]);
 
-  // Reactive state using signals
   private hoveredBarSignal = signal<HoveredBarData | null>(null);
   private hoveredColumnIndexSignal = signal<number | null>(null);
   private tooltipPosition = signal({ x: 0, y: 0 });
@@ -58,17 +57,18 @@ export class IssueChartComponent {
   private readonly HIGH_THRESHOLD_RATIO = 0.8;
   private readonly TIME_RANGE_COUNTS = { "14d": 14, "24h": 24 } as const;
 
-  // Computed properties
   chartData = computed(() => this.convertStatsToChartData(this.issueStats()));
-  
-  tooltipVisible = computed(() => 
-    this.hoveredBarSignal() !== null || this.hoveredColumnIndexSignal() !== null
+
+  tooltipVisible = computed(
+    () =>
+      this.hoveredBarSignal() !== null ||
+      this.hoveredColumnIndexSignal() !== null,
   );
-  
+
   tooltipHeader = computed(() => this.formatEventDateTime());
-  
+
   tooltipValue = computed(() => `${this.getTooltipEventCount()} events`);
-  
+
   tooltipX = computed(() => this.tooltipPosition().x);
   tooltipY = computed(() => this.tooltipPosition().y);
 
@@ -98,7 +98,6 @@ export class IssueChartComponent {
       }));
   });
 
-  // Getters for template
   get chartDataValue() {
     return this.chartData();
   }
@@ -147,27 +146,23 @@ export class IssueChartComponent {
 
   onActivate(event: any): void {
     if (!event) return;
-    
-    // Handle different event formats from ngx-charts
+
     let wrappedData: HoveredBarData;
-    
-    // Check if it's already in the expected format
-    if (event.value && typeof event.value === 'object') {
+
+    if (event.value && typeof event.value === "object") {
       wrappedData = event as HoveredBarData;
-    }
-    // If event has name and value properties directly
-    else if ('name' in event && 'value' in event) {
+    } else if ("name" in event && "value" in event) {
       wrappedData = {
         value: {
           name: event.name,
           value: event.value,
-          label: event.name
-        }
+          label: event.name,
+        },
       };
     } else {
-      return; // Unknown format, ignore
+      return;
     }
-    
+
     this.hoveredBarSignal.set(wrappedData);
   }
 
@@ -178,7 +173,7 @@ export class IssueChartComponent {
   private getTooltipHour(): string {
     const hoveredBar = this.hoveredBarSignal();
     const hoveredColumnIndex = this.hoveredColumnIndexSignal();
-    
+
     if (hoveredBar) {
       return hoveredBar.value?.name || hoveredBar.value?.label || "";
     }
@@ -194,7 +189,7 @@ export class IssueChartComponent {
   private getTooltipEventCount(): number {
     const hoveredBar = this.hoveredBarSignal();
     const hoveredColumnIndex = this.hoveredColumnIndexSignal();
-    
+
     if (hoveredBar) {
       return hoveredBar.value?.value || 0;
     }
@@ -229,7 +224,7 @@ export class IssueChartComponent {
 
       const [month, day] = hoveredName.split("/").map(Number);
       if (isNaN(month) || isNaN(day)) return "";
-      
+
       const date = new Date();
       date.setMonth(month - 1, day);
 
@@ -258,9 +253,9 @@ export class IssueChartComponent {
   }
 
   private updateTooltipPosition(x: number, y: number): void {
-    this.tooltipPosition.set({ 
-      x, 
-      y: y - this.TOOLTIP_Y_OFFSET 
+    this.tooltipPosition.set({
+      x,
+      y: y - this.TOOLTIP_Y_OFFSET,
     });
   }
 
