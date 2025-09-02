@@ -124,7 +124,7 @@ export class IssuesService extends StatefulService<IssuesState> {
     return {
       issueIDs: issues.map((issue) => parseInt(issue.id)),
       orgSlug: params.orgSlug,
-      timeRange,
+      statsPeriod: timeRange === "14d" ? "14d" : undefined,
     };
   });
   private issueStatsResource = apiResource(this.issueStatsParams, (params) => {
@@ -132,9 +132,8 @@ export class IssuesService extends StatefulService<IssuesState> {
       groups: params.issueIDs,
     };
 
-    // Add statsPeriod if requesting 14d data
-    if (params.timeRange === "14d") {
-      queryParams.statsPeriod = "14d";
+    if (params.statsPeriod) {
+      queryParams.statsPeriod = params.statsPeriod;
     }
 
     return {
@@ -162,13 +161,12 @@ export class IssuesService extends StatefulService<IssuesState> {
       return [];
     }
     // Overwrite stats from the issue API (which is always empty and for compat only)
-    const theresult = issues.map((issue) => ({
+    return issues.map((issue) => ({
       ...issue,
       stats:
         this.issueStatsResource.value()?.find((stat) => stat.id === issue.id)
           ?.stats || issue.stats,
     }));
-    return theresult;
   });
   selectedIssues = computed(() => this.state().selectedIssues);
   issuesWithSelected = computed(() =>

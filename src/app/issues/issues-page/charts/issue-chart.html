@@ -1,40 +1,36 @@
-@if (showLoadingValue) {
+@if (showLoading()) {
 <div class="chart-skeleton">
   <div class="skeleton-bars">
-    @for (bar of skeletonBarsValue; track $index) {
+    @for (bar of skeletonBarsValue(); track $index) {
     <div class="skeleton-bar"></div>
     }
   </div>
 </div>
-} @if (!showLoadingValue) {
-<div
-  #chartContainer
-  class="chart-container"
-  style="position: relative"
-  (mousemove)="onChartMouseMove($event)"
-  (mouseleave)="onChartMouseLeave()"
->
+} @if (!showLoading()) {
+<div class="chart-container">
   <ngx-charts-bar-vertical
-    [results]="chartDataValue"
+    [results]="chartData()"
     [view]="view()"
-    [customColors]="customColorsValue"
+    [customColors]="customColors()"
     [xAxis]="true"
     [animations]="true"
     [showDataLabel]="false"
     [barPadding]="timeRange() === '14d' ? 17 : 8"
     [trimXAxisTicks]="false"
     [roundEdges]="false"
-    [tooltipDisabled]="true"
-    (activate)="onActivate($event)"
-    (deactivate)="onDeactivate($event)"
+    [tooltipDisabled]="false"
   >
+    <ng-template #tooltipTemplate let-model="model">
+      {{ model.name | date: (timeRange() === '14d' ? 'M/d/yy' : 'M/d/yy, h:mm
+      a') }}<br />
+      {{ model.value }} events
+    </ng-template>
+
+    <ng-template #seriesTooltipTemplate let-model="model">
+      {{ model[0].name | date: (timeRange() === '24h' ? 'M/d/yy' : 'M/d/yy, h:mm
+      a') }}<br />
+      {{ model[0].value }} events
+    </ng-template>
   </ngx-charts-bar-vertical>
-  <gt-chart-tooltip
-    [visible]="tooltipVisible()"
-    [header]="tooltipHeader()"
-    [value]="tooltipValue()"
-    [x]="tooltipX()"
-    [y]="tooltipY()"
-  ></gt-chart-tooltip>
 </div>
 }
