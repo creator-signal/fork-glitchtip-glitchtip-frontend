@@ -1,35 +1,43 @@
-@if (showLoading()) {
+@if (loading()) {
 <div class="chart-skeleton">
   <div class="skeleton-bars">
-    @for (bar of skeletonBarsValue(); track $index) {
+    @for (bar of statsChartDataFrame(); track $index) {
     <div class="skeleton-bar"></div>
     }
   </div>
 </div>
-} @if (!showLoading()) {
+} @else {
 <div class="chart-container">
   <ngx-charts-bar-vertical
-    [results]="chartData()"
-    [view]="view()"
+    [results]="formattedStats()"
     [customColors]="customColors()"
     [xAxis]="true"
     [animations]="true"
     [showDataLabel]="false"
-    [barPadding]="timeRange() === '14d' ? 17 : 8"
+    [barPadding]="statsPeriod() === '14d' ? 17 : 8"
     [trimXAxisTicks]="false"
     [roundEdges]="false"
-    [tooltipDisabled]="false"
   >
     <ng-template #tooltipTemplate let-model="model">
-      {{ model.name | date: (timeRange() === '14d' ? 'M/d/yy' : 'M/d/yy, h:mm
-      a') }}<br />
-      {{ model.value }} events
-    </ng-template>
-
-    <ng-template #seriesTooltipTemplate let-model="model">
-      {{ model[0].name | date: (timeRange() === '24h' ? 'M/d/yy' : 'M/d/yy, h:mm
-      a') }}<br />
-      {{ model[0].value }} events
+      <div class="tooltip">
+        @if (statsPeriod() === "14d") {
+        <!--
+        Daily stats are calculated from midnight on a given day
+        according to the server timezone. So rather than localizing the date,
+        we use the server tz and make that explicit to the user.
+        -->
+        <div>
+          {{ model.name | date: 'M/d/yy': serverTimeZone() }}
+          ({{serverTimeZone()}})</div
+        >
+        } @else {
+        <div> {{ model.name | date: 'M/d/yy, h:mm a'}}</div>
+        }
+        <div
+          >{{ model.value | i18nPlural: {'=0': 'events', '=1': '# event',
+          'other': '# events'} }}
+        </div>
+      </div>
     </ng-template>
   </ngx-charts-bar-vertical>
 </div>

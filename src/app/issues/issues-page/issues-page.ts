@@ -7,7 +7,6 @@ import {
   computed,
   OnInit,
   OnDestroy,
-  signal,
 } from "@angular/core";
 import { DatePipe, I18nPluralPipe } from "@angular/common";
 import { FormControl, FormGroup } from "@angular/forms";
@@ -19,6 +18,7 @@ import { MatSelectChange } from "@angular/material/select";
 import { MatTableModule } from "@angular/material/table";
 import { Router, ActivatedRoute, RouterLink } from "@angular/router";
 import { IssuesService } from "../issues.service";
+import { SettingsService } from "src/app/api/settings.service";
 import { IssueStatus } from "../interfaces";
 import { DaysAgoPipe, DaysOldPipe } from "../../shared/days-ago.pipe";
 import { IssueZeroStatesComponent } from "../issue-zero-states/issue-zero-states.component";
@@ -67,6 +67,7 @@ export class IssuesPage implements OnInit, OnDestroy {
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
   private organizationsService = inject(OrganizationsService);
+  private settingsService = inject(SettingsService);
   #environmentsService = inject(EnvironmentsService);
 
   orgSlug = input.required<string>({ alias: "org-slug" });
@@ -77,8 +78,6 @@ export class IssuesPage implements OnInit, OnDestroy {
   sort = input(undefined, { transform: stringAttribute });
   projects = input([], { alias: "project", transform: stringArrAttribute });
   environment = input(undefined, { transform: stringAttribute });
-
-  trendTimeRange = signal<"24h" | "14d">("24h");
 
   displayedColumns: string[] = ["select", "title", "trend", "events"];
   paginator = this.service.paginator;
@@ -112,6 +111,10 @@ export class IssuesPage implements OnInit, OnDestroy {
     return selectedProjectsSet.size > 1;
   });
 
+  statsPeriod = this.service.statsPeriod;
+  statsChartDataFrame = this.service.statsChartDataFrame;
+  issueStatsLoading = this.service.issueStatsLoading;
+  serverTimeZone = this.settingsService.serverTimeZone;
   thereAreSelectedIssues = this.service.thereAreSelectedIssues;
   allResultsSelected = this.service.allResultsSelected;
   numberOfSelectedIssues = this.service.numberOfSelectedIssues;
@@ -353,13 +356,7 @@ export class IssuesPage implements OnInit, OnDestroy {
     });
   }
 
-  toggleTrendTimeRange(period: "24h" | "14d") {
-    this.trendTimeRange.set(period);
-    this.service.setStatsTimeRange(period);
+  toggleStatsPeriod(period: "24h" | "14d") {
+    this.statsPeriod.set(period);
   }
-
-  // Add computed to check active period
-  isTrendPeriodActive = computed(() => (period: "24h" | "14d") => {
-    return this.trendTimeRange() === period;
-  });
 }

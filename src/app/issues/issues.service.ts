@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { client } from "../shared/api/api";
 import { StatefulService } from "../shared/stateful-service/signal-state.service";
 import { getPaginationHeaders, getPaginator } from "../shared/pagination.utils";
-import { IssueStatus } from "./interfaces";
+import { IssueStatus, StatsPeriod } from "./interfaces";
 import { apiResource } from "../shared/api/api-resource-factory";
 
 export interface DataParams {
@@ -55,7 +55,8 @@ export class IssuesService extends StatefulService<IssuesState> {
   private router = inject(Router);
   protected route = inject(ActivatedRoute);
   private params = signal<DataParams | undefined>(undefined);
-  private statsTimeRange = signal<"24h" | "14d">("24h");
+
+  statsPeriod = signal<StatsPeriod>("24h");
 
   private issuesResource = resource({
     params: () => ({ params: this.params() }),
@@ -117,24 +118,21 @@ export class IssuesService extends StatefulService<IssuesState> {
   private issueStatsParams = computed(() => {
     const params = this.params();
     const issues = this.issues();
-    const timeRange = this.statsTimeRange();
+    const statsPeriod = this.statsPeriod();
     if (!params || !issues) {
       return undefined;
     }
     return {
       issueIDs: issues.map((issue) => parseInt(issue.id)),
       orgSlug: params.orgSlug,
-      statsPeriod: timeRange === "14d" ? "14d" : undefined,
+      statsPeriod,
     };
   });
   private issueStatsResource = apiResource(this.issueStatsParams, (params) => {
     const queryParams: any = {
       groups: params.issueIDs,
+      statsPeriod: params.statsPeriod,
     };
-
-    if (params.statsPeriod) {
-      queryParams.statsPeriod = params.statsPeriod;
-    }
 
     return {
       url: "/api/0/organizations/{organization_slug}/issues-stats/",
@@ -148,6 +146,62 @@ export class IssuesService extends StatefulService<IssuesState> {
       },
     };
   });
+  // Array of timestamps across selected period
+  // counting back from present. Used for empty chart state
+  // and as basis for formatted chart data
+  statsChartDataFrame = computed(() => {
+    const period = this.statsPeriod();
+    const count = this.statsPeriod() === "14d" ? 14 : 24;
+    return Array.from({ length: count }, (_, i) => {
+      const baseTimeRef = new Date();
+      const interval = i + 1 - count;
+      let utcTimestamp: number;
+      if (period === "14d") {
+        utcTimestamp = Date.UTC(
+          baseTimeRef.getUTCFullYear(),
+          baseTimeRef.getUTCMonth(),
+          baseTimeRef.getUTCDate() + interval,
+          0,
+          0,
+          0,
+        );
+      } else {
+        utcTimestamp = Date.UTC(
+          baseTimeRef.getUTCFullYear(),
+          baseTimeRef.getUTCMonth(),
+          baseTimeRef.getUTCDate(),
+          baseTimeRef.getUTCHours() + interval,
+          0,
+          0,
+        );
+      }
+      return {
+        name: utcTimestamp.toString(),
+        timestamp: utcTimestamp,
+      };
+    });
+  });
+  formattedStatsChartData = computed(() => {
+    const statsResource = this.issueStatsResource.value();
+    const frameArray = this.statsChartDataFrame();
+    const period = this.statsPeriod();
+    if (!statsResource) {
+      return [];
+    }
+    return statsResource.map((issue) => {
+      const stats = period in issue.stats ? issue.stats[period] : null;
+      const mappedStats = new Map<number, number>(
+        stats?.map(([ts, val]) => [ts, val]),
+      );
+      const formattedStats = frameArray.map((datapoint) => {
+        return {
+          ...datapoint,
+          value: mappedStats.get(datapoint.timestamp / 1000) ?? 0,
+        };
+      });
+      return { ...issue, formattedStats };
+    });
+  });
 
   pagination = computed(() => this.issuesResource.value()?.pagination);
   paginator = computed(() => getPaginator(this.pagination()));
@@ -160,12 +214,11 @@ export class IssuesService extends StatefulService<IssuesState> {
     if (!issues) {
       return [];
     }
-    // Overwrite stats from the issue API (which is always empty and for compat only)
     return issues.map((issue) => ({
       ...issue,
-      stats:
-        this.issueStatsResource.value()?.find((stat) => stat.id === issue.id)
-          ?.stats || issue.stats,
+      formattedStats:
+        this.formattedStatsChartData().find((stat) => stat.id === issue.id)
+          ?.formattedStats || [],
     }));
   });
   selectedIssues = computed(() => this.state().selectedIssues);
@@ -377,13 +430,5 @@ export class IssuesService extends StatefulService<IssuesState> {
       }
       return update;
     });
-  }
-
-  setStatsTimeRange(timeRange: "24h" | "14d") {
-    this.statsTimeRange.set(timeRange);
-  }
-
-  getStatsTimeRange() {
-    return this.statsTimeRange();
   }
 }

@@ -222,25 +222,22 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="trend-header-cell"
             [class.sticky-header]="thereAreSelectedIssues() === true"
           >
-            <div class="trend-header-content">
+            <div class="stats-header-content">
               <span>Trend</span>
-              <div class="trend-period-toggle">
+              <div class="stats-period-toggle-container">
                 <button
-                  class="period-btn"
-                  [class.active]="isTrendPeriodActive()('24h')"
-                  [class.inactive]="!isTrendPeriodActive()('24h')"
-                  (click)="toggleTrendTimeRange('24h')"
+                  class="stats-period-btn"
+                  [disabled]="statsPeriod() === '24h'"
+                  (click)="toggleStatsPeriod('24h')"
                 >
                   24h
                 </button>
                 <button
-                  class="period-btn"
-                  [class.active]="isTrendPeriodActive()('14d')"
-                  [class.inactive]="!isTrendPeriodActive()('14d')"
-                  (click)="toggleTrendTimeRange('14d')"
+                  class="stats-period-btn"
+                  [disabled]="statsPeriod() === '14d'"
+                  (click)="toggleStatsPeriod('14d')"
                 >
                   14d
                 </button>
@@ -255,9 +252,11 @@
             class="trend-cell"
           >
             <gt-issue-chart
-              [issueStats]="element.stats"
-              [loading]="service.issueStatsLoading()"
-              [timeRange]="trendTimeRange()"
+              [formattedStats]="element.formattedStats"
+              [loading]="issueStatsLoading()"
+              [serverTimeZone]="serverTimeZone()"
+              [statsChartDataFrame]="statsChartDataFrame()"
+              [statsPeriod]="statsPeriod()"
             >
             </gt-issue-chart>
           </td>

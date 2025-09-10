@@ -177,7 +177,7 @@ table {
   }
 }
 
-.trend-header-content {
+.stats-header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -185,31 +185,31 @@ table {
   margin-left: 20px;
 }
 
-.trend-period-toggle {
+.stats-period-toggle-container {
   display: flex;
   gap: 6px;
 
-  .period-btn {
+  .stats-period-btn {
     padding: 2px 8px;
     border: none;
     background: transparent;
     font-size: 12px;
-    cursor: pointer;
     min-width: 28px;
     text-align: center;
 
-    &.active {
+    &:disabled {
       font-weight: bold;
       color: var(--mat-sys-on-surface);
     }
 
-    &.inactive {
+    &:enabled {
       color: var(--mat-sys-outline);
-    }
+      cursor: pointer;
 
-    &:hover {
-      background-color: var(--mat-sys-outline-variant);
-      border-radius: 3px;
+      &:hover {
+        background-color: var(--mat-sys-outline-variant);
+        border-radius: 3px;
+      }
     }
   }
 }

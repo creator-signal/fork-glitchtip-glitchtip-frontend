@@ -192,6 +192,15 @@ mat-sidenav-content {
 //   }
 // }
 
+gt-issue-chart {
+  .ngx-charts {
+    // Hide tick labels
+    .tick text {
+      display: none !important;
+    }
+  }
+}
+
 .comment-markdown {
   ul {
     list-style: disc outside;

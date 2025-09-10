@@ -1,10 +1,6 @@
-::ng-deep {
-  .ngx-charts {
-    // Hide tick labels
-    .tick text {
-      display: none !important;
-    }
-  }
+.chart-container {
+  width: 300px;
+  height: 40px;
 }
 
 .chart-skeleton {
@@ -24,7 +20,6 @@
   .skeleton-bar {
     flex: 1;
     background: var(--mat-sys-outline-variant);
-
     animation: skeleton-pulse 1s ease-in-out infinite alternate;
     min-height: 4px;
   }
@@ -37,4 +32,9 @@
   100% {
     opacity: 0.9;
   }
+}
+
+.tooltip {
+  font: var(--mat-sys-label-medium);
+  padding: 4px;
 }
