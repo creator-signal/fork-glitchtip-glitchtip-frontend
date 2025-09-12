@@ -1,0 +1,16 @@
+.add-project-button {
+  width: 150px;
+}
+
+.project-multiselect-container {
+  padding: 0 24px 0 0;
+}
+
+.time-range-select-container {
+  padding: 0 0 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-left: 1px solid var(--mat-sys-outline-variant);
+}

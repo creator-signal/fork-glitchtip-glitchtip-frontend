@@ -1,5 +1,4 @@
 @use "src/scss/global-theme";
-@use "src/scss/nav-lists-theme";
 @use "src/app/profile/preferences/preferences-theme.component";
 @use "src/app/issues/issue-detail/event-detail/entry-breadcrumbs/_entry-breadcrumbs-theme.component.scss";
 @use "src/app/issues/issue-detail/event-detail/entry-exception/frame-expanded/frame-expanded-theme.component";
@@ -15,13 +14,10 @@
 @use "src/app/uptime/monitor-list/monitor-list-theme.component";
 @use "src/app/uptime/monitor-checks/monitor-checks-theme.component";
 @use "src/app/issues/issue-detail/event-detail/_event-detail-theme.component";
-@use "src/app/issues/comments/comments-theme.component";
-@use "src/app/list-elements/project-filter-bar/project-filter-bar-theme.component";
 @use "src/app/profile/notifications/_notifications-theme.component.scss";
 
 @mixin generate-rules($theme) {
   @include global-theme.theme($theme);
-  @include nav-lists-theme.theme($theme);
   @include preferences-theme.theme($theme);
   @include entry-breadcrumbs-theme.theme($theme);
   @include entry-exception-theme.theme($theme);
@@ -37,8 +33,6 @@
   @include monitor-list-theme.theme($theme);
   @include monitor-checks-theme.theme($theme);
   @include event-detail-theme.theme($theme);
-  @include comments-theme.theme($theme);
-  @include project-filter-bar-theme.theme($theme);
   @include notifications-theme.theme($theme);
 }
 

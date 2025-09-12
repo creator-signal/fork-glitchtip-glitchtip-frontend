@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "@angular/material" as mat;
-@import "variables";
+@use "variables" as vars;
 
 @mixin theme($theme) {
   $primary: map.get($theme, primary);

@@ -1,11 +1,4 @@
-@import "variables";
-
-$iconWidth: 56px;
-
-.top-content {
-  display: flex;
-  justify-content: space-between;
-}
+@use "variables" as vars;
 
 table {
   width: 100%;
@@ -30,13 +23,13 @@ table {
 .name-and-url-container {
   width: 500px;
 
-  @media screen and (max-width: $large - 1) {
+  @media screen and (max-width: vars.$large - 1) {
     width: 300px;
   }
-  @media screen and (max-width: $medium - 1) {
+  @media screen and (max-width: vars.$medium - 1) {
     width: 200px;
   }
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     width: 160px;
   }
 
@@ -51,7 +44,7 @@ table {
   div {
     width: inherit;
 
-    .mat-caption {
+    .caption-text {
       color: inherit;
     }
   }
@@ -60,7 +53,7 @@ table {
 .chart-container {
   padding: 0;
 
-  @media screen and (max-width: $small - 1) {
+  @media screen and (max-width: vars.$small - 1) {
     display: none;
   }
 
@@ -70,7 +63,7 @@ table {
 }
 
 .status {
-  @media screen and (max-width: $small - 1) {
+  @media screen and (max-width: vars.$small - 1) {
     padding-left: 40px;
   }
 }

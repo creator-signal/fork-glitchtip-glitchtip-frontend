@@ -1,13 +1,15 @@
+<gt-list-app-bar
+  listTitle="Issues"
+  [searchHits]="paginator()?.count"
+  [queriedProjects]="projects()"
+  [queriedTimeRangeStart]="start()"
+  [queriedTimeRangeEnd]="end()"
+  [includeTimeRangeSelect]="true"
+  [displayAddProject]="true"
+/>
 <section class="l-body l-body--full-width mat-elevation-z0">
-  <header class="page-header">
-    <gt-list-title
-      i18n-title
-      title="Issues"
-      [searchHits]="paginator()?.count"
-    ></gt-list-title>
-  </header>
-  <gt-project-filter-bar></gt-project-filter-bar>
-  @if (issues(); as issues) {
+  <mat-card appearance="outlined" class="table-card">
+    @if (issues(); as issues) {
     <div class="wrapper issues-page-wrapper">
       <table
         mat-table
@@ -25,19 +27,19 @@
             class="table-header"
           >
             @if (availableEnvironments(); as availableEnvironments) {
-              <gt-data-filter-bar
-                [dateForm]="dateForm"
-                [environmentForm]="environmentForm"
-                [searchForm]="form"
-                [sortForm]="sortForm"
-                [sorts]="sorts"
-                [organizationEnvironments]="availableEnvironments"
-                (dateFormSubmission)="onDateFormSubmit($event)"
-                (dateFormReset)="dateFormReset()"
-                (filterByEnvironment)="filterByEnvironment($event)"
-                (searchSubmit)="searchSubmit()"
-                (sortByChanged)="sortByChanged($event)"
-              ></gt-data-filter-bar>
+            <gt-data-filter-bar
+              [dateForm]="dateForm"
+              [environmentForm]="environmentForm"
+              [searchForm]="form"
+              [sortForm]="sortForm"
+              [sorts]="sorts"
+              [organizationEnvironments]="availableEnvironments"
+              (dateFormSubmission)="onDateFormSubmit($event)"
+              (dateFormReset)="dateFormReset()"
+              (filterByEnvironment)="filterByEnvironment($event)"
+              (searchSubmit)="searchSubmit()"
+              (sortByChanged)="sortByChanged($event)"
+            ></gt-data-filter-bar>
             }
           </th>
         </ng-container>
@@ -104,10 +106,10 @@
                 mat-stroked-button
                 (click)="mergeSelectedIssues()"
                 [disabled]="
-                  numberOfSelectedIssues() < 2 ||
-                  allResultsSelected() ||
-                  multipleProjectIssuesSelected()
-                "
+                    numberOfSelectedIssues() < 2 ||
+                    allResultsSelected() ||
+                    multipleProjectIssuesSelected()
+                  "
                 i18n
                 >Merge</button
               >
@@ -121,47 +123,41 @@
             class="title-cell"
           >
             @if (element.status === "ignored") {
-              <mat-icon inline="true" class="mute-icon"> volume_off </mat-icon>
+            <mat-icon inline="true" class="mute-icon"> volume_off </mat-icon>
             }
-            <a [routerLink]="element.id" queryParamsHandling="merge">{{
-              element.title
-            }}</a>
-            <div class="other-cell-info mat-caption">
+            <a [routerLink]="element.id" queryParamsHandling="merge"
+              >{{ element.title }}</a
+            >
+            <div class="other-cell-info caption-text">
               {{ element.count | i18nPlural: eventCountPluralMapping }}
             </div>
             <div>
               @if (appliedProjectCount() !== 1) {
-                <span class="mat-caption">
-                  {{ element.projectSlug }}
-                </span>
+              <span class="caption-text"> {{ element.projectSlug }} </span>
               }
-              <span class="mat-caption">
-                @if (appliedProjectCount() !== 1) {
-                  &mdash;
-                }
+              <span class="caption-text">
+                @if (appliedProjectCount() !== 1) { &mdash; }
                 <time
                   [dateTime]="element.firstSeen"
                   [title]="element.firstSeen | date: 'medium'"
                 >
                   {{ element.firstSeen | daysOld }}</time
                 >
-                @if (element.firstSeen !== element.lastSeen) {
-                  , seen
-                  <time
-                    [dateTime]="element.lastSeen"
-                    [title]="element.lastSeen | date: 'medium'"
-                  >
-                    {{ element.lastSeen | daysAgo }}
-                  </time>
+                @if (element.firstSeen !== element.lastSeen) { , seen
+                <time
+                  [dateTime]="element.lastSeen"
+                  [title]="element.lastSeen | date: 'medium'"
+                >
+                  {{ element.lastSeen | daysAgo }}
+                </time>
                 }
               </span>
               @if (element.type && element.type === "csp") {
-                <span class="mat-caption">
-                  @if (appliedProjectCount() !== 1 && element.type) {
-                    <span> &mdash; </span>
-                  }
-                  {{ element.type }} report</span
-                >
+              <span class="caption-text">
+                @if (appliedProjectCount() !== 1 && element.type) {
+                <span> &mdash; </span>
+                } {{ element.type }} report</span
+              >
               }
             </div>
           </td>
@@ -173,36 +169,33 @@
             colspan="3"
             class="bulk-project-select__inner"
           >
-            @if (showBulkSelectProject() === true) {
-              @if (allResultsSelected() === false) {
-                <span class="bulk-project-select__text"
-                  >{{ numberOfSelectedIssues() }} issues on this page
-                  selected.</span
-                >
-                <button
-                  id="bulkUpdateProject"
-                  mat-stroked-button
-                  color="primary"
-                  (click)="selectAllResults()"
-                >
-                  @if (paginator()?.hits; as hits) {
-                    Select all {{ hits }} issues that match this query
-                  }
-                </button>
-              } @else {
-                <span class="bulk-project-select__text"
-                  >All {{ paginator()?.hits }} issues are currently
-                  selected.</span
-                >
-                <button
-                  mat-stroked-button
-                  color="primary"
-                  (click)="clearSelectAllResults()"
-                >
-                  Undo
-                </button>
-              }
-            }
+            @if (showBulkSelectProject() === true) { @if (allResultsSelected()
+            === false) {
+            <span class="bulk-project-select__text"
+              >{{ numberOfSelectedIssues() }} issues on this page
+              selected.</span
+            >
+            <button
+              id="bulkUpdateProject"
+              mat-stroked-button
+              color="primary"
+              (click)="selectAllResults()"
+            >
+              @if (paginator()?.hits; as hits) { Select all {{ hits }} issues
+              that match this query }
+            </button>
+            } @else {
+            <span class="bulk-project-select__text"
+              >All {{ paginator()?.hits }} issues are currently selected.</span
+            >
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="clearSelectAllResults()"
+            >
+              Undo
+            </button>
+            } }
           </td>
         </ng-container>
         <ng-container matColumnDef="events">
@@ -220,7 +213,7 @@
             *matCellDef="let element"
             [class.resolved]="element.status === 'resolved'"
             [class.ignored]="element.status === 'ignored'"
-            class="event-cell mat-body-1"
+            class="event-cell body-text"
           >
             <p>{{ element.count }}</p>
           </td>
@@ -244,7 +237,9 @@
         <tr
           mat-header-row
           *matHeaderRowDef="['bulkProjectSelect']"
-          [class.bulk-project-select__hide]="showBulkSelectProject() === false"
+          [class.bulk-project-select__hide]="
+              showBulkSelectProject() === false
+            "
         ></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow>
@@ -253,9 +248,9 @@
             [attr.colspan]="displayedColumns.length"
           >
             @if (initialLoad()) {
-              <gt-issue-zero-states
-                [projects]="projects()"
-              ></gt-issue-zero-states>
+            <gt-issue-zero-states
+              [projects]="projects()"
+            ></gt-issue-zero-states>
             }
           </td>
         </tr>
@@ -266,5 +261,6 @@
         ></tr>
       </table>
     </div>
-  }
+    }
+  </mat-card>
 </section>

@@ -20,10 +20,10 @@ import {
 import { HumanizeDurationPipe } from "../../shared/seconds-or-ms.pipe";
 import { ListFooterComponent } from "../../list-elements/list-footer/list-footer.component";
 import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data-filter-bar.component";
-import { ProjectFilterBarComponent } from "../../list-elements/project-filter-bar/project-filter-bar.component";
-import { ListTitleComponent } from "../../list-elements/list-title/list-title.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { EnvironmentsService } from "src/app/api/environments.service";
+import { MatCardModule } from "@angular/material/card";
+import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
 
 @Component({
   selector: "gt-transaction-groups",
@@ -31,14 +31,14 @@ import { EnvironmentsService } from "src/app/api/environments.service";
   styleUrls: ["./transaction-groups.scss"],
   imports: [
     I18nPluralPipe,
-    ListTitleComponent,
-    ProjectFilterBarComponent,
     MatTableModule,
+    MatCardModule,
     DataFilterBarComponent,
     MatTooltipModule,
     RouterLink,
     ListFooterComponent,
     HumanizeDurationPipe,
+    ListAppBar,
   ],
   providers: [PerformanceService],
 })

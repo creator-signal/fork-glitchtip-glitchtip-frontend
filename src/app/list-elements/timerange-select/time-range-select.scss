@@ -1,0 +1,14 @@
+.custom-range-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-range-select-formfield {
+  width: 200px;
+
+  &.wide {
+    width: 325px;
+  }
+}

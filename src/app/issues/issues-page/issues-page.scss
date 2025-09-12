@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as vars;
 
 $iconWidth: 56px;
 
@@ -15,6 +15,10 @@ table {
   }
 }
 
+.table-card {
+  overflow: hidden;
+}
+
 .button-group {
   button {
     font-size: 0.95em;
@@ -24,18 +28,18 @@ table {
     &:not(:last-of-type) {
       margin-right: 10px;
 
-      @media screen and (max-width: $small - 1) {
+      @media screen and (max-width: vars.$small - 1) {
         margin-right: 5px;
       }
     }
 
-    @media screen and (max-width: $small - 1) {
+    @media screen and (max-width: vars.$small - 1) {
       margin-top: 4px;
       margin-bottom: 4px;
     }
   }
 
-  @media screen and (max-width: $small - 1) {
+  @media screen and (max-width: vars.$small - 1) {
     margin: -4px 0;
   }
 }
@@ -65,7 +69,7 @@ table {
   &__text {
     margin-left: 8px;
     margin-right: 8px;
-    font-family: $font-sans-serif;
+    font-family: vars.$font-sans-serif;
     font-size: 14px;
     font-weight: 500;
   }
@@ -86,6 +90,10 @@ table {
 
 .mat-column-events {
   padding-right: 24px;
+  .mat-cell-content,
+  p {
+    text-align: right;
+  }
 }
 
 .zero-states-cell {
@@ -107,7 +115,7 @@ table {
   width: 50px;
 }
 
-@media screen and (max-width: $tablet - 1) {
+@media screen and (max-width: vars.$tablet - 1) {
   th.mat-header-cell:first-of-type,
   td.mat-cell:first-of-type,
   td.mat-footer-cell:first-of-type {
@@ -124,14 +132,14 @@ table {
 .status-cell {
   width: 120px;
 
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     display: none;
   }
 }
 
 .status-header-cell,
 .event-header-cell {
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     display: none;
   }
 }
@@ -139,7 +147,7 @@ table {
 .event-cell {
   width: 80px;
 
-  @media screen and (max-width: $tablet - 1) {
+  @media screen and (max-width: vars.$tablet - 1) {
     display: none;
   }
 }
@@ -152,7 +160,7 @@ table {
   margin: 0 0 -4px;
   font-weight: 500;
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: vars.$tablet) {
     display: none;
   }
 }

@@ -13,6 +13,7 @@ import { checkForOverflow } from "src/app/shared/shared.utils";
 import { ListTitleComponent } from "../list-elements/list-title/list-title.component";
 import { ListFooterComponent } from "../list-elements/list-footer/list-footer.component";
 import { ReleasesService } from "./releases-state";
+import { TopAppBar } from "../shared/top-app-bar/top-app-bar";
 
 @Component({
   templateUrl: "./releases.html",
@@ -24,6 +25,7 @@ import { ReleasesService } from "./releases-state";
     RouterLink,
     MatTooltipModule,
     ListFooterComponent,
+    TopAppBar,
   ],
   providers: [ReleasesService],
   changeDetection: ChangeDetectionStrategy.OnPush,
