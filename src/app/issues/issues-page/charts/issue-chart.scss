@@ -1,19 +1,28 @@
+::ng-deep {
+  .ngx-charts {
+    // Hide tick labels
+    .tick text {
+      display: none !important;
+    }
+  }
+}
+
 .chart-container {
-  width: 300px;
+  width: 300px; 
   height: 40px;
 }
 
 .chart-skeleton {
   display: flex;
   align-items: center;
-  margin-left: 20px;
-  width: 270px;
+  justify-content: center;
+  width: 300px; 
   height: 40px;
 
   .skeleton-bars {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 85%;
     gap: 10px;
   }
 
@@ -32,9 +41,4 @@
   100% {
     opacity: 0.9;
   }
-}
-
-.tooltip {
-  font: var(--mat-sys-label-medium);
-  padding: 4px;
 }
