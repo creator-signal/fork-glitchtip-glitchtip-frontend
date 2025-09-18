@@ -12,4 +12,17 @@ div {
     min-width: 10px;
     margin-right: 7px;
   }
+
+  .up-check {
+    background-color: #4caf50;
+  }
+
+  .down-check {
+    background-color: var(--mat-sys-primary);
+  }
+
+  .no-check {
+    background-color: var(--mat-sys-surface-variant);
+    opacity: 0.6;
+  }
 }

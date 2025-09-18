@@ -14,6 +14,7 @@ import { ListTitleComponent } from "../list-elements/list-title/list-title.compo
 import { ListFooterComponent } from "../list-elements/list-footer/list-footer.component";
 import { ReleasesService } from "./releases-state";
 import { TopAppBar } from "../shared/top-app-bar/top-app-bar";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   templateUrl: "./releases.html",
@@ -26,6 +27,7 @@ import { TopAppBar } from "../shared/top-app-bar/top-app-bar";
     MatTooltipModule,
     ListFooterComponent,
     TopAppBar,
+    MatCardModule,
   ],
   providers: [ReleasesService],
   changeDetection: ChangeDetectionStrategy.OnPush,
