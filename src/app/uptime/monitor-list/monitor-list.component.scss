@@ -71,6 +71,7 @@ table {
 .status-color {
   position: relative;
   padding: 0 0 0 24px;
+
   &:after {
     content: "";
     position: absolute;
@@ -78,5 +79,17 @@ table {
     top: 0;
     bottom: 0;
     width: 3px;
+  }
+
+  &--true:after {
+    background-color: var(--success-color);
+  }
+
+  &--false:after {
+    background-color: var(--mat-sys-error);
+  }
+
+  &--:after {
+    background-color: var(--mat-sys-surface-variant);
   }
 }

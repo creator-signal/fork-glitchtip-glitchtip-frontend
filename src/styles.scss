@@ -24,6 +24,7 @@ html {
   :root {
     --mat-sys-primary: #d94a5f;
     --mat-sys-on-primary: #ffffff;
+    --mat-sys-error: #f54e6f;
   }
 }
 
@@ -36,6 +37,10 @@ html {
   --info-color: #4b60b4;
   --info-container: #d5d8ff;
   --on-info: #001946;
+
+  --success-color: #4caf50;
+  --success-container: #c8e6c9;
+  --on-success: #1b5e20;
 }
 
 .light {
@@ -264,6 +269,13 @@ gt-issue-chart {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  .ngx-charts {
+    text {
+      fill: var(--mat-sys-on-background) !important;
+    }
+  }
+}
 // Overrides for ngx-mat-select-search
 .project-multiselect__search-field.mdc-list-item--disabled {
   mat-checkbox {

@@ -14,11 +14,11 @@ div {
   }
 
   .up-check {
-    background-color: #4caf50;
+    background-color: var(--success-color);
   }
 
   .down-check {
-    background-color: var(--mat-sys-primary);
+    background-color: var(--mat-sys-error);
   }
 
   .no-check {

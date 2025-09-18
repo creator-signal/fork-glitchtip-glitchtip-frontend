@@ -1,11 +1,13 @@
 @if (monitorChecks(); as monitorChecks) { @if (monitorChecks.length) {
-<button mat-raised-button (click)="toggleIsChange()">
+
+<button mat-flat-button (click)="toggleIsChange()">
   @if (isChange()) {
   <ng-container i18n>Show all checks</ng-container>
   } @else {
   <ng-container i18n>Show incidents</ng-container>
   }
 </button>
+
 @if (displayedColumns(); as displayedColumns) {
 <table mat-table [dataSource]="monitorChecks" class="mat-elevation-z2">
   <ng-container matColumnDef="status">
