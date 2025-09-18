@@ -35,7 +35,7 @@ import {
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { EnvironmentsService } from "src/app/api/environments.service";
 import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
-import { IssueChartComponent } from "./charts/issue-chart";
+import { IssueChart } from "./charts/issue-chart";
 
 @Component({
   templateUrl: "./issues-page.html",
@@ -56,7 +56,7 @@ import { IssueChartComponent } from "./charts/issue-chart";
     DaysOldPipe,
     I18nPluralPipe,
     ListAppBar,
-    IssueChartComponent,
+    IssueChart,
     MatButtonToggleModule,
   ],
   providers: [IssuesService],

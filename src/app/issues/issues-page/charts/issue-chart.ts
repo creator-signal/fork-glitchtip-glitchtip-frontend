@@ -22,7 +22,7 @@ const HIGH_THRESHOLD_RATIO = 0.8;
   styleUrl: "./issue-chart.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IssueChartComponent {
+export class IssueChart {
   formattedStats = input.required<FormattedStatsDataPoint[]>();
   statsChartDataFrame = input.required<StatsDataPointBase[]>();
   statsPeriod = input.required<StatsPeriod>();

@@ -1,44 +1,4 @@
-::ng-deep {
-  .ngx-charts {
-    // Hide tick labels
-    .tick text {
-      display: none !important;
-    }
-  }
-}
-
 .chart-container {
-  width: 300px; 
+  width: 300px;
   height: 40px;
-}
-
-.chart-skeleton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 300px; 
-  height: 40px;
-
-  .skeleton-bars {
-    display: flex;
-    justify-content: space-between;
-    width: 85%;
-    gap: 10px;
-  }
-
-  .skeleton-bar {
-    flex: 1;
-    background: var(--mat-sys-outline-variant);
-    animation: skeleton-pulse 1s ease-in-out infinite alternate;
-    min-height: 4px;
-  }
-}
-
-@keyframes skeleton-pulse {
-  0% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.9;
-  }
 }

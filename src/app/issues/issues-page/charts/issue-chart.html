@@ -1,12 +1,3 @@
-@if (loading()) {
-<div class="chart-skeleton">
-  <div class="skeleton-bars">
-    @for (bar of statsChartDataFrame(); track $index) {
-    <div class="skeleton-bar"></div>
-    }
-  </div>
-</div>
-} @else {
 <div class="chart-container">
   <ngx-charts-bar-vertical
     [results]="formattedStats()"
@@ -41,4 +32,3 @@
     </ng-template>
   </ngx-charts-bar-vertical>
 </div>
-}
