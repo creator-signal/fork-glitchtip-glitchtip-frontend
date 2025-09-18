@@ -18,6 +18,7 @@ import { MatSelectChange } from "@angular/material/select";
 import { MatTableModule } from "@angular/material/table";
 import { Router, ActivatedRoute, RouterLink } from "@angular/router";
 import { IssuesService } from "../issues.service";
+import { SettingsService } from "src/app/api/settings.service";
 import { IssueStatus } from "../interfaces";
 import { DaysAgoPipe, DaysOldPipe } from "../../shared/days-ago.pipe";
 import { IssueZeroStatesComponent } from "../issue-zero-states/issue-zero-states.component";
@@ -25,6 +26,7 @@ import { ListFooterComponent } from "../../list-elements/list-footer/list-footer
 import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data-filter-bar.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 import {
   stringArrAttribute,
@@ -33,6 +35,7 @@ import {
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { EnvironmentsService } from "src/app/api/environments.service";
 import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
+import { IssueChart } from "./charts/issue-chart";
 
 @Component({
   templateUrl: "./issues-page.html",
@@ -53,6 +56,8 @@ import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
     DaysOldPipe,
     I18nPluralPipe,
     ListAppBar,
+    IssueChart,
+    MatButtonToggleModule,
   ],
   providers: [IssuesService],
 })
@@ -62,6 +67,7 @@ export class IssuesPage implements OnInit, OnDestroy {
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
   private organizationsService = inject(OrganizationsService);
+  private settingsService = inject(SettingsService);
   #environmentsService = inject(EnvironmentsService);
 
   orgSlug = input.required<string>({ alias: "org-slug" });
@@ -73,7 +79,7 @@ export class IssuesPage implements OnInit, OnDestroy {
   projects = input([], { alias: "project", transform: stringArrAttribute });
   environment = input(undefined, { transform: stringAttribute });
 
-  displayedColumns: string[] = ["select", "title", "events"];
+  displayedColumns: string[] = ["select", "title", "trend", "events"];
   paginator = this.service.paginator;
   loading = this.service.loading;
   initialLoad = this.service.initialLoad;
@@ -95,6 +101,7 @@ export class IssuesPage implements OnInit, OnDestroy {
   });
 
   issues = this.service.issuesWithSelected;
+
   areAllSelected = this.service.areAllSelected;
   multipleProjectIssuesSelected = computed(() => {
     let selectedProjects = this.issues()
@@ -103,6 +110,11 @@ export class IssuesPage implements OnInit, OnDestroy {
     let selectedProjectsSet = new Set(selectedProjects);
     return selectedProjectsSet.size > 1;
   });
+
+  statsPeriod = this.service.statsPeriod;
+  statsChartDataFrame = this.service.statsChartDataFrame;
+  issueStatsLoading = this.service.issueStatsLoading;
+  serverTimeZone = this.settingsService.serverTimeZone;
   thereAreSelectedIssues = this.service.thereAreSelectedIssues;
   allResultsSelected = this.service.allResultsSelected;
   numberOfSelectedIssues = this.service.numberOfSelectedIssues;
@@ -342,5 +354,9 @@ export class IssuesPage implements OnInit, OnDestroy {
       queryParams: { cursor: null, environment: event.value },
       queryParamsHandling: "merge",
     });
+  }
+
+  toggleStatsPeriod(period: "24h" | "14d") {
+    this.statsPeriod.set(period);
   }
 }
