@@ -28,14 +28,11 @@
           >
             @if (availableEnvironments(); as availableEnvironments) {
             <gt-data-filter-bar
-              [dateForm]="dateForm"
               [environmentForm]="environmentForm"
               [searchForm]="form"
               [sortForm]="sortForm"
               [sorts]="sorts"
               [organizationEnvironments]="availableEnvironments"
-              (dateFormSubmission)="onDateFormSubmit($event)"
-              (dateFormReset)="dateFormReset()"
               (filterByEnvironment)="filterByEnvironment($event)"
               (searchSubmit)="searchSubmit()"
               (sortByChanged)="sortByChanged($event)"

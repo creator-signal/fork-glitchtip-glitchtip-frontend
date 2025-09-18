@@ -25,15 +25,14 @@
       <gt-project-multiselect [queriedProjects]="queriedProjects" />
       }
     </div>
-    }
+    } @if (includeTimeRangeSelect()) {
     <div class="time-range-select-container">
-      @if (includeTimeRangeSelect()) {
       <gt-time-range-select
         [queriedTimeRangeStart]="queriedTimeRangeStart()"
         [queriedTimeRangeEnd]="queriedTimeRangeEnd()"
       />
-      }
     </div>
+    }
   </ng-container>
   }
 </gt-top-app-bar>

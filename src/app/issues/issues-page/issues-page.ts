@@ -235,14 +235,6 @@ export class IssuesPage implements OnInit, OnDestroy {
         environment: environment ?? "",
       });
     });
-    effect(() => {
-      const start = this.start();
-      const end = this.end();
-      this.dateForm.setValue({
-        startDate: start ? new Date(start.replace("Z", "")) : null,
-        endDate: end ? new Date(end.replace("Z", "")) : null,
-      });
-    });
   }
 
   ngOnInit(): void {
@@ -255,25 +247,6 @@ export class IssuesPage implements OnInit, OnDestroy {
 
   trackIssues(index: number, issue: { id: string }): string {
     return issue.id;
-  }
-
-  onDateFormSubmit(queryParams: object) {
-    this.router.navigate([], {
-      queryParams,
-      queryParamsHandling: "merge",
-    });
-  }
-
-  dateFormReset() {
-    this.router.navigate([], {
-      queryParams: {
-        cursor: null,
-        start: null,
-        end: null,
-      },
-      queryParamsHandling: "merge",
-    });
-    this.dateForm.setValue({ startDate: null, endDate: null });
   }
 
   searchSubmit() {
