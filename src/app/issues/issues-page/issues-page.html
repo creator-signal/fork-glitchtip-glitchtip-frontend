@@ -271,7 +271,7 @@
         <tr
           mat-header-row
           class="table-header"
-          [hidden]="issues.length === 0"
+          [hidden]="issues.length === 0 && !loading()"
           [class.hideLowerBorder]="showBulkSelectProject()"
           *matHeaderRowDef="['selectAll', 'actionButtons', 'pagination']; sticky: true"
         ></tr>
