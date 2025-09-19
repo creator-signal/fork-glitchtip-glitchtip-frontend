@@ -185,6 +185,7 @@ export class TimeRangeSelect {
     }
     this.router.navigate([], {
       queryParams: {
+        cursor: null,
         start: this.presetRangeForm.value || undefined,
         end: undefined,
       },
