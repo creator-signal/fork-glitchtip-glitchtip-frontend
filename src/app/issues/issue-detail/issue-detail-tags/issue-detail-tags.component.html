@@ -1,5 +1,5 @@
 @if (tags()?.length) {
-  <mat-card>
+  <mat-card appearance="outlined">
     <mat-card-content>
       <h3 class="body-text-strong">Tags</h3>
       @for (tag of tags(); track tag.key) {

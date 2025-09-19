@@ -6,6 +6,7 @@ import {
   computed,
   effect,
 } from "@angular/core";
+import { MatCard } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatTableModule } from "@angular/material/table";
 import { Router, RouterModule } from "@angular/router";
@@ -30,6 +31,7 @@ type MonitorDetail = components["schemas"]["MonitorDetailSchema"];
     MatTableModule,
     MatButtonModule,
     RouterModule,
+    MatCard,
   ],
   providers: [MonitorChecksService],
 })
