@@ -1,5 +1,4 @@
-@use "variables" as vars;
- @use '@angular/material' as mat;
+@use '@angular/material' as mat;
 
 .pagination-buttons-container {
   width: 100px;
@@ -7,7 +6,7 @@
   display: flex;
   gap: 15px;
   padding: 0 5px;
-  border: 1px solid black;
+  border: 1px solid var(--mat-sys-outline-variant);
   border-radius: 4px;
 }
 
@@ -25,15 +24,3 @@
   align-items: center;
   justify-content: center;
 }
-
-// @media screen and (max-width: vars.$tablet - 1) {
-//   justify-content: space-between;
-
-//   .button-left {
-//     padding-left: 0px;
-//   }
-
-//   .button-right {
-//     padding-right: 0px;
-//   }
-// }

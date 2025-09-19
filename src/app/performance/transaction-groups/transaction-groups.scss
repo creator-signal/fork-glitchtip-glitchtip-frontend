@@ -1,23 +1,5 @@
 @use "variables" as vars;
 
-$iconWidth: 56px;
-
-.performance-table-container {
-  height: 700px; /* Adjust as needed */
-  overflow-y: auto;
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 4px;
-  margin-bottom: 40px;
-}
-
-.table-actions-header-content {
-  height: 100%;
-  width: 100%;
-  padding: 15px 24px;
-  display: flex;
-  justify-content: right;
-}
-
 table {
   width: 100%;
 

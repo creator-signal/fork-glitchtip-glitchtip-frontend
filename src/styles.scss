@@ -300,11 +300,35 @@ gt-pagination-buttons {
   );
 }
 
+.table-container {
+  height: 75vh;
+  overflow-y: auto;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 4px;
+  margin-bottom: 40px;
+}
+
 .table-header {
   background-color: var(--mat-sys-surface-container-high) !important;
+}
+
+.table-header__actions {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+
+.table-header__labels {
+
 }
 
 .table-group-label {
   font-weight: 600;
 }
 
+.table-actions-header-content {
+  height: 100%;
+  width: 100%;
+  padding: 15px 24px;
+  display: flex;
+  justify-content: right;
+}
