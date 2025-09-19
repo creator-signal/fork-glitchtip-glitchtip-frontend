@@ -120,8 +120,6 @@ export class TransactionGroups implements OnInit {
         ? this.sortForm.controls.sort.disable()
         : this.sortForm.controls.sort.enable(),
     );
-
-    effect(() => console.log(this.paginator()))
   }
 
   checkForOverflow($event: Event) {

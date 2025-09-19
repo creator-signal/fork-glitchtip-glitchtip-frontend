@@ -24,15 +24,17 @@
       class="mat-elevation-z2"
       [dataSource]="transactionGroupsDisplay()"
     >
-      <ng-container matColumnDef="actions">
-        <th
-          mat-header-cell
-          [attr.colspan]="displayedColumns.length"
-          *matHeaderCellDef
-          class="table-header"
-        >
-          <div class="table-actions-header-content">
-            <gt-pagination-buttons [paginator]="paginator()" [loading]="loading()" />
+      <ng-container matColumnDef="header-spacing">
+        <!-- Empty cell for spacing -->
+        <th mat-header-cell [attr.colspan]="1" *matHeaderCellDef> </th>
+      </ng-container>
+      <ng-container matColumnDef="pagination">
+        <th mat-header-cell *matHeaderCellDef class="table-header__actions">
+          <div>
+            <gt-pagination-buttons
+              [paginator]="paginator()"
+              [loading]="loading()"
+            />
           </div>
         </th>
       </ng-container>
@@ -49,7 +51,11 @@
                 [matTooltip]="setTitleTooltip(group)"
                 [matTooltipDisabled]="tooltipDisabled"
               >
-                <a [routerLink]="group.id" class="table-group-label" queryParamsHandling="merge">
+                <a
+                  [routerLink]="group.id"
+                  class="table-group-label"
+                  queryParamsHandling="merge"
+                >
                   @if (group.method) {
                   <span>{{ group.method }}&nbsp;</span>
                   } {{ group.transaction }} @if (!group.method) {
@@ -84,7 +90,12 @@
           {{ group.avgDuration | humanizeDuration }}
         </td>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="['actions']; sticky: true"></tr>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="['header-spacing', 'pagination']; sticky: true"
+        class="table-header"
+        [attr.colspan]="2"
+      ></tr>
       <tr
         mat-header-row
         class="table-header performance-table-header"
