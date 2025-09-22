@@ -9,16 +9,16 @@
 />
 <section class="l-body l-body--full-width mat-elevation-z0">
   @if (availableEnvironments(); as availableEnvironments) {
-    <gt-data-filter-bar
-      [environmentForm]="environmentForm"
-      [searchForm]="form"
-      [sortForm]="sortForm"
-      [sorts]="sorts"
-      [organizationEnvironments]="availableEnvironments"
-      (filterByEnvironment)="filterByEnvironment($event)"
-      (searchSubmit)="searchSubmit()"
-      (sortByChanged)="sortByChanged($event)"
-    />
+  <gt-data-filter-bar
+    [environmentForm]="environmentForm"
+    [searchForm]="form"
+    [sortForm]="sortForm"
+    [sorts]="sorts"
+    [organizationEnvironments]="availableEnvironments"
+    (filterByEnvironment)="filterByEnvironment($event)"
+    (searchSubmit)="searchSubmit()"
+    (sortByChanged)="sortByChanged($event)"
+  />
   }
   <div class="table-container">
     @if (issues(); as issues) {
@@ -137,7 +137,10 @@
             @if (element.status === "ignored") {
             <mat-icon inline="true" class="mute-icon"> volume_off </mat-icon>
             }
-            <a [routerLink]="element.id" queryParamsHandling="merge" class="table-group-label"
+            <a
+              [routerLink]="element.id"
+              queryParamsHandling="merge"
+              class="table-group-label"
               >{{ element.title }}</a
             >
             <div class="other-cell-info caption-text">
