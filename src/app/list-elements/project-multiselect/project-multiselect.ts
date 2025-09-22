@@ -130,9 +130,9 @@ export class ProjectMultiselect {
 
   onSubmit() {
     let projects = this.projectsForm.value;
-    this.projectSearchForm.reset()
+    this.projectSearchForm.reset();
     this.router.navigate([], {
-      queryParams: { project: projects ? projects : null },
+      queryParams: { cursor: null, project: projects ? projects : null },
       queryParamsHandling: "merge",
     });
   }
