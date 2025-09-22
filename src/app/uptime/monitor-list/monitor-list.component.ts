@@ -12,12 +12,12 @@ import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { ListTitleComponent } from "src/app/list-elements/list-title/list-title.component";
 import { checkForOverflow, stringAttribute } from "src/app/shared/shared.utils";
-import { ListFooterComponent } from "src/app/list-elements/list-footer/list-footer.component";
 import { TimeForPipe } from "src/app/shared/days-ago.pipe";
 import { MonitorChartComponent } from "../monitor-chart/monitor-chart.component";
 import { MonitorListService } from "./monitor-list.service";
 import { MatCardModule } from "@angular/material/card";
 import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
+import { PaginationButtons } from "src/app/list-elements/pagination-buttons/pagination-buttons";
 
 @Component({
   selector: "gt-monitor-list",
@@ -26,7 +26,6 @@ import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterModule,
-    ListFooterComponent,
     TimeForPipe,
     MonitorChartComponent,
     MatCardModule,
@@ -36,6 +35,7 @@ import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
     MatIconModule,
     ListTitleComponent,
     TopAppBar,
+    PaginationButtons,
   ],
   providers: [MonitorListService],
 })
@@ -50,8 +50,8 @@ export class MonitorListComponent {
   loading = this.service.loading;
   displayedColumns: string[] = [
     "statusColor",
-    "name-and-url",
-    "check-chart",
+    "name",
+    "checkChart",
     "status",
   ];
 

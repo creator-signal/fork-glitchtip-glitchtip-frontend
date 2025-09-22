@@ -2,25 +2,13 @@
 
 table {
   width: 100%;
-
-  td:first-child {
-    padding-left: 24px;
-  }
-
-  td:last-child {
-    padding-right: 24px;
-  }
 }
 
 .wrapper {
   width: 100%;
 }
 
-.name-and-url-cell {
-  padding: 8px 0px 8px 0px;
-}
-
-.name-and-url-container {
+.mat-column-name {
   width: 500px;
 
   @media screen and (max-width: vars.$large - 1) {
@@ -32,6 +20,10 @@ table {
   @media screen and (max-width: vars.$tablet - 1) {
     width: 160px;
   }
+}
+
+.name-and-url-container {
+  width: 100%;
 
   a {
     white-space: nowrap;
@@ -39,6 +31,10 @@ table {
     overflow: hidden;
     display: block;
     max-width: fit-content;
+  }
+
+  .monitor-link {
+    text-decoration: underline;
   }
 
   div {
@@ -50,9 +46,11 @@ table {
   }
 }
 
-.chart-container {
-  padding: 0;
+.mat-column-checkChart {
+  width: 350px;
+}
 
+.chart-container {
   @media screen and (max-width: vars.$small - 1) {
     display: none;
   }
@@ -62,7 +60,9 @@ table {
   }
 }
 
-.status {
+.mat-column-status {
+  padding-top: 7px;
+  padding-bottom: 7px;
   @media screen and (max-width: vars.$small - 1) {
     padding-left: 40px;
   }
@@ -70,7 +70,7 @@ table {
 
 .status-color {
   position: relative;
-  padding: 0 0 0 24px;
+  padding: 0;
 
   &:after {
     content: "";
