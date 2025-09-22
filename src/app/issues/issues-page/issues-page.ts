@@ -7,6 +7,7 @@ import {
   computed,
   OnInit,
   OnDestroy,
+  ViewChild,
 } from "@angular/core";
 import { DatePipe, I18nPluralPipe } from "@angular/common";
 import { FormControl, FormGroup } from "@angular/forms";
@@ -15,14 +16,13 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialog } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSelectChange } from "@angular/material/select";
-import { MatTableModule } from "@angular/material/table";
+import { MatTable, MatTableModule } from "@angular/material/table";
 import { Router, ActivatedRoute, RouterLink } from "@angular/router";
 import { IssuesService } from "../issues.service";
 import { SettingsService } from "src/app/api/settings.service";
 import { IssueStatus } from "../interfaces";
 import { DaysAgoPipe, DaysOldPipe } from "../../shared/days-ago.pipe";
 import { IssueZeroStatesComponent } from "../issue-zero-states/issue-zero-states.component";
-import { ListFooterComponent } from "../../list-elements/list-footer/list-footer.component";
 import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data-filter-bar.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
@@ -36,6 +36,7 @@ import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-di
 import { EnvironmentsService } from "src/app/api/environments.service";
 import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";
 import { IssueChart } from "./charts/issue-chart";
+import { PaginationButtons } from "src/app/list-elements/pagination-buttons/pagination-buttons";
 
 @Component({
   templateUrl: "./issues-page.html",
@@ -49,7 +50,6 @@ import { IssueChart } from "./charts/issue-chart";
     MatButtonModule,
     MatIconModule,
     RouterLink,
-    ListFooterComponent,
     IssueZeroStatesComponent,
     DatePipe,
     DaysAgoPipe,
@@ -58,6 +58,7 @@ import { IssueChart } from "./charts/issue-chart";
     ListAppBar,
     IssueChart,
     MatButtonToggleModule,
+    PaginationButtons,
   ],
   providers: [IssuesService],
 })
@@ -69,6 +70,7 @@ export class IssuesPage implements OnInit, OnDestroy {
   private organizationsService = inject(OrganizationsService);
   private settingsService = inject(SettingsService);
   #environmentsService = inject(EnvironmentsService);
+  @ViewChild(MatTable) table?: MatTable<any>;
 
   orgSlug = input.required<string>({ alias: "org-slug" });
   cursor = input(undefined, { transform: stringAttribute });
@@ -235,13 +237,14 @@ export class IssuesPage implements OnInit, OnDestroy {
         environment: environment ?? "",
       });
     });
+    // Ensure sticky headers stay properly aligned
+    // After showing/hiding headers based on whether or
+    // not there are issue query results
     effect(() => {
-      const start = this.start();
-      const end = this.end();
-      this.dateForm.setValue({
-        startDate: start ? new Date(start.replace("Z", "")) : null,
-        endDate: end ? new Date(end.replace("Z", "")) : null,
-      });
+      this.issues()
+      if (this.table) {
+        this.table.updateStickyHeaderRowStyles();
+      }
     });
   }
 
@@ -255,25 +258,6 @@ export class IssuesPage implements OnInit, OnDestroy {
 
   trackIssues(index: number, issue: { id: string }): string {
     return issue.id;
-  }
-
-  onDateFormSubmit(queryParams: object) {
-    this.router.navigate([], {
-      queryParams,
-      queryParamsHandling: "merge",
-    });
-  }
-
-  dateFormReset() {
-    this.router.navigate([], {
-      queryParams: {
-        cursor: null,
-        start: null,
-        end: null,
-      },
-      queryParamsHandling: "merge",
-    });
-    this.dateForm.setValue({ startDate: null, endDate: null });
   }
 
   searchSubmit() {

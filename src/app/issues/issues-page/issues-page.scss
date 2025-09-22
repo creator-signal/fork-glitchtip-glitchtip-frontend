@@ -1,6 +1,7 @@
 @use "variables" as vars;
 
 $iconWidth: 56px;
+$selectColumnWidth: 70px;
 
 .wrapper {
   width: 100%;
@@ -44,26 +45,18 @@ table {
   }
 }
 
-.table-header {
-  padding: 20px 24px 8px;
+.hideLowerBorder {
+  th {
+    border-color: var(--mat-sys-surface-container-high);
+  }
 }
 
 .bulk-project-select {
-  &__hide {
-    display: none;
-    height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
+  text-align: center;
+  padding-bottom: 8px;
 
-  &__inner {
-    text-align: center;
-    padding-top: 8px;
-    padding-bottom: 8px;
-
-    button {
-      margin: 8px;
-    }
+  button {
+    margin: 0 8px;
   }
 
   &__text {
@@ -75,6 +68,16 @@ table {
   }
 }
 
+// Fragile hack to fix fact that mat table only successfully adjusts
+// 'top' rule of sticky table headers on first change of
+// showBulkSelect() but not on subsequent changes
+// TODO: Find a way to avoid this.
+.stickyHack {
+  th {
+    top: 123px !important;
+  }
+}
+
 .mat-column-title {
   max-width: 500px;
   overflow-wrap: anywhere;
@@ -83,17 +86,27 @@ table {
   padding-bottom: 10px;
 }
 
+.mat-column-selectAll {
+  width: $selectColumnWidth;
+}
+
+.mat-column-pagination {
+  width: 140px;
+}
+
 .mat-column-select {
+  width: $selectColumnWidth;
   padding-left: 14px;
   padding-right: 0;
 }
 
 .mat-column-events {
+  width: 80px;
   padding-right: 24px;
-  .mat-cell-content,
-  p {
-    text-align: right;
-  }
+}
+
+.mat-column-trend {
+  width: 400px;
 }
 
 .zero-states-cell {
@@ -123,12 +136,6 @@ table {
   }
 }
 
-.sticky-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
 .status-cell {
   width: 120px;
 
@@ -145,7 +152,7 @@ table {
 }
 
 .event-cell {
-  width: 80px;
+  text-align: left;
 
   @media screen and (max-width: vars.$tablet - 1) {
     display: none;
