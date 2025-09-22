@@ -66,6 +66,15 @@ gt-entry-request {
   float: left;
   list-style: none;
   transition: 0.3s;
+  border: 1px solid var(--mat-sys-outline);
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  box-shadow: var(--mat-sys-shadow-1);
+
+  &:hover {
+    background-color: var(--mat-sys-surface-container-highest);
+    box-shadow: var(--mat-sys-shadow-2);
+  }
 }
 
 .pseudo-chip-key {

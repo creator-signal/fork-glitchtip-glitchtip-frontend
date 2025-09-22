@@ -1,21 +1,25 @@
 @if (paginator(); as paginator) {
-  <gt-top-app-bar>
-    <ng-container slot="left">
-      <gt-list-title
-        i18n-title
-        title="Releases"
-        [searchHits]="paginator.count"
-      ></gt-list-title>
-    </ng-container>
-  </gt-top-app-bar>
-  <section class="l-body l-body--full-width mat-elevation-z0">
+<gt-top-app-bar>
+  <ng-container slot="left">
+    <gt-list-title
+      i18n-title
+      title="Releases"
+      [searchHits]="paginator.count"
+    ></gt-list-title>
+  </ng-container>
+</gt-top-app-bar>
+<section class="l-body l-body--full-width mat-elevation-z0">
+  <mat-card appearance="outlined" class="table-card">
     @if (releases(); as releases) {
     <div>
       <table mat-table class="mat-elevation-z2" [dataSource]="releases">
         <ng-container matColumnDef="version">
           <th mat-header-cell *matHeaderCellDef>Version</th>
           <td mat-cell *matCellDef="let release">
-            <div class="version" (mouseover)="checkIfTooltipIsNecessary($event)">
+            <div
+              class="version"
+              (mouseover)="checkIfTooltipIsNecessary($event)"
+            >
               <a
                 [routerLink]="[release.version]"
                 [matTooltip]="release.version"
@@ -52,8 +56,8 @@
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="displayedColumns.length">
             <div class="empty-states">
-              @if ( (initialLoadComplete()) === true && (isLoading()) === false )
-              { @if ((errors())?.length) { @if ((errors())?.length === 1) {
+              @if ( (initialLoadComplete()) === true && (isLoading()) === false
+              ) { @if ((errors())?.length) { @if ((errors())?.length === 1) {
               <h3 class="mat-headline-4">
                 There was an error processing your request
               </h3>
@@ -83,5 +87,6 @@
       </table>
     </div>
     }
-  </section>
+  </mat-card>
+</section>
 }
