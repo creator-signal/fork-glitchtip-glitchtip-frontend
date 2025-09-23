@@ -61,6 +61,7 @@ table {
 }
 
 .mat-column-status {
+  width: 150px;
   padding-top: 7px;
   padding-bottom: 7px;
   @media screen and (max-width: vars.$small - 1) {
@@ -69,27 +70,15 @@ table {
 }
 
 .status-color {
-  position: relative;
-  padding: 0;
-
-  &:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
+  &--true {
+    border-left: 3px solid  var(--success-color);
   }
 
-  &--true:after {
-    background-color: var(--success-color);
+  &--false {
+    border-left: 3px solid  var(--mat-sys-error);
   }
 
-  &--false:after {
-    background-color: var(--mat-sys-error);
-  }
-
-  &--:after {
-    background-color: var(--mat-sys-surface-variant);
+  &-- {
+    border-left: 3px solid  var(--mat-sys-surface-variant);
   }
 }

@@ -78,20 +78,20 @@ table {
   }
 }
 
-.mat-column-title {
-  max-width: 500px;
-  overflow-wrap: anywhere;
-  hyphens: auto;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
 .mat-column-selectAll {
   width: $selectColumnWidth;
 }
 
 .mat-column-pagination {
   width: 140px;
+}
+
+.mat-column-title {
+  width: 650px;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .mat-column-select {
@@ -124,10 +124,6 @@ table {
   margin-right: 5px;
 }
 
-.checkbox-cell {
-  width: 50px;
-}
-
 @media screen and (max-width: vars.$tablet - 1) {
   th.mat-header-cell:first-of-type,
   td.mat-cell:first-of-type,
@@ -137,8 +133,6 @@ table {
 }
 
 .status-cell {
-  width: 120px;
-
   @media screen and (max-width: vars.$tablet - 1) {
     display: none;
   }

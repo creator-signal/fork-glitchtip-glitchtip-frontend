@@ -49,7 +49,6 @@ export class MonitorListComponent {
   paginator = this.service.paginator;
   loading = this.service.loading;
   displayedColumns: string[] = [
-    "statusColor",
     "name",
     "checkChart",
     "status",
