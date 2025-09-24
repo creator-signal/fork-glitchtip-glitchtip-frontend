@@ -27,7 +27,6 @@ import { DataFilterBarComponent } from "../../list-elements/data-filter-bar/data
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
-
 import {
   stringArrAttribute,
   stringAttribute,

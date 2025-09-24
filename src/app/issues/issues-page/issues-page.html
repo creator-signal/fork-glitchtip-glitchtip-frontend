@@ -134,15 +134,16 @@
             [class.ignored]="element.status === 'ignored'"
             class="title-cell"
           >
-            @if (element.status === "ignored") {
-            <mat-icon inline="true" class="mute-icon"> volume_off </mat-icon>
-            }
-            <a
-              [routerLink]="element.id"
-              queryParamsHandling="merge"
-              class="table-group-label"
-              >{{ element.title }}</a
-            >
+            <div class="table-group-label">
+              @if (element.status === "ignored") {
+              <mat-icon inline="true" class="mute-icon"> volume_off </mat-icon>
+              }
+              <a
+                [routerLink]="element.id"
+                queryParamsHandling="merge"
+                >{{ element.title }}</a
+              >
+            </div>
             <div class="other-cell-info caption-text">
               {{ element.count | i18nPlural: eventCountPluralMapping }}
             </div>
@@ -293,10 +294,7 @@
         ></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow>
-          <td
-            class="zero-states-cell"
-            [attr.colspan]="displayedColumns.length"
-          >
+          <td class="zero-states-cell" [attr.colspan]="displayedColumns.length">
             @if (initialLoad()) {
             <gt-issue-zero-states
               [projects]="projects()"
