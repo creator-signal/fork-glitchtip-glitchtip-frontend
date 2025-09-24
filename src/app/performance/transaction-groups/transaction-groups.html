@@ -107,8 +107,8 @@
         *matRowDef="let row; columns: displayedColumns"
         class="monitor-row"
       ></tr>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+      <tr *matNoDataRow>
+        <td [attr.colspan]="displayedColumns.length">
           <div class="empty-states">
             @if ( (initialLoadComplete()) === true && (loading()) === false ) {
             @if ((errors())?.length) { @if ((errors())?.length === 1) {
