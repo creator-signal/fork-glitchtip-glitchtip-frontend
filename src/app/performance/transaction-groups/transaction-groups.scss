@@ -8,11 +8,13 @@ table {
   }
 }
 
-.mat-column-name-and-project {
+.mat-column-name-and-project, .mat-column-header-spacing {
+  width: 90%;
   padding-left: 24px;
 }
 
-.mat-column-avgDuration {
+.mat-column-avgDuration, .mat-column-pagination {
+  width: 10%;
   padding-right: 24px;
 }
 

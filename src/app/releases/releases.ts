@@ -11,10 +11,9 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTableModule } from "@angular/material/table";
 import { checkForOverflow } from "src/app/shared/shared.utils";
 import { ListTitleComponent } from "../list-elements/list-title/list-title.component";
-import { ListFooterComponent } from "../list-elements/list-footer/list-footer.component";
 import { ReleasesService } from "./releases-state";
 import { TopAppBar } from "../shared/top-app-bar/top-app-bar";
-import { MatCardModule } from "@angular/material/card";
+import { PaginationButtons } from "../list-elements/pagination-buttons/pagination-buttons";
 
 @Component({
   templateUrl: "./releases.html",
@@ -25,9 +24,8 @@ import { MatCardModule } from "@angular/material/card";
     MatTableModule,
     RouterLink,
     MatTooltipModule,
-    ListFooterComponent,
     TopAppBar,
-    MatCardModule,
+    PaginationButtons
   ],
   providers: [ReleasesService],
   changeDetection: ChangeDetectionStrategy.OnPush,

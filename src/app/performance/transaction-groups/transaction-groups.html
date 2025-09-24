@@ -112,11 +112,11 @@
           <div class="empty-states">
             @if ( (initialLoadComplete()) === true && (loading()) === false ) {
             @if ((errors())?.length) { @if ((errors())?.length === 1) {
-            <h3 class="mat-headline-4">
+            <h3 class="body-text-strong">
               There was an error processing your request
             </h3>
             } @else {
-            <h3 class="mat-headline-4">
+            <h3 class="body-text-strong">
               There were errors while processing your request
             </h3>
             }
@@ -125,7 +125,11 @@
               <li>{{ error }}</li>
               }
             </ul>
-            } @else { No transaction groups were found. } }
+            } @else {
+            <div i18n class="body-text-strong"
+              >No transaction groups were found.</div
+            >
+            } }
           </div>
         </td>
       </tr>
