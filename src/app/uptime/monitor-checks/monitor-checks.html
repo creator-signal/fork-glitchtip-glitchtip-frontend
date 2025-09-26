@@ -8,13 +8,13 @@
         class="table-header__actions"
       >
         <div class="pagination-buttons-container">
-          <button mat-flat-button (click)="toggleIsChange()">
-            @if (isChange()) {
-            <ng-container i18n>Show all checks</ng-container>
-            } @else {
-            <ng-container i18n>Show incidents</ng-container>
-            }
-          </button>
+          <mat-button-toggle-group
+            [value]="isChange()"
+            (change)="toggleIsChange()"
+          >
+            <mat-button-toggle [value]="false">All checks</mat-button-toggle>
+            <mat-button-toggle [value]="true">Incidents</mat-button-toggle>
+          </mat-button-toggle-group>
           <gt-pagination-buttons
             [paginator]="paginator()"
             [loading]="loading()"
@@ -72,7 +72,6 @@
       mat-header-row
       *matHeaderRowDef="['pagination']; sticky: true"
       class="table-header"
-      [attr.colspan]="displayedColumns.length"
     ></tr>
     <tr
       mat-header-row
@@ -88,10 +87,7 @@
       <td [attr.colspan]="displayedColumns.length">
         <div class="table-empty-states">
           @if ( (initialLoadComplete()) === true && (loading()) === false ) {
-
-          <div i18n class="body-text-strong"
-            >No monitor checks were found.</div
-          >
+            <div i18n class="body-text-strong">No monitor checks were found.</div>
           }
         </div>
       </td>

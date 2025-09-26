@@ -5,7 +5,7 @@ import {
   inject,
   effect,
 } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatTableModule } from "@angular/material/table";
 import { Router, RouterModule } from "@angular/router";
 import { PaginationButtons } from "src/app/list-elements/pagination-buttons/pagination-buttons";
@@ -26,7 +26,7 @@ type MonitorDetail = components["schemas"]["MonitorDetailSchema"];
     HumanizeDurationPipe,
     DatePipe,
     MatTableModule,
-    MatButtonModule,
+    MatButtonToggleModule,
     RouterModule,
     PaginationButtons,
   ],
