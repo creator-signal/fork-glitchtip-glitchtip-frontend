@@ -60,7 +60,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr *matNoDataRow>
         <td>
-          <div class="empty-states">
+          <div class="table-empty-states">
             @if ( (initialLoadComplete()) === true && (isLoading()) === false )
             { @if ((errors())?.length) { @if ((errors())?.length === 1) {
             <h3 class="body-text-strong">

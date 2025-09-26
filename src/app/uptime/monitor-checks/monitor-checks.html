@@ -1,16 +1,27 @@
-@if (monitorChecks(); as monitorChecks) { @if (monitorChecks.length) {
-
-<button mat-flat-button (click)="toggleIsChange()">
-  @if (isChange()) {
-  <ng-container i18n>Show all checks</ng-container>
-  } @else {
-  <ng-container i18n>Show incidents</ng-container>
-  }
-</button>
-
-@if (displayedColumns(); as displayedColumns) {
-<mat-card appearance="outlined">
-  <table mat-table [dataSource]="monitorChecks" class="mat-elevation-z2">
+<div class="table-container">
+  <table mat-table [dataSource]="monitorChecks()" class="mat-elevation-z2">
+    <ng-container matColumnDef="pagination">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        [attr.colspan]="displayedColumns.length"
+        class="table-header__actions"
+      >
+        <div class="pagination-buttons-container">
+          <button mat-flat-button (click)="toggleIsChange()">
+            @if (isChange()) {
+            <ng-container i18n>Show all checks</ng-container>
+            } @else {
+            <ng-container i18n>Show incidents</ng-container>
+            }
+          </button>
+          <gt-pagination-buttons
+            [paginator]="paginator()"
+            [loading]="loading()"
+          />
+        </div>
+      </th>
+    </ng-container>
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef i18n>Status</th>
       <td
@@ -57,27 +68,33 @@
         <span>{{ monitorCheck.startCheck | date: "short" }}</span>
       </td>
     </ng-container>
-    <ng-container matColumnDef="pagination">
-      <td
-        mat-footer-cell
-        *matFooterCellDef
-        [attr.colspan]="displayedColumns.length"
-      >
-        <gt-list-footer [paginator]="(paginator())!"> </gt-list-footer>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="['pagination']; sticky: true"
+      class="table-header"
+      [attr.colspan]="displayedColumns.length"
+    ></tr>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: true"
+      class="table-header"
+    ></tr>
     <tr
       mat-row
       *matRowDef="let row; columns: displayedColumns"
       class="monitor-row"
     ></tr>
-    <tr
-      class="pagination-row"
-      mat-footer-row
-      *matFooterRowDef="['pagination']"
-    ></tr>
-  </table>
-</mat-card>
+    <tr *matNoDataRow>
+      <td [attr.colspan]="displayedColumns.length">
+        <div class="table-empty-states">
+          @if ( (initialLoadComplete()) === true && (loading()) === false ) {
 
-} } }
+          <div i18n class="body-text-strong"
+            >No monitor checks were found.</div
+          >
+          }
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

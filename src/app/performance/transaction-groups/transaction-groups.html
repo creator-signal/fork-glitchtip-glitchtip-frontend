@@ -109,7 +109,7 @@
       ></tr>
       <tr *matNoDataRow>
         <td [attr.colspan]="displayedColumns.length">
-          <div class="empty-states">
+          <div class="table-empty-states">
             @if ( (initialLoadComplete()) === true && (loading()) === false ) {
             @if ((errors())?.length) { @if ((errors())?.length === 1) {
             <h3 class="body-text-strong">

@@ -5,14 +5,16 @@ table {
 }
 
 .mat-column-status {
-  padding: 0 10px 0 24px;
+  width: 15%
 }
 
 .mat-column-reason {
+  width: 20%;
   padding-right: 10px;
 }
 
 .mat-column-responseTime {
+  width: 45%;
   padding-right: 75px;
   @media screen and (max-width: (vars.$small - 1)) {
     display: none;
@@ -20,7 +22,14 @@ table {
 }
 
 .mat-column-startCheck {
-  padding-right: 24px;
+  width: 20%;
+}
+
+.pagination-buttons-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .status-color {
@@ -42,8 +51,4 @@ table {
   &--false:after {
     background-color: var(--mat-sys-error);
   }
-}
-
-button {
-  margin-bottom: 16px;
 }

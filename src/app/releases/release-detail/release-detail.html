@@ -45,7 +45,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr *matNoDataRow>
         <td [attr.colspan]="displayedColumns.length">
-          <div class="empty-states">
+          <div class="table-empty-states">
             @if ( (initialLoadComplete()) === true && (loading()) === false ) {
             @if ((fileListErrors())?.length) { @if ((fileListErrors())?.length
             === 1) {
