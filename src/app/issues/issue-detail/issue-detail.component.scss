@@ -91,3 +91,9 @@ table.mat-table {
 .report-badge > span {
   text-overflow: initial;
 }
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

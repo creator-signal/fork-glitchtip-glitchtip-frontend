@@ -1,4 +1,5 @@
 @if (initialLoadComplete() && issue() === null) {
+  <gt-top-app-bar />
   <section class="l-body l-body--full-width">
     @if (organization(); as organization) {
       <mat-card class="auth-form issue-404">
@@ -26,35 +27,42 @@
   </section>
 }
 @if (issue(); as issue) {
+  <gt-top-app-bar>
+    <ng-container slot="left">
+      <gt-back-link
+        [backLinkText]="'View all issues for ' + issue.project.name"
+        [backLinkParams]="generateBackLink(issue.project.id)"
+      />
+    </ng-container>
+    <ng-container slot="right">
+      <div class="action-buttons">
+        @if (issue?.status !== "resolved") {
+          <button mat-flat-button color="primary" (click)="markResolved()">
+            <mat-icon aria-hidden="true">done</mat-icon>
+            Resolve
+          </button>
+        }
+        @if (issue?.status !== "unresolved") {
+          <button mat-flat-button color="primary" (click)="markUnresolved()">
+            <mat-icon aria-hidden="true">done</mat-icon>
+            Reopen
+          </button>
+        }
+        @if (issue?.status !== "ignored") {
+          <button mat-stroked-button (click)="markIgnored()"> Ignore </button>
+        }
+        <button
+          mat-icon-button
+          class="medium-icon-button"
+          (click)="deleteIssue()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+  </gt-top-app-bar>
   <section class="l-body l-body--full-width">
-    <gt-back-link
-      [backLinkText]="'View all issues for ' + issue.project.name"
-      [backLinkParams]="generateBackLink(issue.project.id)"
-    />
-    <gt-detail-header [title]="issueTitle()!" [subtitle]="issueSubtitle()">
-      @if (issue?.status !== "resolved") {
-        <button mat-flat-button color="primary" (click)="markResolved()">
-          <mat-icon aria-hidden="true">done</mat-icon>
-          Resolve
-        </button>
-      }
-      @if (issue?.status !== "unresolved") {
-        <button mat-flat-button color="primary" (click)="markUnresolved()">
-          <mat-icon aria-hidden="true">done</mat-icon>
-          Reopen
-        </button>
-      }
-      @if (issue?.status !== "ignored") {
-        <button mat-stroked-button (click)="markIgnored()"> Ignore </button>
-      }
-      <button
-        mat-icon-button
-        class="medium-icon-button"
-        (click)="deleteIssue()"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </gt-detail-header>
+    <gt-detail-header [title]="issueTitle()!" [subtitle]="issueSubtitle()" />
     <div class="row">
       <mat-card class="event-detail-card left">
         <div class="tab-nav-container">
