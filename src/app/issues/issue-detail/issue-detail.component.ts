@@ -22,6 +22,10 @@ import { OrganizationsService } from "src/app/api/organizations.service";
 import { DatePipe, TitleCasePipe } from "@angular/common";
 import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
 import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
+import {
+  SplitButtonAction,
+  SplitButtonComponent,
+} from "src/app/shared/split-button/split-button";
 
 @Component({
   selector: "gt-issue-detail",
@@ -42,6 +46,7 @@ import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
     DetailHeaderComponent,
     BackLinkComponent,
     TopAppBar,
+    SplitButtonComponent,
   ],
 })
 export class IssueDetailComponent implements OnInit {
@@ -144,6 +149,49 @@ export class IssueDetailComponent implements OnInit {
       this.issueService.deleteIssue(id.toString());
     }
   }
+
+  issueActions = computed<SplitButtonAction[]>(() => {
+    const issue = this.issue();
+    if (!issue) return [];
+
+    const actions: SplitButtonAction[] = [];
+
+    if (issue.status !== "resolved") {
+      actions.push({
+        label: "Resolve",
+        action: () => this.markResolved(),
+        icon: "done",
+        primary: true,
+        buttonStyle: "flat",
+      });
+    }
+
+    if (issue.status !== "unresolved") {
+      actions.push({
+        label: "Reopen",
+        icon: "done",
+        action: () => this.markUnresolved(),
+        buttonStyle: "flat",
+      });
+    }
+
+    if (issue.status !== "ignored") {
+      actions.push({
+        label: "Ignore",
+        action: () => this.markIgnored(),
+        buttonStyle: "stroked",
+      });
+    }
+
+    actions.push({
+      label: "Delete Issue",
+      action: () => this.deleteIssue(),
+      icon: "delete",
+      buttonStyle: "icon",
+    });
+
+    return actions;
+  });
 
   generateBackLink(projectId: string) {
     return {

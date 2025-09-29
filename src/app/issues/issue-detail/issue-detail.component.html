@@ -35,30 +35,10 @@
       />
     </ng-container>
     <ng-container slot="right">
-      <div class="top-bar-actions ">
-        @if (issue?.status !== "resolved") {
-          <button mat-flat-button color="primary" (click)="markResolved()">
-            <mat-icon aria-hidden="true">done</mat-icon>
-            Resolve
-          </button>
-        }
-        @if (issue?.status !== "unresolved") {
-          <button mat-flat-button color="primary" (click)="markUnresolved()">
-            <mat-icon aria-hidden="true">done</mat-icon>
-            Reopen
-          </button>
-        }
-        @if (issue?.status !== "ignored") {
-          <button mat-stroked-button (click)="markIgnored()"> Ignore </button>
-        }
-        <button
-          mat-icon-button
-          class="medium-icon-button"
-          (click)="deleteIssue()"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+      <app-split-button
+        [mode]="'responsive'"
+        [actions]="issueActions()"
+      ></app-split-button>
     </ng-container>
   </gt-top-app-bar>
   <section class="l-body l-body--full-width">

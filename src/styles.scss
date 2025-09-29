@@ -30,6 +30,7 @@ html {
 
 // Extended color
 :root {
+  --split-divider: #ffffff;
   --warning-color: #e9b949;
   --warning-container: #ffe7a3;
   --on-warning: #2b1e00;
@@ -337,4 +338,3 @@ gt-pagination-buttons {
 .table-empty-states {
   padding: 1.5em 24px 0.5em;
 }
-
