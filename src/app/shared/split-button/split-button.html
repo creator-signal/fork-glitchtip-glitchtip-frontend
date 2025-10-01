@@ -1,70 +1,27 @@
 @if (actions().length > 0) { @if (shouldShowIndividualButtons()) {
 <div class="individual-buttons-container">
-  @for (action of actions(); track $index) { @let buttonStyle =
-  action.buttonStyle ?? defaultButtonStyle(); @switch (buttonStyle) { @case
-  ('flat') {
-  <button
-    mat-flat-button
-    [color]="buttonColor()"
-    [disabled]="action.disabled"
-    (click)="executeAction(action)"
-    class="individual-action-button"
-  >
-    @if (action.icon) {
-    <mat-icon>{{ action.icon }}</mat-icon>
-    } {{ action.label }}
-  </button>
-  } @case ('stroked') {
-  <button
-    mat-stroked-button
-    [color]="buttonColor()"
-    [disabled]="action.disabled"
-    (click)="executeAction(action)"
-    class="individual-action-button"
-  >
-    @if (action.icon) {
-    <mat-icon>{{ action.icon }}</mat-icon>
-    } {{ action.label }}
-  </button>
-  } @case ('icon') {
-  <button
-    mat-icon-button
-    [color]="buttonColor()"
-    [disabled]="action.disabled"
-    (click)="executeAction(action)"
-    class="individual-action-button"
-  >
-    @if (action.icon) {
-    <mat-icon>{{ action.icon }}</mat-icon>
-    }
-  </button>
-  } } }
+  @for (action of actions(); track $index) {
+  <ng-container *ngTemplateOutlet="actionButton; context: { $action: action }">
+  </ng-container>
+  }
 </div>
-} @else { @if (shouldShowSplitButton()) {
+} @else if (shouldShowSplitButton()) {
 <div class="split-button-container">
   @if (primaryAction(); as primary) {
-  <button
-    mat-flat-button
-    [color]="buttonColor()"
-    [disabled]="primary.disabled"
-    (click)="executeAction(primary)"
-    class="primary-action-button"
+  <ng-container
+    *ngTemplateOutlet="actionButton; context: { $action: primary, $isPrimary: true }"
   >
-    @if (primary.icon) {
-    <mat-icon>{{ primary.icon }}</mat-icon>
-    } {{ primary.label }}
-  </button>
-  } @if (secondaryActions().length > 0) {
+  </ng-container>
+  }
+
   <button
     mat-flat-button
-    [color]="buttonColor()"
     [matMenuTriggerFor]="menu"
     class="menu-trigger-button"
     aria-label="More actions"
   >
     <mat-icon class="trigger-button-icon">arrow_drop_down</mat-icon>
   </button>
-  }
 
   <mat-menu #menu="matMenu" class="split-button-menu">
     @for (action of secondaryActions(); track $index) {
@@ -82,4 +39,43 @@
     }
   </mat-menu>
 </div>
-} } }
+} }
+
+<ng-template #actionButton let-action="$action" let-isPrimary="$isPrimary">
+  @let buttonStyle = action.buttonStyle ?? defaultButtonStyle(); @let
+  buttonClass = isPrimary ? 'primary-action-button' :
+  'individual-action-button'; @switch (buttonStyle) { @case ('flat') {
+  <button
+    mat-flat-button
+    [disabled]="action.disabled"
+    (click)="executeAction(action)"
+    [class]="buttonClass"
+  >
+    @if (action.icon) {
+    <mat-icon>{{ action.icon }}</mat-icon>
+    } {{ action.label }}
+  </button>
+  } @case ('stroked') {
+  <button
+    mat-stroked-button
+    [disabled]="action.disabled"
+    (click)="executeAction(action)"
+    [class]="buttonClass"
+  >
+    @if (action.icon) {
+    <mat-icon>{{ action.icon }}</mat-icon>
+    } {{ action.label }}
+  </button>
+  } @case ('icon') {
+  <button
+    mat-icon-button
+    [disabled]="action.disabled"
+    (click)="executeAction(action)"
+    [class]="buttonClass"
+  >
+    @if (action.icon) {
+    <mat-icon>{{ action.icon }}</mat-icon>
+    }
+  </button>
+  } }
+</ng-template>

@@ -19,7 +19,7 @@ export interface SplitButtonAction {
 export type SplitButtonMode = "always" | "responsive";
 
 @Component({
-  selector: "app-split-button",
+  selector: "gt-split-button",
   templateUrl: "./split-button.html",
   styleUrls: ["./split-button.scss"],
   standalone: true,
@@ -28,7 +28,6 @@ export type SplitButtonMode = "always" | "responsive";
 export class SplitButtonComponent {
   actions = input<SplitButtonAction[]>([]);
   mode = input<SplitButtonMode>("responsive");
-  buttonColor = input<"primary" | "accent" | "warn">("primary");
   defaultButtonStyle = input<ButtonStyle>("flat");
 
   private breakpointService = inject(BreakpointService);
@@ -43,15 +42,15 @@ export class SplitButtonComponent {
     return this.actions().filter((action) => action !== primary);
   });
 
-  shouldShowSplitButton = computed(() => {
-    return (
-      this.mode() === "always" ||
-      (this.isSmallScreen() && this.secondaryActions().length > 0)
-    );
-  });
+  shouldShowSplitButton = computed(
+    () =>
+      this.actions().length > 1 &&
+      (this.mode() === "always" ||
+        (this.isSmallScreen() && this.secondaryActions().length > 0)),
+  );
 
   shouldShowIndividualButtons = computed(() => {
-    return this.mode() !== "always" && !this.isSmallScreen();
+    return !this.shouldShowSplitButton();
   });
 
   executeAction(action: SplitButtonAction): void {
