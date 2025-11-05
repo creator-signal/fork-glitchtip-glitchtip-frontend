@@ -161,7 +161,7 @@ export const Icons = () => ({
         .join("")}
     </div>
     <mat-divider></mat-divider>
-    We self host a minimal set of symbol fonts. To add more, add to this stories list, then download from <a href="${iconURL}">fonts.googleapis.com</a> and copy to src/assets/fonts/.
+    We self host a minimal set of symbol fonts. To add more, add to this stories list, then run "npm run update-icons" 
   </section>
 
   <br/>
