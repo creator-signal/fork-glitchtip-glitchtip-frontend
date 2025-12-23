@@ -3,51 +3,135 @@
 
 .mat-toolbar {
   position: absolute;
-  justify-content: space-between;
-  background: transparent;
+  display: flex;
+  background: color-mix(
+    in srgb,
+    var(--mat-sys-surface-container) 100%,
+    transparent
+  );
+
   z-index: 1;
-  max-width: 1180px;
+  width: 95%;
+  max-width: 1400px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 16px;
+  padding: 8px 16px;
+  margin-top: 24px;
+  min-height: 64px;
 
-  @media screen and (max-width: 1199px) {
-    width: 80vw;
-    margin-left: 10vw;
-    margin-right: 10vw;
-    left: 0;
-    transform: none;
+  // Rounded outline for navbar
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large);
+
+  // Center content vertically
+  align-items: center;
+
+  // Logo on the left
+  > a:first-child {
+    margin-right: auto;
   }
 
-  @media screen and (max-width: 767px) {
-    width: 90vw;
-    margin-left: 5vw;
-    margin-right: 5vw;
-    padding: 0;
-  }
+  // Center navigation (Pricing, Blog, Documentation)
+  .nav-center {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 
-  @media screen and (max-width: 450px) {
-    flex-direction: column;
-    height: auto;
-  }
+    @media screen and (max-width: 1024px) {
+      position: static;
+      transform: none;
+      margin-left: auto;
+      margin-right: 15px;
+    }
 
-  .logo {
-    width: 130px;
-    margin-top: 15px;
-
-    @media screen and (max-width: 767px) {
-      width: 100px;
+    @media screen and (max-width: 450px) {
+      margin-right: 0;
     }
   }
 
-  > div a {
-    margin-left: 15px;
+  // Right navigation (Login, Register)
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+
+    @media screen and (max-width: 1024px) {
+      margin-left: 0;
+    }
+  }
+
+  .mat-primary {
+    color: var(--mat-sys-on-primary);
+  }
+
+  a {
+    color: var(--mat-sys-on-surface);
+    text-decoration: none;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+
+  // Two-row layout for small screens
+  @media screen and (max-width: 450px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    height: auto;
+    padding: 16px;
+    gap: 16px;
+
+    // First row: Logo only (centered, full width)
+    > a:first-child {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-right: 0;
+      order: 1;
+    }
+
+    // Second row: All navigation items together (centered)
+    .nav-center {
+      position: static;
+      transform: none;
+      margin: 0;
+      order: 2;
+      flex: 0 0 auto;
+      gap: 12px;
+    }
+
+    .nav-right {
+      margin: 0;
+      order: 3;
+      flex: 0 0 auto;
+      gap: 12px;
+    }
+  }
+
+  .logo {
+    width: 140px;
+    display: flex;
+    align-items: center;
+
+    @media screen and (max-width: 767px) {
+      width: 110px;
+    }
   }
 }
 
 footer {
   width: 100%;
-  background: var(--mat-sys-primary);
+  background: var(--mat-sys-surface-container);
   // This pushes it to the bottom when not enough content is on the page
   margin-top: auto;
   margin-bottom: -5px;
@@ -60,13 +144,15 @@ footer {
     margin-top: 0;
     margin-bottom: 0;
     min-height: 0;
+
     > div:not(:last-child) {
       margin-right: 25px;
+      color: var(--mat-sys-on-surface);
     }
   }
 
   a {
-    color: white;
+    color: var(--mat-sys-on-surface);
   }
 
   img {

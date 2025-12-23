@@ -26,6 +26,12 @@ html {
   }
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --mat-sys-primary: #d94a5f;
+  }
+}
+
 // Common styles for Angular Material. Included so that we only have to load a
 // single CSS file for Angular Material in our app.
 // Don't include this anywhere else!
@@ -119,6 +125,30 @@ mat-card-content {
   font-family: vars.$font-sans-serif;
 }
 
+mat-card {
+  border: 1px solid var(--mat-sys-outline-variant) !important;
+  border-radius: var(--mat-sys-corner-large) !important;
+  background: color-mix(
+    in srgb,
+    var(--mat-sys-surface-container) 100%,
+    transparent
+  ) !important;
+}
+
+body {
+  background-color: var(--mat-sys-surface-container-highest);
+  background-image:
+    radial-gradient(circle, rgba(75, 96, 180, 0.25) 8%, transparent 10%),
+    radial-gradient(circle, rgba(233, 185, 73, 0.2) 8%, transparent 10%),
+    radial-gradient(circle, rgba(217, 74, 95, 0.22) 8%, transparent 10%);
+  background-size: 50px 50px;
+  background-position:
+    0 0,
+    25px 25px,
+    12.5px 37.5px;
+  background-attachment: fixed;
+}
+
 body.loaded app-root {
   display: flex !important;
 }
@@ -131,9 +161,6 @@ a {
 .fancy {
   color: white;
   background: var(--mat-sys-primary);
-  background: -webkit-linear-gradient(to left, #8a2387, #e94057, #f27121);
-  background: linear-gradient(to left, #8a2387, #e94057, #f27121);
-  background-clip: border-box;
   font-style: italic;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -147,30 +174,62 @@ a {
 .hero-and-nav-container {
   position: relative;
   overflow: hidden;
-  background: #ead5d0;
-  background: linear-gradient(45deg, #faddff 0%, #ffd3b9 100%);
-  background-size: cover, cover;
-  padding-bottom: 70px;
+  display: flex;
+
+  &:not(:has(.hero)) {
+    min-height: auto;
+
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    justify-content: center;
+
+    @media screen and (max-width: 1199px) {
+      padding-top: 5.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    @media screen and (max-width: 450px) {
+      padding-top: 8.5rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
 }
 
 .big-card-wrapper {
-  width: 1180px;
+  width: 95%;
+  max-width: 1400px;
   min-height: 700px;
-  margin: -70px auto 50px;
+  margin: 0 auto 50px;
+  position: relative;
+  z-index: 1;
+  box-shadow: none !important;
 
-  @media screen and (max-width: 1199px) {
-    width: auto;
-    margin-left: 10vw;
-    margin-right: 10vw;
+  img:not(footer img) {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 16px solid transparent;
+    background:
+      linear-gradient(
+          var(--mat-sys-surface-container-low),
+          var(--mat-sys-surface-container-low)
+        )
+        padding-box,
+      linear-gradient(
+          90deg,
+          color-mix(in srgb, #4b60b4 20%, transparent) 0%,
+          color-mix(in srgb, #e9b949 20%, transparent) 50%,
+          color-mix(in srgb, #d94a5f 20%, transparent) 100%
+        )
+        border-box;
   }
 
-  @media screen and (max-width: 767px) {
-    margin-left: 5vw;
-    margin-right: 5vw;
-  }
-
-  @media screen and (max-width: 450px) {
-    margin-top: -40px;
+  .hero-and-nav-container:has(.hero) & {
+    margin-top: 40px;
   }
 }
 

@@ -1,22 +1,22 @@
-<header>
-  <mat-toolbar color="transparent">
-    <a [routerLink]="['']">
-      <img class="logo" src="../assets/logo-again.svg" alt="GlitchTip"
-    /></a>
-    <div>
-      <a [routerLink]="['pricing']">Pricing</a>
-      <a [routerLink]="['blog']">Blog</a>
-      <a class="u-hidden-small" [routerLink]="['documentation']">
-        <span>Documentation</span>
-      </a>
-      <a class="u-visible-small" [routerLink]="['documentation']">
-        <span>Docs</span>
-      </a>
-      <a class [href]="loginLink">Login</a>
-      <a mat-flat-button class="mat-primary" [href]="registerLink">Register</a>
-    </div>
-  </mat-toolbar>
-</header>
+<mat-toolbar color="transparent">
+  <a [routerLink]="['']">
+    <img class="logo" src="../assets/logo-again.svg" alt="GlitchTip"
+  /></a>
+  <div class="nav-center">
+    <a [routerLink]="['pricing']">Pricing</a>
+    <a [routerLink]="['blog']">Blog</a>
+    <a class="u-hidden-small" [routerLink]="['documentation']">
+      <span>Documentation</span>
+    </a>
+    <a class="u-visible-small" [routerLink]="['documentation']">
+      <span>Docs</span>
+    </a>
+  </div>
+  <div class="nav-right">
+    <a class [href]="loginLink">Login</a>
+    <a mat-flat-button class="mat-primary" [href]="registerLink">Register</a>
+  </div>
+</mat-toolbar>
 
 <router-outlet></router-outlet>
 

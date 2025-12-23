@@ -1,62 +1,80 @@
 <div class="hero-and-nav-container">
-  <div class="hero">
-    <h2 class="fancy mat-headline-2">
-      Simple, open source error&nbsp;tracking
-    </h2>
-    <div class="content">
-      <p class="mat-body-1">
-        Collect every error from your project in real time, organize them to
-        make them useful, and receive alerts when and where you want...without
-        breaking the budget.
-      </p>
+  <!-- Hero Card -->
+  <mat-card appearance="outlined" class="hero-card">
+    <mat-card-content>
+      <div class="hero-images-container">
+        <!-- Left side: Text + Robots -->
+        <div class="hero-content-left">
+          <div class="hero">
+            <h2 class="fancy mat-headline-2">
+              Simple, open source error&nbsp;tracking
+            </h2>
+            <div class="content">
+              <p class="mat-body-1">
+                Collect every error from your project in real time, organize
+                them to make them useful, and receive alerts when and where you
+                want...without breaking the budget.
+              </p>
+              <p class="mat-body-1">
+                <a mat-flat-button color="primary" [href]="registerLink">
+                  Try GlitchTip for free
+                </a>
+              </p>
+            </div>
+          </div>
 
-      <p class="mat-body-1">
-        <a mat-flat-button color="primary" [href]="registerLink">
-          Try GlitchTip for free
-        </a>
-      </p>
-    </div>
-  </div>
-  <picture class="bot-hero-image">
-    <source
-      media="(max-width: 479px)"
-      type="image/webp"
-      srcset="
-        /assets/home/bots-assembled-mobile@1x.webp,
-        /assets/home/bots-assembled-mobile@2x.webp 2x,
-        /assets/home/bots-assembled-mobile@3x.webp 3x
-      "
-    />
-    <source
-      media="(max-width: 479px)"
-      srcset="
-        /assets/home/bots-assembled-mobile@1x.png,
-        /assets/home/bots-assembled-mobile@2x.png 2x,
-        /assets/home/bots-assembled-mobile@3x.png 3x
-      "
-    />
-    <source
-      type="image/webp"
-      srcset="
-        /assets/home/bots-assembled@1x.webp,
-        /assets/home/bots-assembled@2x.webp 2x,
-        /assets/home/bots-assembled@3x.webp 3x
-      "
-    />
-    <img
-      src="/assets/home/bots-assembled@1x.png"
-      srcset="
-        /assets/home/bots-assembled@1x.png,
-        /assets/home/bots-assembled@2x.png 2x,
-        /assets/home/bots-assembled@3x.png 3x
-      "
-      alt=""
-      loading="eager"
-    />
-  </picture>
+          <picture class="bot-hero-image">
+            <source
+              media="(max-width: 479px)"
+              type="image/webp"
+              srcset="
+                /assets/home/bots-assembled-mobile@1x.webp,
+                /assets/home/bots-assembled-mobile@2x.webp 2x,
+                /assets/home/bots-assembled-mobile@3x.webp 3x
+              "
+            />
+            <source
+              media="(max-width: 479px)"
+              srcset="
+                /assets/home/bots-assembled-mobile@1x.png,
+                /assets/home/bots-assembled-mobile@2x.png 2x,
+                /assets/home/bots-assembled-mobile@3x.png 3x
+              "
+            />
+            <source
+              type="image/webp"
+              srcset="
+                /assets/home/bots-assembled@1x.webp,
+                /assets/home/bots-assembled@2x.webp 2x,
+                /assets/home/bots-assembled@3x.webp 3x
+              "
+            />
+            <img
+              src="/assets/home/bots-assembled@1x.png"
+              srcset="
+                /assets/home/bots-assembled@1x.png,
+                /assets/home/bots-assembled@2x.png 2x,
+                /assets/home/bots-assembled@3x.png 3x
+              "
+              alt=""
+              loading="eager"
+            />
+          </picture>
+        </div>
+
+        <!-- Right side: Screenshot -->
+        <div class="hero-screenshot">
+          <img
+            src="/assets/home/example-dashboard-hero.png"
+            alt="GlitchTip Dashboard"
+          />
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 
-<mat-card class="big-card-wrapper">
+<mat-card appearance="outlined" class="big-card-wrapper">
   <mat-card-content>
     <div class="centered-block">
       <h2 class="fancy mat-headline-2">Have some bugs in your code?</h2>
@@ -240,7 +258,7 @@
 
         <p class="mat-body-1">
           GlitchTip is open source, which means that you can be making it too!
-          If you’re interested in doing so,
+          If you're interested in doing so,
           <a href="https://gitlab.com/glitchtip">visit our GitLab page</a> for
           more information, or start a live chat on this&nbsp;page.
         </p>
