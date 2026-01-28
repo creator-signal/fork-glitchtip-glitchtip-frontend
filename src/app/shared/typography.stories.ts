@@ -1,6 +1,7 @@
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { moduleMetadata } from "@storybook/angular";
+import { iconNames } from "./icon-names";
 
 export default {
   decorators: [
@@ -107,40 +108,10 @@ export const Typography = () => ({
   `,
 });
 
-const iconNames = [
-  "account_circle",
-  "add",
-  "brightness_medium",
-  "check_box",
-  "check_circle",
-  "close",
-  "code",
-  "computer",
-  "dark_mode",
-  "delete",
-  "delete_outline",
-  "devices_other",
-  "done",
-  "edit",
-  "email",
-  "favorite",
-  "file_copy",
-  "help",
-  "keyboard_arrow_down",
-  "keyboard_arrow_left",
-  "keyboard_arrow_right",
-  "keyboard_arrow_up",
-  "light_mode",
-  "menu",
-  "more_horiz",
-  "settings",
-  "tab",
-  "volume_off",
-  "warning",
-];
 const iconURL = `https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD&#64;20..48,100..700,0..1,-50..200&icon_names=${iconNames.join(
   ",",
 )}`;
+
 export const Icons = () => ({
   template: `
   <section class="mat-typography">
@@ -161,7 +132,12 @@ export const Icons = () => ({
         .join("")}
     </div>
     <mat-divider></mat-divider>
-    We self host a minimal set of symbol fonts. To add more, add to this stories list, then run "npm run update-icons" 
+ 
+ We self host a minimal set of symbol fonts. To add more icons:
+    <ol>
+      <li>Add icon names to <code>src/app/shared/icon-names.ts</code></li>
+      <li>Run <code>npm run update-icons</code> (or manually download from <a href="${iconURL}">fonts.googleapis.com</a>)</li>
+    </ol>
   </section>
 
   <br/>

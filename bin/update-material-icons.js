@@ -1,24 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
+const iconNames = require("../src/app/shared/icon-names.json");
 
 // --- Configuration ---
-const STORYBOOK_FILE = "./src/app/shared/typography.stories.ts";
 const OUTPUT_FILE = "./src/assets/fonts/material-symbols.woff2";
 const FONT_FAMILY =
   "Material Symbols Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
 // ---------------------
-
-function extractIconNames(filePath) {
-  const content = fs.readFileSync(filePath, "utf-8");
-  const match = content.match(/const iconNames = \[([\s\S]*?)\];/);
-
-  if (!match) {
-    throw new Error("Could not find iconNames array");
-  }
-
-  return match[1].match(/"([^"]+)"/g).map((icon) => icon.replace(/"/g, ""));
-}
 
 function buildFontUrl(iconNames) {
   const params = new URLSearchParams({
@@ -78,8 +67,7 @@ function downloadFont(url, outputPath) {
 
 async function updateMaterialIcons() {
   try {
-    console.log("📖 Reading icon names...");
-    const iconNames = extractIconNames(STORYBOOK_FILE);
+    console.log("📖 Using icon names from shared module...");
     console.log(`✅ Found ${iconNames.length} icons\n`);
 
     const cssUrl = buildFontUrl(iconNames);
