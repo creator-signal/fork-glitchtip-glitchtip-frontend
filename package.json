@@ -20,6 +20,7 @@
     "analyze": "webpack-bundle-analyzer dist/glitchtip-frontend/stats.json",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
     "i18n": "npm run extract-i18n && npm run i18n-create-json",
+    "update-icons": "node bin/update-material-icons.js",
     "extract-i18n": "ng extract-i18n",
     "i18n-create-json": "node bin/convert-xliff.js",
     "serve:ssr:marketing": "node dist/marketing/server/server.mjs",
