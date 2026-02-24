@@ -25,14 +25,16 @@ module.exports = (on, config) => {
   on("file:preprocessor", wp(options));
 
   on("before:browser:launch", (browser = {}, launchOptions) => {
-    if (
-      browser.name === "electron" &&
-      browser.isHeadless &&
-      process.env.SCREENSHOT
-    ) {
-      launchOptions.preferences.width = 2570;
-      launchOptions.preferences.height = 1600;
-      launchOptions.preferences.webPreferences.zoomFactor = 2;
+    if (browser.name === "electron" && browser.isHeadless) {
+      if (process.env.SCREENSHOT) {
+        launchOptions.preferences.width = 2570;
+        launchOptions.preferences.height = 1600;
+        launchOptions.preferences.webPreferences.zoomFactor = 2;
+      } else {
+        // Ensure window is large enough for wide viewport tests (e.g. screenshots)
+        launchOptions.preferences.width = 1920;
+        launchOptions.preferences.height = 1200;
+      }
     }
 
     return launchOptions;
