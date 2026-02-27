@@ -18,7 +18,7 @@ describe("Organization Settings", () => {
     cy.get("#delete-org").click();
     cy.get("[data-cy='dialog-confirm']").click();
     cy.contains("successfully deleted");
-    cy.wait("@getProjectsRequest");
+    cy.wait("@getProjectsRequest").then((interception) => cy.log("**Projects Response Body:**", JSON.stringify(interception?.response?.body)));
     cy.url().should("eq", "http://localhost:4200/");
     cy.contains("In order to use GlitchTip, you'll need to create an");
   });
