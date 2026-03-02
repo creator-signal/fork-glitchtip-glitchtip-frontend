@@ -13,7 +13,7 @@ const connect = require("connect");
 const Sentry = require("@sentry/node");
 
 // Must configure Sentry before doing anything else with it
-Sentry.init({ dsn: "YOUR-GLITCHTIP-DSN-HERE" });
+Sentry.init({ dsn: "YOUR_DSN" });
 
 function mainHandler(req, res) {
   throw new Error("My first GlitchTip error!");

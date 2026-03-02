@@ -6,8 +6,19 @@ To start using GlitchTip, you need to:
 
 ## General Configuration
 
-Consult your platform's Sentry SDK's documentation for more information. Most support:
+GlitchTip is compatible with Sentry SDKs. Most support:
 
-- dsn - Where to send event data too, found in GlitchTip in project settings.
-- release - Set release name such as "1.0".
-- environment - Set the running environment name, such as "production".
+- **dsn** — Where to send event data, found in GlitchTip project settings.
+- **release** — Set release name such as "1.0".
+- **environment** — Set the running environment name, such as "production".
+
+## Source Maps & Debug Symbols
+
+For JavaScript projects, upload source maps to get readable stack traces. For native applications, upload debug symbols (dSYM, PDB, ELF).
+
+Use the [GlitchTip CLI](/documentation/cli) to upload source maps and debug symbols:
+
+```bash
+glitchtip-cli sourcemaps upload ./dist
+glitchtip-cli debug-files upload ./build
+```

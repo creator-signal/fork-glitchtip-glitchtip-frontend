@@ -17,7 +17,7 @@ Setup the application production environment in your `config/config.exs`
 
 ```elixir
 config :sentry,
-  dsn: "YOUR-GLITCHTIP-DSN-HERE",
+  dsn: "YOUR_DSN",
   environment_name: Mix.env(),
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()]

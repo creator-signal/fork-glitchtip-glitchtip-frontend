@@ -1,9 +1,12 @@
-[Raven module](https://www.drupal.org/project/raven) provides integration with
-GlitchTip for Drupal projects.
-
 ## Installation
 
-Add the `drupal/raven` module to your project:
+Add the Sentry SDK to your Drupal project:
+
+```bash
+composer require "sentry/sdk:^4.0"
+```
+
+For Drupal sites using the [Raven module](https://www.drupal.org/project/raven), install it with:
 
 ```bash
 composer require drupal/raven
@@ -11,23 +14,39 @@ composer require drupal/raven
 
 ## Configuration
 
-Configure your GlitchTip DSN and which events you want to send to GlitchTip in
-the "Sentry" section of the logging and errors configuration page at
-`admin/config/development/logging`.
+### Using the Raven Module
 
-You also have the option of setting environment variables for SENTRY_DSN,
-SENTRY_ENVIRONMENT and SENTRY_RELEASE, which override their corresponding
-configs if set.
+Configure your GlitchTip DSN and which events to capture in the "Sentry" section of the logging and errors configuration page at `admin/config/development/logging`.
 
-You can use the commandline to verify that GlitchTip is capturing errors for
-your project:
+You can override settings with environment variables:
+
+- `SENTRY_DSN` — your GlitchTip DSN
+- `SENTRY_ENVIRONMENT` — deployment environment name
+- `SENTRY_RELEASE` — release version identifier
+
+### Manual Setup
+
+If not using the Raven module, initialize the Sentry SDK in your `settings.php`:
+
+```php
+if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+    require_once __DIR__ . '/../../vendor/autoload.php';
+    \Sentry\init([
+        'dsn' => 'YOUR_DSN',
+    ]);
+}
+```
+
+## Verify
+
+Using the Raven module, verify from the command line:
 
 ```bash
 drush raven:captureMessage 'Mic check'
 ```
 
+The message should appear in GlitchTip within a few seconds.
+
 ## Support
 
-Please read the README included with Raven module, and file bug reports,
-feature requests or support requests at the
-[Raven project page](https://www.drupal.org/project/raven).
+See the [Raven module project page](https://www.drupal.org/project/raven) for additional documentation and support.

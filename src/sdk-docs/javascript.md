@@ -1,41 +1,37 @@
-GlitchTip is an open-source alternative to Sentry that works seamlessly with the Sentry browser SDK.
+GlitchTip is compatible with the Sentry JavaScript SDK.
 
-## Step 1: Include the SDK via CDN or NPM
+## Step 1: Install the SDK via CDN or NPM
 
-To get started, you have two options for including the Sentry SDK:
-
-### Option 1: CDN
-
-Add the following script tag to your HTML file.
-
-```html
-<script src="https://browser.sentry-cdn.com/7.60.0/bundle.min.js" crossorigin="anonymous"></script>
-```
-
-Consider checking the [Sentry GitHub repository](https://github.com/getsentry/sentry-javascript) for the latest available version number.
-
-### Option 2: NPM
-
-If you prefer using NPM for managing dependencies, you can install the Sentry SDK like this:
+### Option 1: NPM
 
 ```bash
 npm install @sentry/browser
 ```
 
+### Option 2: CDN
+
+Add the following script tag to your HTML file. Check the [Sentry JavaScript releases](https://github.com/getsentry/sentry-javascript/releases) for the latest version number.
+
+```html
+<script src="https://browser.sentry-cdn.com/8.x/bundle.min.js" crossorigin="anonymous"></script>
+```
+
 ## Step 2: Initialize the SDK
 
-Next, initialize the Sentry SDK as early as possible during your page load. Retrieve your DSN from your Glitchtip project settings and use it to configure the SDK. Additionally, you can set the `tracesSampleRate` option to specify the rate at which performance monitoring data should be sent (e.g., `0.01` for 1% of transactions).
+Initialize the Sentry SDK as early as possible during your page load:
 
 ```javascript
 Sentry.init({
-  dsn: "YOUR-GLITCHTIP-DSN-HERE",
+  dsn: "YOUR_DSN",
   tracesSampleRate: 0.01,
 });
 ```
 
+Set `tracesSampleRate` to a value between `0.0` and `1.0` to control the percentage of transactions captured for performance monitoring.
+
 ## Step 3: Verify Error Reporting
 
-To ensure that error reporting works correctly, you can create a simple test by calling an undefined function:
+Create a simple test by calling an undefined function:
 
 ```javascript
 myUndefinedFunction();

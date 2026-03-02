@@ -8,7 +8,7 @@ composer require sentry/sdk
 To capture all errors, even the one during the startup of your application, you should initialize the PHP SDK as soon as possible.
 
 ```php
-Sentry\init(['dsn' => 'YOUR-GLITCHTIP-DSN-HERE' ]);
+Sentry\init(['dsn' => 'YOUR_DSN' ]);
 ```
 
 You can trigger a PHP exception by throwing one in your application:

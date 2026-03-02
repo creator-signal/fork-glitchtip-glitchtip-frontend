@@ -14,7 +14,7 @@ For more details about Electron [click here]({%- link _documentation/platforms/j
 ```javascript
 import * as Sentry from "@sentry/electron";
 
-Sentry.init({ dsn: "YOUR-GLITCHTIP-DSN-HERE" });
+Sentry.init({ dsn: "YOUR_DSN" });
 ```
 
 One way to break your Electron application is to call an undefined function:

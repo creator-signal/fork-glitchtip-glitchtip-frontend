@@ -20,7 +20,7 @@ The Sanic integration adds support for the [Sanic Web Framework](https://github.
    from sanic import Sanic
 
    sentry_sdk.init(
-       dsn="YOUR-GLITCHTIP-DSN-HERE",
+       dsn="YOUR_DSN",
        integrations=[SanicIntegration()]
    )
 

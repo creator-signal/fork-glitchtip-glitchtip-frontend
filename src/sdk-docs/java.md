@@ -6,133 +6,78 @@ Using Maven:
 <dependency>
     <groupId>io.sentry</groupId>
     <artifactId>sentry</artifactId>
-    <version>1.7.27</version>
 </dependency>
 ```
 
 Using Gradle:
 
 ```groovy
-compile 'io.sentry:sentry:1.7.27'
+implementation 'io.sentry:sentry'
 ```
 
-Using SBT:
+Check the [central Maven repository](https://search.maven.org/artifact/io.sentry/sentry) for the latest version.
 
-```scala
-libraryDependencies += "io.sentry" % "sentry" % "1.7.27"
+## Configuration
+
+Initialize Sentry as early as possible in your application:
+
+```java
+import io.sentry.Sentry;
+
+public class MyClass {
+    public static void main(String[] args) {
+        Sentry.init(options -> {
+            options.setDsn("YOUR_DSN");
+            options.setTracesSampleRate(1.0);
+        });
+
+        // Or use the SENTRY_DSN environment variable:
+        // Sentry.init();
+    }
+}
 ```
 
-For other dependency managers see the [central Maven repository](https://search.maven.org/#artifactdetails%7Cio.sentry%7Csentry%7C1.7.27%7Cjar).
+The DSN can be provided via:
+- The `Sentry.init()` options
+- The `SENTRY_DSN` environment variable
+- The `sentry.dsn` Java system property
+- A `sentry.properties` file in your classpath
 
 ## Capture an Error
 
-To report an event manually you need to initialize a `SentryClient`. It is recommended that you use the static API via the `Sentry` class, but you can also construct and manage your own `SentryClient` instance. An example of each style is shown below:
+```java
+import io.sentry.Sentry;
+
+try {
+    throw new Exception("Hello, GlitchTip!");
+} catch (Exception e) {
+    Sentry.captureException(e);
+}
+```
+
+## Send a Message
 
 ```java
-import io.sentry.context.Context;
-import io.sentry.event.BreadcrumbBuilder;
-import io.sentry.event.UserBuilder;
+Sentry.captureMessage("Something happened");
+```
 
-public class MyClass {
-    private static SentryClient sentry;
+## Add Context
 
-    public static void main(String... args) {
-        /*
-         It is recommended that you use the DSN detection system, which
-         will check the environment variable "SENTRY_DSN", the Java
-         System Property "sentry.dsn", or the "sentry.properties" file
-         in your classpath. This makes it easier to provide and adjust
-         your DSN without needing to change your code. See the configuration
-         page for more information.
+```java
+import io.sentry.Sentry;
+import io.sentry.protocol.User;
 
-         For example, using an environment variable
+// Set user context
+User user = new User();
+user.setEmail("user@example.com");
+Sentry.setUser(user);
 
-         export SENTRY_DSN="YOUR-GLITCHTIP-DSN-HERE"
-         */
-        Sentry.init();
+// Add a breadcrumb
+Sentry.addBreadcrumb("User clicked button");
 
-        // You can also manually provide the DSN to the ``init`` method.
-        Sentry.init("YOUR-GLITCHTIP-DSN-HERE");
+// Set a tag
+Sentry.setTag("page.locale", "en-us");
 
-        /*
-         It is possible to go around the static ``Sentry`` API, which means
-         you are responsible for making the SentryClient instance available
-         to your code.
-         */
-        sentry = SentryClientFactory.sentryClient();
-
-        MyClass myClass = new MyClass();
-        myClass.logWithStaticAPI();
-        myClass.logWithInstanceAPI();
-    }
-
-    /**
-      * An example method that throws an exception.
-      */
-    void unsafeMethod() {
-        throw new UnsupportedOperationException("You shouldn't call this!");
-    }
-
-    /**
-      * Examples using the (recommended) static API.
-      */
-    void logWithStaticAPI() {
-        // Note that all fields set on the context are optional. Context data is copied onto
-        // all future events in the current context (until the context is cleared).
-
-        // Record a breadcrumb in the current context. By default the last 100 breadcrumbs are kept.
-        Sentry.getContext().recordBreadcrumb(
-            new BreadcrumbBuilder().setMessage("User made an action").build()
-        );
-
-        // Set the user in the current context.
-        Sentry.getContext().setUser(
-            new UserBuilder().setEmail("hello@sentry.io").build()
-        );
-
-        // Add extra data to future events in this context.
-        Sentry.getContext().addExtra("extra", "thing");
-
-        // Add an additional tag to future events in this context.
-        Sentry.getContext().addTag("tagName", "tagValue");
-
-        /*
-         This sends a simple event to Sentry using the statically stored instance
-         that was created in the ``main`` method.
-         */
-        Sentry.capture("This is a test");
-
-        try {
-            unsafeMethod();
-        } catch (Exception e) {
-            // This sends an exception event to Sentry using the statically stored instance
-            // that was created in the ``main`` method.
-            Sentry.capture(e);
-        }
-    }
-
-    /**
-      * Examples that use the SentryClient instance directly.
-      */
-    void logWithInstanceAPI() {
-        // Retrieve the current context.
-        Context context = sentry.getContext();
-
-        // Record a breadcrumb in the current context. By default the last 100 breadcrumbs are kept.
-        context.recordBreadcrumb(new BreadcrumbBuilder().setMessage("User made an action").build());
-
-        // Set the user in the current context.
-        context.setUser(new UserBuilder().setEmail("hello@sentry.io").build());
-
-        // This sends a simple event to Sentry.
-        sentry.sendMessage("This is a test");
-
-        try {
-            unsafeMethod();
-        } catch (Exception e) {
-            // This sends an exception event to Sentry.
-            sentry.sendException(e);
-        }
-    }
-}
+// Set extra data
+Sentry.setExtra("character.name", "Mighty Fighter");
 ```

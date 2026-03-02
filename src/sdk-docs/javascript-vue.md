@@ -19,7 +19,7 @@ import Vue from "vue";
 import * as Sentry from "@sentry/vue";
 
 Sentry.init({
-  dsn: "YOUR-GLITCHTIP-DSN-HERE",
+  dsn: "YOUR_DSN",
   integrations: [
     Sentry.browserTracingIntegration({ router }),
     tracesSampleRate: 0.01,

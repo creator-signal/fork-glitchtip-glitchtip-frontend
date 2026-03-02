@@ -5,7 +5,7 @@ import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
 sentry_sdk.init(
-    dsn="YOUR-GLITCHTIP-DSN-HERE",
+    dsn="YOUR_DSN",
     integrations=[AwsLambdaIntegration()]
 )
 

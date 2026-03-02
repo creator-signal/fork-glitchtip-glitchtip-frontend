@@ -11,7 +11,7 @@ import "github.com/getsentry/sentry-go"
 
 func main() {
 	sentry.Init(sentry.ClientOptions{
-		Dsn: "YOUR-GLITCHTIP-DSN-HERE",
+		Dsn: "YOUR_DSN",
 	})
 }
 ```
@@ -27,7 +27,7 @@ import (
 
 func main() {
 	sentry.Init(sentry.ClientOptions{
-		Dsn: "YOUR-GLITCHTIP-DSN-HERE",
+		Dsn: "YOUR_DSN",
 	})
 
 	sentry.CaptureException(errors.New("my error"))

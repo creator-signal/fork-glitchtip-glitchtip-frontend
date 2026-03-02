@@ -7,7 +7,7 @@ $ composer require sentry/sentry-laravel
 Create the SDK configuration file (`config/sentry.php`) with this command:
 
 ```sh
-$ php artisan sentry:publish --dsn=YOUR-GLITCHTIP-DSN-HERE
+$ php artisan sentry:publish --dsn=YOUR_DSN
 ```
 
 This command adds to your .env file:

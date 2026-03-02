@@ -14,7 +14,7 @@ import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 sentry_sdk.init(
-    dsn="YOUR-GLITCHTIP-DSN-HERE",
+    dsn="YOUR_DSN",
     integrations=[FlaskIntegration()]
 )
 

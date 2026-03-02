@@ -23,7 +23,7 @@ You should initialize the SDK as early as possible, like in the `Main` method in
 ```csharp
 SentrySdk.Init(options =>
 {
-    options.Dsn = "YOUR-GLITCHTIP-DSN-HERE";
+    options.Dsn = "YOUR_DSN";
 });
 ```
 

@@ -1,6 +1,6 @@
 ### Configure your Gradle file
 
-In your top-level build.gradle file, make sure that Maven Central is added as a repository:
+In your top-level `build.gradle` file, make sure that Maven Central is added as a repository:
 
 ```groovy
 repositories {
@@ -8,40 +8,29 @@ repositories {
 }
 ```
 
-In your `app/build.gradle` file, make sure that you're targeting Java 1.8 (8) compatibility:
-
-```groovy
-android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
-```
-
-Then, add `sentry-android` into your dependencies:
+Then, add `sentry-android` to your `app/build.gradle` dependencies:
 
 ```groovy
 dependencies {
-    implementation 'io.sentry:sentry-android:4.2.0'
+    implementation 'io.sentry:sentry-android'
 }
 ```
 
-For other dependency managers, see the [central Maven repository](https://search.maven.org/artifact/io.sentry/sentry-android/4.2.0/jar).
+Check the [central Maven repository](https://search.maven.org/artifact/io.sentry/sentry-android) for the latest version.
 
 ### Configure your Android manifest
 
-Add this `<meta-data>` tag inside the `<application>` element of your AndroidManifest.xml file:
+Add this `<meta-data>` tag inside the `<application>` element of your `AndroidManifest.xml`:
 
 ```xml
 <application>
-  <meta-data android:name="io.sentry.dsn" android:value="YOUR-GLITCHTIP-DSN-HERE" />
+  <meta-data android:name="io.sentry.dsn" android:value="YOUR_DSN" />
 </application>
 ```
 
-### Send us an error!
+### Verify
 
-Open up `MainActivity.java`, and throw an exception:
+Open up `MainActivity.java` and throw an exception:
 
 ```java
 import android.os.Bundle;

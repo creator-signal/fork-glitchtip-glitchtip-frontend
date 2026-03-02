@@ -19,7 +19,7 @@ The Tornado integration adds support for the [Tornado Web Framework](https://www
    from sentry_sdk.integrations.tornado import TornadoIntegration
 
    sentry_sdk.init(
-       dsn="YOUR-GLITCHTIP-DSN-HERE",
+       dsn="YOUR_DSN",
        integrations=[TornadoIntegration()]
    )
 

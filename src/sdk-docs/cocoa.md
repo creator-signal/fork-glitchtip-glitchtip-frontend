@@ -40,7 +40,7 @@ func application(_ application: UIApplication,
 
     // Create a client and start crash handler
     do {
-        Client.shared = try Client(dsn: "YOUR-GLITCHTIP-DSN-HERE")
+        Client.shared = try Client(dsn: "YOUR_DSN")
         try Client.shared?.startCrashHandler()
     } catch let error {
         print("\(error)")
@@ -56,7 +56,7 @@ If you prefer to use Objective-C you can do so like this:
 @import Sentry;
 
 NSError *error = nil;
-SentryClient *client = [[SentryClient alloc] initWithDsn:@"YOUR-GLITCHTIP-DSN-HERE" didFailWithError:&error];
+SentryClient *client = [[SentryClient alloc] initWithDsn:@"YOUR_DSN" didFailWithError:&error];
 SentryClient.sharedClient = client;
 [SentryClient.sharedClient startCrashHandlerWithError:&error];
 if (nil != error) {

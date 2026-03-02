@@ -11,7 +11,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
-    dsn="YOUR-GLITCHTIP-DSN-HERE",
+    dsn="YOUR_DSN",
     integrations=[DjangoIntegration()],
     auto_session_tracking=False,
     traces_sample_rate=0
@@ -40,7 +40,7 @@ Here is a more robust configuration example:
 
 ```python
 sentry_sdk.init(
-    dsn="YOUR-GLITCHTIP-DSN-HERE",
+    dsn="YOUR_DSN",
     integrations=[DjangoIntegration()],
     auto_session_tracking=False,
     traces_sample_rate=0.01,

@@ -15,7 +15,7 @@ const express = require("express");
 const app = express();
 const Sentry = require("@sentry/node");
 
-Sentry.init({ dsn: "YOUR-GLITCHTIP-DSN-HERE" });
+Sentry.init({ dsn: "YOUR_DSN" });
 
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
