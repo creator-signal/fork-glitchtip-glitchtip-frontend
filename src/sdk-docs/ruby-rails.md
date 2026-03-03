@@ -19,5 +19,6 @@ Create the file `config/initializers/sentry.rb` and configure the DSN, and any o
 Sentry.init do |config|
   config.dsn = 'YOUR_DSN_HERE'
   config.breadcrumbs_logger = [:active_support_logger, :http_logger]
+  config.traces_sample_rate = 0.01
 end
 ```

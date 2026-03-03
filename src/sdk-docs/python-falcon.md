@@ -16,7 +16,9 @@ The integration has been confirmed to work with Falcon 1.4 and 2.0.
 
    sentry_sdk.init(
        dsn="YOUR_DSN",
-       integrations=[FalconIntegration()]
+       integrations=[FalconIntegration()],
+       auto_session_tracking=False,
+       traces_sample_rate=0.01,
    )
 
    api = falcon.API()

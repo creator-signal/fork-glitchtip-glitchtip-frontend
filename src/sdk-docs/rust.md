@@ -25,16 +25,19 @@ fn main() {
 }
 ```
 
-# Additional settings
+# Additional Settings
 
-The Rust SDK accepts various configuration options. Here's an example that sets the release name.
+The Rust SDK accepts various configuration options. Here's an example with recommended settings:
 
 ```rust
 let _guard = sentry::init((
     "YOUR_DSN",
     sentry::ClientOptions {
         release: sentry::release_name!(),
+        traces_sample_rate: 0.01,
         ..Default::default()
     },
 ));
 ```
+
+- **traces_sample_rate** - Percent of operations captured for [performance monitoring](/documentation/performance). `0.01` means 1%. We recommend a low value in production.

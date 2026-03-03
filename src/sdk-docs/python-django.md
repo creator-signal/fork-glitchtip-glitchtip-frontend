@@ -14,7 +14,8 @@ sentry_sdk.init(
     dsn="YOUR_DSN",
     integrations=[DjangoIntegration()],
     auto_session_tracking=False,
-    traces_sample_rate=0
+    traces_sample_rate=0,
+    # enable_logs=True,
 )
 ```
 
@@ -44,19 +45,21 @@ sentry_sdk.init(
     integrations=[DjangoIntegration()],
     auto_session_tracking=False,
     traces_sample_rate=0.01,
+    # enable_logs=True,
     release="1.0.0",
     environment="production",
 )
 ```
 
-- dsn - Where to send event data too, found in GlitchTip in project settings.
-- integrations - Platform integrations such as DjangoIntegration and CeleryIntegration.
-- auto_session_tracking - Not supported, set to False.
-- traces_sample_rate - Percent of requests that are sent to GlitchTip as a performance monitoring transaction. 0.01 meaning 1%. We recommend setting to a low value to save costs/disk space.
-- release - Set release name such as "1.0". Defaults to environment variable `SENTRY_RELEASE`.
-- environment - Set the running environment name, such as "production". Defaults to environment variable `SENTRY_ENVIRONMENT`.
-- send_default_pii - Set to True to send additional PII event data. Defaults to False.
-- debug - Set to True to view more information about the SDK when something goes wrong. Defaults to False.
+- **dsn** - Where to send event data to. Found in GlitchTip under project settings.
+- **integrations** - Platform integrations such as DjangoIntegration and CeleryIntegration.
+- **auto_session_tracking** - Not supported by GlitchTip. Set to `False`.
+- **traces_sample_rate** - Percent of requests sent to GlitchTip as performance monitoring transactions. `0.01` means 1%. We recommend a low value to save costs and disk space.
+- **enable_logs** - Optionally enable [log collection](/documentation/logs) to view application logs alongside your errors in GlitchTip.
+- **release** - Set release name such as "1.0". Defaults to environment variable `SENTRY_RELEASE`.
+- **environment** - Set the running environment name, such as "production". Defaults to environment variable `SENTRY_ENVIRONMENT`.
+- **send_default_pii** - Set to `True` to send additional PII event data. Defaults to `False`.
+- **debug** - Set to `True` to view more information about the SDK when something goes wrong. Defaults to `False`.
 
 ## Content Security Policy Reporting
 

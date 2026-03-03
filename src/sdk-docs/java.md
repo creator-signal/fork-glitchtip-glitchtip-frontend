@@ -28,7 +28,7 @@ public class MyClass {
     public static void main(String[] args) {
         Sentry.init(options -> {
             options.setDsn("YOUR_DSN");
-            options.setTracesSampleRate(1.0);
+            options.setTracesSampleRate(0.01);
         });
 
         // Or use the SENTRY_DSN environment variable:

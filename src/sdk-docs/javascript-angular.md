@@ -26,11 +26,9 @@ import { MicroSentryModule } from '@micro-sentry/angular';
 
 ## Configuration
 
-- dsn - Where to send event data too, found in GlitchTip in project settings.
-- environment - Set the running environment name, such as "production". When running in Node, such as Angular Universal, this defaults to environment variable `SENTRY_ENVIRONMENT`. No default is used in browser.
-- release - Set release name such as "1.0". Required to make use of uploaded sourcemaps.
-- ignoreErrors
-- blacklistUrls
+- **dsn** - Where to send event data to. Found in GlitchTip under project settings.
+- **environment** - Set the running environment name, such as "production". When running in Node (Angular Universal), this defaults to environment variable `SENTRY_ENVIRONMENT`.
+- **release** - Set release name such as "1.0". Required to make use of uploaded sourcemaps.
 
 ```javascript
     MicroSentryModule.forRoot({
@@ -42,7 +40,7 @@ import { MicroSentryModule } from '@micro-sentry/angular';
 
 # @sentry/angular
 
-@sentry/angular has more features including performance tracking. The package adds up to [578 KB](https://bundlephobia.com/result?p=@sentry/angular) to your JS bundle size.
+@sentry/angular has more features including performance tracking.
 
 Install `@sentry/angular`:
 
@@ -50,60 +48,26 @@ Install `@sentry/angular`:
 $ npm install --save @sentry/angular
 ```
 
-For best results, add this snippet to your main.ts. If you need to set the DSN dynamically, you may set this elsewhere as well.
+For best results, add this snippet to your `main.ts`:
 
 ```javascript
-import { init } from "@sentry/angular";
+import * as Sentry from "@sentry/angular";
 
-init({
+Sentry.init({
   dsn: "YOUR_DSN",
+  integrations: [Sentry.browserTracingIntegration()],
+  tracesSampleRate: 0.01,
   autoSessionTracking: false,
 });
 ```
 
 ## Configuration
 
-A more robust configuration example:
-
-```javascript
-import { init } from '@sentry/angular';
-
-.init({
-  dsn: "YOUR_DSN",
-  environment: "production",
-  release: "1.0.0",
-  autoSessionTracking: false,
-  tracesSampleRate: 0.01,
-});
-```
-
-- dsn - Where to send event data too, found in GlitchTip in project settings.
-- release - Set release name such as "1.0". Defaults to environment variable `SENTRY_RELEASE`.
-- environment - Set the running environment name, such as "production". When running in Node, such as Angular Universal, this defaults to environment variable `SENTRY_ENVIRONMENT`. No default is used in browser.
-- sampleRate - Percent of error events to send to GlitchTip. 0.5 would be 50%. Defaults to 1.0.
-- tracesSampleRate - Percent of performance transactions to send to GlitchTip. 0.01 would be 1%. We recommend a lower value to save costs/hard drive space.
-
-### Performance Monitoring
-
-It's possible to send performance transactions to GlitchTip.
-
-Install `@sentry/tracing`
-
-Add integration to SDK configuration:
-
-```javascript
-Sentry.init({
-  dsn: "GlitchTip DSN",
-  integrations: [
-    new Integrations.BrowserTracing({
-      tracingOrigins: ["localhost", "https://example.com"],
-      routingInstrumentation: Sentry.routingInstrumentation,
-    }),
-  ],
-  // Capture 1% of transactions
-  tracesSampleRate: 0.01,
-});
-```
+- **dsn** - Where to send event data to. Found in GlitchTip under project settings.
+- **release** - Set release name such as "1.0". Defaults to environment variable `SENTRY_RELEASE`.
+- **environment** - Set the running environment name, such as "production". Defaults to environment variable `SENTRY_ENVIRONMENT`.
+- **tracesSampleRate** - Percent of page loads captured for [performance monitoring](/documentation/performance). `0.01` means 1%. We recommend a low value in production.
+- **autoSessionTracking** - Not supported by GlitchTip. Set to `false`.
 
 ### Show user feedback dialog
 

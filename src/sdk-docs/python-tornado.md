@@ -20,7 +20,9 @@ The Tornado integration adds support for the [Tornado Web Framework](https://www
 
    sentry_sdk.init(
        dsn="YOUR_DSN",
-       integrations=[TornadoIntegration()]
+       integrations=[TornadoIntegration()],
+       auto_session_tracking=False,
+       traces_sample_rate=0.01,
    )
 
    # Your app code here, without changes

@@ -22,7 +22,9 @@ Framework](https://docs.aiohttp.org/en/stable/web.html). A Python version of
 
    sentry_sdk.init(
        dsn="YOUR_DSN",
-       integrations=[AioHttpIntegration()]
+       integrations=[AioHttpIntegration()],
+       auto_session_tracking=False,
+       traces_sample_rate=0.01,
    )
 
    from aiohttp import web

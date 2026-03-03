@@ -21,7 +21,9 @@ The Sanic integration adds support for the [Sanic Web Framework](https://github.
 
    sentry_sdk.init(
        dsn="YOUR_DSN",
-       integrations=[SanicIntegration()]
+       integrations=[SanicIntegration()],
+       auto_session_tracking=False,
+       traces_sample_rate=0.01,
    )
 
    app = Sanic(__name__)

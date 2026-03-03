@@ -8,7 +8,11 @@ from sentry_sdk.integrations.wsgi import SentryWsgiMiddleware
 
 from myapp import wsgi_app
 
-sentry_sdk.init(dsn="YOUR_DSN")
+sentry_sdk.init(
+    dsn="YOUR_DSN",
+    auto_session_tracking=False,
+    traces_sample_rate=0.01,
+)
 
 wsgi_app = SentryWsgiMiddleware(wsgi_app)
 ```

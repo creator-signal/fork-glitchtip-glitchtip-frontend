@@ -15,7 +15,10 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 sentry_sdk.init(
     dsn="YOUR_DSN",
-    integrations=[FlaskIntegration()]
+    integrations=[FlaskIntegration()],
+    auto_session_tracking=False,
+    traces_sample_rate=0.01,
+    # enable_logs=True,
 )
 
 app = Flask(__name__)

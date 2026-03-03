@@ -12,27 +12,37 @@ Install-Package Sentry.AspNetCore
 dotnet add package Sentry.AspNetCore
 ```
 
-Add the SDK to `Program.cs` through the `WebHostBuilder`:
+## Configuration
 
-ASP.NET Core 2.x:
-
-```csharp
-public static IWebHost BuildWebHost(string[] args) =>
-    WebHost.CreateDefaultBuilder(args)
-        // Add the following line:
-        .UseSentry("YOUR_DSN")
-```
-
-ASP.NET Core 3.0:
+In your `Program.cs`, add `UseSentry` to the web host builder:
 
 ```csharp
-public static IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            // Add the following line:
-            webBuilder.UseSentry("YOUR_DSN")
-        });
+var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseSentry(o =>
+{
+    o.Dsn = "YOUR_DSN";
+    o.TracesSampleRate = 0.01;
+    o.AutoSessionTracking = false;
+});
+
+var app = builder.Build();
+app.MapGet("/", () => "Hello World!");
+app.Run();
 ```
 
-See the [provided examples in the `dotnet` SDK repository](https://github.com/getsentry/sentry-dotnet/tree/master/samples) for examples to send your first event to GlitchTip.
+- **TracesSampleRate** - Percent of requests captured for [performance monitoring](/documentation/performance). `0.01` means 1%. We recommend a low value in production.
+- **AutoSessionTracking** - Not supported by GlitchTip. Set to `false`.
+
+## Verify
+
+Create a route that throws an exception:
+
+```csharp
+app.MapGet("/debug-sentry", () =>
+{
+    throw new Exception("My first GlitchTip error!");
+});
+```
+
+Visit `/debug-sentry` in your browser. The error should appear in GlitchTip within a few seconds.

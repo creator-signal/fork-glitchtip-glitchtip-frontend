@@ -15,7 +15,9 @@ The Pyramid integration adds support for the [Pyramid Web Framework](https://try
 
    sentry_sdk.init(
        dsn="YOUR_DSN",
-       integrations=[PyramidIntegration()]
+       integrations=[PyramidIntegration()],
+       auto_session_tracking=False,
+       traces_sample_rate=0.01,
    )
 
    from pyramid.config import Configurator

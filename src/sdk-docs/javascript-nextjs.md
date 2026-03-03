@@ -16,8 +16,10 @@ npx @sentry/wizard --url=https://your-server-url
 
 Following the wizard's instructions will connect your app to GlitchTip. You can verify GlitchTip is now monitoring your app by adding a link that will generate a simple error:
 
-```html
-<button onClick="{()" =""> { throw Error("Generic Error Message"); }} className={styles.card} > Generic Error Message </button>
+```jsx
+<button onClick={() => { throw Error("Generic Error Message"); }} className={styles.card}>
+  Generic Error Message
+</button>
 ```
 
 Then check your GlitchTip Issues page to see the error.
@@ -44,7 +46,7 @@ Configuration options include:
 - release - For versioning the source maps that are uploaded when you run build for your project. An arbitrary release ID will be generated automatically, but you may choose to determine the name through an environment variable.
 - environment - The running environment name, such as "production". Set to `process.env.NODE_ENV` by default.
 - sampleRate - Percent of error events to send to GlitchTip. 0.5 would be 50%. Defaults to 1.0.
-- tracesSampleRate - Percent of performance transactions to send to GlitchTip, set to a number betweeon 0 and 1. 0.01 would be 1%. We recommend a lower value to save costs/hard drive space.
+- tracesSampleRate - Percent of performance transactions to send to GlitchTip, set to a number between 0 and 1. `0.01` would be 1%. We recommend a low value in production to save costs and disk space.
 
 ## Performance Monitoring
 
@@ -124,7 +126,7 @@ In your `sentry.client.config.js` file, add the tunnel option:
 ```javascript
 Sentry.init({
   dsn: SENTRY_DSN,
-  tracesSampleRate: 1,
+  tracesSampleRate: 0.01,
   tunnel: "/api/glitchtip-tunnel", // Path to your API route
 });
 ```

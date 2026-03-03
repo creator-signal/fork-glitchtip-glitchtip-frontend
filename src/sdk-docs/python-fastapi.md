@@ -18,8 +18,9 @@ from fastapi import FastAPI
 
 sentry_sdk.init(
     dsn="YOUR_DSN",
-    traces_sample_rate=1.0,
-    profiles_sample_rate=1.0,
+    auto_session_tracking=False,
+    traces_sample_rate=0.01,
+    # enable_logs=True,
 )
 
 app = FastAPI()
@@ -27,7 +28,9 @@ app = FastAPI()
 
 The SDK automatically detects FastAPI and enables the integration.
 
-Set `traces_sample_rate` to a value between `0.0` and `1.0` to control the percentage of transactions captured for performance monitoring. Set `profiles_sample_rate` to enable profiling. Use `1.0` in development and lower values in production.
+- **auto_session_tracking** - Not supported by GlitchTip. Set to `False`.
+- **traces_sample_rate** - Percent of requests captured for [performance monitoring](/documentation/performance). `0.01` means 1%. We recommend a low value in production to save costs and disk space. Use `1.0` during development to see all transactions.
+- **enable_logs** - Optionally enable [log collection](/documentation/logs) to view application logs alongside your errors in GlitchTip.
 
 ## Verify
 

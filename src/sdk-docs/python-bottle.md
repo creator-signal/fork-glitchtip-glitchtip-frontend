@@ -18,7 +18,9 @@ However, the integration with the development version (0.13) doesn't work proper
 
    sentry_sdk.init(
        dsn="YOUR_DSN",
-       integrations=[BottleIntegration()]
+       integrations=[BottleIntegration()],
+       auto_session_tracking=False,
+       traces_sample_rate=0.01,
    )
 
    app = Bottle()

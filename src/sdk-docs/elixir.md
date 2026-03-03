@@ -90,16 +90,6 @@ If using an environment without Phoenix, add the following at the top of your Pl
 +  plug Sentry.PlugContext
 ```
 
-## Capture Crashed Process Exceptions
-
-Extension to capture all error messages that the Plug handler might skip:
-
-```elixir
-# config/config.exs
-+  config :logger,
-+    backends: [:console, Sentry.LoggerBackend]
-```
-
 ## Testing Your Configuration
 
 To ensure you've set up your configuration correctly we recommend running the included Mix task. It can be tested on different Mix environments and will tell you if it is not currently configured to send events in that environment:

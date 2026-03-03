@@ -6,7 +6,9 @@ from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
 sentry_sdk.init(
     dsn="YOUR_DSN",
-    integrations=[AwsLambdaIntegration()]
+    integrations=[AwsLambdaIntegration()],
+    auto_session_tracking=False,
+    traces_sample_rate=0.01,
 )
 
 def my_function(event, context):

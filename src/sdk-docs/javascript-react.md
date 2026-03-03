@@ -1,34 +1,47 @@
-To use GlitchTip with your React application, you will need to use the `@sentry/browser` SDK.
-
-Add the SDK as a dependency using `yarn` or `npm`:
+To use GlitchTip with your React application, you will need to use the `@sentry/react` SDK.
 
 ### Installation
 
 ```bash
 # Using yarn
-$ yarn add @sentry/browser
+$ yarn add @sentry/react
 
 # Using npm
-$ npm install @sentry/browser
+$ npm install @sentry/react
 ```
 
 ### Connecting the SDK to GlitchTip
 
-You should `init` the browser SDK as soon as possible during your application load up, before initializing React:
+Initialize the SDK as early as possible in your application, before rendering React. In your entry file (e.g., `main.jsx` or `index.jsx`):
 
 ```jsx
 import React from "react";
-import * as Sentry from "@sentry/browser";
-import App from "src/App";
+import ReactDOM from "react-dom/client";
+import * as Sentry from "@sentry/react";
+import App from "./App";
 
-Sentry.init({ dsn: "YOUR_DSN" });
+Sentry.init({
+  dsn: "YOUR_DSN",
+  integrations: [Sentry.browserTracingIntegration()],
+  tracesSampleRate: 0.01,
+  autoSessionTracking: false,
+});
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 ```
 
-On its own, `@sentry/browser` will report any uncaught exceptions triggered from your application.
+- **tracesSampleRate** - Percent of page loads captured for [performance monitoring](/documentation/performance). `0.01` means 1%. We recommend a low value in production. Use `1.0` during development.
+- **autoSessionTracking** - Not supported by GlitchTip. Set to `false`.
 
-You can trigger your first event from your development environment by raising an exception somewhere within your application. An example of this would be rendering a button:
+On its own, `@sentry/react` will report any uncaught exceptions triggered from your application.
+
+### Verify
+
+Trigger a test error by rendering a button that calls an undefined function:
 
 ```jsx
 return <button onClick={methodDoesNotExist}>Break the world</button>;

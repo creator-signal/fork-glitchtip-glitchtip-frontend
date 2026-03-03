@@ -8,12 +8,12 @@ gem "sentry-ruby"
 
 ## Configuration
 
-To use Raven Ruby all you need is your DSN. Like most Sentry-compatible libraries, it will honor the `SENTRY_DSN` environment variable. You can find it on the project settings page under API Keys. You can either export it as environment variable or manually configure it with `Raven.configure`:
+Configure the SDK with your DSN. The SDK also honors the `SENTRY_DSN` environment variable. You can find your DSN in GlitchTip under project settings.
 
 ```ruby
 Sentry.init do |config|
   config.dsn = 'YOUR_DSN_HERE'
   config.breadcrumbs_logger = [:active_support_logger, :http_logger]
+  config.traces_sample_rate = 0.01
 end
-
 ```

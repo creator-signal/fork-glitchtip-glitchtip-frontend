@@ -16,4 +16,10 @@
     }
   </button>
   }
+  @if (showResolveInNextRelease()) {
+    <mat-divider />
+    <button mat-menu-item (click)="onResolveInNextRelease()" i18n>
+      Resolve in next release
+    </button>
+  }
 </mat-menu>

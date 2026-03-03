@@ -24,10 +24,12 @@ Initialize the Sentry SDK as early as possible during your page load:
 Sentry.init({
   dsn: "YOUR_DSN",
   tracesSampleRate: 0.01,
+  autoSessionTracking: false,
 });
 ```
 
-Set `tracesSampleRate` to a value between `0.0` and `1.0` to control the percentage of transactions captured for performance monitoring.
+- **tracesSampleRate** - Percent of page loads captured for [performance monitoring](/documentation/performance). `0.01` means 1%. We recommend a low value in production.
+- **autoSessionTracking** - Not supported by GlitchTip. Set to `false`.
 
 ## Step 3: Verify Error Reporting
 
