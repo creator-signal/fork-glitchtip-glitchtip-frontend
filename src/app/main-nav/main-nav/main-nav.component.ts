@@ -1,11 +1,11 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ViewChild,
   inject,
   computed,
+  signal,
 } from "@angular/core";
-import { MatMenuTrigger, MatMenuModule } from "@angular/material/menu";
+import { Router } from "@angular/router";
 import { MainNavService } from "../main-nav.service";
 import { SettingsService } from "src/app/api/settings.service";
 import { UserService } from "src/app/api/user/user.service";
@@ -14,11 +14,28 @@ import { MatCardModule } from "@angular/material/card";
 import { MatListModule } from "@angular/material/list";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { AuthService } from "src/app/auth.service";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import {
+  MatSelect,
+  MatSelectChange,
+  MatSelectModule,
+} from "@angular/material/select";
+
+interface NavItem {
+  name: string;
+  icon: string;
+  route: string[];
+  requiresBilling?: boolean;
+  requiresFeature?: string;
+  exactRoute?: boolean;
+}
 
 @Component({
   selector: "gt-main-nav",
@@ -28,26 +45,139 @@ import { OrganizationsService } from "src/app/api/organizations.service";
   imports: [
     MatSidenavModule,
     MatToolbarModule,
+    MatIconModule,
     RouterLink,
     MatButtonModule,
-    MatMenuModule,
+    MatSelectModule,
     MatDividerModule,
     MatListModule,
+    MatMenuModule,
+    MatTooltipModule,
     RouterLinkActive,
     MatCardModule,
     MobileNavToolbarComponent,
   ],
 })
 export class MainNavComponent {
+  private router = inject(Router);
   private mainNav = inject(MainNavService);
   private organizationsService = inject(OrganizationsService);
   private auth = inject(AuthService);
   private settingsService = inject(SettingsService);
   private userService = inject(UserService);
 
+  navItems: NavItem[] = [
+    {
+      name: $localize`Issues`,
+      icon: "breaking_news",
+      route: ["org_slug", "issues"],
+    },
+    {
+      name: $localize`Uptime Monitors`,
+      icon: "share_eta",
+      route: ["org_slug", "uptime-monitors"],
+      requiresFeature: "uptime",
+    },
+    {
+      name: $localize`Performance`,
+      icon: "avg_pace",
+      route: ["org_slug", "performance"],
+    },
+    {
+      name: $localize`Logs`,
+      icon: "text_snippet",
+      route: ["org_slug", "logs"],
+      requiresFeature: "logs",
+    },
+    {
+      name: $localize`Projects`,
+      icon: "team_dashboard",
+      route: ["org_slug", "projects"],
+    },
+    {
+      name: $localize`Releases`,
+      icon: "rocket_launch",
+      route: ["org_slug", "releases"],
+    },
+  ];
+
+  orgMenuItems: NavItem[] = [
+    {
+      name: $localize`General settings`,
+      icon: "settings",
+      route: ["org_slug", "settings"],
+      exactRoute: true,
+    },
+    {
+      name: $localize`Projects`,
+      icon: "folder",
+      route: ["org_slug", "settings", "projects"],
+    },
+    {
+      name: $localize`Subscription`,
+      icon: "payment",
+      route: ["org_slug", "settings", "subscription"],
+      requiresBilling: true,
+    },
+    {
+      name: $localize`Teams`,
+      icon: "groups",
+      route: ["org_slug", "settings", "teams"],
+    },
+    {
+      name: $localize`Members`,
+      icon: "people",
+      route: ["org_slug", "settings", "members"],
+    },
+  ];
+
+  profileMenuItems: NavItem[] = [
+    {
+      name: $localize`Account`,
+      icon: "person",
+      route: ["/profile"],
+      exactRoute: true,
+    },
+    {
+      name: $localize`MFA`,
+      icon: "security",
+      route: ["/profile", "multi-factor-auth"],
+    },
+    {
+      name: $localize`Notifications`,
+      icon: "notifications",
+      route: ["/profile", "notifications"],
+    },
+    {
+      name: $localize`Auth Tokens`,
+      icon: "vpn_key",
+      route: ["/profile", "auth-tokens"],
+    },
+  ];
+
+  visibleNavItems = computed(() => {
+    const enabledFeatures = this.settingsService.enabledFeatures();
+    return this.navItems.filter(
+      (node) =>
+        !node.requiresFeature || enabledFeatures.includes(node.requiresFeature),
+    );
+  });
+
+  visibleOrgMenuItems = computed(() => {
+    return this.orgMenuItems.filter(
+      (item) => !item.requiresBilling || this.billingEnabled(),
+    );
+  });
+
+  isCollapsed = signal(false);
+
+  getRouteWithOrgSlug(route: string[]) {
+    return route.map((item) =>
+      item === "org_slug" ? this.activeOrganizationSlug() : item,
+    );
+  }
+
   activeOrganizationSlug = this.organizationsService.activeOrganizationSlug;
-  /* TODO: Add primary color to mat-sidenav
-  https://stackoverflow.com/questions/54248944/angular-6-7-how-to-apply-default-theme-color-to-mat-sidenav-background */
   activeOrganization = this.organizationsService.activeOrganization;
   organizations = this.organizationsService.organizations;
   organizationsInitialLoad = this.organizationsService.initialLoad;
@@ -57,7 +187,6 @@ export class MainNavComponent {
   paidForGlitchTip = this.settingsService.paidForGlitchTip;
   mobileNav = this.mainNav.mobileNav;
   version = this.settingsService.version;
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined = undefined;
 
   contextLoaded = computed(
     () =>
@@ -78,17 +207,37 @@ export class MainNavComponent {
     window.location.href = "/login";
   }
 
+  private dispatchResizeEvent() {
+    window.dispatchEvent(new Event("resize"));
+  }
+
   toggleSideNav() {
     this.mainNav.getToggleNav();
   }
 
-  closeSideNav() {
-    this.mainNav.getClosedNav();
-    this.trigger?.closeMenu();
+  toggleCollapse() {
+    this.isCollapsed.update((val) => !val);
+    this.dispatchResizeEvent();
   }
 
-  setOrganization(slug: string) {
-    this.organizationsService.setActiveOrganizationSlug(slug);
+  closeSideNav() {
+    this.mainNav.getClosedNav();
+    if (this.isCollapsed()) {
+      this.isCollapsed.set(false);
+      this.dispatchResizeEvent();
+    }
+  }
+
+  onOrgSelectChange(
+    event: MatSelectChange<string | undefined>,
+    component: MatSelect,
+  ) {
+    if (event.value) {
+      this.organizationsService.setActiveOrganizationSlug(event.value);
+    } else {
+      component.value = this.activeOrganizationSlug();
+      this.router.navigate(["organizations", "new"]);
+    }
   }
 
   reload() {

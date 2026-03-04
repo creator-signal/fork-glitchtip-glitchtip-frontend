@@ -1,11 +1,14 @@
-import { formatDate } from "@angular/common";
-import { Component, Input, input, output } from "@angular/core";
+import { NgTemplateOutlet } from "@angular/common";
+import { Component, inject, Input, input, output, signal } from "@angular/core";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatNativeDateModule, MatOptionModule } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectChange, MatSelectModule } from "@angular/material/select";
+import { MatButtonToggleChange, MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
   selector: "gt-data-filter-bar",
@@ -17,12 +20,14 @@ import { MatSelectChange, MatSelectModule } from "@angular/material/select";
     ReactiveFormsModule,
     MatOptionModule,
     MatSelectModule,
+    MatButtonToggleModule,
+    MatTooltipModule,
+    NgTemplateOutlet,
   ],
   templateUrl: "./data-filter-bar.component.html",
   styleUrls: ["./data-filter-bar.component.scss"],
 })
 export class DataFilterBarComponent {
-  @Input() dateForm?: FormGroup;
   @Input() sortForm?: FormGroup;
   readonly sorts = input<
     {
@@ -30,43 +35,33 @@ export class DataFilterBarComponent {
       display: string;
     }[]
   >();
+  currentStatsPeriod = input<"24h" | "14d">()
   @Input() environmentForm?: FormGroup;
   @Input() searchForm?: FormGroup;
+  protected breakPointObserver = inject(BreakpointObserver);
   readonly organizationEnvironments = input<string[]>([]);
+  statsPeriodToggleDisabled = input(true)
+  onStatsPeriodToggle = output<"24h" | "14d">()
 
-  readonly dateFormSubmission = output<object>();
-  readonly dateFormReset = output();
   readonly filterByEnvironment = output<MatSelectChange>();
   readonly searchSubmit = output();
   readonly sortByChanged = output<MatSelectChange>();
 
-  convertToZTime(date: Date) {
-    return formatDate(date, "yyyy-MM-ddTHH:mm:ss.SSS", "en-US") + "Z";
+  isLargeScreen = signal(true);
+
+  constructor() {
+    this.breakPointObserver
+      .observe([Breakpoints.Medium, Breakpoints.Small, Breakpoints.XSmall])
+      .subscribe((result) => {
+        if (result.matches) {
+          this.isLargeScreen.set(false);
+        } else {
+          this.isLargeScreen.set(true);
+        }
+      });
   }
 
-  onDateFormSubmit() {
-    const startDate = this.dateForm?.value.startDate
-      ? this.convertToZTime(this.dateForm?.value.startDate)
-      : null;
-
-    const endDateValue = this.dateForm?.value.endDate;
-    let endDate = null;
-
-    if (endDateValue) {
-      const modifiedEndDate = new Date(endDateValue);
-
-      /**
-       * End dates come in at midnight, so if you pick May 5, you don't get events
-       * from May 5. Bumping it to 23:59:59.999 fixes this
-       */
-      modifiedEndDate.setHours(23, 59, 59, 999);
-      endDate = this.convertToZTime(modifiedEndDate);
-    }
-
-    this.dateFormSubmission.emit({
-      cursor: null,
-      start: startDate,
-      end: endDate,
-    });
+  emitOnStatsPeriodToggle(event: MatButtonToggleChange) {
+    this.onStatsPeriodToggle.emit(event.value)
   }
 }
