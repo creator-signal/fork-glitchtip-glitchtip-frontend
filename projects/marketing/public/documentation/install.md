@@ -70,11 +70,7 @@ Install and run certbot. Follow [instructions](https://certbot.eff.org/instructi
 
 ```
 glitchtip.example.com {
-  reverse_proxy web:8000 {
-    transport http {
-      keepalive off
-    }
-  }
+  reverse_proxy web:8000
   encode zstd gzip
 }
 ```
