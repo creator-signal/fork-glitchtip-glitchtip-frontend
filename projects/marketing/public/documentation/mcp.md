@@ -73,8 +73,8 @@ The MCP server exposes 17 tools across several categories:
 - **list_alerts** — List alert rules for an organization, optionally filtered by project
 - **list_monitors** — List uptime monitors for an organization
 
-### Logs (when `GLITCHTIP_ENABLE_LOGS=True`)
-
+### Logs
+Requires logs to be enabled (`GLITCHTIP_ENABLE_LOGS=True`) on your instance.
 - **list_logs** — Search log events by level, service, environment, trace ID, or text query
 - **get_log** — Get a single log event by ID
 
