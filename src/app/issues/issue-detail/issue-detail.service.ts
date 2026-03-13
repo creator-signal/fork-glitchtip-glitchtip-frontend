@@ -181,16 +181,9 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
     this.setState({ showShowMore: value });
   }
 
-  async setStatus(
-    status: IssueStatus,
-    statusDetails?: { inNextRelease?: boolean },
-  ) {
+  async setStatus(status: IssueStatus) {
     const issue = this.issue();
     if (issue) {
-      const body: Record<string, unknown> = { status };
-      if (statusDetails) {
-        body["statusDetails"] = statusDetails;
-      }
       const { data } = await client.PUT(
         "/api/0/organizations/{organization_slug}/issues/{issue_id}/",
         {
@@ -200,15 +193,11 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
               issue_id: parseInt(this.issueID()),
             },
           },
-          body: body as any,
+          body: { status: status as any },
         },
       );
       if (data) {
-        this.#issueResource.update((issue) => ({
-          ...issue!,
-          status: data.status as IssueStatus,
-          statusDetails: (data as any).statusDetails ?? {},
-        }));
+        this.setIssueStatus(data.status as IssueStatus);
       }
     }
   }
@@ -268,6 +257,11 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
       return [...tagsWithExtraData];
     }
     return;
+  }
+
+  /** Set local state issue state */
+  private setIssueStatus(status: IssueStatus) {
+    this.#issueResource.update((issue) => ({ ...issue!, status }));
   }
 
   private setUpdatedCommentCount(num: number) {

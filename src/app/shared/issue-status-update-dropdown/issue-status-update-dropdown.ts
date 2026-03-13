@@ -7,7 +7,6 @@ import {
 import { MatButtonModule } from "@angular/material/button";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
-import { MatDividerModule } from "@angular/material/divider";
 import { IssueStatus } from "src/app/issues/interfaces";
 
 interface StatusOption {
@@ -18,7 +17,7 @@ interface StatusOption {
 
 @Component({
   selector: "gt-issue-status-update-dropdown",
-  imports: [MatButtonModule, MatMenuModule, MatIconModule, MatDividerModule],
+  imports: [MatButtonModule, MatMenuModule, MatIconModule],
   templateUrl: "./issue-status-update-dropdown.html",
   styleUrls: ["./issue-status-update-dropdown.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,16 +32,10 @@ export class IssueStatusUpdateDropdownComponent {
   readonly buttonLabel = "Mark As";
 
   selectedValue = input<string>();
-  showResolveInNextRelease = input(false);
 
   optionSelected = output<IssueStatus>();
-  resolveInNextRelease = output<void>();
 
   onOptionClick(value: string) {
     this.optionSelected.emit(value as IssueStatus);
-  }
-
-  onResolveInNextRelease() {
-    this.resolveInNextRelease.emit();
   }
 }
