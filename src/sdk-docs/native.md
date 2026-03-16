@@ -77,4 +77,4 @@ sentry_capture_event(sentry_value_new_message_event(
 ));
 ```
 
-Once the event is captured, it will show up on the Sentry dashboard.
+Once the event is captured, it will show up in your issues list.

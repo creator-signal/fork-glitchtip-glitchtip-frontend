@@ -79,5 +79,5 @@ Sentry.addBreadcrumb("User clicked button");
 Sentry.setTag("page.locale", "en-us");
 
 // Set extra data
-Sentry.setExtra("character.name", "Mighty Fighter");
+Sentry.setExtra("user.userName", "Don Quixote");
 ```
