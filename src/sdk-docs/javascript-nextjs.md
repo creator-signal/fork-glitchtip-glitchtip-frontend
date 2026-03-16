@@ -36,17 +36,17 @@ Both files may contain the same values, or be set differently.
 import * as Sentry from "@sentry/nextjs";
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 Sentry.init({
-  dsn: SENTRY_DSN || "YOUR GLITCHTIP DSN HERE",
+  dsn: SENTRY_DSN || "YOUR_DSN",
 });
 ```
 
 Configuration options include:
 
-- dsn - Where to send event data to, found in GlitchTip in project settings.
-- release - For versioning the source maps that are uploaded when you run build for your project. An arbitrary release ID will be generated automatically, but you may choose to determine the name through an environment variable.
-- environment - The running environment name, such as "production". Set to `process.env.NODE_ENV` by default.
-- sampleRate - Percent of error events to send to GlitchTip. 0.5 would be 50%. Defaults to 1.0.
-- tracesSampleRate - Percent of performance transactions to send to GlitchTip, set to a number between 0 and 1. `0.01` would be 1%. We recommend a low value in production to save costs and disk space.
+- `dsn` - Where to send event data to, found in GlitchTip in project settings.
+- `release` - For versioning the source maps that are uploaded when you run build for your project. An arbitrary release ID will be generated automatically, but you may choose to determine the name through an environment variable.
+- `environment` - The running environment name, such as "production". Set to `process.env.NODE_ENV` by default.
+- `sampleRate` - Percent of error events to send to GlitchTip. 0.5 would be 50%. Defaults to 1.0.
+- `tracesSampleRate` - Percent of performance transactions to send to GlitchTip, set to a number between 0 and 1. `0.01` would be 1%. We recommend a low value in production to save costs and disk space.
 
 ## Performance Monitoring
 
