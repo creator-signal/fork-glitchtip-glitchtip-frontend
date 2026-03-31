@@ -60,10 +60,11 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
   );
 
   eventCountResource = apiResource(this.organizationSlug, (orgSlug) => ({
-    url: "/api/0/stripe/subscriptions/{organization_slug}/events_count/",
+    url: "/api/0/stripe/subscriptions/{organization_slug}/events_count/period/",
     options: {
       params: {
         path: { organization_slug: orgSlug },
+        query: { periods_ago: 0 },
       },
     },
   }));
@@ -71,13 +72,51 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     const eventsCount = this.eventCountResource.value();
     if (!eventsCount) return eventsCount;
 
-    const total =
-      eventsCount.eventCount! +
-      eventsCount.transactionEventCount! +
-      eventsCount.uptimeCheckEventCount! +
-      eventsCount.fileSizeMb!;
+    const total = Math.round(
+      (eventsCount.eventCount! +
+        eventsCount.transactionEventCount! +
+        eventsCount.uptimeCheckEventCount! +
+        eventsCount.logEventCount! * 0.1 +
+        eventsCount.fileSizeMb!) *
+        10,
+    ) / 10;
 
     return { ...eventsCount, total };
+  });
+
+  previousPeriodResource = apiResource(this.organizationSlug, (orgSlug) => ({
+    url: "/api/0/stripe/subscriptions/{organization_slug}/events_count/period/",
+    options: {
+      params: {
+        path: { organization_slug: orgSlug },
+        query: { periods_ago: 1 },
+      },
+    },
+  }));
+  previousPeriodEvents = computed(() => this.previousPeriodResource.value());
+
+  predictedEndOfMonth = computed(() => {
+    const subscription = this.subscription();
+    const currentEvents = this.eventsCountWithTotal();
+    if (
+      !subscription?.subscriptionCycleStart ||
+      !subscription?.subscriptionCycleEnd ||
+      !currentEvents
+    )
+      return null;
+
+    const cycleStart = new Date(subscription.subscriptionCycleStart);
+    const cycleEnd = new Date(subscription.subscriptionCycleEnd);
+    const now = new Date();
+
+    const totalDays =
+      (cycleEnd.getTime() - cycleStart.getTime()) / (1000 * 60 * 60 * 24);
+    const elapsedDays =
+      (now.getTime() - cycleStart.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (totalDays <= 0 || elapsedDays < 1) return null;
+
+    return Math.round((currentEvents.total / elapsedDays) * totalDays);
   });
 
   billingPortalLoading = computed(() => this.state().billingPortalLoading);
@@ -207,6 +246,7 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     this.organizationSlug.set("");
     this.subscriptionResource.set(undefined);
     this.eventCountResource.set(undefined);
+    this.previousPeriodResource.set(undefined);
     clearInterval(this.refreshTimerRef);
   }
 }
