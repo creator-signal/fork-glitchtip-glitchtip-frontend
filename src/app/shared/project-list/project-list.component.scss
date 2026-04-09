@@ -4,20 +4,6 @@
   margin-bottom: 70px;
 }
 
-.projects-section-header {
-  flex-wrap: wrap;
-
-  @media screen and (max-width: vars.$small - 1) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  h2 {
-    margin-right: 16px;
-    margin-bottom: 10px;
-  }
-}
-
 .new-project-button {
   max-width: 100%;
   overflow: hidden;

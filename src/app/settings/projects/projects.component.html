@@ -1,6 +1,8 @@
 <gt-top-app-bar>
   <ng-container slot="left">
-    <h1 class="section-header-text" i18n>Projects</h1>
+    <h1 class="section-header-text" i18n>
+      Projects ({{ projects()?.length || 0 }})
+    </h1>
   </ng-container>
   <ng-container slot="right">
     <a

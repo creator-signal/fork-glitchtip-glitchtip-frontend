@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Input,
   HostBinding,
+  computed,
   input,
 } from "@angular/core";
 import type {
@@ -16,6 +17,10 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
 import { UpperCasePipe } from "@angular/common";
+import {
+  SparklineComponent,
+  SparklineDataPoint,
+} from "../sparkline/sparkline";
 
 @Component({
   selector: "gt-project-card",
@@ -27,6 +32,7 @@ import { UpperCasePipe } from "@angular/common";
     MatTooltipModule,
     MatButtonModule,
     MatDividerModule,
+    SparklineComponent,
   ],
   templateUrl: "./project-card.component.html",
   styleUrls: ["./project-card.component.scss"],
@@ -49,6 +55,13 @@ export class ProjectCardComponent {
   @Input() primaryButton?: ProjectCardButtonWithQuery;
   @Input() secondaryButton?: ProjectCardButton;
 
+  readonly badge = input<string>();
+  readonly issueCount = input<number>();
+  readonly errorStats = input<SparklineDataPoint[]>();
+  readonly responseTime = input<number | null>();
+  readonly errorTotal = computed(() =>
+    (this.errorStats() ?? []).reduce((sum, p) => sum + p.value, 0),
+  );
   readonly sampleCard = input(false);
 
   @HostBinding("class.sample-card") get isSampleCard() {

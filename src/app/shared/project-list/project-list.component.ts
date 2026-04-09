@@ -14,6 +14,7 @@ import { ProjectCardComponent } from "../project-card/project-card.component";
 import { EmptyProjectsComponent } from "../project-card/empty-projects/empty-projects.component";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { DatePipe } from "@angular/common";
+import { TopAppBar } from "../top-app-bar/top-app-bar";
 
 @Component({
   selector: "gt-project-list",
@@ -24,6 +25,7 @@ import { DatePipe } from "@angular/common";
     MatCardModule,
     ProjectCardComponent,
     EmptyProjectsComponent,
+    TopAppBar,
   ],
   templateUrl: "./project-list.component.html",
   styleUrls: ["./project-list.component.scss"],

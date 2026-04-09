@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <p i18n>Select an organization</p>
+  <mat-divider></mat-divider>
+  <mat-nav-list>
+    @for (org of organizations(); track org.id) {
+      <a
+        mat-list-item
+        [routerLink]="['/', org.slug, 'settings', 'projects', 'new']"
+        (click)="close()"
+      >
+        <span matListItemTitle>{{ org.name }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</mat-dialog-content>
