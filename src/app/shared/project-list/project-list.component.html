@@ -1,9 +1,9 @@
-<section class="l-body">
-  @if (
-    projects().length === 0 &&
-    activeOrganization() === undefined &&
-    orgServiceInitialLoad()
-  ) {
+@if (
+  projects().length === 0 &&
+  activeOrganization() === undefined &&
+  orgServiceInitialLoad()
+) {
+  <section class="l-body">
     <mat-card>
       <mat-card-content>
         <p class="body-text" i18n
@@ -18,72 +18,69 @@
         >
       </mat-card-content>
     </mat-card>
-  }
-  @for (organization of orgsAndProjects(); track organization.id) {
-    @if (
-      !activeOrgOnly ||
-      (activeOrgOnly && organization.id === activeOrganization()?.id)
-    ) {
-      <section class="org-projects-section">
-        <header class="projects-section-header">
-          <h2 class="section-header-text">
-            {{ activeOrgOnly ? "Projects" : organization.name }}
-          </h2>
-          <a
-            mat-stroked-button
-            color="primary"
-            [routerLink]="[
-              '/',
-              organization.slug,
-              'settings',
-              'projects',
-              'new',
+  </section>
+}
+@for (organization of orgsAndProjects(); track organization.id) {
+  @if (
+    !activeOrgOnly ||
+    (activeOrgOnly && organization.id === activeOrganization()?.id)
+  ) {
+    <gt-top-app-bar>
+      <ng-container slot="left">
+        <h1 class="section-header-text">
+          {{ activeOrgOnly ? "Projects" : organization.name }}
+          ({{ organization.projects.length }})
+        </h1>
+      </ng-container>
+      <ng-container slot="right">
+        <a
+          mat-stroked-button
+          color="primary"
+          [routerLink]="[
+            '/',
+            organization.slug,
+            'settings',
+            'projects',
+            'new',
+          ]"
+          [disabled]="!accessProjectWrite()"
+          class="new-project-button"
+          i18n
+          >Create new project in {{ organization.name }}
+        </a>
+      </ng-container>
+    </gt-top-app-bar>
+    <section class="l-body">
+      @if (organization.projects.length === 0) {
+        <gt-empty-projects
+          [activeOrgOnly]="activeOrgOnly"
+        ></gt-empty-projects>
+      }
+      <div class="project-card-wrapper">
+        @for (project of organization.projects; track project) {
+          <gt-project-card
+            [cardLink]="['/', project.organization.slug, 'issues']"
+            [cardLinkQueryParams]="{ project: project.id }"
+            [title]="project.name"
+            [descriptionList]="[
+              { key: 'organization', value: project.organization.name },
+              { key: 'date created', value: (project.dateCreated | date)! },
             ]"
-            [disabled]="!accessProjectWrite()"
-            class="new-project-button"
-            i18n
-            >Create new project in {{ organization.name }}
-          </a>
-        </header>
-        @if (organization.projects.length === 0) {
-          <gt-empty-projects
-            [activeOrgOnly]="activeOrgOnly"
-          ></gt-empty-projects>
+            [isMember]="project.isMember"
+            [issueCount]="0"
+            [secondaryButton]="{
+              text: '',
+              link: [
+                '/',
+                project.organization.slug,
+                'settings',
+                'projects',
+                project.slug,
+              ],
+            }"
+          ></gt-project-card>
         }
-        <div>
-          <div class="project-card-wrapper">
-            @for (project of organization.projects; track project) {
-              <gt-project-card
-                [cardLink]="['/', project.organization.slug, 'issues']"
-                [cardLinkQueryParams]="{ project: project.id }"
-                [title]="project.name"
-                [descriptionList]="[
-                  { key: 'organization', value: project.organization.name },
-                  { key: 'date created', value: (project.dateCreated | date)! },
-                ]"
-                [isMember]="project.isMember"
-                [primaryButton]="{
-                  text: 'Issues',
-                  icon: 'warning',
-                  query: { project: project.id },
-                  link: [project.organization.slug, 'issues'],
-                }"
-                [secondaryButton]="{
-                  text: 'Settings',
-                  icon: 'settings',
-                  link: [
-                    '/',
-                    project.organization.slug,
-                    'settings',
-                    'projects',
-                    project.slug,
-                  ],
-                }"
-              ></gt-project-card>
-            }
-          </div>
-        </div>
-      </section>
-    }
+      </div>
+    </section>
   }
-</section>
+}
