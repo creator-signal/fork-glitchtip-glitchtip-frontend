@@ -1,8 +1,8 @@
 import { computed, Injectable, inject } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Router } from "@angular/router";
 import { StatefulService } from "src/app/shared/stateful-service/signal-state.service";
 import { client } from "src/app/shared/api/api";
+import { SubscriptionService } from "src/app/api/subscriptions/subscription.service";
 
 import { components } from "src/app/api/api-schema";
 import { apiResource } from "src/app/shared/api/api-resource-factory";
@@ -11,6 +11,16 @@ type Organization = components["schemas"]["OrganizationDetailSchema"];
 export interface Price
   extends Omit<components["schemas"]["StripeNestedPriceSchema"], "price"> {
   price: number;
+}
+
+export interface Product
+  extends Omit<
+    components["schemas"]["StripeProductExpandedPriceSchema"],
+    "defaultPrice" | "prices"
+  > {
+  defaultPrice: Price;
+  prices: Price[];
+  marketingFeatures: string[];
 }
 
 export interface PaymentState {
@@ -26,14 +36,14 @@ const initialState: PaymentState = {
 })
 export class PaymentService extends StatefulService<PaymentState> {
   private snackBar = inject(MatSnackBar);
-  private router = inject(Router);
+  private subscriptionService = inject(SubscriptionService);
 
   readonly subscriptionCreationLoadingId = computed(
     () => this.state().subscriptionCreationLoadingId,
   );
 
   productsResource = apiResource(() => ({ url: "/api/0/stripe/products/" }));
-  products = computed(
+  products = computed<Product[]>(
     () =>
       this.productsResource
         .value()
@@ -43,9 +53,17 @@ export class PaymentService extends StatefulService<PaymentState> {
             ...product.defaultPrice,
             price: parseFloat(product.defaultPrice.price),
           },
+          prices: (product.prices || []).map((p) => ({
+            ...p,
+            price: parseFloat(p.price),
+          })),
+          marketingFeatures: product.marketingFeatures || [],
           name: product.name.startsWith("GlitchTip ")
             ? product.name.slice(10)
             : product.name,
+          description: product.description
+            .replace(/\s*-\s*[Uu]p to .*/i, "")
+            .trim(),
         }))
         .sort(
           (a, b) => (a.defaultPrice.price || 0) - (b.defaultPrice.price || 0),
@@ -93,7 +111,8 @@ export class PaymentService extends StatefulService<PaymentState> {
       );
       throw error;
     }
-    this.router.navigate([organization.slug, "issues"]);
+    this.setState({ subscriptionCreationLoadingId: null });
+    this.subscriptionService.subscriptionResource.reload();
     return data;
   }
 
@@ -133,8 +152,4 @@ export class PaymentService extends StatefulService<PaymentState> {
     this.snackBar.open(message);
   }
 
-  clearState() {
-    super.clearState();
-    this.productsResource.set(undefined);
-  }
 }

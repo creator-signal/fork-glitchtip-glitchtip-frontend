@@ -2,36 +2,34 @@ import {
   Component,
   ChangeDetectionStrategy,
   computed,
+  effect,
   inject,
   input,
   OnInit,
 } from "@angular/core";
+import { DatePipe } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatDialog } from "@angular/material/dialog";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { RouterLink } from "@angular/router";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { StatefulComponent } from "src/app/shared/stateful-service/signal-state.component";
-import { EventInfoComponent } from "src/app/shared/event-info/event-info.component";
-import { environment } from "../../../environments/environment";
+import { OrganizationsService } from "src/app/api/organizations.service";
+import { SettingsService } from "src/app/api/settings.service";
 import {
   SubscriptionService,
   SubscriptionState,
 } from "src/app/api/subscriptions/subscription.service";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { PaymentComponent } from "./payment/payment.component";
-import { MatButtonModule } from "@angular/material/button";
-import { LoadingButtonComponent } from "src/app/shared/loading-button/loading-button.component";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatCardModule } from "@angular/material/card";
-import { CurrencyPipe, DatePipe } from "@angular/common";
-import { OrganizationsService } from "src/app/api/organizations.service";
+import { StatefulComponent } from "src/app/shared/stateful-service/signal-state.component";
 import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
-
-interface Percentages {
-  total: number;
-  errorEvents: number;
-  transactionEvents: number;
-  uptimeEvents: number;
-  fileSize: number;
-}
+import { UpgradeBannerComponent } from "src/app/shared/upgrade-banner/upgrade-banner.component";
+import { environment } from "../../../environments/environment";
+import { PaymentComponent } from "./payment/payment.component";
+import { PaymentService } from "./payment/payment.service";
+import { SelfHostedSubscriptionComponent } from "./self-hosted-subscription/self-hosted-subscription.component";
+import { SubscriptionChartsComponent } from "./subscription-charts/subscription-charts.component";
 
 @Component({
   selector: "gt-subscription",
@@ -41,15 +39,17 @@ interface Percentages {
   imports: [
     TopAppBar,
     MatCardModule,
-    MatDialogModule,
     RouterLink,
-    MatFormFieldModule,
     MatButtonModule,
-    LoadingButtonComponent,
-    PaymentComponent,
+    MatFormFieldModule,
     MatProgressSpinnerModule,
-    CurrencyPipe,
     DatePipe,
+    MatDividerModule,
+    MatIconModule,
+    SubscriptionChartsComponent,
+    UpgradeBannerComponent,
+    PaymentComponent,
+    SelfHostedSubscriptionComponent,
   ],
 })
 export class SubscriptionComponent
@@ -57,7 +57,19 @@ export class SubscriptionComponent
   implements OnInit
 {
   private orgService = inject(OrganizationsService);
-  dialog = inject(MatDialog);
+  private settingsService = inject(SettingsService);
+  private paymentService = inject(PaymentService);
+  private dialog = inject(MatDialog);
+
+  /**
+   * `null` until settings load, then `true` for hosted (billing enabled) /
+   * `false` for self-hosted. The template renders nothing while `null` so
+   * neither mode flashes during the initial settings fetch.
+   */
+  isHosted = computed(() => {
+    if (!this.settingsService.initialLoad()) return null;
+    return this.settingsService.billingEnabled() === true;
+  });
 
   orgSlug = input.required<string>({ alias: "org-slug" });
   sessionId = input<string>("", { alias: "session_id" });
@@ -65,16 +77,29 @@ export class SubscriptionComponent
     alias: "billing_portal_redirect",
   });
 
-  fromStripe = this.service.fromStripe;
-  subscription = this.service.subscription;
-  subscriptionLoading = this.service.subscriptionLoading;
-  subscriptionRefreshTimeout = this.service.subscriptionRefreshTimeout;
-  eventsCountWithTotal = this.service.eventsCountWithTotal;
-  totalEventsAllowed = this.service.totalEventsAllowed;
-    activeOrganization = this.orgService.activeOrganization;
-  activeOrganizationSlug = this.orgService.activeOrganizationSlug;
-  billingPortalLoading = this.service.billingPortalLoading;
-  billingPortalLoadingError = this.service.billingPortalLoadingError;
+  readonly fromStripe = this.service.fromStripe;
+  readonly subscription = this.service.subscription;
+  readonly subscriptionLoading = this.service.subscriptionLoading;
+  readonly subscriptionRefreshTimeout = this.service.subscriptionRefreshTimeout;
+  readonly totalEventsAllowed = this.service.totalEventsAllowed;
+  readonly activeOrganization = this.orgService.activeOrganization;
+  readonly activeOrganizationSlug = this.orgService.activeOrganizationSlug;
+  readonly billingPortalLoading = this.service.billingPortalLoading;
+  readonly billingPortalLoadingError = this.service.billingPortalLoadingError;
+  readonly upgradeLoading = computed(
+    () => this.paymentService.subscriptionCreationLoadingId() !== null,
+  );
+  daysRemaining = computed(() => {
+    const subscription = this.service.subscription();
+    const endDate = subscription?.subscriptionCycleEnd ?? subscription?.currentPeriodEnd;
+    if (!endDate) return null;
+    const end = new Date(endDate);
+    const now = new Date();
+    const diff = Math.ceil(
+      (end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+    );
+    return Math.max(0, diff);
+  });
 
   promptForProject = computed(() => {
     const status = this.orgService.activeOrganizationLoaded();
@@ -91,18 +116,26 @@ export class SubscriptionComponent
       return false;
     }
   });
+  thisMonthPercent = this.service.thisMonthPercent;
   billingEmail = environment.billingEmail;
-  eventsPercent = computed<Percentages>(() => {
-    const eventsAllowed = this.totalEventsAllowed();
-    const events = this.eventsCountWithTotal();
-    return {
-      total: (events?.total! / eventsAllowed!) * 100,
-      errorEvents: (events?.eventCount! / eventsAllowed!) * 100,
-      transactionEvents:
-        (events?.transactionEventCount! / eventsAllowed!) * 100,
-      uptimeEvents: (events?.uptimeCheckEventCount! / eventsAllowed!) * 100,
-      fileSize: (events?.fileSizeMb! / eventsAllowed!) * 100,
-    };
+
+  nextProduct = computed(() => {
+    const subscription = this.subscription();
+    const products = this.paymentService.products();
+    if (!subscription || !products.length) return null;
+
+    const currentEvents = subscription.product.events ?? 0;
+    const upgrades = products
+      .filter((p) => p.events > currentEvents)
+      .sort((a, b) => a.events - b.events);
+
+    return upgrades[0] ?? null;
+  });
+
+  readonly freeEventLimit = computed(() => {
+    const products = this.paymentService.products();
+    const free = products.find((p) => p.defaultPrice?.price === 0);
+    return free?.events ?? null;
   });
 
   constructor() {
@@ -111,27 +144,51 @@ export class SubscriptionComponent
     super(service);
 
     this.service = service;
+
+    // Fire hosted-only fetches once settings confirm billing is enabled.
+    effect(() => {
+      if (this.isHosted() !== true) return;
+      this.paymentService.productsResource.reload();
+      if (this.sessionId()) {
+        this.service.refreshUntilSubscriptionOrTimeout();
+      }
+      if (this.billingPortalRedirect()) {
+        this.orgService.repeatRefreshOrgDetail();
+      }
+    });
   }
 
   ngOnInit(): void {
     this.orgService.activeOrganizationResource.reload();
-    this.service.retrieveSubscriptionData(this.orgSlug());
-
-    if (this.sessionId()) {
-      this.service.refreshUntilSubscriptionOrTimeout();
-    }
-    if (this.billingPortalRedirect()) {
-      this.orgService.repeatRefreshOrgDetail();
-    }
-  }
-
-  openEventInfoDialog() {
-    this.dialog.open(EventInfoComponent, {
-      maxWidth: "300px",
-    });
+    this.service.loadDetailData(this.orgSlug());
   }
 
   manageSubscription() {
     this.service.redirectToBillingPortal();
+  }
+
+  upgradeToNextPlan() {
+    const product = this.nextProduct();
+    const org = this.orgService.activeOrganization();
+    const subscription = this.subscription();
+    if (!product || !org) return;
+    const currentInterval = subscription?.price?.interval;
+    const price =
+      (product.defaultPrice.interval === currentInterval &&
+        product.defaultPrice.isPublic &&
+        product.defaultPrice) ||
+      product.prices.find(
+        (p) => p.interval === currentInterval && p.isPublic,
+      );
+    if (!price) return;
+    this.paymentService.dispatchSubscriptionCreation(org, price);
+  }
+
+  openBuiltInPricing() {
+    this.dialog.open(PaymentComponent, {
+      width: "90vw",
+      maxWidth: "1200px",
+      maxHeight: "90vh",
+    });
   }
 }

@@ -2,6 +2,7 @@ import { computed, Injectable, inject, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { StatefulService } from "src/app/shared/stateful-service/signal-state.service";
 import { client } from "../../shared/api/api";
+import { OrganizationsService } from "../organizations.service";
 import { SettingsService } from "../settings.service";
 import { apiResource } from "src/app/shared/api/api-resource-factory";
 
@@ -26,11 +27,16 @@ const initialState: SubscriptionState = {
 })
 export class SubscriptionService extends StatefulService<SubscriptionState> {
   private settingsService = inject(SettingsService);
+  private organizationsService = inject(OrganizationsService);
   private router = inject(Router);
 
   stripePublicKey = this.settingsService.stripePublicKey;
 
-  organizationSlug = signal<string>("");
+  organizationSlug = computed(() =>
+    this.settingsService.billingEnabled()
+      ? (this.organizationsService.activeOrganizationSlug() ?? "")
+      : "",
+  );
   subscriptionResource = apiResource(this.organizationSlug, (orgSlug) => ({
     url: "/api/0/stripe/subscriptions/{organization_slug}/",
     options: {
@@ -59,25 +65,84 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     () => this.state().subscriptionRefreshTimeout,
   );
 
-  eventCountResource = apiResource(this.organizationSlug, (orgSlug) => ({
-    url: "/api/0/stripe/subscriptions/{organization_slug}/events_count/",
+  /** Set to load event count and daily event resources (subscription detail page only) */
+  private detailSlug = signal<string>("");
+
+  eventsCountCurrentPeriodResource = apiResource(
+    this.detailSlug,
+    (orgSlug) => ({
+      url: "/api/0/stripe/subscriptions/{organization_slug}/events_count/period/",
+      options: {
+        params: {
+          path: { organization_slug: orgSlug },
+          query: { periods_ago: 0 },
+        },
+      },
+    }),
+  );
+  // We let events count resources fail silently,
+  // since display components handle missing data
+  eventsCountCurrentPeriod = computed(() => {
+    if (this.eventsCountCurrentPeriodResource.error()) return null;
+    return this.eventsCountCurrentPeriodResource.value();
+  });
+  currentPeriodLoading = this.eventsCountCurrentPeriodResource.isLoading;
+
+  eventsCountPreviousPeriodResource = apiResource(
+    this.detailSlug,
+    (orgSlug) => ({
+      url: "/api/0/stripe/subscriptions/{organization_slug}/events_count/period/",
+      options: {
+        params: {
+          path: { organization_slug: orgSlug },
+          query: { periods_ago: 1 },
+        },
+      },
+    }),
+  );
+  eventsCountPreviousPeriod = computed(() => {
+    if (this.eventsCountPreviousPeriodResource.error()) return null;
+    return this.eventsCountPreviousPeriodResource.value();
+  });
+  previousPeriodLoading = this.eventsCountPreviousPeriodResource.isLoading;
+
+  dailyEventsResource = apiResource(this.detailSlug, (orgSlug) => ({
+    url: "/api/0/stripe/subscriptions/{organization_slug}/events_count/daily/",
     options: {
       params: {
         path: { organization_slug: orgSlug },
       },
     },
   }));
-  eventsCountWithTotal = computed(() => {
-    const eventsCount = this.eventCountResource.value();
-    if (!eventsCount) return eventsCount;
+  dailyEvents = computed(() => {
+    if (this.dailyEventsResource.error()) return [];
+    return this.dailyEventsResource.value()?.data ?? [];
+  });
 
-    const total =
-      eventsCount.eventCount! +
-      eventsCount.transactionEventCount! +
-      eventsCount.uptimeCheckEventCount! +
-      eventsCount.fileSizeMb!;
+  predictedEndOfMonth = computed(() => {
+    const subscription = this.subscription();
+    const eventsCountCurrentPeriod = this.eventsCountCurrentPeriod();
+    if (
+      !subscription?.subscriptionCycleStart ||
+      !subscription?.subscriptionCycleEnd ||
+      !eventsCountCurrentPeriod
+    )
+      return null;
 
-    return { ...eventsCount, total };
+    const cycleStart = new Date(subscription.subscriptionCycleStart);
+    const cycleEnd = new Date(subscription.subscriptionCycleEnd);
+    const now = new Date();
+
+    const totalDays =
+      (cycleEnd.getTime() - cycleStart.getTime()) / (1000 * 60 * 60 * 24);
+    const elapsedDays =
+      (now.getTime() - cycleStart.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (totalDays <= 0 || elapsedDays < 1) return null;
+
+    return Math.round(
+      ((eventsCountCurrentPeriod.total ?? 0) / elapsedDays) * totalDays,
+    );
   });
 
   billingPortalLoading = computed(() => this.state().billingPortalLoading);
@@ -89,15 +154,24 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     const subscription = this.subscription();
     return subscription?.product.events || null;
   });
+
+  thisMonthPercent = computed(() => {
+    const total = this.totalEventsAllowed();
+    const current = this.eventsCountCurrentPeriod();
+    if (!total || !current?.total) return 0;
+    return Math.round((current.total / total) * 100);
+  });
+
   refreshTimerRef: NodeJS.Timeout | undefined = undefined;
 
   constructor() {
     super(initialState);
   }
 
-  retrieveSubscriptionData(orgSlug: string) {
+  /** Load event count and daily event data for the subscription detail page */
+  loadDetailData(orgSlug: string) {
     if (orgSlug) {
-      this.organizationSlug.set(orgSlug);
+      this.detailSlug.set(orgSlug);
     }
   }
 
@@ -138,6 +212,7 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
       );
     }
     if (data) {
+      this.setState({ billingPortalLoading: false });
       window.location.href = data.url;
     }
   }
@@ -204,9 +279,11 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
 
   clearState() {
     super.clearState();
-    this.organizationSlug.set("");
+    this.detailSlug.set("");
     this.subscriptionResource.set(undefined);
-    this.eventCountResource.set(undefined);
+    this.eventsCountCurrentPeriodResource.set(undefined);
+    this.dailyEventsResource.set(undefined);
+    this.eventsCountPreviousPeriodResource.set(undefined);
     clearInterval(this.refreshTimerRef);
   }
 }

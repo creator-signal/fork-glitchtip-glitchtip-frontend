@@ -41,6 +41,10 @@ html {
   --success-color: #4caf50;
   --success-container: #c8e6c9;
   --on-success: #1b5e20;
+
+  --issues-color: #f27121;
+  --uptime-color: #8a2387;
+  --logs-color: #2196f3;
 }
 
 .light {
@@ -101,9 +105,19 @@ mat-card-title {
   padding-bottom: 8px;
 }
 
-ul {
+ul:not(markdown ul) {
   list-style: none;
   padding: unset;
+}
+
+markdown ul {
+  list-style: disc outside;
+  padding-left: 20px;
+}
+
+markdown ol {
+  list-style: decimal outside;
+  padding-left: 20px;
 }
 
 body {
@@ -197,6 +211,7 @@ mat-sidenav-container {
   width: 100%;
 }
 
+
 .tt-wrapping {
   overflow-wrap: break-word;
   height: auto;
@@ -209,13 +224,13 @@ mat-sidenav-container {
   height: 24px !important;
   padding: 0px !important;
   display: inline-flex !important;
-  margin-right: 8px;
   align-items: center;
   justify-content: center;
 
-  & > *[role="img"] {
-    width: 18px;
-    height: 18px;
+  & > *[role="img"],
+  mat-spinner {
+    width: 18px !important;
+    height: 18px !important;
     font-size: 18px;
 
     svg {
@@ -223,6 +238,11 @@ mat-sidenav-container {
       height: 18px;
     }
   }
+}
+
+.input-icon-button {
+  @extend .small-icon-button;
+  margin-right: 8px;
 }
 
 .medium-icon-button {
@@ -247,7 +267,7 @@ mat-sidenav-container {
 }
 
 gt-issue-chart {
-  .ngx-charts {
+  .ng-charts {
     // Hide tick labels
     .tick text {
       display: none !important;
@@ -292,7 +312,7 @@ gt-issue-chart {
 }
 
 @media (prefers-color-scheme: dark) {
-  .ngx-charts {
+  .ng-charts {
     text {
       fill: var(--mat-sys-on-background) !important;
     }
