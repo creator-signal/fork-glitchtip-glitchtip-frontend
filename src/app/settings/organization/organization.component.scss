@@ -43,3 +43,11 @@ mat-card {
 gt-loading-button ::ng-deep button {
   width: 160px;
 }
+
+.license-form {
+  align-items: flex-start !important;
+
+  gt-loading-button {
+    margin-top: 8px;
+  }
+}
