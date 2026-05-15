@@ -1,0 +1,42 @@
+<h2 mat-dialog-title i18n>License Certificate</h2>
+<mat-dialog-content>
+  @if (activeOrganization(); as org) {
+    <div class="certificate">
+      <div class="certificate-header">
+        <span class="caption-text" i18n>Certificate of Commercial Licensure</span>
+        <h3 class="certificate-title">GlitchTip</h3>
+      </div>
+      <mat-divider />
+      <div class="certificate-body">
+        <p class="caption-text" i18n>This certifies that</p>
+        <p class="certificate-org">{{ org.name }}</p>
+        <p class="caption-text" i18n
+          >holds an active GlitchTip self-hosted support license.</p
+        >
+      </div>
+      <mat-divider />
+      <div class="certificate-details">
+        <div class="detail-row">
+          <span class="caption-text" i18n>License Key</span>
+          <code>{{ org.licenseKey }}</code>
+        </div>
+      </div>
+    </div>
+    <a
+      class="invoice-link"
+      [href]="invoiceUrl()"
+      target="_blank"
+      rel="noopener noreferrer"
+      i18n
+    >
+      <mat-icon>open_in_new</mat-icon>
+      View invoice and receipt
+    </a>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="print()" i18n>
+    Print
+  </button>
+  <button mat-button (click)="close()" i18n>Close</button>
+</mat-dialog-actions>
