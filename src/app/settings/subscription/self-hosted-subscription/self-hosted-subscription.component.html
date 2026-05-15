@@ -2,8 +2,47 @@
   <ng-container slot="left">
     <h1 class="section-header-text" i18n>Subscription</h1>
   </ng-container>
+  <ng-container slot="right">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="openLicenseAction()"
+    >
+      @if (licenseKey()) {
+        <ng-container i18n>License Certificate</ng-container>
+      } @else {
+        <ng-container i18n>Find My License Key</ng-container>
+      }
+    </button>
+  </ng-container>
 </gt-top-app-bar>
 <section class="l-body">
+  @if (!licenseKey()) {
+    <mat-card appearance="outlined" class="license-banner">
+      <mat-card-content>
+        <div class="banner-content">
+          <h2 class="banner-headline fancy" i18n>Support GlitchTip</h2>
+          <p class="banner-description" i18n>
+            Purchase a support plan to get priority email and live chat support,
+            and help fund GlitchTip development. Enter your license key in
+            <a [routerLink]="['/', orgSlug(), 'settings']">General Settings</a>.
+          </p>
+          <div class="banner-actions">
+            <a
+              mat-flat-button
+              color="primary"
+              href="https://glitchtip.com/pricing"
+              target="_blank"
+              rel="noopener noreferrer"
+              i18n
+              >View Support Plans</a
+            >
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
   <div class="contribute-grid">
     <a
       class="contribute-card"
