@@ -221,6 +221,11 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
    * Keep trying to get subscription, for users redirected from Stripe
    */
   refreshUntilSubscriptionOrTimeout() {
+    // Guard against re-entry. The post-Stripe redirect should kick this off
+    // exactly once per page load; without this guard a re-fired caller would
+    // stack setInterval timers and (since refreshTimerRef only holds the
+    // newest one) leak the older ones forever.
+    if (this.refreshTimerRef !== undefined) return;
     this.setSubscriptionRefreshingStart();
     let i = 0;
     this.refreshTimerRef = setInterval(() => {
@@ -228,9 +233,11 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
       if (this.subscription()) {
         this.setSubscriptionRefreshingComplete();
         clearInterval(this.refreshTimerRef);
+        this.refreshTimerRef = undefined;
       } else if (i === 2) {
         this.setSubscriptionRefreshingTimeout();
         clearInterval(this.refreshTimerRef);
+        this.refreshTimerRef = undefined;
       }
       i++;
     }, 2000);
@@ -285,5 +292,6 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     this.dailyEventsResource.set(undefined);
     this.eventsCountPreviousPeriodResource.set(undefined);
     clearInterval(this.refreshTimerRef);
+    this.refreshTimerRef = undefined;
   }
 }

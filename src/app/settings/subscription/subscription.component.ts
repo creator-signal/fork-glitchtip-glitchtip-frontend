@@ -6,6 +6,7 @@ import {
   inject,
   input,
   OnInit,
+  untracked,
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
@@ -146,15 +147,24 @@ export class SubscriptionComponent
     this.service = service;
 
     // Fire hosted-only fetches once settings confirm billing is enabled.
+    // Side effects that write signals run inside `untracked()` so we don't
+    // create a feedback loop: without it, refreshUntilSubscriptionOrTimeout's
+    // state writes re-fire the effect, stacking setInterval timers until the
+    // tab crashes (~62k iterations in ~24s observed).
+    let didKickoff = false;
     effect(() => {
       if (this.isHosted() !== true) return;
-      this.paymentService.productsResource.reload();
-      if (this.sessionId()) {
-        this.service.refreshUntilSubscriptionOrTimeout();
-      }
-      if (this.billingPortalRedirect()) {
-        this.orgService.repeatRefreshOrgDetail();
-      }
+      untracked(() => {
+        this.paymentService.productsResource.reload();
+        if (didKickoff) return;
+        didKickoff = true;
+        if (this.sessionId()) {
+          this.service.refreshUntilSubscriptionOrTimeout();
+        }
+        if (this.billingPortalRedirect()) {
+          this.orgService.repeatRefreshOrgDetail();
+        }
+      });
     });
   }
 
