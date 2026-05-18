@@ -162,7 +162,7 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     return Math.round((current.total / total) * 100);
   });
 
-  refreshTimerRef: NodeJS.Timeout | undefined = undefined;
+  refreshTimerRef: number | undefined = undefined;
 
   constructor() {
     super(initialState);
@@ -221,14 +221,11 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
    * Keep trying to get subscription, for users redirected from Stripe
    */
   refreshUntilSubscriptionOrTimeout() {
-    // Guard against re-entry. The post-Stripe redirect should kick this off
-    // exactly once per page load; without this guard a re-fired caller would
-    // stack setInterval timers and (since refreshTimerRef only holds the
-    // newest one) leak the older ones forever.
+    // Guard: only one timer should run at a time.
     if (this.refreshTimerRef !== undefined) return;
     this.setSubscriptionRefreshingStart();
     let i = 0;
-    this.refreshTimerRef = setInterval(() => {
+    this.refreshTimerRef = window.setInterval(() => {
       this.subscriptionResource.reload();
       if (this.subscription()) {
         this.setSubscriptionRefreshingComplete();

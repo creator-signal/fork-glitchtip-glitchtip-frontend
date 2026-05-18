@@ -146,22 +146,20 @@ export class SubscriptionComponent
 
     this.service = service;
 
-    // Fire hosted-only fetches once settings confirm billing is enabled.
-    // Side effects that write signals run inside `untracked()` so we don't
-    // create a feedback loop: without it, refreshUntilSubscriptionOrTimeout's
-    // state writes re-fire the effect, stacking setInterval timers until the
-    // tab crashes (~62k iterations in ~24s observed).
+    // untracked prevents state writes from re-triggering this effect.
     let didKickoff = false;
     effect(() => {
       if (this.isHosted() !== true) return;
+      const sessionId = this.sessionId();
+      const billingPortalRedirect = this.billingPortalRedirect();
       untracked(() => {
-        this.paymentService.productsResource.reload();
         if (didKickoff) return;
         didKickoff = true;
-        if (this.sessionId()) {
+        this.paymentService.productsResource.reload();
+        if (sessionId) {
           this.service.refreshUntilSubscriptionOrTimeout();
         }
-        if (this.billingPortalRedirect()) {
+        if (billingPortalRedirect) {
           this.orgService.repeatRefreshOrgDetail();
         }
       });
