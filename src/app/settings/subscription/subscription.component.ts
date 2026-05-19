@@ -6,6 +6,7 @@ import {
   inject,
   input,
   OnInit,
+  untracked,
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
@@ -145,16 +146,23 @@ export class SubscriptionComponent
 
     this.service = service;
 
-    // Fire hosted-only fetches once settings confirm billing is enabled.
+    // untracked prevents state writes from re-triggering this effect.
+    let didKickoff = false;
     effect(() => {
       if (this.isHosted() !== true) return;
-      this.paymentService.productsResource.reload();
-      if (this.sessionId()) {
-        this.service.refreshUntilSubscriptionOrTimeout();
-      }
-      if (this.billingPortalRedirect()) {
-        this.orgService.repeatRefreshOrgDetail();
-      }
+      const sessionId = this.sessionId();
+      const billingPortalRedirect = this.billingPortalRedirect();
+      untracked(() => {
+        if (didKickoff) return;
+        didKickoff = true;
+        this.paymentService.productsResource.reload();
+        if (sessionId) {
+          this.service.refreshUntilSubscriptionOrTimeout();
+        }
+        if (billingPortalRedirect) {
+          this.orgService.repeatRefreshOrgDetail();
+        }
+      });
     });
   }
 
