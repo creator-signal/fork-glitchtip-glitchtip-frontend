@@ -1,0 +1,204 @@
+<div class="hero-and-nav-container just-the-image"></div>
+
+<mat-card class="big-card-wrapper">
+  <div class="centered-block">
+    <h1 class="fancy marketing-heading">Support</h1>
+
+    <h2 class="marketing-subheading">Contact support</h2>
+    <p class="marketing-body">
+      Send a message to our support team. A valid license key is required —
+      this form is for customers with an active support plan.
+    </p>
+
+    @if (licenseKeyFromUrl(); as key) {
+      <div class="license-chip">
+        <mat-icon>check_circle</mat-icon>
+        <span class="marketing-caption">License key from URL:</span>
+        <code>{{ key }}</code>
+      </div>
+    } @else {
+      <div class="callout">
+        <mat-icon>info</mat-icon>
+        <p class="marketing-body">
+          We didn't find a license key in your URL. Open this page from your
+          self-hosted GlitchTip's Support menu, or recover your key using the
+          <strong>Find my license key</strong> form below.
+        </p>
+      </div>
+    }
+
+    <form
+      class="contact-form"
+      [formGroup]="contactForm"
+      (submit)="$event.preventDefault(); composeSupportEmail()"
+    >
+      <mat-form-field appearance="outline">
+        <mat-label>Your email</mat-label>
+        <input
+          matInput
+          type="email"
+          autocomplete="email"
+          formControlName="email"
+          placeholder="you@example.com"
+        />
+        @if (
+          contactForm.controls.email.touched &&
+          contactForm.controls.email.errors?.["required"]
+        ) {
+          <mat-error>Email is required.</mat-error>
+        } @else if (
+          contactForm.controls.email.touched &&
+          contactForm.controls.email.errors?.["email"]
+        ) {
+          <mat-error>Enter a valid email address.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>What do you need help with?</mat-label>
+        <textarea
+          matInput
+          rows="5"
+          formControlName="message"
+          placeholder="Describe your issue or question…"
+        ></textarea>
+        @if (
+          contactForm.controls.message.touched &&
+          contactForm.controls.message.errors?.["required"]
+        ) {
+          <mat-error>A message is required.</mat-error>
+        } @else if (
+          contactForm.controls.message.touched &&
+          contactForm.controls.message.errors?.["minlength"]
+        ) {
+          <mat-error>Please add a bit more detail (10 characters min).</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="cta-wrapper">
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="!hasLicenseKey() || contactForm.invalid"
+        >
+          Send to support
+        </button>
+      </div>
+
+      @if (!hasLicenseKey()) {
+        <p class="marketing-caption helper-text">
+          A license key is required to send this form. Use the recovery form
+          below if you've lost yours.
+        </p>
+      }
+    </form>
+
+    <mat-divider></mat-divider>
+
+    <h2 class="marketing-subheading">Find my license key</h2>
+    <p class="marketing-body">
+      If you've purchased a support plan and need your license key, enter the
+      email you used to purchase below. We'll email your license key to that
+      address.
+    </p>
+
+    @if (state() === "sent") {
+      <div class="callout success">
+        <mat-icon>check_circle</mat-icon>
+        <div>
+          <p class="marketing-body-strong">Check your email.</p>
+          <p class="marketing-body">
+            If we have a record of a support plan under that email, we've sent
+            your license key.
+          </p>
+        </div>
+      </div>
+      <div class="cta-wrapper">
+        <button mat-stroked-button (click)="reset()">Try another email</button>
+      </div>
+    } @else {
+      <form class="lookup-form" (submit)="$event.preventDefault(); submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            autocomplete="email"
+            [formControl]="email"
+            placeholder="you@example.com"
+          />
+          @if (email.touched && email.errors?.["required"]) {
+            <mat-error>Email is required.</mat-error>
+          } @else if (email.touched && email.errors?.["email"]) {
+            <mat-error>Enter a valid email address.</mat-error>
+          }
+        </mat-form-field>
+        <div class="cta-wrapper">
+          <button
+            mat-flat-button
+            color="primary"
+            class="submit-button"
+            type="submit"
+            [disabled]="email.invalid || isSubmitting()"
+          >
+            <span [style.visibility]="isSubmitting() ? 'hidden' : 'visible'">
+              Send my license key
+            </span>
+            @if (isSubmitting()) {
+              <mat-spinner class="submit-spinner" diameter="20" />
+            }
+          </button>
+        </div>
+      </form>
+
+      @if (state() === "error") {
+        <p class="marketing-body error-text">
+          Something went wrong. Please try again or email
+          <a href="mailto:sales@glitchtip.com">sales&#64;glitchtip.com</a>.
+        </p>
+      }
+    }
+
+    <mat-divider></mat-divider>
+
+    <h2 class="marketing-subheading">Don't have a support plan?</h2>
+    <p class="marketing-body">
+      Self-hosted GlitchTip is free and open source. Paid support plans include
+      priority email and live chat support, and help fund continued open source
+      development.
+    </p>
+    <div class="cta-wrapper">
+      <a mat-stroked-button [routerLink]="['/pricing']">View Support Plans</a>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <h2 class="marketing-subheading">Other ways to get help</h2>
+    <ul class="marketing-body">
+      <li>
+        Read the
+        <a routerLink="/documentation">documentation</a>
+        for guides, configuration reference, and the API.
+      </li>
+      <li>
+        Report bugs and feature requests on
+        <a
+          href="https://gitlab.com/glitchtip/glitchtip/-/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitLab</a
+        >.
+      </li>
+      <li>
+        Sponsor GlitchTip on
+        <a
+          href="https://liberapay.com/GlitchTip/donate"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Liberapay</a
+        >.
+      </li>
+    </ul>
+  </div>
+</mat-card>
