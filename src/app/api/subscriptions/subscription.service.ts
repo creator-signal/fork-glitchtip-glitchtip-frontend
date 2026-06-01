@@ -168,7 +168,13 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     super(initialState);
   }
 
-  /** Load event count and daily event data for the subscription detail page */
+  /**
+   * Load this page's per-period usage. detailSlug is reset to "" in clearState()
+   * on leave, so setting it again here is a real change that refetches the
+   * event-count resources — usage/quota is therefore fresh on every entry. The
+   * plan itself (subscriptionResource) is shown from cache on re-entry and is
+   * reloaded by the flows that change it (free-tier creation, post-Stripe return).
+   */
   loadDetailData(orgSlug: string) {
     if (orgSlug) {
       this.detailSlug.set(orgSlug);
@@ -284,7 +290,13 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
   clearState() {
     super.clearState();
     this.detailSlug.set("");
-    this.subscriptionResource.set(undefined);
+    // Intentionally NOT clearing subscriptionResource here: it is keyed on the
+    // app-wide active-org slug (stable across in-app navigation), so once
+    // cleared it would not refetch on client-side re-entry and the page would
+    // render the empty "no subscription" view until a full page reload. It
+    // updates reactively on org change and is reloaded explicitly by the flows
+    // that mutate it (free-tier creation, post-Stripe return). The per-page
+    // usage resources below are safe to clear; they refetch via loadDetailData.
     this.eventsCountCurrentPeriodResource.set(undefined);
     this.dailyEventsResource.set(undefined);
     this.eventsCountPreviousPeriodResource.set(undefined);
