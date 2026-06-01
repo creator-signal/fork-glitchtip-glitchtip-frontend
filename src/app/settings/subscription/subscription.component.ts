@@ -159,7 +159,6 @@ export class SubscriptionComponent
   }
 
   ngOnInit(): void {
-    this.orgService.activeOrganizationResource.reload();
     this.service.loadDetailData(this.orgSlug());
   }
 
