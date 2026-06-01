@@ -39,6 +39,16 @@ We use Cypress to run end to end tests. Be aware the tests will seed the backend
 2. Run the frontend development server `npm start`
 3. Run Cypress `npm run cy:open`
 
+## Taking page screenshots
+
+With the backend and frontend running, run:
+
+```
+npx cypress run --spec cypress/e2e/screenshots.cy.ts
+```
+
+Screenshots are saved to `cypress/screenshots/`.
+
 # Internationalization (i18n)
 
 [Angular Localize](https://angular.io/guide/i18n-overview) is used to manage i18n in GlitchTip. [ng-extract-i18n-merge](https://github.com/daniel-sc/ng-extract-i18n-merge) is used to update and merge translation files.
