@@ -27,6 +27,7 @@ import {
   MatSelectChange,
   MatSelectModule,
 } from "@angular/material/select";
+import { SupportMenuComponent } from "../support-menu/support-menu.component";
 
 interface NavItem {
   name: string;
@@ -55,6 +56,7 @@ interface NavItem {
     RouterLinkActive,
     MatCardModule,
     MobileNavToolbarComponent,
+    SupportMenuComponent,
   ],
 })
 export class MainNavComponent {
@@ -177,7 +179,6 @@ export class MainNavComponent {
   organizationsInitialLoad = this.organizationsService.initialLoad;
   isLoggedIn = this.auth.isAuthenticated;
   navOpen = this.mainNav.navOpen;
-  paidForGlitchTip = this.settingsService.paidForGlitchTip;
   mobileNav = this.mainNav.mobileNav;
   version = this.settingsService.version;
 

@@ -1,0 +1,93 @@
+<mat-menu #supportMenu="matMenu" xPosition="after" class="support-menu-panel">
+  <div class="support-menu-header" i18n>Support</div>
+
+  <a
+    mat-menu-item
+    class="rich-menu-item"
+    href="https://glitchtip.com/documentation"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <mat-icon class="leading-icon">text_snippet</mat-icon>
+    <div class="item-text">
+      <span class="item-title" i18n>Documentation</span>
+      <span class="item-description" i18n
+        >Guides, configuration, and API reference</span
+      >
+    </div>
+    <mat-icon class="external-icon">open_in_new</mat-icon>
+  </a>
+
+  <a
+    mat-menu-item
+    class="rich-menu-item"
+    href="https://gitlab.com/glitchtip/glitchtip/-/issues"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <mat-icon class="leading-icon">code</mat-icon>
+    <div class="item-text">
+      <span class="item-title" i18n>Report a bug</span>
+      <span class="item-description" i18n
+        >Open an issue on GitLab</span
+      >
+    </div>
+    <mat-icon class="external-icon">open_in_new</mat-icon>
+  </a>
+
+  <a
+    mat-menu-item
+    class="rich-menu-item"
+    href="https://liberapay.com/GlitchTip/donate"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <mat-icon class="leading-icon">favorite</mat-icon>
+    <div class="item-text">
+      <span class="item-title" i18n>Sponsor on Liberapay</span>
+      <span class="item-description" i18n
+        >Support open source development</span
+      >
+    </div>
+    <mat-icon class="external-icon">open_in_new</mat-icon>
+  </a>
+
+  <mat-divider />
+
+  <div class="priority-support" (click)="$event.stopPropagation()">
+    <div class="priority-header">
+      <mat-icon class="leading-icon">chat</mat-icon>
+      <span class="item-title" i18n>Priority Support</span>
+    </div>
+    @if (!licenseKey()) {
+      <p class="priority-description" i18n>
+        Save your license key to skip the lookup. Don't have a plan? View
+        our pricing.
+      </p>
+    }
+    <a
+      mat-flat-button
+      color="primary"
+      class="priority-button"
+      [href]="supportUrl()"
+      target="_blank"
+      rel="noopener noreferrer"
+      i18n
+    >
+      Open Support Chat
+    </a>
+    @if (!licenseKey()) {
+      <div class="priority-secondary">
+        <a [routerLink]="orgSettingsLink()" i18n>Enter license key</a>
+        <span class="separator" aria-hidden="true">·</span>
+        <a
+          href="https://glitchtip.com/pricing"
+          target="_blank"
+          rel="noopener noreferrer"
+          i18n
+          >View plans</a
+        >
+      </div>
+    }
+  </div>
+</mat-menu>

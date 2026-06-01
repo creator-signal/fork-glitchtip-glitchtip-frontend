@@ -4,4 +4,7 @@
 
 export const environment = {
   billingEmail: "sales@glitchtip.com",
+  // TEMP: pointing at local hosted stack (:8001) for dual-stack testing.
+  // Revert to "https://app.glitchtip.com/api/0/billing/license-invoice/" before merging.
+  licenseInvoiceUrl: "http://localhost:8001/api/0/billing/license-invoice/",
 };

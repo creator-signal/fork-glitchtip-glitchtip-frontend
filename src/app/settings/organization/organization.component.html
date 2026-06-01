@@ -31,6 +31,46 @@
         }
       </mat-card-content>
     </mat-card>
+    @if (billingEnabled() === false) {
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title i18n>Support License</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <form
+            [formGroup]="licenseForm"
+            (ngSubmit)="saveLicenseKey()"
+            class="license-form"
+          >
+            <mat-form-field appearance="outline">
+              <mat-label i18n>License Key</mat-label>
+              <input
+                matInput
+                formControlName="licenseKey"
+                autocomplete="off"
+              />
+              <mat-hint i18n
+                >Enter the license key from your support plan purchase email.</mat-hint
+              >
+            </mat-form-field>
+            <gt-loading-button
+              [disabled]="licenseKey?.value === (activeOrg.licenseKey ?? '')"
+              [loading]="loading().updateLicenseKey"
+              mat-flat-button
+              color="primary"
+              buttonText="Save License Key"
+              i18n-buttonText
+              id="save-license-key"
+            >
+            </gt-loading-button>
+          </form>
+          @if (errors().updateLicenseKey) {
+            <mat-error>{{ errors().updateLicenseKey }}</mat-error>
+          }
+        </mat-card-content>
+      </mat-card>
+    }
     <mat-card>
       <mat-card-header>
         <mat-card-title>Delete Organization</mat-card-title>

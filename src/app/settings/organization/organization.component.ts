@@ -9,6 +9,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatCardModule } from "@angular/material/card";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { SettingsService } from "src/app/api/settings.service";
 import { toObservable } from "@angular/core/rxjs-interop";
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
@@ -30,6 +31,7 @@ import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
 export class OrganizationComponent implements OnDestroy, OnInit {
   private organizationsService = inject(OrganizationsService);
   private organizationDetailService = inject(OrganizationDetailService);
+  private settingsService = inject(SettingsService);
   private dialog = inject(MatDialog);
 
   activeOrganizationDetail = this.organizationsService.activeOrganization;
@@ -37,8 +39,12 @@ export class OrganizationComponent implements OnDestroy, OnInit {
   activeOrganizationDetail$ = toObservable(this.activeOrganizationDetail);
   loading = this.organizationDetailService.loading;
   errors = this.organizationDetailService.errors;
+  billingEnabled = this.settingsService.billingEnabled;
   form = new FormGroup({
     name: new FormControl(""),
+  });
+  licenseForm = new FormGroup({
+    licenseKey: new FormControl(""),
   });
   accessOrgAdmin = () => this.organizationsService.accessOrgAdmin();
 
@@ -59,6 +65,7 @@ export class OrganizationComponent implements OnDestroy, OnInit {
       this.organizationDetailService.resetLoadingState();
       if (data) {
         this.form.patchValue({ name: data.name });
+        this.licenseForm.patchValue({ licenseKey: data.licenseKey ?? "" });
       }
     });
   }
@@ -67,8 +74,18 @@ export class OrganizationComponent implements OnDestroy, OnInit {
     return this.form.get("name");
   }
 
+  get licenseKey() {
+    return this.licenseForm.get("licenseKey");
+  }
+
   updateOrganization() {
     this.organizationDetailService.updateOrganization(this.form.value.name!);
+  }
+
+  saveLicenseKey() {
+    this.organizationDetailService.updateLicenseKey(
+      this.licenseForm.value.licenseKey ?? "",
+    );
   }
 
   removeOrganization(slug: string, name: string) {

@@ -1,0 +1,96 @@
+.certificate {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-medium, 8px);
+  padding: 32px;
+  margin-bottom: 16px;
+  background-color: var(--mat-sys-surface);
+}
+
+.certificate-header {
+  text-align: center;
+  margin-bottom: 16px;
+
+  .caption-text {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .certificate-title {
+    margin: 4px 0 0;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--mat-sys-primary);
+  }
+}
+
+.certificate-body {
+  text-align: center;
+  padding: 24px 0;
+
+  .caption-text {
+    color: var(--mat-sys-on-surface-variant);
+    margin: 0;
+  }
+
+  .certificate-org {
+    margin: 8px 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+.certificate-details {
+  padding-top: 16px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .caption-text {
+    color: var(--mat-sys-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+  }
+
+  code {
+    font-family: monospace;
+    background-color: var(--mat-sys-surface-container);
+    padding: 8px 12px;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+}
+
+.invoice-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media print {
+  :host {
+    color: black;
+  }
+
+  mat-dialog-actions,
+  .invoice-link {
+    display: none;
+  }
+}

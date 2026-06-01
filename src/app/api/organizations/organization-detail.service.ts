@@ -31,6 +31,7 @@ const initialState: OrganizationsState = {
   errors: {
     createOrganization: "",
     updateOrganization: "",
+    updateLicenseKey: "",
     deleteOrganization: "",
     addTeamMember: "",
     removeTeamMember: "",
@@ -38,6 +39,7 @@ const initialState: OrganizationsState = {
   },
   loading: {
     updateOrganization: false,
+    updateLicenseKey: false,
     deleteOrganization: false,
     addTeamMember: "",
     removeTeamMember: "",
@@ -530,6 +532,61 @@ export class OrganizationDetailService extends StatefulService<OrganizationsStat
     const state = this.state();
     this.setState({
       loading: { ...state.loading, deleteOrganization: false },
+    });
+  }
+
+  async updateLicenseKey(licenseKey: string) {
+    this.setUpdateLicenseKeyStart();
+    const orgSlug = this.organizationsService.activeOrganizationSlug();
+    const orgName = this.organizationsService.activeOrganization()?.name ?? "";
+    const { data, error, response } = await client.PUT(
+      "/api/0/organizations/{organization_slug}/",
+      {
+        params: { path: { organization_slug: orgSlug } },
+        body: { name: orgName, licenseKey },
+      },
+    );
+    if (data) {
+      this.setUpdateLicenseKeyComplete();
+      this.snackBar.open($localize`License key saved.`);
+      this.organizationsService.refreshActiveOrganization();
+      return;
+    }
+    if (response.status === 403) {
+      this.setUpdateLicenseKeyError(
+        $localize`Only users with a role of manager or above can update organizations.`,
+      );
+    } else {
+      const errors = handleError(error, response);
+      if (errors.detail.length) {
+        this.setUpdateLicenseKeyError(errors.detail[0].msg);
+      }
+    }
+  }
+
+  private setUpdateLicenseKeyStart() {
+    const state = this.state();
+    this.setState({
+      loading: { ...state.loading, updateLicenseKey: true },
+      errors: {
+        ...state.errors,
+        updateLicenseKey: initialState.errors.updateLicenseKey,
+      },
+    });
+  }
+
+  private setUpdateLicenseKeyError(error: string) {
+    const state = this.state();
+    this.setState({
+      loading: { ...state.loading, updateLicenseKey: false },
+      errors: { ...state.errors, updateLicenseKey: error },
+    });
+  }
+
+  private setUpdateLicenseKeyComplete() {
+    const state = this.state();
+    this.setState({
+      loading: { ...state.loading, updateLicenseKey: false },
     });
   }
 
