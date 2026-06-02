@@ -176,22 +176,36 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
   }
 
   /**
-   * Retrieve Subscription and navigate to subscription page if no subscription exists
+   * Redirect to the subscription page when the active org has no subscription.
+   *
+   * Reads the shared, reactive `subscriptionResource` instead of issuing its own
+   * request, so switching orgs triggers a single subscription fetch (the
+   * resource is already keyed on the active org slug). Waits for the resource to
+   * settle and ignores transient load errors (e.g. a 5xx) — we only redirect on a
+   * genuine "no active subscription", which the API returns as HTTP 200 + null.
    */
-  async checkIfUserHasSubscription(orgSlug: string) {
-    const subscriptionRoute = [orgSlug, "settings", "subscription"];
+  checkIfUserHasSubscription(orgSlug: string) {
     if (
-      !this.router.isActive(this.router.createUrlTree(subscriptionRoute), {
+      this.subscriptionResource.isLoading() ||
+      this.subscriptionResource.error()
+    ) {
+      return;
+    }
+    const subscriptionRoute = [orgSlug, "settings", "subscription"];
+    const alreadyOnSubscriptionPage = this.router.isActive(
+      this.router.createUrlTree(subscriptionRoute),
+      {
         paths: "exact",
         queryParams: "subset",
         fragment: "ignored",
         matrixParams: "ignored",
-      })
-    ) {
-      const subscription = await this.getSubscriptionData(orgSlug);
-      if (!subscription) {
-        this.router.navigate(subscriptionRoute);
-      }
+      },
+    );
+    if (alreadyOnSubscriptionPage) {
+      return;
+    }
+    if (!this.subscription()) {
+      this.router.navigate(subscriptionRoute);
     }
   }
 
@@ -238,21 +252,6 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
       }
       i++;
     }, 2000);
-  }
-
-  private async getSubscriptionData(orgSlug: string) {
-    const { data, error } = await client.GET(
-      "/api/0/stripe/subscriptions/{organization_slug}/",
-      {
-        params: {
-          path: { organization_slug: orgSlug },
-        },
-      },
-    );
-    if (error) {
-      throw error;
-    }
-    return data;
   }
 
   private setSubscriptionRefreshingStart() {
