@@ -1,0 +1,54 @@
+<mat-menu
+  #supportMenu="matMenu"
+  xPosition="after"
+  class="nav-menu support-menu-panel"
+>
+  <a
+    mat-menu-item
+    href="https://glitchtip.com/documentation"
+    target="_blank"
+    rel="noopener"
+  >
+    <mat-icon>text_snippet</mat-icon>
+    <span i18n>Documentation</span>
+  </a>
+  <a
+    mat-menu-item
+    href="https://gitlab.com/glitchtip/glitchtip/-/issues"
+    target="_blank"
+    rel="noopener"
+  >
+    <mat-icon>code</mat-icon>
+    <span i18n>Report a bug</span>
+  </a>
+  <a
+    mat-menu-item
+    href="https://liberapay.com/GlitchTip/donate"
+    target="_blank"
+    rel="noopener"
+  >
+    <mat-icon>favorite</mat-icon>
+    <span i18n>Sponsor on Liberapay</span>
+  </a>
+  <mat-divider />
+  @if (paidForGlitchTip()) {
+    <button
+      mat-menu-item
+      (click)="openSupportChat()"
+      [disabled]="supportLinkLoading()"
+    >
+      <mat-icon>chat</mat-icon>
+      <span i18n>Open Support Chat</span>
+    </button>
+  } @else {
+    <a
+      mat-menu-item
+      [href]="pricingUrl"
+      target="_blank"
+      rel="noopener"
+    >
+      <mat-icon>security</mat-icon>
+      <span i18n>Get Priority Support</span>
+    </a>
+  }
+</mat-menu>
