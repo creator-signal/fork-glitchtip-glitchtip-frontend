@@ -92,7 +92,8 @@ export class SubscriptionComponent
   );
   daysRemaining = computed(() => {
     const subscription = this.service.subscription();
-    const endDate = subscription?.subscriptionCycleEnd ?? subscription?.currentPeriodEnd;
+    const endDate =
+      subscription?.subscriptionCycleEnd ?? subscription?.currentPeriodEnd;
     if (!endDate) return null;
     const end = new Date(endDate);
     const now = new Date();
@@ -166,6 +167,9 @@ export class SubscriptionComponent
 
   ngOnInit(): void {
     this.orgService.activeOrganizationResource.reload();
+    // Refresh subscription data on every visit — the resource is keyed on the
+    // active org, so navigating here within the same org wouldn't otherwise refetch.
+    this.service.subscriptionResource.reload();
   }
 
   manageSubscription() {
