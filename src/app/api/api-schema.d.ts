@@ -38,6 +38,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/0/instance-license/support-link/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Support Link */
+        get: operations["glitchtip_api_api_get_support_link"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/0/": {
         parameters: {
             query?: never;
@@ -2009,6 +2026,11 @@ export interface components {
             /** Billingemail */
             billingEmail: string;
         };
+        /** SupportLinkOut */
+        SupportLinkOut: {
+            /** Url */
+            url: string;
+        };
         /** APIRootSchema */
         APIRootSchema: {
             /** Version */
@@ -2835,7 +2857,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            recipientType: "discord" | "googlechat" | "ntfy" | "teams" | "webhook";
+            recipientType: "discord" | "feishu" | "googlechat" | "ntfy" | "teams" | "webhook";
             /**
              * Url
              * Format: uri
@@ -5453,6 +5475,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["InstanceLicenseOut"];
+                };
+            };
+        };
+    };
+    glitchtip_api_api_get_support_link: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportLinkOut"];
                 };
             };
         };

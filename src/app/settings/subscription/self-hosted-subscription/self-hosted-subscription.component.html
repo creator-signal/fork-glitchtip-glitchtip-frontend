@@ -28,6 +28,9 @@
   </ng-container>
 </gt-top-app-bar>
 <section class="l-body">
+  @if (!paidForGlitchTip()) {
+    <gt-support-banner [isSuperuser]="isSuperuser()" />
+  }
   <div class="contribute-grid">
     <a
       class="contribute-card"

@@ -1,6 +1,7 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
+  computed,
   inject,
   signal,
 } from "@angular/core";
@@ -14,6 +15,8 @@ import { SubscriptionChartsComponent } from "../subscription-charts/subscription
 import { environment } from "../../../../environments/environment";
 import { InstanceLicenseService } from "src/app/api/instance-license.service";
 import { SettingsService } from "src/app/api/settings.service";
+import { UserService } from "src/app/api/user/user.service";
+import { SupportBannerComponent } from "src/app/shared/support-banner/support-banner.component";
 
 @Component({
   selector: "gt-self-hosted-subscription",
@@ -28,14 +31,17 @@ import { SettingsService } from "src/app/api/settings.service";
     MatDividerModule,
     MatProgressSpinnerModule,
     SubscriptionChartsComponent,
+    SupportBannerComponent,
   ],
 })
 export class SelfHostedSubscriptionComponent {
   private settings = inject(SettingsService);
   private instanceLicense = inject(InstanceLicenseService);
+  private userService = inject(UserService);
 
   billingEmail = environment.billingEmail;
   paidForGlitchTip = this.settings.paidForGlitchTip;
+  isSuperuser = computed(() => this.userService.user()?.isSuperuser ?? false);
   manageBillingLoading = signal(false);
 
   manageBilling() {
