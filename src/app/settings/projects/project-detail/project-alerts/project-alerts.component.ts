@@ -141,9 +141,11 @@ export class ProjectAlertsComponent implements OnInit {
 
   updateProperties(
     event: {
-      timespanMinutes: number;
-      quantity: number;
+      timespanMinutes: number | null;
+      quantity: number | null;
       uptime: boolean;
+      uptimeTimespanMinutes: number | null;
+      uptimeQuantity: number | null;
     },
     alert: ProjectAlert,
   ): void {
@@ -152,6 +154,8 @@ export class ProjectAlertsComponent implements OnInit {
         event.timespanMinutes,
         event.quantity,
         event.uptime,
+        event.uptimeTimespanMinutes,
+        event.uptimeQuantity,
         alert.id,
         alert.alertRecipients,
       );
@@ -182,9 +186,11 @@ export class ProjectAlertsComponent implements OnInit {
   }
 
   newAlertProperties(event: {
-    timespanMinutes: number;
-    quantity: number;
+    timespanMinutes: number | null;
+    quantity: number | null;
     uptime: boolean;
+    uptimeTimespanMinutes: number | null;
+    uptimeQuantity: number | null;
   }) {
     this.#service.createNewAlert(event);
   }

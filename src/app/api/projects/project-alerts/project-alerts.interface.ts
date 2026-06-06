@@ -2,6 +2,8 @@ export interface NewProjectAlert {
   timespanMinutes: number | null;
   quantity: number | null;
   uptime: boolean;
+  uptimeQuantity: number | null;
+  uptimeTimespanMinutes: number | null;
   alertRecipients: NewAlertRecipient[];
 }
 

@@ -66,11 +66,15 @@ export class AlertFormComponent implements OnInit {
   readonly timespan = input<number | null>(1);
   readonly quantity = input<number | null>(1);
   readonly uptime = input<boolean | null>(false);
+  readonly uptimeQuantity = input<number | null>(1);
+  readonly uptimeTimespanMinutes = input<number | null>(1);
   readonly errorAlert = input<boolean>(true);
   readonly alertSubmit = output<{
-    timespanMinutes: number;
-    quantity: number;
+    timespanMinutes: number | null;
+    quantity: number | null;
     uptime: boolean;
+    uptimeQuantity: number | null;
+    uptimeTimespanMinutes: number | null;
   }>();
   readonly newAlert = input<boolean | undefined>(false);
 
@@ -100,12 +104,20 @@ export class AlertFormComponent implements OnInit {
     ),
     timespanMinutes: new FormControl(""),
     quantity: new FormControl(""),
+    uptimeTimespanMinutes: new FormControl(""),
+    uptimeQuantity: new FormControl(""),
   });
 
   projectFormTimespan = this.projectAlertForm.get(
     "timespanMinutes",
   ) as FormControl;
   projectFormQuantity = this.projectAlertForm.get("quantity") as FormControl;
+  projectFormUptimeTimespan = this.projectAlertForm.get(
+    "uptimeTimespanMinutes",
+  ) as FormControl;
+  projectFormUptimeQuantity = this.projectAlertForm.get(
+    "uptimeQuantity",
+  ) as FormControl;
   projectFormUptime = this.projectAlertForm.get(
     "optionsGroup.uptime",
   ) as FormControl;
@@ -124,9 +136,18 @@ export class AlertFormComponent implements OnInit {
   ngOnInit(): void {
     const timespan = this.timespan();
     const quantity = this.quantity();
+    // The uptime quantity/timespan inputs are required when the uptime trigger
+    // is enabled. Default any missing value to 1 so an existing uptime alert
+    // saved without a threshold (null) stays editable, instead of loading an
+    // invalid, silently un-submittable form.
+    const uptimeTimespan =
+      this.uptimeTimespanMinutes() ?? (this.uptime() ? 1 : null);
+    const uptimeQuantity = this.uptimeQuantity() ?? (this.uptime() ? 1 : null);
     this.projectAlertForm.setValue({
       timespanMinutes: timespan ? timespan.toString() : null,
       quantity: quantity ? quantity.toString() : null,
+      uptimeTimespanMinutes: uptimeTimespan ? uptimeTimespan.toString() : null,
+      uptimeQuantity: uptimeQuantity ? uptimeQuantity.toString() : null,
       optionsGroup: {
         uptime: this.uptime() as any,
         errorAlert: this.errorAlert() as any,
@@ -135,6 +156,9 @@ export class AlertFormComponent implements OnInit {
 
     if (this.errorAlert()) {
       this.initializeIntervalValidation();
+    }
+    if (this.uptime()) {
+      this.initializeUptimeIntervalValidation();
     }
   }
 
@@ -167,11 +191,29 @@ export class AlertFormComponent implements OnInit {
 
   toggleUptime(): void {
     this.projectFormUptime.setValue(!this.projectFormUptime.value);
+
+    if (!this.projectFormUptime.value) {
+      this.projectFormUptimeQuantity.clearValidators();
+      this.projectFormUptimeQuantity.setValue("");
+      this.projectFormUptimeTimespan.clearValidators();
+      this.projectFormUptimeTimespan.setValue("");
+    } else {
+      this.initializeUptimeIntervalValidation();
+      this.projectFormUptimeQuantity.setValue(1);
+      this.projectFormUptimeTimespan.setValue(1);
+    }
+
+    this.projectAlertForm.updateValueAndValidity();
   }
 
   initializeIntervalValidation(): void {
     this.projectFormQuantity.setValidators(this.intervalValidators);
     this.projectFormTimespan.setValidators(this.intervalValidators);
+  }
+
+  initializeUptimeIntervalValidation(): void {
+    this.projectFormUptimeQuantity.setValidators(this.intervalValidators);
+    this.projectFormUptimeTimespan.setValidators(this.intervalValidators);
   }
 
   onSubmit(): void {
@@ -184,6 +226,12 @@ export class AlertFormComponent implements OnInit {
           ? this.projectFormQuantity.value
           : null,
         uptime: this.projectFormUptime.value,
+        uptimeTimespanMinutes: this.projectFormUptime.value
+          ? this.projectFormUptimeTimespan.value
+          : null,
+        uptimeQuantity: this.projectFormUptime.value
+          ? this.projectFormUptimeQuantity.value
+          : null,
       });
     }
   }

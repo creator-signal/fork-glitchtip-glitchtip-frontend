@@ -217,15 +217,19 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
   }
 
   async createNewAlert(properties: {
-    timespanMinutes: number;
-    quantity: number;
+    timespanMinutes: number | null;
+    quantity: number | null;
     uptime: boolean;
+    uptimeTimespanMinutes: number | null;
+    uptimeQuantity: number | null;
   }) {
     this.setNewAlertLoading();
     const body = {
       timespanMinutes: properties.timespanMinutes,
       quantity: properties.quantity,
       uptime: properties.uptime,
+      uptimeTimespanMinutes: properties.uptimeTimespanMinutes,
+      uptimeQuantity: properties.uptimeQuantity,
       alertRecipients: this.newProjectAlertRecipients() as any,
     };
     const params = this.#params();
@@ -316,9 +320,11 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
   }
 
   async updateAlertProperties(
-    newTimespan: number,
-    newQuantity: number,
+    newTimespan: number | null,
+    newQuantity: number | null,
     uptime: boolean,
+    newUptimeTimespan: number | null,
+    newUptimeQuantity: number | null,
     id: number,
     recipients: AlertRecipient[],
   ) {
@@ -338,6 +344,8 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
           timespanMinutes: newTimespan,
           quantity: newQuantity,
           uptime,
+          uptimeTimespanMinutes: newUptimeTimespan,
+          uptimeQuantity: newUptimeQuantity,
           alertRecipients: recipients as any,
         },
       },
@@ -378,6 +386,8 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
         timespanMinutes: activeAlert.timespanMinutes,
         quantity: activeAlert.quantity,
         uptime: activeAlert.uptime,
+        uptimeTimespanMinutes: activeAlert.uptimeTimespanMinutes,
+        uptimeQuantity: activeAlert.uptimeQuantity,
         alertRecipients: recipientsWithoutId as any,
       };
       const { data, error } = await client.PUT(
@@ -437,6 +447,8 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
       timespanMinutes: alert.timespanMinutes,
       quantity: alert.quantity,
       uptime: alert.uptime,
+      uptimeTimespanMinutes: alert.uptimeTimespanMinutes,
+      uptimeQuantity: alert.uptimeQuantity,
       alertRecipients: recipientsWithoutId as any,
     };
     const params = this.#params();
@@ -758,6 +770,8 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
           timespanMinutes: newAlert.timespanMinutes,
           quantity: newAlert.quantity,
           uptime: newAlert.uptime,
+          uptimeTimespanMinutes: newAlert.uptimeTimespanMinutes,
+          uptimeQuantity: newAlert.uptimeQuantity,
         };
       } else return alert;
     });

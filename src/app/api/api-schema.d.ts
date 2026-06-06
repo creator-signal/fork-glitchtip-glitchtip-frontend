@@ -2796,6 +2796,10 @@ export interface components {
              * @default false
              */
             uptime: boolean;
+            /** Uptime Quantity */
+            uptimeQuantity?: number | null;
+            /** Uptime Timespan Minutes */
+            uptimeTimespanMinutes?: number | null;
         };
         /** EmailAlertRecipientIn */
         EmailAlertRecipientIn: {
@@ -2828,6 +2832,10 @@ export interface components {
              * @default false
              */
             uptime: boolean;
+            /** Uptime Quantity */
+            uptimeQuantity?: number | null;
+            /** Uptime Timespan Minutes */
+            uptimeTimespanMinutes?: number | null;
         };
         /** WebhookAlertRecipientIn */
         WebhookAlertRecipientIn: {

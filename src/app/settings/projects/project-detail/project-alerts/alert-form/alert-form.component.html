@@ -71,12 +71,65 @@
       >{{ projectFormTimespan.value | i18nPlural: minutesI18nMapping }}, send
       an alert.</span
     >
-    <div class="uptime-option" formGroupName="optionsGroup">
-      <mat-checkbox data-cy="uptime-check" formControlName="uptime"
-        ><span class="body-text" i18n
-          >If an uptime monitor is triggered.</span
-        ></mat-checkbox
-      >
+    <div class="uptime-option">
+      <div class="uptime-checkbox" formGroupName="optionsGroup">
+        <mat-checkbox data-cy="uptime-check" formControlName="uptime"
+          ><span class="body-text" i18n
+            >If an uptime monitor triggers</span
+          ></mat-checkbox
+        >
+      </div>
+      @if (projectFormUptime.value) {
+        <mat-form-field floatLabel="always" appearance="outline">
+          <mat-label>Quantity</mat-label>
+          <input
+            matInput
+            data-cy="uptime-quantity"
+            min="0"
+            max="10000"
+            type="number"
+            autocomplete="off"
+            formControlName="uptimeQuantity"
+            placeholder="#"
+            [errorStateMatcher]="newAlert() ? newFormMatcher : matcher"
+          />
+          @if (projectFormUptimeQuantity.errors) {
+            <mat-error>
+              <span>Enter an integer greater than 0.</span>
+            </mat-error>
+          }
+        </mat-form-field>
+        <span i18n
+          >{{
+            projectFormUptimeQuantity.value | i18nPlural: timesI18nMapping
+          }}
+          in</span
+        >
+        <mat-form-field floatLabel="always" appearance="outline">
+          <mat-label i18n>Timespan</mat-label>
+          <input
+            matInput
+            data-cy="uptime-timespan"
+            min="0"
+            max="10000"
+            type="number"
+            autocomplete="off"
+            formControlName="uptimeTimespanMinutes"
+            placeholder="#"
+            [errorStateMatcher]="newAlert() ? newFormMatcher : matcher"
+          />
+          @if (projectFormUptimeTimespan.errors) {
+            <mat-error>
+              <span i18n>Enter an integer greater than 0.</span>
+            </mat-error>
+          }
+        </mat-form-field>
+        <span i18n
+          >{{
+            projectFormUptimeTimespan.value | i18nPlural: minutesI18nMapping
+          }}, send an alert.</span
+        >
+      }
     </div>
   </div>
   <div class="update" data-cy="update-container">
@@ -87,7 +140,9 @@
         [disabled]="
           projectFormTimespan.value === timespan() &&
           projectFormQuantity.value === quantity() &&
-          projectFormUptime.value === uptime()
+          projectFormUptime.value === uptime() &&
+          projectFormUptimeTimespan.value === uptimeTimespanMinutes() &&
+          projectFormUptimeQuantity.value === uptimeQuantity()
         "
         buttonStyle="stroked"
         [loading]="loading() === true"

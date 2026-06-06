@@ -50,6 +50,15 @@ mat-form-field {
 
 .uptime-option {
   margin-top: 12px;
+
+  // The formGroupName wrapper is required for Angular's form binding, but a
+  // block-level wrapper forces the uptime checkbox onto its own line. Letting
+  // it flow inline keeps the whole uptime row on one line (wrapping only when
+  // the viewport is too narrow), matching the event row above where the
+  // checkbox, form fields and spans are all inline siblings.
+  .uptime-checkbox {
+    display: contents;
+  }
 }
 
 .error {
