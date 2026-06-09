@@ -31,19 +31,21 @@
     <span i18n>Sponsor on Liberapay</span>
   </a>
   <mat-divider />
-  @if (paidForGlitchTip()) {
-    <button
+  @if (paidForGlitchTip() === true) {
+    <a
       mat-menu-item
-      (click)="openSupportChat()"
-      [disabled]="supportLinkLoading()"
+      [href]="supportUrl()"
+      [disabled]="!supportUrl()"
+      target="_blank"
+      rel="noopener"
     >
       <mat-icon>chat</mat-icon>
       <span i18n>Open Support Chat</span>
-    </button>
-  } @else {
+    </a>
+  } @else if (paidForGlitchTip() === false) {
     <a
       mat-menu-item
-      [href]="pricingUrl"
+      href="https://glitchtip.com/pricing"
       target="_blank"
       rel="noopener"
     >

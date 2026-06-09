@@ -195,14 +195,13 @@
         <button
           mat-list-item
           [matMenuTriggerFor]="supportMenuComponent.menu"
+          (menuOpened)="supportMenuComponent.loadSupportLink()"
           matTooltip="Support"
           [matTooltipDisabled]="!isCollapsed()"
           matTooltipPosition="right"
           i18n-matTooltip
         >
-          <mat-icon matListItemIcon class="material-symbols-outlined"
-            >help</mat-icon
-          >
+          <mat-icon matListItemIcon>help</mat-icon>
           <span matListItemTitle class="nav-text" i18n>Support</span>
           <div matListItemMeta>
             <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>

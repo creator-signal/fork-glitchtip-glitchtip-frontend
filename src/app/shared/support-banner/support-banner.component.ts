@@ -1,13 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
-
-const PRICING_URL = "https://glitchtip.com/pricing";
 
 @Component({
   selector: "gt-support-banner",
@@ -18,5 +12,4 @@ const PRICING_URL = "https://glitchtip.com/pricing";
 })
 export class SupportBannerComponent {
   readonly isSuperuser = input(false);
-  readonly pricingUrl = PRICING_URL;
 }

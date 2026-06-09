@@ -11,8 +11,6 @@ import { MatMenu, MatMenuModule } from "@angular/material/menu";
 import { SettingsService } from "src/app/api/settings.service";
 import { client } from "src/app/shared/api/api";
 
-const PRICING_URL = "https://glitchtip.com/pricing";
-
 @Component({
   selector: "gt-support-menu",
   templateUrl: "./support-menu.component.html",
@@ -25,21 +23,16 @@ export class SupportMenuComponent {
   private settings = inject(SettingsService);
 
   protected paidForGlitchTip = this.settings.paidForGlitchTip;
-  protected pricingUrl = PRICING_URL;
-  protected supportLinkLoading = signal(false);
+  protected supportUrl = signal<string | null>(null);
 
-  async openSupportChat() {
-    if (this.supportLinkLoading()) return;
-    this.supportLinkLoading.set(true);
-    try {
-      const { data } = await client.GET(
-        "/api/0/instance-license/support-link/",
-      );
-      if (data?.url) {
-        window.open(data.url, "_blank", "noopener");
-      }
-    } finally {
-      this.supportLinkLoading.set(false);
+  // Called from the menu trigger (main-nav) when the menu opens, so the link
+  // is a ready-to-click anchor (a server-built URL embedding the license key);
+  // avoids window.open after an await, which popup blockers reject.
+  async loadSupportLink() {
+    if (this.supportUrl()) return;
+    const { data } = await client.GET("/api/0/instance-license/support-link/");
+    if (data?.url) {
+      this.supportUrl.set(data.url);
     }
   }
 }
