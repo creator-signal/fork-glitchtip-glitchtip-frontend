@@ -1,6 +1,16 @@
-import { Component, OnInit, ViewChild, inject, input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  input,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { OrganizationsService } from "src/app/api/organizations.service";
-import { NewAlertRecipient, ProjectAlertsService } from "./project-alerts.service";
+import {
+  NewAlertRecipient,
+  ProjectAlertsService,
+} from "./project-alerts.service";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { AlertFormComponent } from "./alert-form/alert-form.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -18,6 +28,7 @@ type ProjectAlert = components["schemas"]["ProjectAlertSchema"];
 type AlertRecipient = components["schemas"]["AlertRecipientSchema"];
 
 export const iconXrefMapping: Partial<Record<RecipientType, string>> = {
+  feishu: "webhook",
   teams: "microsoft",
 };
 export function resolveRecipientIcon(type: RecipientType): string {
@@ -39,6 +50,7 @@ export function resolveRecipientIcon(type: RecipientType): string {
     LoadingButtonComponent,
     MatProgressSpinnerModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [ProjectAlertsService],
 })
 export class ProjectAlertsComponent implements OnInit {
