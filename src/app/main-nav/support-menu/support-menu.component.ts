@@ -25,9 +25,7 @@ export class SupportMenuComponent {
   protected paidForGlitchTip = this.settings.paidForGlitchTip;
   protected supportUrl = signal<string | null>(null);
 
-  // Called from the menu trigger (main-nav) when the menu opens, so the link
-  // is a ready-to-click anchor (a server-built URL embedding the license key);
-  // avoids window.open after an await, which popup blockers reject.
+  // Resolved on menu open so the link is a plain anchor (avoids popup-blocked window.open).
   async loadSupportLink() {
     if (this.supportUrl()) return;
     const { data } = await client.GET("/api/0/instance-license/support-link/");
