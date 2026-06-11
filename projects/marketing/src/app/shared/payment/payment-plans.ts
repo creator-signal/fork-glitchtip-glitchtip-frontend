@@ -13,6 +13,10 @@ export interface PlanOption {
   priceSuffix?: string;
   ctaText?: string;
   ctaUrl?: string;
+  // Self-serve Stripe Payment Links, one per billing interval. When set, the
+  // CTA links to the interval matching the monthly/annual toggle instead of
+  // ctaUrl. NOTE: sandbox (test_) URLs — swap for live links before launch.
+  paymentLinks?: { monthly: string; annual: string };
 }
 
 export const planOptions: PlanOption[] = [
@@ -83,8 +87,12 @@ export const selfHostedPlanOptions: PlanOption[] = [
     features: [{ text: "Support access for 1 user" }],
     monthlyPrice: 5,
     annualPrice: 50,
-    ctaText: "Get started",
+    ctaText: "Subscribe",
     ctaUrl: "https://glitchtip.com/documentation/install",
+    paymentLinks: {
+      monthly: "https://buy.stripe.com/test_dRm9AV4Vv47B6HpdGtd7q03",
+      annual: "https://buy.stripe.com/test_3cI3cx4Vv0Vpe9ReKxd7q02",
+    },
   },
   {
     name: "Commercial License",
@@ -96,8 +104,12 @@ export const selfHostedPlanOptions: PlanOption[] = [
     monthlyPrice: 15,
     annualPrice: 150,
     priceSuffix: "/user/month",
-    ctaText: "Email sales@glitchtip.com",
+    ctaText: "Subscribe",
     ctaUrl: "mailto:sales@glitchtip.com",
+    paymentLinks: {
+      monthly: "https://buy.stripe.com/test_bJedRb2Nn5bF9TBfOBd7q05",
+      annual: "https://buy.stripe.com/test_28EfZj73DgUn0j18m9d7q06",
+    },
   },
   {
     name: "Scaled Support",
@@ -110,7 +122,7 @@ export const selfHostedPlanOptions: PlanOption[] = [
     ],
     monthlyPrice: "Custom",
     annualPrice: "Custom",
-    ctaText: "Email sales@glitchtip.com",
+    ctaText: "Contact sales",
     ctaUrl: "mailto:sales@glitchtip.com",
   },
 ];
