@@ -32,9 +32,14 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
 
   stripePublicKey = this.settingsService.stripePublicKey;
 
+  // Key the subscription fetch on the explicitly-selected org (route / switcher),
+  // not the activeOrganizationSlug fallback which defaults to organizations()[0].
+  // This resource is read app-wide (e.g. the Chatwoot effect in UserService), so
+  // keying on the fallback briefly fetches the first org's subscription before the
+  // route resolves — the "loads both orgs' subscriptions" / wrong-org fetch.
   organizationSlug = computed(() =>
     this.settingsService.billingEnabled()
-      ? (this.organizationsService.activeOrganizationSlug() ?? "")
+      ? (this.organizationsService.selectedOrganizationSlug() ?? "")
       : "",
   );
   subscriptionResource = apiResource(this.organizationSlug, (orgSlug) => ({
@@ -65,8 +70,15 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     () => this.state().subscriptionRefreshTimeout,
   );
 
-  /** Set to load event count and daily event resources (subscription detail page only) */
-  private detailSlug = signal<string>("");
+  // Gates the detail-page resources below; component owns the on/off lifecycle.
+  private detailActive = signal(false);
+  private detailSlug = computed(() =>
+    this.detailActive() ? this.organizationSlug() : "",
+  );
+
+  setDetailActive(active: boolean) {
+    this.detailActive.set(active);
+  }
 
   eventsCountCurrentPeriodResource = apiResource(
     this.detailSlug,
@@ -162,17 +174,10 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
     return Math.round((current.total / total) * 100);
   });
 
-  refreshTimerRef: NodeJS.Timeout | undefined = undefined;
+  refreshTimerRef: number | undefined = undefined;
 
   constructor() {
     super(initialState);
-  }
-
-  /** Load event count and daily event data for the subscription detail page */
-  loadDetailData(orgSlug: string) {
-    if (orgSlug) {
-      this.detailSlug.set(orgSlug);
-    }
   }
 
   /**
@@ -221,16 +226,20 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
    * Keep trying to get subscription, for users redirected from Stripe
    */
   refreshUntilSubscriptionOrTimeout() {
+    // Re-entry guard: only one polling timer should run at a time.
+    if (this.refreshTimerRef !== undefined) return;
     this.setSubscriptionRefreshingStart();
     let i = 0;
-    this.refreshTimerRef = setInterval(() => {
+    this.refreshTimerRef = window.setInterval(() => {
       this.subscriptionResource.reload();
       if (this.subscription()) {
         this.setSubscriptionRefreshingComplete();
         clearInterval(this.refreshTimerRef);
+        this.refreshTimerRef = undefined;
       } else if (i === 2) {
         this.setSubscriptionRefreshingTimeout();
         clearInterval(this.refreshTimerRef);
+        this.refreshTimerRef = undefined;
       }
       i++;
     }, 2000);
@@ -279,11 +288,19 @@ export class SubscriptionService extends StatefulService<SubscriptionState> {
 
   clearState() {
     super.clearState();
-    this.detailSlug.set("");
-    this.subscriptionResource.set(undefined);
+    this.detailActive.set(false);
+    // Intentionally NOT clearing subscriptionResource here: it is keyed on the
+    // selected org slug, which is unchanged on client-side re-entry within the
+    // same org, so once cleared it would not refetch and the page would render
+    // the empty "no subscription" view until a full page reload. It updates
+    // reactively on org change and is reloaded by the flows that mutate it
+    // (free-tier creation, post-Stripe return). The per-page usage resources
+    // below are safe to clear; they refetch reactively once setDetailActive(true)
+    // re-flips detailSlug back to the current org on re-entry.
     this.eventsCountCurrentPeriodResource.set(undefined);
     this.dailyEventsResource.set(undefined);
     this.eventsCountPreviousPeriodResource.set(undefined);
     clearInterval(this.refreshTimerRef);
+    this.refreshTimerRef = undefined;
   }
 }
