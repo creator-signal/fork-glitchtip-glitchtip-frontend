@@ -113,7 +113,8 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "externalDependencies": ["marked-katex-extension"]
             }
           },
           "defaultConfiguration": "production"
@@ -248,15 +249,6 @@
           "options": {
             "prettyNestedTags": true,
             "sort": "stableAppendNew"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/marketing/**/*.ts",
-              "projects/marketing/**/*.html"
-            ]
           }
         }
       }
