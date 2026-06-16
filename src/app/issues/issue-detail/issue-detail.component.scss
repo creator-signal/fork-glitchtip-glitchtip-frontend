@@ -104,8 +104,24 @@ table.mat-table {
   gap: 8px;
 }
 
-.resolve-more-button {
-  margin-left: -8px;
+.resolve-next-release-label {
+  font-size: 0.75em;
+  opacity: 0.8;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.resolve-more-trigger {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 2px;
+  vertical-align: middle;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .status-indicator {

@@ -209,6 +209,11 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
           status: data.status as IssueStatus,
           statusDetails: (data as any).statusDetails ?? {},
         }));
+        if (statusDetails?.inNextRelease) {
+          this.snackBar.open(
+            $localize`Issue will be resolved in the next release.`,
+          );
+        }
       }
     }
   }
