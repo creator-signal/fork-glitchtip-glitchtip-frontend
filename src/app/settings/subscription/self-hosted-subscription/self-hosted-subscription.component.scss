@@ -1,9 +1,23 @@
 @use "variables" as vars;
 
 mat-card,
-.contribute-card {
+.contribute-row {
   margin-top: 24px;
   margin-bottom: 24px;
+}
+
+.contribute-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media screen and (min-width: vars.$small) {
+    flex-direction: row;
+
+    .contribute-card {
+      flex: 1;
+    }
+  }
 }
 
 .body-text {
