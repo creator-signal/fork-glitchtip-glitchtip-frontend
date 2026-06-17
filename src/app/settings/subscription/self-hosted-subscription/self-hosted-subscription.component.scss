@@ -1,7 +1,7 @@
 @use "variables" as vars;
 
 mat-card,
-.contribute-grid {
+.contribute-card {
   margin-top: 24px;
   margin-bottom: 24px;
 }
@@ -19,16 +19,6 @@ mat-card,
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.contribute-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-
-  @media screen and (min-width: vars.$small) {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 .contribute-card {
