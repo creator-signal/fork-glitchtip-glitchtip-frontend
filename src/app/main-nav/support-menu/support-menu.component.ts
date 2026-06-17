@@ -24,6 +24,8 @@ export class SupportMenuComponent {
 
   protected paidForGlitchTip = this.settings.paidForGlitchTip;
   protected supportUrl = signal<string | null>(null);
+  // Fallback when no license-prefilled link is available — still routes to the support page.
+  protected readonly fallbackSupportUrl = "https://glitchtip.com/support";
 
   // Resolved on menu open so the link is a plain anchor (avoids popup-blocked window.open).
   async loadSupportLink() {
