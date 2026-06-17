@@ -28,36 +28,9 @@
   </ng-container>
 </gt-top-app-bar>
 <section class="l-body">
-  <div class="contribute-grid">
-    <a
-      class="contribute-card"
-      href="https://liberapay.com/GlitchTip/donate"
-      target="_blank"
-      rel="noopener"
-    >
-      <mat-icon class="contribute-icon">favorite</mat-icon>
-      <div class="contribute-text">
-        <span class="body-text-strong" i18n>Donate</span>
-        <span class="caption-text" i18n
-          >Support open source development on Liberapay</span
-        >
-      </div>
-      <mat-icon class="external-icon">open_in_new</mat-icon>
-    </a>
-    <a
-      class="contribute-card"
-      href="https://gitlab.com/glitchtip/glitchtip"
-      target="_blank"
-      rel="noopener"
-    >
-      <mat-icon class="contribute-icon">code</mat-icon>
-      <div class="contribute-text">
-        <span class="body-text-strong" i18n>Contribute Code</span>
-        <span class="caption-text" i18n>Help build GlitchTip on GitLab</span>
-      </div>
-      <mat-icon class="external-icon">open_in_new</mat-icon>
-    </a>
-  </div>
+  @if (!paidForGlitchTip()) {
+    <gt-support-banner [isSuperuser]="isSuperuser()" />
+  }
 
   <mat-card>
     <mat-card-content>
@@ -76,11 +49,45 @@
       @if (billingEmail) {
         <p class="body-text" i18n>
           Questions? Contact us at
-          <a href="mailto:{{ billingEmail }}">{{ billingEmail }}</a>.
+          <a href="mailto:{{ billingEmail }}">{{ billingEmail }}</a
+          >.
         </p>
       }
     </mat-card-content>
   </mat-card>
+
+  <div class="contribute-row">
+    <a
+      class="contribute-card"
+      href="https://gitlab.com/glitchtip/glitchtip"
+      target="_blank"
+      rel="noopener"
+    >
+      <mat-icon class="contribute-icon">code</mat-icon>
+      <div class="contribute-text">
+        <span class="body-text-strong" i18n>Contribute Code</span>
+        <span class="caption-text" i18n>Help build GlitchTip on GitLab</span>
+      </div>
+      <mat-icon class="external-icon">open_in_new</mat-icon>
+    </a>
+    @if (!paidForGlitchTip()) {
+      <a
+        class="contribute-card"
+        href="https://liberapay.com/GlitchTip/donate"
+        target="_blank"
+        rel="noopener"
+      >
+        <mat-icon class="contribute-icon">favorite</mat-icon>
+        <div class="contribute-text">
+          <span class="body-text-strong" i18n>Donate</span>
+          <span class="caption-text" i18n
+            >Support open source development on Liberapay</span
+          >
+        </div>
+        <mat-icon class="external-icon">open_in_new</mat-icon>
+      </a>
+    }
+  </div>
 
   <mat-card>
     <mat-card-content>
