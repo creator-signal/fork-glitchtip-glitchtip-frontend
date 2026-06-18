@@ -54,26 +54,27 @@
               <mat-button-toggle [value]="option.value">
                 {{ option.label }}
                 @if (option.value === 'resolved' && resolvedInRelease(); as release) {
-                    <span class="resolve-next-release-label">· {{ release }}</span>
-                }
-                @if (option.value === 'resolved' && issue.status === 'resolved') {
-                  <span
-                    class="resolve-more-trigger"
-                    role="button"
-                    [matMenuTriggerFor]="resolveMenu"
-                    (click)="$event.stopPropagation()"
-                    i18n-aria-label
-                    aria-label="More resolve options"
-                  ><mat-icon>arrow_drop_down</mat-icon></span>
+                  <span class="resolve-next-release-label">· {{ release }}</span>
                 }
               </mat-button-toggle>
             }
           </mat-button-toggle-group>
-          <mat-menu #resolveMenu="matMenu">
-            <button mat-menu-item (click)="resolveInNextRelease()" i18n>
-              Resolve in next release
+          @if (issue.status === 'resolved') {
+            <button
+              mat-icon-button
+              class="medium-icon-button"
+              [matMenuTriggerFor]="resolveMenu"
+              i18n-aria-label
+              aria-label="More resolve options"
+            >
+              <mat-icon>more_vert</mat-icon>
             </button>
-          </mat-menu>
+            <mat-menu #resolveMenu="matMenu">
+              <button mat-menu-item (click)="resolveInNextRelease()" i18n>
+                Resolve in next release
+              </button>
+            </mat-menu>
+          }
         }
         <button
           mat-icon-button
