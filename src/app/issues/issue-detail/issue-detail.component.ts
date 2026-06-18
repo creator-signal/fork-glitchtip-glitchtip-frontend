@@ -130,10 +130,7 @@ export class IssueDetailComponent implements OnInit {
   resolvedInRelease = computed(() => {
     const issue = this.issue();
     if (!issue || issue.status !== "resolved") return null;
-    const details = (issue as any).statusDetails;
-    if (details?.inRelease) return details.inRelease as string;
-    if (details?.inNextRelease) return $localize`Next Release`;
-    return null;
+    return issue.statusDetails?.["inRelease"] ?? null;
   });
 
   statusOptions = Object.entries(STATUS_CONFIG).map(([value, config]) => ({

@@ -204,14 +204,17 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
         },
       );
       if (data) {
+        const resolvedInRelease = data.statusDetails?.["inRelease"];
         this.#issueResource.update((issue) => ({
           ...issue!,
           status: data.status as IssueStatus,
-          statusDetails: (data as any).statusDetails ?? {},
+          statusDetails: data.statusDetails ?? {},
         }));
         if (statusDetails?.inNextRelease) {
           this.snackBar.open(
-            $localize`Issue will be resolved in the next release.`,
+            resolvedInRelease
+              ? $localize`Issue will be resolved as of release ${resolvedInRelease}.`
+              : $localize`Issue resolved. No release was found to tie it to.`,
           );
         }
       }
