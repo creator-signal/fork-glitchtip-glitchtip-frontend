@@ -127,13 +127,6 @@ export class IssueDetailComponent implements OnInit {
     return config?.icon ?? "error";
   });
 
-  resolvedInNextRelease = computed(() => {
-    const issue = this.issue();
-    if (!issue || issue.status !== "resolved") return false;
-    const details = (issue as any).statusDetails;
-    return !!details?.inNextRelease;
-  });
-
   resolvedInRelease = computed(() => {
     const issue = this.issue();
     if (!issue || issue.status !== "resolved") return null;

@@ -53,8 +53,8 @@
             @for (option of statusOptions; track option.value) {
               <mat-button-toggle [value]="option.value">
                 {{ option.label }}
-                @if (option.value === 'resolved' && resolvedInNextRelease()) {
-                  <span class="resolve-next-release-label" i18n>· Next Release</span>
+                @if (option.value === 'resolved' && resolvedInRelease(); as release) {
+                    <span class="resolve-next-release-label">· {{ release }}</span>
                 }
                 @if (option.value === 'resolved' && issue.status === 'resolved') {
                   <span
