@@ -58,14 +58,14 @@
         <div class="breakdown-bar-track">
           <div class="breakdown-bar breakdown-bar--uptime" [style.width.%]="breakdown.uptime.percent"></div>
         </div>
-        <span class="breakdown-value">{{ breakdown.uptime.count | number: "1.0-0" }} ({{ breakdown.uptime.percent }}%)</span>
+        <span class="breakdown-value">{{ breakdown.uptime.count | number: "1.0-1" }} ({{ breakdown.uptime.percent }}%)</span>
       </div>
       <div class="breakdown-row">
         <span class="breakdown-label" i18n>Logs</span>
         <div class="breakdown-bar-track">
           <div class="breakdown-bar breakdown-bar--logs" [style.width.%]="breakdown.logs.percent"></div>
         </div>
-        <span class="breakdown-value">{{ breakdown.logs.count | number: "1.0-0" }} ({{ breakdown.logs.percent }}%)</span>
+        <span class="breakdown-value">{{ breakdown.logs.count | number: "1.0-1" }} ({{ breakdown.logs.percent }}%)</span>
       </div>
       <div class="breakdown-file-storage" i18n>File storage: {{ breakdown.fileSizeMb }} MB</div>
     </mat-card-content>
