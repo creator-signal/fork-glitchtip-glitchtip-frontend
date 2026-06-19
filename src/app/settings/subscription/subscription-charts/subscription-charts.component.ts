@@ -62,10 +62,8 @@ export class SubscriptionChartsComponent {
   previousPeriodTotal = computed(() => {
     const prev = this.previousPeriod();
     if (!prev) return null;
-    // The period endpoint returns billed counts: uptime checks and logs are
-    // pre-divided by 10 server-side (both weigh 0.1), while issues and
-    // transactions weigh 1.0. So this fallback is a plain sum, matching the
-    // daily chart. (It only runs when the server-computed `total` is absent.)
+    // API returns billed-event units (uptime/logs weighted 0.1 server-side), so
+    // this fallback is a plain sum (only used when server `total` is absent).
     return (
       prev.total ??
       prev.eventCount +

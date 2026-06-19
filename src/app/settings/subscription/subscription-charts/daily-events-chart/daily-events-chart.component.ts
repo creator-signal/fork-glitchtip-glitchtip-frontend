@@ -60,9 +60,8 @@ export class DailyEventsChartComponent implements OnDestroy {
     }
 
     if (endDate && predicted !== null && events.length > 0) {
-      // The daily endpoint already returns billed counts: uptime checks and
-      // logs are pre-divided by 10 server-side (both weigh 0.1), while issues
-      // and transactions weigh 1.0. So the actual billed total is a plain sum.
+      // API returns billed-event units (uptime/logs weighted 0.1 server-side),
+      // so the actual billed total is a plain sum.
       const totalActual = events.reduce(
         (sum, e) =>
           sum +
