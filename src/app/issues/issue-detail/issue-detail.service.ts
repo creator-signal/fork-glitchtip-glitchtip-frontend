@@ -183,15 +183,15 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
 
   async setStatus(
     status: IssueStatus,
-    statusDetails?: { inNextRelease?: boolean },
+    statusDetails?: components["schemas"]["StatusDetailsSchema"],
   ) {
     const issue = this.issue();
     if (issue) {
-      const body: Record<string, unknown> = { status };
+      const body: components["schemas"]["UpdateIssueSchema"] = { status };
       if (statusDetails) {
-        body["statusDetails"] = statusDetails;
+        body.statusDetails = statusDetails;
       }
-      const { data } = await client.PUT(
+      const { data, error } = await client.PUT(
         "/api/0/organizations/{organization_slug}/issues/{issue_id}/",
         {
           params: {
@@ -200,9 +200,12 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
               issue_id: parseInt(this.issueID()),
             },
           },
-          body: body as any,
+          body,
         },
       );
+      if (error) {
+        this.snackBar.open($localize`Error, unable to update issue`);
+      }
       if (data) {
         const resolvedInRelease = data.statusDetails?.["inRelease"];
         this.#issueResource.update((issue) => ({
