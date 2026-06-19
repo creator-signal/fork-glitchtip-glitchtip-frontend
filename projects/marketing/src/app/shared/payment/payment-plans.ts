@@ -15,7 +15,7 @@ export interface PlanOption {
   ctaUrl?: string;
   // Self-serve Stripe Payment Links, one per billing interval. When set, the
   // CTA links to the interval matching the monthly/annual toggle instead of
-  // ctaUrl. NOTE: sandbox (test_) URLs — swap for live links before launch.
+  // ctaUrl.
   paymentLinks?: { monthly: string; annual: string };
 }
 
@@ -90,8 +90,8 @@ export const selfHostedPlanOptions: PlanOption[] = [
     ctaText: "Subscribe",
     ctaUrl: "https://glitchtip.com/documentation/install",
     paymentLinks: {
-      monthly: "https://buy.stripe.com/test_dRm9AV4Vv47B6HpdGtd7q03",
-      annual: "https://buy.stripe.com/test_3cI3cx4Vv0Vpe9ReKxd7q02",
+      monthly: "https://buy.stripe.com/14A4gA9Ifa3Iazyfpnds406",
+      annual: "https://buy.stripe.com/fZufZiaMj5NsfTS7WVds405",
     },
   },
   {
@@ -107,8 +107,8 @@ export const selfHostedPlanOptions: PlanOption[] = [
     ctaText: "Subscribe",
     ctaUrl: "mailto:sales@glitchtip.com",
     paymentLinks: {
-      monthly: "https://buy.stripe.com/test_bJedRb2Nn5bF9TBfOBd7q05",
-      annual: "https://buy.stripe.com/test_28EfZj73DgUn0j18m9d7q06",
+      monthly: "https://buy.stripe.com/fZu4gAaMj3FkdLKa53ds408",
+      annual: "https://buy.stripe.com/9B6aEYbQn2BggXW2CBds407",
     },
   },
   {
