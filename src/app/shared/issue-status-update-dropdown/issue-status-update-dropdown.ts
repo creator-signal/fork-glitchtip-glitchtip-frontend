@@ -1,6 +1,7 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  computed,
   output,
   input,
 } from "@angular/core";
@@ -25,24 +26,43 @@ interface StatusOption {
 })
 export class IssueStatusUpdateDropdownComponent {
   readonly options: StatusOption[] = [
-    { value: "resolved", label: "Resolved" },
-    { value: "unresolved", label: "Unresolved" },
-    { value: "ignored", label: "Ignored" },
+    { value: "resolved", label: $localize`Resolved` },
+    { value: "unresolved", label: $localize`Unresolved` },
+    { value: "ignored", label: $localize`Ignored` },
   ];
 
-  readonly buttonLabel = "Mark As";
-
   selectedValue = input<string>();
+
+  /** Trigger label reflects the current status (falls back to "Mark As"). */
+  buttonLabel = computed(
+    () =>
+      this.options.find((o) => o.value === this.selectedValue())?.label ??
+      $localize`Mark As`,
+  );
+
   showResolveInNextRelease = input(false);
+  resolvedInRelease = input(false);
 
   optionSelected = output<IssueStatus>();
-  resolveInNextRelease = output<void>();
+  resolveInNextReleaseSelected = output<void>();
+
+  /**
+   * Whether a menu option represents the issue's current state. "Resolved" is
+   * only active for a plain resolve; when the resolution is tied to a release,
+   * the "Resolve in next release" item carries the check instead.
+   */
+  isActive(value: string): boolean {
+    if (value === "resolved") {
+      return this.selectedValue() === "resolved" && !this.resolvedInRelease();
+    }
+    return value === this.selectedValue();
+  }
 
   onOptionClick(value: string) {
     this.optionSelected.emit(value as IssueStatus);
   }
 
   onResolveInNextRelease() {
-    this.resolveInNextRelease.emit();
+    this.resolveInNextReleaseSelected.emit();
   }
 }

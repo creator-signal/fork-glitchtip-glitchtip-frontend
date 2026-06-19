@@ -13,8 +13,6 @@ import { ActivatedRoute, RouterModule } from "@angular/router";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatCardModule } from "@angular/material/card";
-import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { MatMenuModule } from "@angular/material/menu";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
@@ -50,8 +48,6 @@ type IssueStatusType = keyof typeof STATUS_CONFIG;
     MatBadgeModule,
     MatIconModule,
     MatButtonModule,
-    MatButtonToggleModule,
-    MatMenuModule,
     IssueDetailTagsComponent,
     TitleCasePipe,
     DatePipe,
@@ -132,11 +128,6 @@ export class IssueDetailComponent implements OnInit {
     if (!issue || issue.status !== "resolved") return null;
     return issue.statusDetails?.["inRelease"] ?? null;
   });
-
-  statusOptions = Object.entries(STATUS_CONFIG).map(([value, config]) => ({
-    value,
-    label: config.label,
-  }));
 
   initialLoadComplete = this.issueService.issueInitialLoadComplete;
   form = new FormGroup({
