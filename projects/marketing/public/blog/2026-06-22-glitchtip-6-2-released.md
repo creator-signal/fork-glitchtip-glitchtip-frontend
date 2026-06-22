@@ -10,14 +10,14 @@ GlitchTip 6.2 is released with performance monitoring improvements, a hosted/sel
 GlitchTip 6.2 exposes span tracking to our Frontend in the Transaction detail page. While 6.1 let you query this via our API or MCP server, humans need to see it too.
 
 <div style="width: 800px; max-width: 100%; margin: 0 auto;">
-    <img src="assets/glitchtip-6-2/span-tracking.png" alt="A span breakdown of a HTTP GET request in Glitchtip.">
+    <img src="../assets/blog-images/glitchtip-6-2/span-tracking.png" alt="A span breakdown of a HTTP GET request in Glitchtip.">
 </div>
 
 ## Usage, subscriptions, support
 We're revamping the subscription page when Stripe (SaaS) is enabled with usage data, and adding a variant of this page for self-hosting that highlights support options available. We ask all for-profit users to purchase a support license that funds our MIT, 100% open source software. We're moving self-host support to a more automated process at the same time, so that users can mange their own support plan via Stripe.
 
 <div style="width: 800px; max-width: 100%; margin: 0 auto;">
-    <img src="assets/glitchtip-6-2/sub-mgmt.png" alt="Glitchtip event metric breakdown by day and type.">
+    <img src="../assets/blog-images/glitchtip-6-2/sub-mgmt.png" alt="Glitchtip event metric breakdown by day and type.">
 </div>
 
 
