@@ -1,6 +1,6 @@
 ---
 title: "GlitchTip 6.2 released"
-description: ""
+description: "Deeper reporting, OTel support and plenty of QoL."
 published: true
 ---
 
