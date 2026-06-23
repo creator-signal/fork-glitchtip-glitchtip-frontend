@@ -116,6 +116,12 @@ export class OverageCardComponent {
 
   async onToggle(change: MatSlideToggleChange) {
     if (change.checked && !this.enabled()) {
+      // Guard the cap the same way saveCap() does; the toggle must not send an
+      // out-of-bounds cap left over from an unsaved edit.
+      if (!this.capValid()) {
+        this.resyncToggle();
+        return;
+      }
       const ok = await this.confirmMigration();
       if (!ok) {
         this.resyncToggle();
@@ -125,6 +131,9 @@ export class OverageCardComponent {
       if (!result) this.resyncToggle();
     } else if (!change.checked && this.enabled()) {
       const result = await this.service.configureOverage(false, 0);
+      // Drop any unsaved cap edit so a later re-enable starts from the saved cap.
+      this.editingCap.set(false);
+      this.capDollars.set(null);
       if (!result) this.resyncToggle();
     }
   }
