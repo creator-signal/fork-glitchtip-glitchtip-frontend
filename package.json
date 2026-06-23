@@ -8,7 +8,7 @@
     "start-prod-no-static": "ng serve --c prod-no-static",
     "build": "ng build",
     "build-prod": "ng build -c prod-no-static,production --deploy-url static/ --progress false",
-    "build-static": "npx tsc buildStaticSite.ts --skipLibCheck && node buildStaticSite.js",
+    "build-static": "npx tsc -p tsconfig.build-static.json && node buildStaticSite.js",
     "build-marketing": "ng build -c production --project marketing && node scripts/inject-cli-version.js",
     "preview": "ng serve component-preview --host 0.0.0.0 --port 4300",
     "build-preview": "ng build component-preview",
