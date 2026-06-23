@@ -9,6 +9,7 @@ import {
   MatCardTitle,
 } from "@angular/material/card";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { MatButtonModule } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatTooltip } from "@angular/material/tooltip";
 import { MatExpansionModule } from "@angular/material/expansion";
@@ -37,6 +38,7 @@ import { planOptions, selfHostedPlanOptions } from "./payment-plans";
     MatTooltip,
     MatExpansionModule,
     MatDivider,
+    MatButtonModule,
     MatButtonToggleModule,
     RouterLink,
     PricingAddonCardComponent,
