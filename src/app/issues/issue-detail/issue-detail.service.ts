@@ -181,9 +181,16 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
     this.setState({ showShowMore: value });
   }
 
-  async setStatus(status: IssueStatus) {
+  async setStatus(
+    status: IssueStatus,
+    statusDetails?: { inNextRelease?: boolean },
+  ) {
     const issue = this.issue();
     if (issue) {
+      const body: Record<string, unknown> = { status };
+      if (statusDetails) {
+        body["statusDetails"] = statusDetails;
+      }
       const { data } = await client.PUT(
         "/api/0/organizations/{organization_slug}/issues/{issue_id}/",
         {
@@ -193,11 +200,23 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
               issue_id: parseInt(this.issueID()),
             },
           },
-          body: { status: status as any },
+          body: body as any,
         },
       );
       if (data) {
-        this.setIssueStatus(data.status as IssueStatus);
+        const resolvedInRelease = data.statusDetails?.["inRelease"];
+        this.#issueResource.update((issue) => ({
+          ...issue!,
+          status: data.status as IssueStatus,
+          statusDetails: data.statusDetails ?? {},
+        }));
+        if (statusDetails?.inNextRelease) {
+          this.snackBar.open(
+            resolvedInRelease
+              ? $localize`Issue will be resolved as of release ${resolvedInRelease}.`
+              : $localize`Issue resolved. No release was found to tie it to.`,
+          );
+        }
       }
     }
   }
@@ -257,11 +276,6 @@ export class IssueDetailService extends StatefulService<IssueDetailState> {
       return [...tagsWithExtraData];
     }
     return;
-  }
-
-  /** Set local state issue state */
-  private setIssueStatus(status: IssueStatus) {
-    this.#issueResource.update((issue) => ({ ...issue!, status }));
   }
 
   private setUpdatedCommentCount(num: number) {

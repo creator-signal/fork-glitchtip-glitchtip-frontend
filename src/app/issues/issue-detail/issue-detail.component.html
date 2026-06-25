@@ -41,7 +41,9 @@
         @if (isMobile()) {
           <gt-issue-status-update-dropdown
             [selectedValue]="issue.status"
+            [showResolveInNextRelease]="true"
             (optionSelected)="updateIssueStatus($event)"
+            (resolveInNextRelease)="resolveInNextRelease()"
           />
         } @else {
           <mat-button-toggle-group
@@ -51,9 +53,28 @@
             @for (option of statusOptions; track option.value) {
               <mat-button-toggle [value]="option.value">
                 {{ option.label }}
+                @if (option.value === 'resolved' && resolvedInRelease()) {
+                  <span class="resolve-next-release-label">· next release</span>
+                }
               </mat-button-toggle>
             }
           </mat-button-toggle-group>
+          @if (issue.status === 'resolved') {
+            <button
+              mat-icon-button
+              class="medium-icon-button"
+              [matMenuTriggerFor]="resolveMenu"
+              i18n-aria-label
+              aria-label="More resolve options"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #resolveMenu="matMenu">
+              <button mat-menu-item (click)="resolveInNextRelease()" i18n>
+                Resolve in next release
+              </button>
+            </mat-menu>
+          }
         }
         <button
           mat-icon-button
@@ -171,6 +192,12 @@
                 <dt class="caption-text">Level</dt>
                 <dd class="body-text">{{ issue.level | titlecase }}</dd>
               </div>
+              @if (resolvedInRelease(); as release) {
+                <div>
+                  <dt class="caption-text" i18n>Resolved in</dt>
+                  <dd class="body-text">{{ release }}</dd>
+                </div>
+              }
               <div>
                 <dt class="caption-text">First Seen</dt>
                 <dd class="body-text">{{ issue.firstSeen | daysAgo }}</dd>

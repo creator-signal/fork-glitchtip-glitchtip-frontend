@@ -101,7 +101,15 @@ table.mat-table {
 
 .top-bar-actions {
   display: flex;
+  align-items: center;
   gap: 8px;
+}
+
+.resolve-next-release-label {
+  font-size: 0.75em;
+  opacity: 0.8;
+  margin-left: 4px;
+  vertical-align: middle;
 }
 
 .status-indicator {
