@@ -88,6 +88,6 @@ export class SupportComponent {
     window.$chatwoot.setConversationCustomAttributes({ 
       license: licenseKey 
     })
-    window.$chatwoot.toggle();
+    window.$chatwoot.toggle("open");
   }
 }
