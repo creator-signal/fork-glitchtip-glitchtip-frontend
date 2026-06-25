@@ -15,10 +15,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { 
-  RouterLink,
-  ActivatedRoute,
- } from "@angular/router";
+import { RouterLink, ActivatedRoute } from "@angular/router";
 
 const SUPPORT_EMAIL = "sales@glitchtip.com";
 const LICENSE_KEY_PATTERN = /^sub_[A-Za-z0-9]+$/;
@@ -50,22 +47,22 @@ export class SupportComponent {
         Validators.required,
         Validators.pattern(LICENSE_KEY_PATTERN),
       ],
-    })
+    }),
   });
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       // Deep links from the in-app Support menu pass license code via the
       // URL fragment (fragments stay client-side and aren't logged by servers).
-      // Similarly, they may also come as query params. 
+      // Similarly, they may also come as query params.
       // Format: #sub=sub_xxx OR ?sub=sub_xxx
       // Bare #sub_xxx is also accepted for manual/test convenience.
       const hash = window.location.hash.slice(1);
       const params = new URLSearchParams(hash);
       const sub =
-        this.route.snapshot.queryParamMap.get('sub') 
-        ?? params.get("sub") 
-        ?? (LICENSE_KEY_PATTERN.test(hash) ? hash : null);
+        this.route.snapshot.queryParamMap.get("sub") ??
+        params.get("sub") ??
+        (LICENSE_KEY_PATTERN.test(hash) ? hash : null);
 
       if (sub && LICENSE_KEY_PATTERN.test(sub)) {
         this.contactForm.controls.licenseKey.setValue(sub);
@@ -85,9 +82,9 @@ export class SupportComponent {
     if (this.contactForm.invalid) return;
     const { licenseKey } = this.contactForm.value;
     if (!window.$chatwoot) return;
-    window.$chatwoot.setConversationCustomAttributes({ 
-      license: licenseKey 
-    })
+    window.$chatwoot.setConversationCustomAttributes({
+      license: licenseKey,
+    });
     window.$chatwoot.toggle("open");
   }
 }
