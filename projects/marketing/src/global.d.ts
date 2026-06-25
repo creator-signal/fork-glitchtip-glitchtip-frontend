@@ -1,5 +1,5 @@
-`In order to access the chatwoot SDK without TS throwing an error, 
-this snippet is required. It adds chatwoot as a property to the Window.`
+/* In order to access the chatwoot SDK without TS throwing an error, 
+this snippet is required. It adds chatwoot as a property to the Window.*/
 
 export {};
 
