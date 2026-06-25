@@ -82,9 +82,9 @@ export class SupportComponent {
     if (this.contactForm.invalid) return;
     const { licenseKey } = this.contactForm.value;
     if (!window.$chatwoot) return;
+    window.$chatwoot.toggle("open");
     window.$chatwoot.setConversationCustomAttributes({
       license: licenseKey,
     });
-    window.$chatwoot.toggle("open");
   }
 }
