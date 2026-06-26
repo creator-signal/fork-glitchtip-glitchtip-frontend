@@ -3,7 +3,9 @@ h2 {
 }
 
 .cta-wrapper {
-  margin: 16px 0 0;
+  margin: 16px 0;
+  display: flex;
+  gap: 16px;
 }
 
 .contact-form {
