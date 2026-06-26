@@ -42,15 +42,17 @@
       </p>
 
       <div class="cta-wrapper">
-        <button
-          mat-flat-button
-          type="button"
-          color="primary"
-          (click)="handleChatwoot()"
-          [disabled]="contactForm.invalid"
-        >
-          Talk to us
-        </button>
+        @if (chatwootReady()) {
+          <button
+            mat-flat-button
+            type="button"
+            color="primary"
+            (click)="handleChatwoot()"
+            [disabled]="contactForm.invalid"
+          >
+            Talk to us
+          </button>
+        }
 
         <button
           mat-flat-button
