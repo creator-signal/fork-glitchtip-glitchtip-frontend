@@ -2,6 +2,8 @@ import {
   Component,
   PLATFORM_ID,
   inject,
+  signal,
+  DestroyRef,
   ChangeDetectionStrategy,
 } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
@@ -39,6 +41,11 @@ export class SupportComponent {
   private platformId = inject(PLATFORM_ID);
   protected appUrl = APP_URL;
   private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
+
+  // Chatwoot loads from a third-party script that can silently fail (ad
+  // blockers, CSP, outage). Only show "Talk to us" once the SDK is ready.
+  protected chatwootReady = signal(false);
 
   protected contactForm = new FormGroup({
     licenseKey: new FormControl("", {
@@ -67,6 +74,17 @@ export class SupportComponent {
       if (sub && LICENSE_KEY_PATTERN.test(sub)) {
         this.contactForm.controls.licenseKey.setValue(sub);
       }
+
+      // Already initialized, or wait for the SDK's "chatwoot:ready" event.
+      if (window.$chatwoot) {
+        this.chatwootReady.set(true);
+      } else {
+        const onReady = () => this.chatwootReady.set(true);
+        window.addEventListener("chatwoot:ready", onReady, { once: true });
+        this.destroyRef.onDestroy(() =>
+          window.removeEventListener("chatwoot:ready", onReady),
+        );
+      }
     }
   }
 
@@ -81,6 +99,7 @@ export class SupportComponent {
   handleChatwoot() {
     if (this.contactForm.invalid) return;
     const { licenseKey } = this.contactForm.value;
+    // Guard in case the SDK vanished between render and click.
     if (!window.$chatwoot) return;
     window.$chatwoot.toggle("open");
     window.$chatwoot.setConversationCustomAttributes({
