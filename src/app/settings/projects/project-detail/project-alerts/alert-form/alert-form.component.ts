@@ -2,6 +2,7 @@ import { I18nPluralPipe } from "@angular/common";
 import {
   Component,
   OnInit,
+  inject,
   input,
   output,
   ChangeDetectionStrategy,
@@ -25,6 +26,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatSelectModule } from "@angular/material/select";
+import { EnvironmentsService } from "src/app/api/environments.service";
 
 export class NewAlertErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -58,21 +61,28 @@ export const selectionRequiredValidator: ValidatorFn = (
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     LoadingButtonComponent,
   ],
 })
 export class AlertFormComponent implements OnInit {
+  environmentsService = inject(EnvironmentsService);
+
   readonly loading = input<boolean | null>(false);
   readonly timespan = input<number | null>(1);
   readonly quantity = input<number | null>(1);
   readonly uptime = input<boolean | null>(false);
   readonly errorAlert = input<boolean>(true);
+  readonly environment = input<string | null | undefined>(null);
   readonly alertSubmit = output<{
     timespanMinutes: number;
     quantity: number;
     uptime: boolean;
+    environment: string;
   }>();
   readonly newAlert = input<boolean | undefined>(false);
+
+  environmentNames = this.environmentsService.environmentNames;
 
   timesI18nMapping = {
     "=1": $localize`time`,
@@ -100,6 +110,7 @@ export class AlertFormComponent implements OnInit {
     ),
     timespanMinutes: new FormControl(""),
     quantity: new FormControl(""),
+    environment: new FormControl(""),
   });
 
   projectFormTimespan = this.projectAlertForm.get(
@@ -115,6 +126,9 @@ export class AlertFormComponent implements OnInit {
   projectFormOptionsGroup = this.projectAlertForm.get(
     "optionsGroup",
   ) as FormGroup;
+  projectFormEnvironment = this.projectAlertForm.get(
+    "environment",
+  ) as FormControl;
 
   matcher = new LessAnnoyingErrorStateMatcher();
   newFormMatcher = new NewAlertErrorStateMatcher();
@@ -127,6 +141,7 @@ export class AlertFormComponent implements OnInit {
     this.projectAlertForm.setValue({
       timespanMinutes: timespan ? timespan.toString() : null,
       quantity: quantity ? quantity.toString() : null,
+      environment: this.environment() ?? "",
       optionsGroup: {
         uptime: this.uptime() as any,
         errorAlert: this.errorAlert() as any,
@@ -184,6 +199,7 @@ export class AlertFormComponent implements OnInit {
           ? this.projectFormQuantity.value
           : null,
         uptime: this.projectFormUptime.value,
+        environment: this.projectFormEnvironment.value,
       });
     }
   }

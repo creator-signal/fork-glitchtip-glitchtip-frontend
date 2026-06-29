@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy,
 } from "@angular/core";
 import { OrganizationsService } from "src/app/api/organizations.service";
+import { EnvironmentsService } from "src/app/api/environments.service";
 import {
   NewAlertRecipient,
   ProjectAlertsService,
@@ -56,6 +57,7 @@ export function resolveRecipientIcon(type: RecipientType): string {
 export class ProjectAlertsComponent implements OnInit {
   #service = inject(ProjectAlertsService);
   organizationsService = inject(OrganizationsService);
+  environmentsService = inject(EnvironmentsService);
   dialog = inject(MatDialog);
   orgSlug = input.required<string>();
   projectSlug = input.required<string>();
@@ -81,6 +83,7 @@ export class ProjectAlertsComponent implements OnInit {
 
   ngOnInit(): void {
     this.#service.setParams(this.orgSlug(), this.projectSlug());
+    this.environmentsService.projectSlug.set(this.projectSlug());
   }
 
   openNewAlert() {
@@ -144,6 +147,7 @@ export class ProjectAlertsComponent implements OnInit {
       timespanMinutes: number;
       quantity: number;
       uptime: boolean;
+      environment: string;
     },
     alert: ProjectAlert,
   ): void {
@@ -152,6 +156,7 @@ export class ProjectAlertsComponent implements OnInit {
         event.timespanMinutes,
         event.quantity,
         event.uptime,
+        event.environment,
         alert.id,
         alert.alertRecipients,
       );
@@ -185,6 +190,7 @@ export class ProjectAlertsComponent implements OnInit {
     timespanMinutes: number;
     quantity: number;
     uptime: boolean;
+    environment: string;
   }) {
     this.#service.createNewAlert(event);
   }
