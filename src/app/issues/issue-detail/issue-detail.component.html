@@ -38,23 +38,13 @@
     </ng-container>
     <ng-container slot="right">
       <div class="top-bar-actions">
-        @if (isMobile()) {
-          <gt-issue-status-update-dropdown
-            [selectedValue]="issue.status"
-            (optionSelected)="updateIssueStatus($event)"
-          />
-        } @else {
-          <mat-button-toggle-group
-            [value]="issue.status"
-            (change)="updateIssueStatus($event.value)"
-          >
-            @for (option of statusOptions; track option.value) {
-              <mat-button-toggle [value]="option.value">
-                {{ option.label }}
-              </mat-button-toggle>
-            }
-          </mat-button-toggle-group>
-        }
+        <gt-issue-status-update-dropdown
+          [selectedValue]="issue.status"
+          [showResolveInNextRelease]="true"
+          [resolvedInRelease]="!!resolvedInRelease()"
+          (optionSelected)="updateIssueStatus($event)"
+          (resolveInNextReleaseSelected)="resolveInNextRelease()"
+        />
         <button
           mat-icon-button
           class="medium-icon-button"
@@ -171,6 +161,12 @@
                 <dt class="caption-text">Level</dt>
                 <dd class="body-text">{{ issue.level | titlecase }}</dd>
               </div>
+              @if (resolvedInRelease(); as release) {
+                <div>
+                  <dt class="caption-text" i18n>Resolved in</dt>
+                  <dd class="body-text">{{ release }}</dd>
+                </div>
+              }
               <div>
                 <dt class="caption-text">First Seen</dt>
                 <dd class="body-text">{{ issue.firstSeen | daysAgo }}</dd>
