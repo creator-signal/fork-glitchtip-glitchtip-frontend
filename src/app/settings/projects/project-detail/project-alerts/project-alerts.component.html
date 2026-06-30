@@ -6,7 +6,7 @@
       id="create-new-alert"
       color="primary"
       (click)="openNewAlert()"
-      [disabled]="newAlertOpen() === true"
+      [disabled]="newAlertOpen() === true || !accessProjectWrite()"
       i18n
       >Create New Alert</button
     >
