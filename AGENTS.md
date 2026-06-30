@@ -4,6 +4,12 @@
 ## Version Control
 - **Commits:** Use conventional commits (e.g., `fix:`, `feat:`, `refactor:`).
 
+## UI Conventions
+
+- **Permission gating:** Any control that performs a write or delete must be gated on the relevant access/role signal (the `accessXxx` signals on `OrganizationsService`, or `userTeamRole` within the teams feature). The backend is the source of truth and rejects unauthorized requests regardless; gating is a UX affordance so users do not click actions that will fail.
+  - **Hide** list-row action buttons (per-item edit/remove in a list) with the `*gtRequiresAccess` structural directive, e.g. `*gtRequiresAccess="accessProjectWrite()"`. The row still shows its data; only the action disappears.
+  - **Disable** page-level destructive actions that sit alone in a card (Delete X, Update X) via the control's own `[disabled]` input, so the section stays visible and the action is clearly unavailable. `gt-loading-button` exposes `[disabled]`; prefer this over the directive on that component.
+
 ## Local Development
 
 - **Backend:** sibling repo `glitchtip-backend`. Start with `docker compose up -d` from that repo; API is served on `http://localhost:8000`.

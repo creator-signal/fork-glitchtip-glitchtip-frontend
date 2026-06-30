@@ -15,6 +15,7 @@ import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { AlertFormComponent } from "./alert-form/alert-form.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { LoadingButtonComponent } from "../../../../shared/loading-button/loading-button.component";
+import { RequiresAccessDirective } from "../../../../shared/requires-access/requires-access.directive";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from "@angular/material/divider";
@@ -49,6 +50,7 @@ export function resolveRecipientIcon(type: RecipientType): string {
     MatTooltipModule,
     LoadingButtonComponent,
     MatProgressSpinnerModule,
+    RequiresAccessDirective,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
   providers: [ProjectAlertsService],

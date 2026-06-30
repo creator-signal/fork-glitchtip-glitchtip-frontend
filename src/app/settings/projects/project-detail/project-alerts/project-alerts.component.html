@@ -299,6 +299,7 @@
                             }
                           </button>
                           <button
+                            *gtRequiresAccess="accessProjectWrite()"
                             class="recipient-action small-icon-button"
                             mat-icon-button
                             color="primary"
@@ -309,6 +310,7 @@
                           </button>
                         }
                         <button
+                          *gtRequiresAccess="accessProjectWrite()"
                           class="recipient-action small-icon-button"
                           id="delete-recipient"
                           mat-icon-button
@@ -325,6 +327,7 @@
               }
             </ul>
             <button
+              *gtRequiresAccess="accessProjectWrite()"
               mat-stroked-button
               color="primary"
               (click)="openUpdateRecipientDialog(alert)"

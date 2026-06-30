@@ -21,7 +21,9 @@
           </mat-error>
         </mat-form-field>
         <gt-loading-button
-          [disabled]="this.form.get('slug')?.value === team.slug"
+          [disabled]="
+            this.form.get('slug')?.value === team.slug || !accessTeamWrite()
+          "
           [loading]="loading().updateName"
           buttonText="Update Name"
           id="update-project-name"
@@ -47,6 +49,7 @@
     <gt-loading-button
       buttonText="Delete Team"
       [loading]="loading().deleteTeam"
+      [disabled]="!accessTeamWrite()"
       (buttonClick)="deleteTeam()"
     >
     </gt-loading-button>

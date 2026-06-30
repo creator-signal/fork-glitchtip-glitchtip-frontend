@@ -39,6 +39,7 @@
               >{{ teamMember.email }}</a
             >
             <gt-loading-button
+              *gtRequiresAccess="userTeamRole() !== 'member'"
               buttonText="Remove"
               buttonStyle="stroked"
               [loading]="selectedTeamMember?.toString() === teamMember.id"

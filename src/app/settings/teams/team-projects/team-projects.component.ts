@@ -7,9 +7,10 @@ import {
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { TeamsService } from "src/app/api/teams/teams.service";
+import { OrganizationsService } from "src/app/api/organizations.service";
 import { ProjectSettingsService } from "../../projects/project-settings.service";
 import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
+import { RequiresAccessDirective } from "../../../shared/requires-access/requires-access.directive";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatOptionModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
@@ -30,15 +31,16 @@ import { MatCardModule } from "@angular/material/card";
     MatDividerModule,
     RouterLink,
     LoadingButtonComponent,
+    RequiresAccessDirective,
   ],
 })
 export class TeamProjectsComponent implements OnInit {
   private projectsService = inject(ProjectSettingsService);
-  private teamsService = inject(TeamsService);
+  private organizationsService = inject(OrganizationsService);
   teamSlug = input.required<string>({ alias: "team-slug" });
   orgSlug = input.required<string>({ alias: "org-slug" });
 
-  userTeamRole = this.teamsService.userTeamRole;
+  accessTeamWrite = this.organizationsService.accessTeamWrite;
   projectsOnTeam = this.projectsService.projectsOnTeam;
   projectsNotOnTeam = this.projectsService.projectsNotOnTeam;
   loading = this.projectsService.addRemoveLoading;
