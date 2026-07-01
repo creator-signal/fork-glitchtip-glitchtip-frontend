@@ -8,12 +8,12 @@ import { TeamsService } from "src/app/api/teams/teams.service";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { map } from "rxjs/operators";
 import { OrganizationDetailService } from "src/app/api/organizations/organization-detail.service";
+import { OrganizationsService } from "src/app/api/organizations.service";
 import { Member } from "src/app/api/organizations/organizations.interface";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { UserService } from "src/app/api/user/user.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
-import { RequiresAccessDirective } from "../../../shared/requires-access/requires-access.directive";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatOptionModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
@@ -34,19 +34,19 @@ import { MatCardModule } from "@angular/material/card";
     MatDividerModule,
     RouterLink,
     LoadingButtonComponent,
-    RequiresAccessDirective,
   ],
 })
 export class TeamMembersComponent implements OnInit {
   private teamsService = inject(TeamsService);
   private organizationsService = inject(OrganizationDetailService);
+  private orgsService = inject(OrganizationsService);
   route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
   private userService = inject(UserService);
 
   teamMembers = this.teamsService.teamMembers;
   filteredAddTeamMembers = this.organizationsService.filteredAddTeamMembers;
-  userTeamRole = this.teamsService.userTeamRole;
+  accessTeamWrite = this.orgsService.accessTeamWrite;
 
   member = new FormControl();
   orgSlug = "";

@@ -1,15 +1,17 @@
 <mat-card>
   <mat-card-header class="flex-common">
     <mat-card-title i18n>Project Alerts</mat-card-title>
-    <button
-      mat-flat-button
-      id="create-new-alert"
-      color="primary"
-      (click)="openNewAlert()"
-      [disabled]="newAlertOpen() === true || !accessProjectWrite()"
-      i18n
-      >Create New Alert</button
-    >
+    @if (accessProjectWrite()) {
+      <button
+        mat-flat-button
+        id="create-new-alert"
+        color="primary"
+        (click)="openNewAlert()"
+        [disabled]="newAlertOpen() === true"
+        i18n
+        >Create New Alert</button
+      >
+    }
   </mat-card-header>
   <mat-divider></mat-divider>
 
@@ -174,14 +176,15 @@
               } @else {
                 <h3>Alert {{ i + 1 }}</h3>
               }
-              <gt-loading-button
-                [buttonText]="'Remove Alert ' + (i + 1)"
-                buttonStyle="stroked"
-                (buttonClick)="removeAlert(alert.id!)"
-                [disabled]="!accessProjectWrite()"
-                [loading]="removeAlertLoading() === alert.id"
-              >
-              </gt-loading-button>
+              @if (accessProjectWrite()) {
+                <gt-loading-button
+                  [buttonText]="'Remove Alert ' + (i + 1)"
+                  buttonStyle="stroked"
+                  (buttonClick)="removeAlert(alert.id!)"
+                  [loading]="removeAlertLoading() === alert.id"
+                >
+                </gt-loading-button>
+              }
             </div>
             @if (updatePropertiesError()?.id === alert.id) {
               <p class="error alert-form-error">
@@ -190,6 +193,7 @@
             }
             <gt-alert-form
               [newAlert]="false"
+              [canWrite]="accessProjectWrite()"
               [loading]="updatePropertiesLoading() === alert.id"
               [timespan]="alert.timespanMinutes!"
               [quantity]="alert.quantity!"
@@ -298,43 +302,48 @@
                               <mat-icon>send</mat-icon>
                             }
                           </button>
+                          @if (accessProjectWrite()) {
+                            <button
+                              class="recipient-action small-icon-button"
+                              mat-icon-button
+                              color="primary"
+                              attr.aria-label="Edit recipient"
+                              (click)="
+                                openEditRecipientDialog(recipient, alert)
+                              "
+                            >
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                          }
+                        }
+                        @if (accessProjectWrite()) {
                           <button
-                            *gtRequiresAccess="accessProjectWrite()"
                             class="recipient-action small-icon-button"
+                            id="delete-recipient"
                             mat-icon-button
                             color="primary"
-                            attr.aria-label="Edit recipient"
-                            (click)="openEditRecipientDialog(recipient, alert)"
+                            attr.aria-label="Delete Alert {{ i + 0 }}"
+                            (click)="removeAlertRecipient(recipient, alert)"
                           >
-                            <mat-icon>edit</mat-icon>
+                            <mat-icon>delete</mat-icon>
                           </button>
                         }
-                        <button
-                          *gtRequiresAccess="accessProjectWrite()"
-                          class="recipient-action small-icon-button"
-                          id="delete-recipient"
-                          mat-icon-button
-                          color="primary"
-                          attr.aria-label="Delete Alert {{ i + 0 }}"
-                          (click)="removeAlertRecipient(recipient, alert)"
-                        >
-                          <mat-icon>delete</mat-icon>
-                        </button>
                       }
                     </div>
                   </div>
                 </li>
               }
             </ul>
-            <button
-              *gtRequiresAccess="accessProjectWrite()"
-              mat-stroked-button
-              color="primary"
-              (click)="openUpdateRecipientDialog(alert)"
-            >
-              <mat-icon>add</mat-icon>
-              Add An Alert Recipient
-            </button>
+            @if (accessProjectWrite()) {
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="openUpdateRecipientDialog(alert)"
+              >
+                <mat-icon>add</mat-icon>
+                Add An Alert Recipient
+              </button>
+            }
           </div>
         }
       }

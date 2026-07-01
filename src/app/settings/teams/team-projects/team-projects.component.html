@@ -44,14 +44,15 @@
                 [queryParams]="{ project: project.id }"
                 >{{ project.name }}</a
               >
-              <gt-loading-button
-                *gtRequiresAccess="accessTeamWrite()"
-                buttonText="Remove"
-                buttonStyle="stroked"
-                [loading]="project.slug === loading().removeProjectFromTeam"
-                (buttonClick)="removeProject(project.slug!)"
-                id="remove-team-member"
-              ></gt-loading-button>
+              @if (accessTeamWrite()) {
+                <gt-loading-button
+                  buttonText="Remove"
+                  buttonStyle="stroked"
+                  [loading]="project.slug === loading().removeProjectFromTeam"
+                  (buttonClick)="removeProject(project.slug!)"
+                  id="remove-team-member"
+                ></gt-loading-button>
+              }
             </li>
           }
         </ul>

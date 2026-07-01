@@ -1,6 +1,5 @@
 import { Injectable, computed, inject, signal } from "@angular/core";
 import { TeamErrors, TeamLoading } from "./teams.interfaces";
-import { UserService } from "../user/user.service";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { client, handleError } from "../../shared/api/api";
@@ -28,7 +27,6 @@ interface TeamKey {
   providedIn: "root",
 })
 export class TeamsService extends StatefulService<TeamsState> {
-  private userService = inject(UserService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
@@ -61,13 +59,6 @@ export class TeamsService extends StatefulService<TeamsState> {
   readonly teamMembers = computed(() => this.teamMembersResource.value() ?? []);
   readonly loading = computed(() => this.state().loading);
   readonly errors = computed(() => this.state().errors);
-  readonly userTeamRole = computed(() => {
-    const userEmail = this.userService.activeUserEmail();
-    const activeTeamMember = this.teamMembers().find(
-      (teamMember) => teamMember.email === userEmail,
-    );
-    return activeTeamMember?.role;
-  });
 
   constructor() {
     super(initialState);

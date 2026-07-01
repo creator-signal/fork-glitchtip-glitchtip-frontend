@@ -10,7 +10,6 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { OrganizationsService } from "src/app/api/organizations.service";
 import { ProjectSettingsService } from "../../projects/project-settings.service";
 import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
-import { RequiresAccessDirective } from "../../../shared/requires-access/requires-access.directive";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatOptionModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
@@ -31,7 +30,6 @@ import { MatCardModule } from "@angular/material/card";
     MatDividerModule,
     RouterLink,
     LoadingButtonComponent,
-    RequiresAccessDirective,
   ],
 })
 export class TeamProjectsComponent implements OnInit {
