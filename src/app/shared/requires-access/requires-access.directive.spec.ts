@@ -4,11 +4,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RequiresAccessDirective } from "./requires-access.directive";
 
 /**
- * This directive is the single place permission-gated UI decides whether to
- * render. Several destructive actions (delete team, remove member, delete alert
- * recipient) rely on it, so a regression here silently re-exposes controls to
- * users who cannot use them. The behavior is binary and reactive, so it is
- * cheap to pin down.
+ * Gates whether permission-restricted controls render, so a regression here
+ * silently re-exposes destructive actions to users who cannot use them.
  */
 @Component({
   standalone: true,

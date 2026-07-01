@@ -8,18 +8,9 @@ import {
 } from "@angular/core";
 
 /**
- * Structural directive that renders its host element only when the bound
- * expression is truthy. Use it to hide controls a user lacks permission to use,
- * passing an access signal from the relevant service, e.g.
- *
+ * Renders its host element only when the bound expression is truthy.
+ * Use to hide controls a user lacks permission for, e.g.
  *   <button *gtRequiresAccess="accessProjectWrite()">Delete</button>
- *   <gt-loading-button *gtRequiresAccess="userTeamRole() !== 'member'" />
- *
- * The boolean stays derived from a single source of truth (the access/role
- * signals on our services) rather than re-deriving scope strings here.
- *
- * This is a UX affordance only. The backend remains the authority and rejects
- * unauthorized requests regardless of what the UI shows.
  */
 @Directive({
   selector: "[gtRequiresAccess]",
