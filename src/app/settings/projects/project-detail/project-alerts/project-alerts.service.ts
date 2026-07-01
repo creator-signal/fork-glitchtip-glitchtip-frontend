@@ -220,12 +220,14 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
     timespanMinutes: number;
     quantity: number;
     uptime: boolean;
+    environment: string;
   }) {
     this.setNewAlertLoading();
     const body = {
       timespanMinutes: properties.timespanMinutes,
       quantity: properties.quantity,
       uptime: properties.uptime,
+      environment: properties.environment,
       alertRecipients: this.newProjectAlertRecipients() as any,
     };
     const params = this.#params();
@@ -319,6 +321,7 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
     newTimespan: number,
     newQuantity: number,
     uptime: boolean,
+    environment: string,
     id: number,
     recipients: AlertRecipient[],
   ) {
@@ -338,6 +341,7 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
           timespanMinutes: newTimespan,
           quantity: newQuantity,
           uptime,
+          environment,
           alertRecipients: recipients as any,
         },
       },
@@ -378,6 +382,7 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
         timespanMinutes: activeAlert.timespanMinutes,
         quantity: activeAlert.quantity,
         uptime: activeAlert.uptime,
+        environment: activeAlert.environment,
         alertRecipients: recipientsWithoutId as any,
       };
       const { data, error } = await client.PUT(
@@ -437,6 +442,7 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
       timespanMinutes: alert.timespanMinutes,
       quantity: alert.quantity,
       uptime: alert.uptime,
+      environment: alert.environment,
       alertRecipients: recipientsWithoutId as any,
     };
     const params = this.#params();
@@ -758,6 +764,7 @@ export class ProjectAlertsService extends StatefulService<ProjectAlertState> {
           timespanMinutes: newAlert.timespanMinutes,
           quantity: newAlert.quantity,
           uptime: newAlert.uptime,
+          environment: newAlert.environment,
         };
       } else return alert;
     });

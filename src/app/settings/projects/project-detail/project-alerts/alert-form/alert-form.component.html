@@ -78,6 +78,18 @@
         ></mat-checkbox
       >
     </div>
+    <mat-form-field floatLabel="always" appearance="outline">
+      <mat-label i18n>Environment</mat-label>
+      <mat-select
+        data-cy="environment-select"
+        formControlName="environment"
+      >
+        <mat-option value="" i18n>All environments</mat-option>
+        @for (envName of environmentNames(); track envName) {
+          <mat-option [value]="envName">{{ envName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="update" data-cy="update-container">
     @if (!newAlert()) {
@@ -87,7 +99,8 @@
         [disabled]="
           projectFormTimespan.value === timespan() &&
           projectFormQuantity.value === quantity() &&
-          projectFormUptime.value === uptime()
+          projectFormUptime.value === uptime() &&
+          projectFormEnvironment.value === (environment() ?? '')
         "
         buttonStyle="stroked"
         [loading]="loading() === true"

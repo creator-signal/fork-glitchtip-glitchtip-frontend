@@ -2818,6 +2818,11 @@ export interface components {
              * @default false
              */
             uptime: boolean;
+            /**
+             * Environment
+             * @description Only alert on events from this environment. Blank matches all environments.
+             */
+            environment?: string | null;
         };
         /** EmailAlertRecipientIn */
         EmailAlertRecipientIn: {
@@ -2850,6 +2855,11 @@ export interface components {
              * @default false
              */
             uptime: boolean;
+            /**
+             * Environment
+             * @description Only alert on events from this environment. Blank matches all environments.
+             */
+            environment?: string | null;
         };
         /** WebhookAlertRecipientIn */
         WebhookAlertRecipientIn: {
@@ -4142,6 +4152,40 @@ export interface components {
             /** Isowner */
             isOwner: boolean;
         };
+        /**
+         * OrganizationUserInviteSchema
+         * @description Response for the invite (member create) endpoint.
+         *
+         *     Surfaces the acceptance link so the frontend can offer a copy-link invite
+         *     flow. This is the only delivery path when email is disabled, and a harmless
+         *     convenience when email works. The link carries the same time-limited token
+         *     the invite email uses, so possessing it is what grants acceptance.
+         */
+        OrganizationUserInviteSchema: {
+            /** Id */
+            id: string;
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "member" | "admin" | "manager" | "owner";
+            /** Rolename */
+            roleName: string;
+            /**
+             * Datecreated
+             * Format: date-time
+             */
+            dateCreated: string;
+            /** Email */
+            email: string;
+            user?: components["schemas"]["UserSchema"] | null;
+            /** Pending */
+            pending: boolean;
+            /** Isowner */
+            isOwner: boolean;
+            /** Invitelink */
+            inviteLink?: string | null;
+        };
         /** OrganizationUserIn */
         OrganizationUserIn: {
             /**
@@ -4968,6 +5012,12 @@ export interface components {
              * @description Blank implies default value of 20
              */
             timeout?: number | null;
+            /**
+             * Confirmation Threshold
+             * @description Number of consecutive failed checks before the monitor is considered down and a notification is sent. 1 alerts on the first failure.
+             * @default 1
+             */
+            confirmationThreshold: number;
         };
         /**
          * MonitorType
@@ -4980,8 +5030,15 @@ export interface components {
             expectedBody: string;
             /** Expectedstatus */
             expectedStatus: number | null;
+            /** Interval */
+            interval: number;
             /** Timeout */
             timeout: number | null;
+            /**
+             * Confirmationthreshold
+             * @default 1
+             */
+            confirmationThreshold: number;
             /** Project */
             project?: string | null;
             /**
@@ -4993,11 +5050,6 @@ export interface components {
             name: string;
             /** Url */
             url?: string | null;
-            /**
-             * Interval
-             * @default 60
-             */
-            interval: number;
         };
         /**
          * MonitorCheckResponseTimeSchema
@@ -5077,6 +5129,12 @@ export interface components {
              * @description Blank implies default value of 20
              */
             timeout?: number | null;
+            /**
+             * Confirmation Threshold
+             * @description Number of consecutive failed checks before the monitor is considered down and a notification is sent. 1 alerts on the first failure.
+             * @default 1
+             */
+            confirmationThreshold: number;
         };
         /** StatusPageSchema */
         StatusPageSchema: {
@@ -6947,7 +7005,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["OrganizationUserSchema"];
+                    "application/json": components["schemas"]["OrganizationUserInviteSchema"];
                 };
             };
         };
