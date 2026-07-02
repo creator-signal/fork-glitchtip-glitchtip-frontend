@@ -6,7 +6,7 @@ declare global {
       toggleBubbleVisibility(state?: "hide" | "show"): void
       toggle(state?: "open" | "close"): void;
       setConversationCustomAttributes(
-        attributes: Record<string | Number, unknown>,
+        attributes: Record<string, unknown>,
       ): void;
     };
   }
