@@ -63,6 +63,18 @@ Install and run certbot. Follow [instructions](https://certbot.eff.org/instructi
         RequestHeader set "X-Forwarded-SSL" expr=%{HTTPS}
 ```
 
+#### Caddy
+
+- The below config file is suitable when Caddy is installed in docker.
+- If you install Caddy on the server manually change `web:8000` to `localhost:8000`
+
+```
+glitchtip.example.com {
+  reverse_proxy web:8000
+  encode zstd gzip
+}
+```
+
 ### Upgrading
 
 1. Pull latest docker image `docker compose pull`
