@@ -77,12 +77,9 @@ export class SupportComponent {
        // Already initialized, or wait for the SDK's "chatwoot:ready" event.
       if (window.$chatwoot) {
         this.chatwootReady.set(true);
-        window.$chatwoot.toggleBubbleVisibility("hide")
       } else {
-        const onReady = () => { 
-          this.chatwootReady.set(true);
-          window.$chatwoot?.toggleBubbleVisibility("hide")
-        }
+          
+        const onReady = () => this.chatwootReady.set(true);
         window.addEventListener("chatwoot:ready", onReady, { once: true });
         this.destroyRef.onDestroy(() =>
           window.removeEventListener("chatwoot:ready", onReady),
