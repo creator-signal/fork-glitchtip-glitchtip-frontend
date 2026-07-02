@@ -103,6 +103,7 @@ export class SupportComponent {
     // Guard in case the SDK vanished between render and click.
     if (!window.$chatwoot) return;
     window.$chatwoot.toggle("open");
+    window.$chatwoot.toggleBubbleVisibility("show");
     window.$chatwoot.setConversationCustomAttributes({
       license: licenseKey,
     });
