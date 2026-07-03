@@ -6,9 +6,9 @@
 
 ## UI Conventions
 
-- **Permission gating:** Any control that performs a write or delete must be gated on the relevant `accessXxx` signal from `OrganizationsService` (these map to the backend scopes; use the org-level signal even inside the teams feature, since team writes are org-scoped). The backend is the source of truth and rejects unauthorized requests regardless; gating is a UX affordance so users do not click actions that will fail. Gate by _reason_, not by layout:
-  - **Permission/role block → hide** the control with `@if (accessXxx())`, e.g. `@if (accessProjectWrite()) { <button>Delete</button> }`. If hiding a lone page-level action would leave an empty card, hide the whole card (or render its data read-only). Hiding beats disabling for permission: it removes clutter and, unlike a disabled control, is not skipped by screen readers.
-  - **Transient/state block → `[disabled]`** (pristine form, in-flight request, missing prerequisite), always paired with a reason the user can act on. Never use `[disabled]` for permission.
+- **Permission gating:** Gate every write/delete control on the relevant org-level `accessXxx()` signal from `OrganizationsService` (use `accessTeamWrite` even inside teams; team writes are org-scoped). The backend still enforces access; gating is a UX affordance. Gate by _reason_:
+  - **Permission/role → hide** with `@if (accessXxx())`, e.g. `@if (accessProjectWrite()) { <button>Delete</button> }`. If hiding a lone action would empty a card, hide the whole card (or render its data read-only). Hiding keeps the control out of screen-reader focus, unlike `[disabled]`.
+  - **Transient state → `[disabled]`** (pristine form, in-flight request, missing prerequisite) with an actionable reason. Never `[disabled]` for permission.
 
 ## Local Development
 
