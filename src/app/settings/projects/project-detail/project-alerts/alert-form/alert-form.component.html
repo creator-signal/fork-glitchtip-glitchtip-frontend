@@ -13,6 +13,7 @@
     <mat-checkbox
       data-cy="error-check"
       [checked]="projectFormErrorAlert.value"
+      [disabled]="!canWrite()"
       (change)="toggleErrorAlerts()"
     >
       <span class="body-text" i18n>
@@ -37,6 +38,7 @@
         (click)="toggleFromInput()"
         formControlName="quantity"
         placeholder="#"
+        [readonly]="!canWrite()"
         [errorStateMatcher]="newAlert() ? newFormMatcher : matcher"
       />
       @if (projectFormQuantity.errors) {
@@ -59,6 +61,7 @@
         (click)="toggleFromInput()"
         formControlName="timespanMinutes"
         placeholder="#"
+        [readonly]="!canWrite()"
         [errorStateMatcher]="newAlert() ? newFormMatcher : matcher"
       />
       @if (projectFormTimespan.errors) {

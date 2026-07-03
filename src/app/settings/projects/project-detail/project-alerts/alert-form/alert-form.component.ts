@@ -4,6 +4,7 @@ import {
   OnInit,
   input,
   output,
+  effect,
   ChangeDetectionStrategy,
 } from "@angular/core";
 import {
@@ -120,7 +121,15 @@ export class AlertFormComponent implements OnInit {
   matcher = new LessAnnoyingErrorStateMatcher();
   newFormMatcher = new NewAlertErrorStateMatcher();
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      if (this.canWrite()) {
+        this.projectFormUptime.enable({ emitEvent: false });
+      } else {
+        this.projectFormUptime.disable({ emitEvent: false });
+      }
+    });
+  }
 
   ngOnInit(): void {
     const timespan = this.timespan();
