@@ -73,6 +73,7 @@ export class AlertFormComponent implements OnInit {
     uptime: boolean;
   }>();
   readonly newAlert = input<boolean | undefined>(false);
+  readonly canWrite = input<boolean>(false);
 
   timesI18nMapping = {
     "=1": $localize`time`,
