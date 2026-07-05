@@ -31,6 +31,7 @@
           <gt-alert-form
             #newAlert
             [newAlert]="true"
+            [canWrite]="accessProjectWrite()"
             (alertSubmit)="newAlertProperties($event)"
           ></gt-alert-form>
           <h4 class="body-text-strong">Recipients:</h4>
