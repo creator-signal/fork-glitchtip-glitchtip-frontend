@@ -331,6 +331,18 @@ export const platforms: Platform[] = [
     ],
   },
   {
+    id: "r",
+    name: "R",
+    integrations: [
+      {
+        id: "r",
+        name: "R",
+        type: "language",
+        link: "/sdkdocs/r",
+      },
+    ],
+  },
+  {
     id: "react-native",
     name: "React-Native",
     integrations: [
