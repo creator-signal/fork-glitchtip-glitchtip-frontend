@@ -229,6 +229,18 @@ export const platforms: Platform[] = [
     ],
   },
   {
+    id: "perl",
+    name: "Perl",
+    integrations: [
+      {
+        id: "perl",
+        name: "Perl",
+        type: "language",
+        link: "/sdkdocs/perl",
+      },
+    ],
+  },
+  {
     id: "python",
     name: "Python",
     integrations: [
