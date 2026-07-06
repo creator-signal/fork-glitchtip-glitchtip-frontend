@@ -6,7 +6,12 @@ import {
   ChangeDetectionStrategy,
   PLATFORM_ID,
 } from "@angular/core";
-import { RouterLink, RouterOutlet, Router, NavigationEnd } from "@angular/router";
+import {
+  RouterLink,
+  RouterOutlet,
+  Router,
+  NavigationEnd,
+} from "@angular/router";
 import { isPlatformBrowser } from "@angular/common";
 import { LinksService } from "./links.service";
 import { MatToolbar } from "@angular/material/toolbar";
@@ -35,18 +40,20 @@ export class AppComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
 
   constructor() {
-  if (isPlatformBrowser(this.platformId)) {
-    this.router.events
-      .pipe(
-        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-        takeUntilDestroyed(),
-      )
-      .subscribe((e) => {
-        const onSupport = e.urlAfterRedirects.split(/[?#]/)[0] === "/support";
-        window.$chatwoot?.toggleBubbleVisibility(onSupport ? "hide" : "show");
-      });
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events
+        .pipe(
+          filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+          takeUntilDestroyed(),
+        )
+        .subscribe((e) => {
+          const onSupport = e.urlAfterRedirects.split(/[?#]/)[0] === "/support";
+          // a user should only have the option for support after they enter
+          // their license. It should be toggled off to begin with, hence this line.
+          window.$chatwoot?.toggleBubbleVisibility(onSupport ? "hide" : "show");
+        });
+    }
   }
-}
 
   title = "glitchtip-marketing";
   registerLink = this.links.registerLink;
@@ -64,5 +71,4 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.matIconRegistry.setDefaultFontSetClass("material-symbols-filled");
   }
-
 }

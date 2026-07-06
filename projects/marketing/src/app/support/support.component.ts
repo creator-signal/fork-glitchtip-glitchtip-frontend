@@ -74,18 +74,16 @@ export class SupportComponent {
       if (sub && LICENSE_KEY_PATTERN.test(sub)) {
         this.contactForm.controls.licenseKey.setValue(sub);
       }
-       // Already initialized, or wait for the SDK's "chatwoot:ready" event.
+      // Already initialized, or wait for the SDK's "chatwoot:ready" event.
       if (window.$chatwoot) {
         this.chatwootReady.set(true);
       } else {
-          
         const onReady = () => this.chatwootReady.set(true);
         window.addEventListener("chatwoot:ready", onReady, { once: true });
         this.destroyRef.onDestroy(() =>
           window.removeEventListener("chatwoot:ready", onReady),
         );
       }
-
     }
   }
 
