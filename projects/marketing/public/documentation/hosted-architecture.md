@@ -23,7 +23,7 @@ For customers who need one, Burke Software offers a standard Data Processing Agr
 
 - **Read the agreement**: [Data Processing Agreement (PDF)](/legal/data-processing-agreement.pdf)
 
-The published version is our standard template, offered as-is. Paying customers who require a signed, countersigned copy can request one at [sales@glitchtip.com](mailto:sales@glitchtip.com).
+The published version is our standard template, offered as-is. Paying customers who require a signed, countersigned copy can request one at [support@glitchtip.com](mailto:support@glitchtip.com).
 
 ## 🇪🇺 EU Hosting & Data Sovereignty
 
@@ -126,4 +126,4 @@ We are committed to keeping GlitchTip secure.
 - Reporting: If you find a security vulnerability, please open a [private issue on GitLab](https://gitlab.com/glitchtip).
 - Note: Please do not report results of automated scanners (e.g., dependency bots) without manual verification. We do not offer a bug bounty program at this time.
 
-For additional security questions or vendor risk assessment inquiries, please email sales@glitchtip.com.
+For additional security questions or vendor risk assessment inquiries, please email support@glitchtip.com.

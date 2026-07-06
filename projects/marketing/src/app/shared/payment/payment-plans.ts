@@ -105,7 +105,7 @@ export const selfHostedPlanOptions: PlanOption[] = [
     annualPrice: 150,
     priceSuffix: "/user/month",
     ctaText: "Subscribe",
-    ctaUrl: "mailto:sales@glitchtip.com",
+    ctaUrl: "mailto:support@glitchtip.com",
     paymentLinks: {
       monthly: "https://buy.stripe.com/fZu4gAaMj3FkdLKa53ds408",
       annual: "https://buy.stripe.com/9B6aEYbQn2BggXW2CBds407",
@@ -123,6 +123,6 @@ export const selfHostedPlanOptions: PlanOption[] = [
     monthlyPrice: "Custom",
     annualPrice: "Custom",
     ctaText: "Contact sales",
-    ctaUrl: "mailto:sales@glitchtip.com",
+    ctaUrl: "mailto:support@glitchtip.com",
   },
 ];
