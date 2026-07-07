@@ -40,6 +40,8 @@ table {
   right: 0;
   height: 4px;
   z-index: 2;
+  // The bar only conveys progress; never let its 4px strip swallow header clicks.
+  pointer-events: none;
 }
 
 .action-button-container {
