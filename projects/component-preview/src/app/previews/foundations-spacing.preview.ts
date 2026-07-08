@@ -85,12 +85,16 @@ interface ResolvedElevation {
         display: flex;
         flex-wrap: wrap;
         gap: 24px;
+        // A stage below surface level so the boxes have something to sit on
+        // and cast onto in both schemes.
+        padding: var(--gt-space-4);
+        border-radius: 8px;
+        background-color: var(--mat-sys-surface-container-lowest, var(--mat-sys-background));
       }
       .fs-elevation {
         width: 120px;
         height: 72px;
         border-radius: 8px;
-        background-color: var(--mat-sys-surface);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -182,13 +186,19 @@ interface ResolvedElevation {
       <div class="preview-section">
         <div class="preview-section__title">Elevation</div>
         <p class="preview-section__note">
-          Material 3 elevation levels defined by the theme. Shadows are
-          intentionally subtle in dark mode, where Material conveys elevation
-          mainly through surface tint rather than shadow.
+          Material 3 elevation levels defined by the theme. Each box pairs the
+          level's shadow with its surface-container tint, because that is how
+          elevation reads in practice: in light mode the shadow does most of
+          the work, in dark mode shadows are intentionally subtle and the
+          lighter surface tint carries the level. Toggle the scheme to compare.
         </p>
         <div class="fs-elevations">
           @for (e of elevations(); track e.name) {
-            <div class="fs-elevation" [style.box-shadow]="'var(' + e.name + ')'">
+            <div
+              class="fs-elevation"
+              [style.box-shadow]="'var(' + e.name + ')'"
+              [style.background-color]="'var(' + tintFor(e.name) + ')'"
+            >
               {{ e.label }}
             </div>
           }
@@ -204,6 +214,23 @@ export class FoundationsSpacingPreview {
   readonly spaces = signal<ResolvedSpace[]>([]);
   readonly radius = signal<string>("4px");
   readonly elevations = signal<ResolvedElevation[]>([]);
+
+  /**
+   * The surface-container tint that corresponds to each elevation level,
+   * per Material 3's tone-based elevation. Shadows alone are nearly
+   * invisible in dark mode; the tint is what makes a level readable there.
+   */
+  tintFor(levelToken: string): string {
+    const map: Record<string, string> = {
+      "--mat-sys-level0": "--mat-sys-surface",
+      "--mat-sys-level1": "--mat-sys-surface-container-low",
+      "--mat-sys-level2": "--mat-sys-surface-container",
+      "--mat-sys-level3": "--mat-sys-surface-container-high",
+      "--mat-sys-level4": "--mat-sys-surface-container-highest",
+      "--mat-sys-level5": "--mat-sys-surface-container-highest",
+    };
+    return map[levelToken] ?? "--mat-sys-surface";
+  }
 
   // SCSS variables cannot be read live; keep in sync with
   // src/assets/styles/_variables.scss.

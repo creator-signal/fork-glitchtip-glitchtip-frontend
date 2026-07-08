@@ -151,10 +151,13 @@ export class IconUsagePreview {
 <span class="iu-inline"><mat-icon>schedule</mat-icon> Last seen</span>
 
 <!-- icon button: two sizes, always labelled -->
-<button matIconButton class="small-icon-button" aria-label="Edit">
+<button mat-icon-button class="small-icon-button" aria-label="Edit">
   <mat-icon>edit</mat-icon>
 </button>
 
 <!-- leading icon with a label -->
-<button matButton="filled"><mat-icon>add</mat-icon> New project</button>`;
+<button mat-flat-button color="primary">
+  <mat-icon>add</mat-icon>
+  New project
+</button>`;
 }

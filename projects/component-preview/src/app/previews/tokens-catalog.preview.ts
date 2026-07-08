@@ -180,7 +180,7 @@ export class TokensCatalogPreview {
           isColor: d.isColor,
           value: d.isColor
             ? resolveComputedColor(d.name, el)
-            : resolveCssVar(d.name, el) || "—",
+            : resolveCssVar(d.name, el) || "(unset)",
         })),
       );
     });
