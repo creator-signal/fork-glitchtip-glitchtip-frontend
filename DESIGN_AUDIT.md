@@ -111,4 +111,7 @@ Gaps found by benchmarking the guide against public systems (PostHog, IBM Carbon
 
 ### Tier 4 — breadth / opportunistic
 
-- More marketing components (driven by real marketing-site needs, not speculatively), a browsable design-tokens catalog, tabs, density and dark-mode notes.
+- **Design tokens catalog.** **(built: a searchable flat table of every token with its live value, filterable by name)**
+- **Tabs.** **(built: Tabs page with a live mat-tab-group and the tabs-are-not-navigation rule)**
+- **Density and dark-mode notes.** **(built: Density section on the Layout page; Dark mode note on the Colors page)**
+- **More marketing components.** Deferred by design, this is need-driven, not speculative. Beyond the documented `mkt-pricing-addon-card`, the marketing project has `mkt-feature-section`, `mkt-question-and-answer`, `mkt-simple-table`, and `mkt-responsive-image`; they render via content projection (and responsive-image needs real assets), so document each when the marketing site actually needs it, capturing its expected projected structure at that point.

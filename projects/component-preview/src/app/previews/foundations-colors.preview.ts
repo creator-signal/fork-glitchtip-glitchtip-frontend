@@ -148,6 +148,18 @@ interface ResolvedPair {
         }
       </div>
     </div>
+
+    <div class="preview-section">
+      <div class="preview-section__title">Dark mode</div>
+      <p class="preview-section__note">
+        The theme ships light and dark, both driven by the same tokens, so
+        components adapt with no per-component work. Two things to keep in mind:
+        Material 3 signals elevation in dark mode mainly through lighter surface
+        tint (the higher <code>surface-container</code> tokens), not heavy
+        shadows; and contrast that passes in light can fail in dark, so check
+        new color pairings in both schemes.
+      </p>
+    </div>
   `,
 })
 export class FoundationsColorsPreview {

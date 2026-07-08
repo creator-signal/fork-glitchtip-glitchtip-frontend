@@ -124,6 +124,20 @@ interface ResolvedElevation {
     </div>
 
     <div class="preview-section">
+      <div class="preview-section__title">Density</div>
+      <p class="preview-section__note">
+        Control density with the same scale. Use the smaller steps
+        (<code>--gt-space-1</code> to <code>--gt-space-3</code>) for dense,
+        data-heavy views like tables and lists, and the larger steps
+        (<code>--gt-space-5</code> to <code>--gt-space-7</code>) to separate
+        sections and give a page room. Keep one view consistent; do not mix a
+        tight row gap with a roomy one. When a whole view needs to be more
+        compact, tune Material's component density in the theme rather than
+        shrinking values by hand.
+      </p>
+    </div>
+
+    <div class="preview-section">
       <div class="preview-section__title">Breakpoints</div>
       <p class="preview-section__note">
         Min-width breakpoints aligned with the Angular CDK (defined in

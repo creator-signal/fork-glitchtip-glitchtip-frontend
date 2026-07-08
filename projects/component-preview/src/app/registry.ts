@@ -28,6 +28,8 @@ import { PaginationPreview } from "./previews/pagination.preview";
 import { IconUsagePreview } from "./previews/icon-usage.preview";
 import { EntryDataPreview } from "./previews/entry-data.preview";
 import { SummaryCardPreview } from "./previews/summary-card.preview";
+import { TokensCatalogPreview } from "./previews/tokens-catalog.preview";
+import { TabsPreview } from "./previews/tabs.preview";
 import { ListAppBarPreview } from "./previews/list-app-bar.preview";
 import { ToastsPreview } from "./previews/toasts.preview";
 
@@ -90,6 +92,12 @@ export const PREVIEWS: PreviewEntry[] = [
     label: "Layout",
     group: "Foundations",
     component: FoundationsSpacingPreview,
+  },
+  {
+    id: "tokens",
+    label: "Design tokens",
+    group: "Foundations",
+    component: TokensCatalogPreview,
   },
   {
     id: "voice-tone",
@@ -212,6 +220,13 @@ export const PREVIEWS: PreviewEntry[] = [
     label: "Toasts",
     group: "Patterns",
     component: ToastsPreview,
+    status: "stable",
+  },
+  {
+    id: "tabs",
+    label: "Tabs",
+    group: "Patterns",
+    component: TabsPreview,
     status: "stable",
   },
   {
