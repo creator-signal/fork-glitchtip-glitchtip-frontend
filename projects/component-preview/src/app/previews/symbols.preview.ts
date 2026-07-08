@@ -54,16 +54,27 @@ import { MatIconModule } from "@angular/material/icon";
     `,
   ],
   template: `
-    <p class="preview-section__title">
-      {{ symbols.length }} Material Symbols in the self-hosted subset
-    </p>
-    <div class="sym-grid">
-      @for (name of symbols; track name) {
-        <div class="sym-cell">
-          <mat-icon>{{ name }}</mat-icon>
-          <span class="sym-cell__name">{{ name }}</span>
-        </div>
-      }
+    <header class="preview-page-header">
+      <h1 class="preview-page-title">Material symbols</h1>
+      <p class="preview-lead">
+        The self-hosted icon subset. Only these names render; a symbol outside
+        this list shows as broken ligature text. To add one, regenerate the
+        subset font and add the name to this page's list.
+      </p>
+    </header>
+
+    <div class="preview-section">
+      <div class="preview-section__title">
+        {{ symbols.length }} symbols in the subset
+      </div>
+      <div class="sym-grid">
+        @for (name of symbols; track name) {
+          <div class="sym-cell">
+            <mat-icon>{{ name }}</mat-icon>
+            <span class="sym-cell__name">{{ name }}</span>
+          </div>
+        }
+      </div>
     </div>
   `,
 })

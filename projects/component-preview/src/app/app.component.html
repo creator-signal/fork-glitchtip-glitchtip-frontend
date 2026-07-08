@@ -1,6 +1,42 @@
-<div class="preview-layout">
+@if (bare()) {
+  <!-- Bare mode for the example-width iframe: the preview only, no shell. -->
+  <div class="preview-bare" [class]="themeClass()">
+    @if (selected(); as entry) {
+      <ng-container *ngComponentOutlet="entry.component" />
+    }
+  </div>
+} @else {
+<div
+  class="preview-layout"
+  [class]="themeClass()"
+  [class.preview-layout--nav-open]="navOpen()"
+>
   <mat-toolbar class="preview-toolbar" color="primary">
-    <span>GlitchTip Component Preview</span>
+    <button
+      mat-icon-button
+      class="preview-toolbar__menu"
+      aria-label="Toggle navigation"
+      (click)="navOpen.set(!navOpen())"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="preview-toolbar__title">GlitchTip Component Preview</span>
+    <nav class="preview-toolbar__sections" aria-label="Section">
+      <button
+        class="preview-toolbar__section-tab"
+        [class.preview-toolbar__section-tab--active]="section() === 'product'"
+        (click)="setSection('product')"
+      >
+        Product
+      </button>
+      <button
+        class="preview-toolbar__section-tab"
+        [class.preview-toolbar__section-tab--active]="section() === 'brand'"
+        (click)="setSection('brand')"
+      >
+        Brand
+      </button>
+    </nav>
     <span style="flex: 1 1 auto"></span>
     <mat-button-toggle-group
       [value]="theme()"
@@ -22,22 +58,44 @@
 
   <nav class="preview-nav">
     <mat-nav-list>
-      @for (group of groups; track group.group) {
-        <div class="preview-nav__group-label">{{ group.group }}</div>
-        @for (entry of group.entries; track entry.id) {
-          <a
-            mat-list-item
-            [activated]="entry.id === selectedId()"
-            (click)="select(entry.id)"
+      @for (group of groups(); track group.group; let first = $first) {
+        @if (!first) {
+          <mat-divider class="preview-nav__divider" />
+        }
+        <button
+          class="preview-nav__group-label"
+          (click)="toggleGroup(group.group)"
+          [attr.aria-expanded]="!isGroupCollapsed(group.group)"
+        >
+          {{ group.group }}
+          <mat-icon
+            class="preview-nav__group-chevron"
+            [class.preview-nav__group-chevron--collapsed]="
+              isGroupCollapsed(group.group)
+            "
           >
-            {{ entry.label }}
-          </a>
+            expand_more
+          </mat-icon>
+        </button>
+        @if (!isGroupCollapsed(group.group)) {
+          @for (entry of group.entries; track entry.id) {
+            <a
+              mat-list-item
+              [activated]="entry.id === selectedId()"
+              (click)="select(entry.id)"
+            >
+              {{ entry.label }}
+              @if (entry.status === "legacy" || entry.status === "deprecated") {
+                <span class="preview-nav__status">{{ entry.status }}</span>
+              }
+            </a>
+          }
         }
       }
     </mat-nav-list>
   </nav>
 
-  <main class="preview-canvas" [class]="canvasThemeClass()">
+  <main class="preview-canvas">
     @if (selected(); as entry) {
       <ng-container *ngComponentOutlet="entry.component" />
     } @else {
@@ -45,3 +103,4 @@
     }
   </main>
 </div>
+}
