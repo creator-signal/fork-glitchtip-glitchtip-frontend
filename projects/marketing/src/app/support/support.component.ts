@@ -19,7 +19,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { RouterLink, ActivatedRoute } from "@angular/router";
 
-const SUPPORT_EMAIL = "sales@glitchtip.com";
+const SUPPORT_EMAIL = "support@glitchtip.com";
 const LICENSE_KEY_PATTERN = /^sub_[A-Za-z0-9]+$/;
 const APP_URL = "https://app.glitchtip.com";
 

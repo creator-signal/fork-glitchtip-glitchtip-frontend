@@ -33,7 +33,7 @@ export class HipaaComponent {
     {
       question: "Does GlitchTip sign a Business Associate Agreement?",
       answer:
-        "Yes. BAAs are available on our Large plan. Contact sales@glitchtip.com to get a BAA in place before processing PHI.",
+        "Yes. BAAs are available on our Large plan. Contact support@glitchtip.com to get a BAA in place before processing PHI.",
     },
     {
       question:
