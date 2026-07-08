@@ -22,7 +22,10 @@ import { FoundationsTypographyPreview } from "./previews/foundations-typography.
 import { FoundationsSpacingPreview } from "./previews/foundations-spacing.preview";
 import { FoundationsVoicePreview } from "./previews/foundations-voice.preview";
 import { FoundationsAccessibilityPreview } from "./previews/foundations-accessibility.preview";
+import { FoundationsMotionPreview } from "./previews/foundations-motion.preview";
 import { OverviewPreview } from "./previews/overview.preview";
+import { PaginationPreview } from "./previews/pagination.preview";
+import { IconUsagePreview } from "./previews/icon-usage.preview";
 
 /**
  * Component lifecycle status, following the practice of published design
@@ -97,6 +100,12 @@ export const PREVIEWS: PreviewEntry[] = [
     component: FoundationsAccessibilityPreview,
   },
   {
+    id: "motion",
+    label: "Motion",
+    group: "Foundations",
+    component: FoundationsMotionPreview,
+  },
+  {
     id: "top-app-bar",
     label: "Top app bar",
     group: "Components",
@@ -144,6 +153,13 @@ export const PREVIEWS: PreviewEntry[] = [
     group: "Components",
     component: ConfirmDialogPreview,
     status: "stable",
+  },
+  {
+    id: "pagination",
+    label: "Pagination buttons",
+    group: "Components",
+    component: PaginationPreview,
+    status: "legacy",
   },
   {
     id: "buttons",
@@ -208,6 +224,12 @@ export const PREVIEWS: PreviewEntry[] = [
     section: "brand",
     component: BrandComponentsPreview,
     status: "stable",
+  },
+  {
+    id: "icon-usage",
+    label: "Icon usage",
+    group: "Assets",
+    component: IconUsagePreview,
   },
   {
     id: "icons",
