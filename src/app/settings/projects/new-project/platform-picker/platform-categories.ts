@@ -51,6 +51,7 @@ const backend = [
   "node-express",
   "node-koa",
   "node-connect",
+  "perl",
   "php",
   "php-laravel",
   "php-monolog",
