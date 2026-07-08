@@ -95,11 +95,30 @@ interface ResolvedElevation {
         width: 120px;
         height: 72px;
         border-radius: 8px;
+        background-color: var(--mat-sys-surface);
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: var(--gt-font-mono, monospace);
         font-size: 0.72rem;
+      }
+      .fs-surfaces {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gt-space-4);
+      }
+      .fs-surface {
+        width: 150px;
+        height: 72px;
+        border-radius: 8px;
+        border: 1px solid var(--mat-sys-outline-variant);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: var(--gt-space-2);
+        font-family: var(--gt-font-mono, monospace);
+        font-size: 0.68rem;
       }
     `,
   ],
@@ -186,20 +205,34 @@ interface ResolvedElevation {
       <div class="preview-section">
         <div class="preview-section__title">Elevation</div>
         <p class="preview-section__note">
-          Material 3 elevation levels defined by the theme. Each box pairs the
-          level's shadow with its surface-container tint, because that is how
-          elevation reads in practice: in light mode the shadow does most of
-          the work, in dark mode shadows are intentionally subtle and the
-          lighter surface tint carries the level. Toggle the scheme to compare.
+          Material 3 elevation levels defined by the theme. These tokens are
+          shadows and nothing else; every box below is the same surface color.
+          Toggle to dark and they nearly disappear: that is real, dark themes
+          keep shadows subtle on purpose. Dark mode layers UI with the surface
+          ladder below instead.
         </p>
         <div class="fs-elevations">
           @for (e of elevations(); track e.name) {
-            <div
-              class="fs-elevation"
-              [style.box-shadow]="'var(' + e.name + ')'"
-              [style.background-color]="'var(' + tintFor(e.name) + ')'"
-            >
+            <div class="fs-elevation" [style.box-shadow]="'var(' + e.name + ')'">
               {{ e.label }}
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="preview-section">
+        <div class="preview-section__title">Surface layering</div>
+        <p class="preview-section__note">
+          The surface-container ladder is what actually separates layers in
+          dark mode: a surface reads as higher by being lighter. Components
+          choose a container for their role (a dialog uses container-high); the
+          theme defines no mapping from an elevation level to a container, so
+          pick by role, not by shadow level.
+        </p>
+        <div class="fs-surfaces">
+          @for (s of surfaceLadder; track s) {
+            <div class="fs-surface" [style.background-color]="'var(' + s + ')'">
+              {{ s }}
             </div>
           }
         </div>
@@ -216,21 +249,17 @@ export class FoundationsSpacingPreview {
   readonly elevations = signal<ResolvedElevation[]>([]);
 
   /**
-   * The surface-container tint that corresponds to each elevation level,
-   * per Material 3's tone-based elevation. Shadows alone are nearly
-   * invisible in dark mode; the tint is what makes a level readable there.
+   * The surface-container roles, lowest to highest. Shown as their own
+   * ladder, deliberately not mapped to elevation levels: the theme defines
+   * no level-to-container relationship, components pick a container by role.
    */
-  tintFor(levelToken: string): string {
-    const map: Record<string, string> = {
-      "--mat-sys-level0": "--mat-sys-surface",
-      "--mat-sys-level1": "--mat-sys-surface-container-low",
-      "--mat-sys-level2": "--mat-sys-surface-container",
-      "--mat-sys-level3": "--mat-sys-surface-container-high",
-      "--mat-sys-level4": "--mat-sys-surface-container-highest",
-      "--mat-sys-level5": "--mat-sys-surface-container-highest",
-    };
-    return map[levelToken] ?? "--mat-sys-surface";
-  }
+  readonly surfaceLadder = [
+    "--mat-sys-surface",
+    "--mat-sys-surface-container-low",
+    "--mat-sys-surface-container",
+    "--mat-sys-surface-container-high",
+    "--mat-sys-surface-container-highest",
+  ];
 
   // SCSS variables cannot be read live; keep in sync with
   // src/assets/styles/_variables.scss.
