@@ -97,7 +97,7 @@ Gaps found by benchmarking the guide against public systems (PostHog, IBM Carbon
 
 ### Tier 2 — high value, more effort (flagships)
 
-- **Data-viz / charts guidelines.** Highest-leverage gap for a chart-heavy app: a color-by-category palette, chart-type-by-purpose guidance, and no-data/empty states; document the real chart components (daily-events-chart, monitor charts, subscription charts) against it. Peer: Carbon data-viz.
+- **Data-viz / charts guidelines.** Highest-leverage gap for a chart-heavy app: a color-by-category palette, chart-type-by-purpose guidance, and no-data/empty states; document the real chart components (daily-events-chart, monitor charts, subscription charts) against it. Peer: Carbon data-viz. **(built: Charts page — color-by-meaning, categorical sequence, no-data, a11y, with a self-contained bar-chart demo)**
 - **Empty states pattern + `gt-empty-state`.** Ship the pattern page (no-data / no-results / first-run / error) alongside building the component. Expands ticket #2. Peers: Pajamas, Polaris.
 
 ### Tier 3 — component coverage

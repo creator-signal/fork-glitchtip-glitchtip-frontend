@@ -3,6 +3,7 @@ import { LoadingButtonPreview } from "./previews/loading-button.preview";
 import { CopyInputPreview } from "./previews/copy-input.preview";
 import { ToDoItemPreview } from "./previews/to-do-item.preview";
 import { TablePatternPreview } from "./previews/table-pattern.preview";
+import { ChartsPreview } from "./previews/charts.preview";
 import { FormsPreview } from "./previews/forms.preview";
 import { ConfirmDialogPreview } from "./previews/confirm-dialog.preview";
 import { ButtonsPreview } from "./previews/buttons.preview";
@@ -156,6 +157,13 @@ export const PREVIEWS: PreviewEntry[] = [
     label: "Table",
     group: "Patterns",
     component: TablePatternPreview,
+    status: "stable",
+  },
+  {
+    id: "charts",
+    label: "Charts",
+    group: "Patterns",
+    component: ChartsPreview,
     status: "stable",
   },
   {
