@@ -87,15 +87,14 @@
         </button>
         @if (!isGroupCollapsed(group.group) || navQuery()) {
           @for (entry of group.entries; track entry.id) {
+            <!-- Lifecycle status is shown only on the page's chip; a nav tag
+                 overflows the narrow sidebar. -->
             <a
               mat-list-item
               [activated]="entry.id === selectedId()"
               (click)="select(entry.id)"
             >
               {{ entry.label }}
-              @if (entry.status === "legacy" || entry.status === "deprecated") {
-                <span class="preview-nav__status">{{ entry.status }}</span>
-              }
             </a>
           }
         }

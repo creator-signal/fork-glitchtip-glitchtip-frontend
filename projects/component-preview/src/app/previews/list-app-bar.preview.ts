@@ -149,8 +149,7 @@ export class ListAppBarPreview {
   readonly anatomy = `<gt-list-app-bar [listTitle]="..." [queriedProjects]="..."
   [includeTimeRangeSelect]="true" />`;
   readonly composition = {
-    within: ["Detail page"],
-    contains: ["Top app bar", "Buttons & actions"],
+    contains: ["Buttons & actions"],
   };
   readonly api: ApiRow[] = [
     { name: "listTitle", type: "string", default: `""`, description: "The page heading shown on the left" },

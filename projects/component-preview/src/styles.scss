@@ -231,19 +231,6 @@ body {
   }
 }
 
-// Lifecycle tag shown in the nav only for non-stable entries (stable is the
-// default assumption, matching how published design systems label components).
-.preview-nav__status {
-  font: var(--mat-sys-label-small);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-left: var(--gt-space-2);
-  padding: 1px 6px;
-  border-radius: 4px;
-  background-color: var(--warning-container);
-  color: var(--on-warning);
-}
-
 // Section divider between nav groups, matching the product's own sidenav
 // (`.nav-section-divider` in main-nav): a hairline spanning the full nav
 // width via the same negative margins that undo the list inset. The extra

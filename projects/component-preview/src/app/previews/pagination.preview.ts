@@ -34,6 +34,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       [donts]="donts"
       a11y="Each arrow is an icon button; the aria-label names the direction. Disabled ends are conveyed by the native disabled state, not color alone."
       [anatomy]="anatomy"
+      [composition]="composition"
       [api]="api"
       [importCode]="importCode"
       [code]="code"
@@ -88,6 +89,9 @@ export class PaginationPreview {
     "Hide the control when a direction runs out; disable that arrow instead",
   ];
   readonly anatomy = `<gt-pagination-buttons [paginator]="..." [loading]="..." />`;
+  readonly composition = {
+    within: ["Table"],
+  };
   readonly api: ApiRow[] = [
     { name: "paginator", type: "{ hasPreviousPage, previousPageParams, hasNextPage, nextPageParams }", default: "", description: "Cursor state from the list endpoint; drives the links and disabled states" },
     { name: "loading", type: "boolean", default: "false", description: "Shows a spinner in place of the arrows while a page loads" },

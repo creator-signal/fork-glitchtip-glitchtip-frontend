@@ -29,6 +29,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       [donts]="donts"
       a11y="Key and value are plain text in reading order, so a screen reader announces the label then its value. Long values wrap rather than truncate, so nothing is hidden."
       [anatomy]="anatomy"
+      [composition]="composition"
       [api]="api"
       [importCode]="importCode"
       [code]="code"
@@ -63,6 +64,9 @@ export class EntryDataPreview {
     "Use it for editable fields; it is read-only display",
   ];
   readonly anatomy = `<gt-entry-data [key]="..." [value]="..." />`;
+  readonly composition = {
+    within: ["Detail page"],
+  };
   readonly api: ApiRow[] = [
     { name: "key", type: "any", default: "", description: "The property label" },
     { name: "value", type: "any", default: "", description: "The value; objects are rendered as JSON" },

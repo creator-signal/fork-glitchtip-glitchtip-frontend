@@ -40,7 +40,8 @@ import { ToastsPreview } from "./previews/toasts.preview";
  *   slated for an update. Fine to use; expect changes.
  * - `deprecated`: do not use in new code; the entry's docs should name the
  *   replacement.
- * Foundations and asset pages carry no status.
+ * Foundations and asset pages carry no status. The status renders as the
+ * page's chip only; the nav stays label-only so it cannot overflow.
  */
 export type PreviewStatus = "stable" | "legacy" | "deprecated";
 

@@ -109,7 +109,7 @@ Every documented component carries a status, following the practice of published
 - **legacy**: works and is supported, but predates current conventions and is slated for an update. Fine to use; expect changes.
 - **deprecated**: do not use in new code; the component's page names the replacement.
 
-Statuses live on the `registry.ts` entry (shown as a tag in the nav for non-stable entries) and on each page's `preview-doc` chip. Updating a legacy component to current conventions flips its badge to stable, which makes modernization progress visible.
+Statuses live on the `registry.ts` entry and render as each page's `preview-doc` chip (the nav stays label-only so it cannot overflow). Updating a legacy component to current conventions flips its badge to stable, which makes modernization progress visible.
 
 ### Visual audit notes
 
