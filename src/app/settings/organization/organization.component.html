@@ -14,17 +14,24 @@
         <form [formGroup]="form" (ngSubmit)="updateOrganization()">
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" [value]="activeOrg.name" />
+            <input
+              matInput
+              formControlName="name"
+              [value]="activeOrg.name"
+              [readonly]="!accessOrgAdmin()"
+            />
           </mat-form-field>
-          <gt-loading-button
-            [disabled]="name?.value === activeOrg.name"
-            [loading]="loading().updateOrganization"
-            mat-flat-button
-            color="primary"
-            buttonText="Update Name"
-            id="update-org"
-          >
-          </gt-loading-button>
+          @if (accessOrgAdmin()) {
+            <gt-loading-button
+              [disabled]="name?.value === activeOrg.name"
+              [loading]="loading().updateOrganization"
+              mat-flat-button
+              color="primary"
+              buttonText="Update Name"
+              id="update-org"
+            >
+            </gt-loading-button>
+          }
         </form>
         @if (errors().updateOrganization) {
           <mat-error>{{ errors().updateOrganization }}</mat-error>
