@@ -142,9 +142,10 @@ export class TopAppBarPreview {
     "Put non-actions, like a user's email, in the action slot",
     "Let text buttons overflow or wrap the title on narrow screens",
   ];
+  // No "within": the bar is the header row of every list and detail view,
+  // so naming one parent would read as a restriction.
   readonly composition = {
-    within: ["Detail page"],
-    contains: ["Back link", "Buttons & actions"],
+    contains: ["Back link (detail pages)", "Buttons & actions"],
   };
   readonly anatomy = `<gt-top-app-bar>
   <... slot="left" />

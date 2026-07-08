@@ -50,7 +50,7 @@ export class CopyInputPreview {
   ];
   readonly anatomy = `<gt-copy-input [value]="..." placeholder="..." />`;
   readonly composition = {
-    within: ["Forms", "Detail page"],
+    within: ["Detail page"],
   };
   readonly api: ApiRow[] = [
     { name: "value", type: "string", default: `""`, description: "The value shown and copied" },

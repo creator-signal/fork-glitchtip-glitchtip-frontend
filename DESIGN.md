@@ -91,7 +91,7 @@ Every page follows one of two templates so pages read the same way.
 - **Accessibility**: the one thing an implementer must get right.
 - **Keyboard**: only when the component has behavior beyond default tab-and-activate.
 - **Anatomy**: the named parts, when the component has parts worth naming.
-- **Relationships**: which components this one is meant to sit inside (`within`) and which it is meant to hold (`contains`). Include it wherever composition is not obvious.
+- **Relationships**: which components this one is meant to sit inside (`within`) and which it is meant to hold (`contains`). Include it wherever composition is not obvious. Every claim must be verifiable in product code (grep the usage before writing it); omit `within` when a component is used everywhere, and qualify a `contains` that only holds for one variant.
 - **Properties**: the input/output table.
 - **Usage**: a copyable snippet of the real component.
 

@@ -176,7 +176,7 @@ export class TablePatternPreview {
     "Build one-off table styles per page",
   ];
   readonly composition = {
-    contains: ["Loading button", "Buttons & actions"],
+    contains: ["Pagination buttons", "Loading button", "Buttons & actions"],
   };
   readonly api: ApiRow[] = [
     { name: ".table-container", type: "wrapper class", default: "", description: "Border, radius, scroll region, density overrides" },

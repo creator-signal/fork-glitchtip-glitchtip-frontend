@@ -132,7 +132,7 @@ export class FormsPreview {
     { keys: "Enter", description: "Submit the form from any field" },
   ];
   readonly composition = {
-    within: ["Detail page", "Confirm dialog"],
+    within: ["Detail page"],
     contains: ["Buttons & actions", "Loading button"],
   };
   readonly api: ApiRow[] = [

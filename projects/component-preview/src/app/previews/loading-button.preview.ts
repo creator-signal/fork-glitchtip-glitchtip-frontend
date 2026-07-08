@@ -68,7 +68,7 @@ export class LoadingButtonPreview {
   ];
   readonly anatomy = `<gt-loading-button [loading]="..." (buttonClick)="...">`;
   readonly composition = {
-    within: ["Forms", "Top app bar", "Banners", "Confirm dialog"],
+    within: ["Forms", "Table"],
   };
   readonly api: ApiRow[] = [
     { name: "buttonText", type: "string", default: "", description: "Label shown on the button" },
