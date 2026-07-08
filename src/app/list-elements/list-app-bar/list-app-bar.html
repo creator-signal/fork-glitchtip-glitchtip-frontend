@@ -2,16 +2,17 @@
   @if (queriedProjects(); as queriedProjects) {
     <div class="project-multiselect-container">
       @if (displayAddProject() && activeOrgHasNoProjects()) {
-        <a
-          mat-flat-button
-          color="primary"
-          [disabled]="!accessProjectWrite()"
-          class="add-project-button"
-          [routerLink]="['/', activeOrgSlug(), 'settings', 'projects', 'new']"
-        >
-          <mat-icon>add</mat-icon>
-          <ng-container i18n>Add Project</ng-container>
-        </a>
+        @if (accessProjectWrite()) {
+          <a
+            mat-flat-button
+            color="primary"
+            class="add-project-button"
+            [routerLink]="['/', activeOrgSlug(), 'settings', 'projects', 'new']"
+          >
+            <mat-icon>add</mat-icon>
+            <ng-container i18n>Add Project</ng-container>
+          </a>
+        }
       } @else {
         <gt-project-multiselect [queriedProjects]="queriedProjects" />
         <button
@@ -52,16 +53,23 @@
     @if (activeOrgLoaded()) {
       <div class="right-section">
         @if (displayAddProject() && activeOrgHasNoProjects()) {
-          <a
-            mat-flat-button
-            color="primary"
-            [disabled]="!accessProjectWrite()"
-            class="add-project-button"
-            [routerLink]="['/', activeOrgSlug(), 'settings', 'projects', 'new']"
-          >
-            <mat-icon>add</mat-icon>
-            <ng-container i18n>Add Project</ng-container>
-          </a>
+          @if (accessProjectWrite()) {
+            <a
+              mat-flat-button
+              color="primary"
+              class="add-project-button"
+              [routerLink]="[
+                '/',
+                activeOrgSlug(),
+                'settings',
+                'projects',
+                'new',
+              ]"
+            >
+              <mat-icon>add</mat-icon>
+              <ng-container i18n>Add Project</ng-container>
+            </a>
+          }
         } @else {
           @if (isLargeScreen()) {
             <ng-container *ngTemplateOutlet="filters" />

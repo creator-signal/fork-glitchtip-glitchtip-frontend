@@ -3,15 +3,16 @@
     <h1 class="section-header-text" i18n>Teams</h1>
   </ng-container>
   <ng-container slot="right">
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="openCreateTeamDialog()"
-      [disabled]="!accessTeamWrite()"
-      id="new-team"
-      i18n
-      >Create Team</button
-    >
+    @if (accessTeamWrite()) {
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="openCreateTeamDialog()"
+        id="new-team"
+        i18n
+        >Create Team</button
+      >
+    }
   </ng-container>
 </gt-top-app-bar>
 <section class="l-body">

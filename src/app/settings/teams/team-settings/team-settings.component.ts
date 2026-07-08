@@ -12,6 +12,7 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import { TeamsService } from "src/app/api/teams/teams.service";
+import { OrganizationsService } from "src/app/api/organizations.service";
 import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -34,10 +35,12 @@ import { MatCardModule } from "@angular/material/card";
 })
 export class TeamSettingsComponent {
   private teamsService = inject(TeamsService);
+  private organizationsService = inject(OrganizationsService);
 
   team = this.teamsService.team;
   loading = this.teamsService.loading;
   errors = this.teamsService.errors;
+  accessTeamWrite = this.organizationsService.accessTeamWrite;
   form = new FormGroup({
     slug: new FormControl("", [Validators.required]),
   });

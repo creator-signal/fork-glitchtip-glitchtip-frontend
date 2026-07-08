@@ -21,6 +21,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MemberDetailService } from "src/app/settings/members/member-detail/member-detail.service";
+import { OrganizationsService } from "src/app/api/organizations.service";
 import { MemberRole } from "src/app/api/organizations/organizations.interface";
 import { LoadingButtonComponent } from "../../../shared/loading-button/loading-button.component";
 import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";
@@ -52,7 +53,9 @@ import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
 export class MemberDetailComponent implements OnInit, OnDestroy {
   route = inject(ActivatedRoute);
   private memberDetailService = inject(MemberDetailService);
+  #orgService = inject(OrganizationsService);
 
+  accessMemberWrite = this.#orgService.accessMemberWrite;
   member = this.memberDetailService.member;
   memberTeams = this.memberDetailService.memberTeams;
   availableRoles = this.memberDetailService.availableRoles;
