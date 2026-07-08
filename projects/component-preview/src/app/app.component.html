@@ -57,8 +57,16 @@
   </mat-toolbar>
 
   <nav class="preview-nav">
+    <input
+      class="preview-nav__filter"
+      type="search"
+      placeholder="Filter pages"
+      aria-label="Filter pages"
+      [value]="navQuery()"
+      (input)="navQuery.set($any($event.target).value)"
+    />
     <mat-nav-list>
-      @for (group of groups(); track group.group; let first = $first) {
+      @for (group of filteredGroups(); track group.group; let first = $first) {
         @if (!first) {
           <mat-divider class="preview-nav__divider" />
         }
@@ -77,7 +85,7 @@
             expand_more
           </mat-icon>
         </button>
-        @if (!isGroupCollapsed(group.group)) {
+        @if (!isGroupCollapsed(group.group) || navQuery()) {
           @for (entry of group.entries; track entry.id) {
             <a
               mat-list-item

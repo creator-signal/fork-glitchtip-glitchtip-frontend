@@ -97,6 +97,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       [anatomy]="anatomy"
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
       [designNotes]="['shown as a static schematic; renders live only with an active organization']"
     >
@@ -159,6 +160,7 @@ export class ListAppBarPreview {
     { name: "displayAddProject", type: "boolean", default: "false", description: "Show an add-project button when the org has no projects" },
     { name: "searchHits", type: "string", default: "", description: "Optional result count shown by the title" },
   ];
+  readonly importCode = `import { ListAppBar } from "src/app/list-elements/list-app-bar/list-app-bar";`;
   readonly code = `<gt-list-app-bar
   listTitle="Issues"
   [queriedProjects]="selectedProjectIds()"

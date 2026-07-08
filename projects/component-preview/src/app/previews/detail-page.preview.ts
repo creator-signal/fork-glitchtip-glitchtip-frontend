@@ -58,6 +58,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       [anatomy]="anatomy"
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
       [flushExample]="true"
       [widthToggle]="true"
@@ -127,7 +128,6 @@ export class DetailPagePreview {
   ];
   readonly donts = [
     "Hand-roll a back arrow instead of gt-back-link",
-    "Scatter page actions below the fold instead of the app bar",
   ];
   readonly composition = {
     contains: ["Top app bar", "Back link", "Buttons & actions"],
@@ -147,6 +147,9 @@ export class DetailPagePreview {
     { name: "gt-detail-header subtitle", type: "string | null", default: "", description: "Secondary line under the title" },
     { name: "gt-detail-header ng-content", type: "content projection", default: "", description: "Optional action row inside the header" },
   ];
+  readonly importCode = `import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";
+import { DetailHeaderComponent } from "src/app/shared/detail/header/header.component";`;
   readonly code = `<gt-top-app-bar>
   <ng-container slot="left">
     <gt-back-link backLinkText="View all uptime monitors" />

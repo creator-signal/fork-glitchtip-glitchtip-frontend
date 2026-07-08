@@ -174,8 +174,6 @@ export class TablePatternPreview {
   ];
   readonly donts = [
     "Build one-off table styles per page",
-    "Replace the table with a spinner during reloads",
-    "Let columns wrap and rows grow tall on mobile; scroll instead",
   ];
   readonly composition = {
     contains: ["Loading button", "Buttons & actions"],

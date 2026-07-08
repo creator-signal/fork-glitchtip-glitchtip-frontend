@@ -33,6 +33,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       a11y="Banners are static content with real link/button actions; they do not steal focus or auto-dismiss. State changes (throttling, hard stop) are conveyed in text, not color alone."
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section">
@@ -85,8 +86,7 @@ export class BannersPreview {
     "Bind real usage numbers; the banner formats them (1M, 1k)",
   ];
   readonly donts = [
-    "Stack several banners on one page",
-    "Use a banner for transient feedback that belongs in a snackbar",
+    "Use a banner for transient feedback that belongs in a toast",
   ];
   readonly content = [
     "Lead with the state or the offer, not the mechanism",
@@ -108,6 +108,8 @@ export class BannersPreview {
     { name: "(upgradeClick)", type: "output", default: "", description: "Upgrade action pressed" },
     { name: "(comparePlansClick)", type: "output", default: "", description: "Compare-plans action pressed" },
   ];
+  readonly importCode = `import { UpgradeBannerComponent } from "src/app/shared/upgrade-banner/upgrade-banner.component";
+import { SupportBannerComponent } from "src/app/shared/support-banner/support-banner.component";`;
   readonly code = `<gt-upgrade-banner
   [usagePercent]="usagePercent()"
   [eventThrottleRate]="throttleRate()"

@@ -62,7 +62,6 @@ export class BrandComponentsPreview {
     "Any brand surface composed of icon + heading + copy + CTA blocks",
   ];
   readonly dos = [
-    "Reuse these instead of composing new one-off marketing blocks",
     "Keep CTA labels as verbs",
   ];
   readonly donts = [

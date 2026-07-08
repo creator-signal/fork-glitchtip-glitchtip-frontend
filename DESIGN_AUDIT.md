@@ -1,6 +1,6 @@
 # Design System Audit (July 2026)
 
-Usage audit of shared components across `src/app`, done while isolating components into the style guide (`projects/component-preview`). Each finding is intended to become a ticket. Lifecycle statuses (stable/legacy/deprecated) live in the style guide itself; this file tracks the codebase-side findings.
+Usage audit of shared components across `src/app`, done while isolating components into the style guide (`projects/component-preview`). This file is the findings and history; the actionable, clearly-scoped backlog distilled from it lives in `TICKETS.md`. Lifecycle statuses (stable/legacy/deprecated) live in the style guide itself.
 
 ## Component usage counts
 
@@ -104,7 +104,7 @@ Gaps found by benchmarking the guide against public systems (PostHog, IBM Carbon
 
 - **Pagination buttons (`gt-pagination-buttons`).** **(built: Pagination buttons page, legacy status; cursor paging with first/middle/last/loading states)**
 - **Icon usage rules** (sizing, placement, icon-only labeling) alongside the icon asset galleries. **(built: Icon usage page)**
-- **Motion** (Material 3 durations + standard easing + reduced-motion, with a live duration demo). **(built: Motion foundation page)**
+- **Motion.** Built, then removed on review: the product has ~7 transition lines total and hand-authors no animation, so a duration/easing page documented a practice we do not have. The rules that matter (use Material's built-in motion, respect reduced-motion, never meaning in motion alone) live on the Accessibility page.
 - **List app bar (`gt-list-app-bar`).** Documents the responsive collapse pattern the ad-hoc `gt-top-app-bar` usages should adopt (ties to the app-bar action-model ticket above). **(built: guidance page with a static wide/small schematic; not rendered live because the component injects `OrganizationsService`)**
 - **entry-data (`gt-entry-data`, 20 uses) and summary/stat card (`gt-summary-card`).** **(built: Entry data and Summary card pages, both rendering the real component)**
 - **Toasts vs banners.** Transient vs persistent vs inline feedback (Carbon/Material model). **(built: Toasts page with a live snackbar demo and a toast/banner/inline comparison)**

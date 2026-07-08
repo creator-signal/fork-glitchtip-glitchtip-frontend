@@ -69,6 +69,20 @@ export class AppComponent {
 
   readonly groups = computed(() => groupedPreviews(this.section()));
 
+  /** Nav filter: narrows the sidebar to entries whose label matches. */
+  readonly navQuery = signal("");
+  readonly filteredGroups = computed(() => {
+    const q = this.navQuery().trim().toLowerCase();
+    const groups = this.groups();
+    if (!q) return groups;
+    return groups
+      .map((g) => ({
+        group: g.group,
+        entries: g.entries.filter((e) => e.label.toLowerCase().includes(q)),
+      }))
+      .filter((g) => g.entries.length > 0);
+  });
+
   readonly selected = computed<PreviewEntry | undefined>(() =>
     PREVIEWS.find((p) => p.id === this.selectedId()),
   );

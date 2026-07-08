@@ -30,6 +30,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       a11y="Key and value are plain text in reading order, so a screen reader announces the label then its value. Long values wrap rather than truncate, so nothing is hidden."
       [anatomy]="anatomy"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section">
@@ -66,6 +67,7 @@ export class EntryDataPreview {
     { name: "key", type: "any", default: "", description: "The property label" },
     { name: "value", type: "any", default: "", description: "The value; objects are rendered as JSON" },
   ];
+  readonly importCode = `import { EntryDataComponent } from "src/app/shared/entry-data/entry-data.component";`;
   readonly code = `@for (row of entry.data | keyvalue; track row.key) {
   <gt-entry-data [key]="row.key" [value]="row.value" />
 }`;

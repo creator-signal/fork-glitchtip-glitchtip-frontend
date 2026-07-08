@@ -170,6 +170,24 @@ body {
   }
 }
 
+// Sidebar page filter: quick lookup as the guide passes ~30 pages.
+.preview-nav__filter {
+  display: block;
+  width: calc(100% - 20px);
+  margin: var(--gt-space-3) 10px 0;
+  padding: var(--gt-space-2) var(--gt-space-3);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: -1px;
+  }
+}
+
 // Accordion header for each nav group: a button so the group can collapse as
 // the guide grows.
 .preview-nav__group-label {

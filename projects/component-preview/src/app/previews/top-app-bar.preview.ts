@@ -49,6 +49,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       [anatomy]="anatomy"
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
       [flushExample]="true"
       [widthToggle]="true"
@@ -138,7 +139,6 @@ export class TopAppBarPreview {
   readonly donts = [
     "Nest a second bar inside a page section",
     "Use it as a heading inside the page body",
-    "Put more than a primary and one other action directly in the bar",
     "Put non-actions, like a user's email, in the action slot",
     "Let text buttons overflow or wrap the title on narrow screens",
   ];
@@ -154,6 +154,8 @@ export class TopAppBarPreview {
     { name: "slot=left", type: "content projection", default: "", description: "Page title (list pages) or back link (detail pages)" },
     { name: "slot=right", type: "content projection", default: "", description: "Action buttons area, divided from the content" },
   ];
+  readonly importCode = `import { TopAppBar } from "src/app/shared/top-app-bar/top-app-bar";
+import { BackLinkComponent } from "src/app/shared/detail/back-link/back-link.component";`;
   readonly code = `<gt-top-app-bar>
   <ng-container slot="left">
     <gt-back-link backLinkText="View all uptime monitors" />

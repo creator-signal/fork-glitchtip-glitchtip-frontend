@@ -22,7 +22,6 @@ import { FoundationsTypographyPreview } from "./previews/foundations-typography.
 import { FoundationsSpacingPreview } from "./previews/foundations-spacing.preview";
 import { FoundationsVoicePreview } from "./previews/foundations-voice.preview";
 import { FoundationsAccessibilityPreview } from "./previews/foundations-accessibility.preview";
-import { FoundationsMotionPreview } from "./previews/foundations-motion.preview";
 import { OverviewPreview } from "./previews/overview.preview";
 import { PaginationPreview } from "./previews/pagination.preview";
 import { IconUsagePreview } from "./previews/icon-usage.preview";
@@ -110,12 +109,6 @@ export const PREVIEWS: PreviewEntry[] = [
     label: "Accessibility",
     group: "Foundations",
     component: FoundationsAccessibilityPreview,
-  },
-  {
-    id: "motion",
-    label: "Motion",
-    group: "Foundations",
-    component: FoundationsMotionPreview,
   },
   {
     id: "top-app-bar",

@@ -31,6 +31,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       a11y="The whole card is a router link for members; the action buttons remain separate, real links so they are individually focusable and announced."
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section">
@@ -81,7 +82,6 @@ export class ProjectCardPreview {
   ];
   readonly donts = [
     "Add more than two action buttons",
-    "Use it for content that is not a project",
   ];
   readonly composition = {
     contains: ["Buttons & actions"],
@@ -96,6 +96,7 @@ export class ProjectCardPreview {
     { name: "secondaryButton", type: "ProjectCardButton", default: "", description: "Secondary action (legacy @Input)" },
     { name: "sampleCard", type: "boolean", default: "false", description: "Renders the dashed sample-card treatment" },
   ];
+  readonly importCode = `import { ProjectCardComponent } from "src/app/shared/project-card/project-card.component";`;
   readonly code = `<gt-project-card
   [title]="project.name"
   [cardLink]="['/', orgSlug, 'issues']"

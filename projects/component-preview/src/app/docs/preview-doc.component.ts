@@ -442,6 +442,23 @@ export interface KeyRow {
       </div>
     }
 
+    @if (importCode()) {
+      <div class="doc-code">
+        <div class="doc-code__header">
+          <span>Import</span>
+          <button
+            mat-icon-button
+            class="small-icon-button"
+            [cdkCopyToClipboard]="importCode()"
+            [attr.aria-label]="'Copy import statement'"
+          >
+            <mat-icon>file_copy</mat-icon>
+          </button>
+        </div>
+        <pre><code>{{ importCode() }}</code></pre>
+      </div>
+    }
+
     @if (code()) {
       <div class="doc-code">
         <div class="doc-code__header">
@@ -495,6 +512,8 @@ export class PreviewDocComponent {
    */
   readonly composition = input<{ within?: string[]; contains?: string[] }>({});
   readonly api = input<ApiRow[]>([]);
+  /** Copyable import statement, shown above Usage so snippets are paste-ready. */
+  readonly importCode = input<string>("");
   readonly code = input<string>("");
 
   readonly copied = signal(false);

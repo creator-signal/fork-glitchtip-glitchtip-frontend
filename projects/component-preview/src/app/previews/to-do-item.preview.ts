@@ -17,6 +17,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       a11y="State is shown with a distinct icon per status, not color alone, so it reads without relying on color perception."
       [anatomy]="anatomy"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section preview-narrow">
@@ -51,6 +52,7 @@ export class ToDoItemPreview {
       description: "Step status: not started, in progress, or complete",
     },
   ];
+  readonly importCode = `import { ToDoItemComponent } from "src/app/shared/to-do-item/to-do-item.component";`;
   readonly code = `<gt-to-do-item
   title="Set up a project"
   isDone="doing"

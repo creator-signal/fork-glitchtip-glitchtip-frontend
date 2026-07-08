@@ -74,7 +74,8 @@ Conventions for every component:
 ## Governance
 
 - The preview app is the **north-star rulebook**; the product aligns to it via audit tickets, not the reverse. Deliberate divergence (rule set here, product migrated via tickets) is the model; ad-hoc divergence is not.
-- Run a **style audit** per pattern to measure product drift and generate tickets. Process and the reusable audit prompt: `STYLE_AUDIT.md`. Findings land in `DESIGN_AUDIT.md`.
+- Run a **style audit** per pattern to measure product drift and generate tickets. Process and the reusable audit prompt: `STYLE_AUDIT.md`. Findings land in `DESIGN_AUDIT.md`; the actionable backlog distilled from them is `TICKETS.md`.
+- Document what the product ships, not what mature systems have. A page earns its place by answering questions developers actually hit; benchmark gaps are candidates, not requirements.
 - Add a component or foundation by adding a `registry.ts` entry and, where useful, wrapping it in `preview-doc`.
 
 ### Page recipe

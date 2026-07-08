@@ -19,6 +19,7 @@ import { ApiRow, KeyRow, PreviewDocComponent } from "../docs/preview-doc.compone
       [anatomy]="anatomy"
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section">
@@ -78,6 +79,7 @@ export class LoadingButtonPreview {
     { name: "fullWidth", type: "boolean", default: "false", description: "Stretches the button to its container width" },
     { name: "(buttonClick)", type: "output", default: "", description: "Emits when the button is activated" },
   ];
+  readonly importCode = `import { LoadingButtonComponent } from "src/app/shared/loading-button/loading-button.component";`;
   readonly code = `<gt-loading-button
   buttonText="Save"
   buttonStyle="flat"

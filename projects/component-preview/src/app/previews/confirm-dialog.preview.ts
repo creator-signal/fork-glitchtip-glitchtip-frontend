@@ -37,6 +37,7 @@ import { ApiRow, KeyRow, PreviewDocComponent } from "../docs/preview-doc.compone
       [keyboard]="keyboard"
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section">
@@ -93,6 +94,7 @@ export class ConfirmDialogPreview {
     { name: "data.cancelText", type: "string", default: `"Cancel"`, description: "Cancel button label" },
     { name: "afterClosed()", type: "Observable<boolean>", default: "", description: "true when confirmed; falsy on cancel/Escape" },
   ];
+  readonly importCode = `import { ConfirmDialogComponent, ConfirmDialogData } from "src/app/shared/confirm-dialog/confirm-dialog.component";`;
   readonly code = `const ref = this.dialog.open(ConfirmDialogComponent, {
   data: {
     title: "Delete project?",

@@ -31,6 +31,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       [content]="content"
       a11y="The number, subtitle, and progress bar are read in order, so the value and its context are announced together. Over-limit is conveyed by the subtitle text, not the bar color alone."
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section">
@@ -78,6 +79,7 @@ export class SummaryCardPreview {
     { name: "showLimits", type: "boolean", default: "true", description: "Hide the progress bar and percentage when there is no limit" },
     { name: "loading", type: "boolean", default: "false", description: "Shows a spinner while the metric loads" },
   ];
+  readonly importCode = `import { SummaryCardComponent } from "src/app/settings/subscription/subscription-charts/summary-card/summary-card.component";`;
   readonly code = `<gt-summary-card
   title="Events"
   [value]="usage.events()"

@@ -229,11 +229,11 @@ export class ButtonsPreview {
     "Keep it short: a verb, or a verb plus its object",
   ];
   readonly api: ApiRow[] = [
-    { name: "mat-flat-button", type: "filled", default: "", description: "Primary action, one per view" },
-    { name: "mat-stroked-button", type: "outlined", default: "", description: "Secondary action" },
-    { name: "mat-button", type: "text", default: "", description: "Low-emphasis action" },
-    { name: "mat-icon-button", type: "icon", default: "", description: "Compact action; needs aria-label" },
-    { name: "gt-loading-button", type: "async wrapper", default: "flat", description: "Server actions; shows a spinner" },
+    { name: "mat-flat-button", type: "Material, filled", default: "", description: "Primary action, one per view" },
+    { name: "mat-stroked-button", type: "Material, outlined", default: "", description: "Secondary action" },
+    { name: "mat-button", type: "Material, text", default: "", description: "Low-emphasis action" },
+    { name: "mat-icon-button", type: "Material, icon", default: "", description: "Compact action; needs aria-label" },
+    { name: "gt-loading-button", type: "our async wrapper", default: "flat", description: "Server actions; shows a spinner" },
     { name: `color`, type: `"primary" | "warn"`, default: "", description: "primary for key actions, warn for destructive" },
   ];
   readonly code = `<!-- primary + secondary -->

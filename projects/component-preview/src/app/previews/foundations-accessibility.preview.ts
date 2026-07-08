@@ -80,6 +80,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
     <div class="preview-section">
       <div class="preview-section__title">Motion</div>
       <ul class="a11y-list">
+        <li>Use Material's built-in transitions; do not hand-author animation without a reason.</li>
         <li>Respect prefers-reduced-motion: reduce or remove non-essential animation when it is set.</li>
         <li>Never convey information through motion alone.</li>
       </ul>

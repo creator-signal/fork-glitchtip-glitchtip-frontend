@@ -18,6 +18,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       [anatomy]="anatomy"
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section preview-narrow">
@@ -42,7 +43,6 @@ export class CopyInputPreview {
   ];
   readonly dos = [
     "Set a placeholder that names the value",
-    "Pass the exact value the user should copy",
   ];
   readonly donts = [
     "Use it for editable input (it is read-only by design)",
@@ -56,6 +56,7 @@ export class CopyInputPreview {
     { name: "value", type: "string", default: `""`, description: "The value shown and copied" },
     { name: "placeholder", type: "string", default: `""`, description: "Placeholder / field label" },
   ];
+  readonly importCode = `import { CopyInputComponent } from "src/app/shared/copy-input/copy-input.component";`;
   readonly code = `<gt-copy-input
   placeholder="DSN"
   [value]="project.dsn"

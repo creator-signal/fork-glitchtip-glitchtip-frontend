@@ -52,6 +52,7 @@ import { ApiRow, KeyRow, PreviewDocComponent } from "../docs/preview-doc.compone
       [keyboard]="keyboard"
       [composition]="composition"
       [api]="api"
+      [importCode]="importCode"
       [code]="code"
     >
       <div class="preview-section">
@@ -118,7 +119,7 @@ export class FormsPreview {
   ];
   readonly donts = [
     "Surface validation failures in a snackbar",
-    "Disable the submit button because of permissions; hide it instead (see CLAUDE.md)",
+    "Gate submit by permission (see Permission gating: hide, never disable)",
   ];
   readonly content = [
     "Label every field with a noun: Email, Display name",
@@ -139,6 +140,9 @@ export class FormsPreview {
     { name: "gt-form-error error", type: "any", default: "", description: "Deprecated. Do not use; pass errors instead" },
     { name: "mapFormErrors(fieldErrors, form)", type: "utility", default: "", description: "Sets serverError on each named control from a backend field-error map" },
   ];
+  readonly importCode = `import { FormErrorComponent } from "src/app/shared/forms/form-error/form-error.component";
+import { mapFormErrors } from "src/app/shared/forms/form.utils";
+import { LoadingButtonComponent } from "src/app/shared/loading-button/loading-button.component";`;
   readonly code = `<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <gt-form-error [errors]="formErrors()" />
   <mat-form-field class="full-width" appearance="outline">
