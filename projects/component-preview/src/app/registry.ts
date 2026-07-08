@@ -26,6 +26,10 @@ import { FoundationsMotionPreview } from "./previews/foundations-motion.preview"
 import { OverviewPreview } from "./previews/overview.preview";
 import { PaginationPreview } from "./previews/pagination.preview";
 import { IconUsagePreview } from "./previews/icon-usage.preview";
+import { EntryDataPreview } from "./previews/entry-data.preview";
+import { SummaryCardPreview } from "./previews/summary-card.preview";
+import { ListAppBarPreview } from "./previews/list-app-bar.preview";
+import { ToastsPreview } from "./previews/toasts.preview";
 
 /**
  * Component lifecycle status, following the practice of published design
@@ -113,6 +117,13 @@ export const PREVIEWS: PreviewEntry[] = [
     status: "stable",
   },
   {
+    id: "list-app-bar",
+    label: "List app bar",
+    group: "Components",
+    component: ListAppBarPreview,
+    status: "stable",
+  },
+  {
     id: "loading-button",
     label: "Loading button",
     group: "Components",
@@ -162,6 +173,20 @@ export const PREVIEWS: PreviewEntry[] = [
     status: "legacy",
   },
   {
+    id: "entry-data",
+    label: "Entry data",
+    group: "Components",
+    component: EntryDataPreview,
+    status: "stable",
+  },
+  {
+    id: "summary-card",
+    label: "Summary card",
+    group: "Components",
+    component: SummaryCardPreview,
+    status: "stable",
+  },
+  {
     id: "buttons",
     label: "Buttons & actions",
     group: "Patterns",
@@ -180,6 +205,13 @@ export const PREVIEWS: PreviewEntry[] = [
     label: "Charts",
     group: "Patterns",
     component: ChartsPreview,
+    status: "stable",
+  },
+  {
+    id: "toasts",
+    label: "Toasts",
+    group: "Patterns",
+    component: ToastsPreview,
     status: "stable",
   },
   {

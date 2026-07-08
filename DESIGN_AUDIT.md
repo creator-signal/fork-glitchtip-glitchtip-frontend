@@ -105,9 +105,9 @@ Gaps found by benchmarking the guide against public systems (PostHog, IBM Carbon
 - **Pagination buttons (`gt-pagination-buttons`).** **(built: Pagination buttons page, legacy status; cursor paging with first/middle/last/loading states)**
 - **Icon usage rules** (sizing, placement, icon-only labeling) alongside the icon asset galleries. **(built: Icon usage page)**
 - **Motion** (Material 3 durations + standard easing + reduced-motion, with a live duration demo). **(built: Motion foundation page)**
-- **List app bar (`gt-list-app-bar`).** Document the responsive collapse pattern the ad-hoc `gt-top-app-bar` usages should adopt (ties to the app-bar action-model ticket above). Needs a guidance-only page: the component injects `OrganizationsService`, so it cannot render live in the preview.
-- **entry-data (`gt-entry-data`, 20 uses) and summary/stat card (`gt-summary-card`).** Both cleanly renderable; not yet documented.
-- **Toasts vs banners.** Document transient vs persistent feedback (Carbon/Material model); not yet started.
+- **List app bar (`gt-list-app-bar`).** Documents the responsive collapse pattern the ad-hoc `gt-top-app-bar` usages should adopt (ties to the app-bar action-model ticket above). **(built: guidance page with a static wide/small schematic; not rendered live because the component injects `OrganizationsService`)**
+- **entry-data (`gt-entry-data`, 20 uses) and summary/stat card (`gt-summary-card`).** **(built: Entry data and Summary card pages, both rendering the real component)**
+- **Toasts vs banners.** Transient vs persistent vs inline feedback (Carbon/Material model). **(built: Toasts page with a live snackbar demo and a toast/banner/inline comparison)**
 
 ### Tier 4 — breadth / opportunistic
 
