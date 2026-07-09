@@ -15,8 +15,34 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       .sc-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        // Equal rows: every cell takes the tallest card's height, so the tiles
+        // line up instead of each sizing to its own content.
+        grid-auto-rows: 1fr;
         gap: var(--gt-space-4);
         max-width: 760px;
+      }
+      // The ideal metric-card layout: the card fills its cell and the progress
+      // bar sits on a shared bottom baseline, so a row lines up even when the
+      // values differ (loading, over-limit, not-enough-data). The shipped
+      // component sizes to its own content and leaves the bar wherever the text
+      // ends, so this demo pierces it to show the target (product fix: P19).
+      .sc-grid gt-summary-card {
+        display: block;
+        height: 100%;
+      }
+      .sc-grid gt-summary-card ::ng-deep mat-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .sc-grid gt-summary-card ::ng-deep mat-card-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      // Push the meter to the bottom so every card's bar shares one baseline.
+      .sc-grid gt-summary-card ::ng-deep mat-progress-bar {
+        margin-top: auto;
       }
     `,
   ],
