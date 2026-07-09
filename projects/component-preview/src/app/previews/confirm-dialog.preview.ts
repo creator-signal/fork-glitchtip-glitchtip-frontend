@@ -85,6 +85,7 @@ export class ConfirmDialogPreview {
     { keys: "Enter", description: "Activate the focused button" },
   ];
   readonly composition = {
+    within: ["Dialogs"],
     contains: ["Buttons & actions"],
   };
   readonly api: ApiRow[] = [

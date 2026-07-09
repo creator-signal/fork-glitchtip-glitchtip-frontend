@@ -86,10 +86,6 @@ body {
 // variant (MatIconButton takes no appearance), so this adds the treatment for
 // standalone secondary icon actions. The product needs a shared version of
 // this (see the design audit); the rulebook demonstrates the intended look.
-.icon-button--outlined {
-  border: 1px solid var(--mat-sys-outline-variant);
-}
-
 // Bare mode (?bare=1): hosts a single preview for the example-width iframe.
 // Transparent so the iframe's own background (matched to .doc-example) shows
 // through; padding comes from the example wrapper. No min-height so the body

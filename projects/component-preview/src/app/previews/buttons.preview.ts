@@ -95,26 +95,10 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       <div class="preview-section">
         <div class="preview-section__title">Icon buttons</div>
         <p class="preview-section__note">
-          Plain in toolbars and rows. Outlined when the action stands on its
-          own and needs to read as a button. Two sizes only.
+          Plain, in two sizes. If an icon action needs to read as a standalone
+          button, give it a label rather than an icon alone.
         </p>
         <div class="btn-row">
-          <div class="btn-item">
-            <button mat-icon-button aria-label="Settings">
-              <mat-icon>settings</mat-icon>
-            </button>
-            <span class="btn-item__use">Plain</span>
-          </div>
-          <div class="btn-item">
-            <button
-              mat-icon-button
-              class="icon-button--outlined"
-              aria-label="Settings"
-            >
-              <mat-icon>settings</mat-icon>
-            </button>
-            <span class="btn-item__use">Outlined (standalone)</span>
-          </div>
           <div class="btn-item">
             <button
               mat-icon-button
@@ -129,9 +113,9 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
             <button
               mat-icon-button
               class="medium-icon-button"
-              aria-label="Edit"
+              aria-label="Settings"
             >
-              <mat-icon>edit</mat-icon>
+              <mat-icon>settings</mat-icon>
             </button>
             <span class="btn-item__use">Medium (36) for toolbars</span>
           </div>
@@ -190,13 +174,10 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       <div class="preview-section" style="margin-bottom: 0">
         <div class="preview-section__title">Async and legacy</div>
         <p class="preview-section__note">
-          Use gt-loading-button for anything that hits the server. Do not use
-          mat-raised-button; it is the old Material 2 elevated style.
+          For anything that hits the server, use gt-loading-button (see Loading
+          button): it shows a spinner and blocks double-submits. Do not use
+          mat-raised-button, the old Material 2 elevated style.
         </p>
-        <div class="btn-row">
-          <button mat-flat-button color="primary">Filled (use this)</button>
-          <button mat-raised-button>Raised (legacy)</button>
-        </div>
       </div>
     </preview-doc>
   `,

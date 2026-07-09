@@ -101,6 +101,11 @@ preview app, `feat/design-system-preview`).
 - **Scope:** product. **Effort:** 4-6h each.
 - Repeated stat rows (transaction-group-detail, monitor-detail) and hand-rolled member/team rows (settings) into shared components.
 
+### P17 — Align form and info dialogs to the Dialogs pattern
+- **Scope:** product. **Effort:** 2-3h.
+- The guide's Dialogs page sets the rules for the three types. Check the form dialogs (`NewTeamComponent`, `NewRecipientComponent`, `PaymentComponent`, `custom-timerange-form`) and the info dialog (`EventInfoComponent`) against them: one task each, submit via gt-loading-button, cancel always available, title states the purpose.
+- **Done when:** the bespoke form/info dialogs follow the pattern's structure and action rules.
+
 ### P16 — support-banner icon position
 - **Scope:** product. **Effort:** 15min.
 - Trailing icon where leading is the rule; confirm intent or align.

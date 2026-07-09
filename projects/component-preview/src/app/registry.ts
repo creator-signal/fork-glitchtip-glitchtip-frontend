@@ -30,6 +30,7 @@ import { SummaryCardPreview } from "./previews/summary-card.preview";
 import { TokensCatalogPreview } from "./previews/tokens-catalog.preview";
 import { TabsPreview } from "./previews/tabs.preview";
 import { ToastsPreview } from "./previews/toasts.preview";
+import { DialogsPreview } from "./previews/dialogs.preview";
 
 /**
  * Component lifecycle status, following the practice of published design
@@ -206,6 +207,13 @@ export const PREVIEWS: PreviewEntry[] = [
     label: "Toasts",
     group: "Patterns",
     component: ToastsPreview,
+    status: "stable",
+  },
+  {
+    id: "dialogs",
+    label: "Dialogs",
+    group: "Patterns",
+    component: DialogsPreview,
     status: "stable",
   },
   {
