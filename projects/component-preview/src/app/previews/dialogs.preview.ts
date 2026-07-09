@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy, inject, signal } from "@angular/cor
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
-} from "src/app/shared/confirm-dialog/confirm-dialog.component";
+  DemoConfirmDialog,
+  DemoConfirmData,
+} from "../docs/demo-confirm-dialog.component";
 import { PreviewDocComponent } from "../docs/preview-doc.component";
 
 /**
@@ -114,14 +114,14 @@ export class DialogsPreview {
   readonly lastResult = signal<boolean | null>(null);
 
   openConfirm(): void {
-    const data: ConfirmDialogData = {
+    const data: DemoConfirmData = {
       title: "Delete project?",
       message:
         "frontend and all of its events will be permanently deleted. This cannot be undone.",
       confirmText: "Delete",
     };
     this.dialog
-      .open(ConfirmDialogComponent, { data })
+      .open(DemoConfirmDialog, { data })
       .afterClosed()
       .subscribe((confirmed: boolean | undefined) =>
         this.lastResult.set(!!confirmed),

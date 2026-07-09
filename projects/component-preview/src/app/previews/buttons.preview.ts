@@ -3,9 +3,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
-} from "src/app/shared/confirm-dialog/confirm-dialog.component";
+  DemoConfirmDialog,
+  DemoConfirmData,
+} from "../docs/demo-confirm-dialog.component";
 import { DoDontComponent } from "../docs/do-dont.component";
 import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
 
@@ -232,13 +232,13 @@ export class ButtonsPreview {
 </button>`;
 
   confirmDelete(): void {
-    const data: ConfirmDialogData = {
+    const data: DemoConfirmData = {
       title: "Delete project?",
       message: "frontend and all of its events will be permanently deleted.",
       confirmText: "Delete",
     };
     this.dialog
-      .open(ConfirmDialogComponent, { data })
+      .open(DemoConfirmDialog, { data })
       .afterClosed()
       .subscribe((confirmed: boolean | undefined) =>
         this.deleted.set(!!confirmed),

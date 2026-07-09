@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy, inject, signal } from "@angular/cor
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
-} from "src/app/shared/confirm-dialog/confirm-dialog.component";
+  DemoConfirmDialog,
+  DemoConfirmData,
+} from "../docs/demo-confirm-dialog.component";
 import { ApiRow, KeyRow, PreviewDocComponent } from "../docs/preview-doc.component";
 
 @Component({
@@ -28,7 +28,7 @@ import { ApiRow, KeyRow, PreviewDocComponent } from "../docs/preview-doc.compone
     <preview-doc
       title="Confirm dialog"
       status="stable"
-      [designNotes]="['confirm button is off-rule: a legacy raised primary; should be outlined warn per Buttons & actions']"
+      [designNotes]="['example shows the intended treatment; the shipped confirm button is still a legacy raised primary (ticket P12)']"
       description="The confirmation step in front of every destructive or irreversible action (deleting an organization, revoking a token, bulk-resolving issues). Open it with MatDialog and act on the boolean it resolves with."
       [whenToUse]="whenToUse"
       [dos]="dos"
@@ -110,14 +110,14 @@ ref.afterClosed().subscribe((confirmed) => {
 });`;
 
   openDialog(): void {
-    const data: ConfirmDialogData = {
+    const data: DemoConfirmData = {
       title: "Delete project?",
       message:
         "frontend and all of its events will be permanently deleted. This cannot be undone.",
       confirmText: "Delete",
     };
     this.dialog
-      .open(ConfirmDialogComponent, { data })
+      .open(DemoConfirmDialog, { data })
       .afterClosed()
       .subscribe((confirmed: boolean | undefined) =>
         this.lastResponse.set(!!confirmed),
