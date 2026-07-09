@@ -134,11 +134,24 @@ describe("Add and edit alerts", () => {
       "Please select events or uptime monitor triggers for your alert.",
     );
     cy.get("[data-cy=uptime-check]").click();
+
+    // Enabling uptime reveals required quantity/timespan threshold inputs,
+    // which default to 1/1. Set explicit values so we can assert they persist.
+    cy.get("[data-cy=uptime-quantity]").should("be.visible").clear().type("3");
+    cy.get("[data-cy=uptime-timespan]").should("be.visible").clear().type("5");
+
     cy.get("button").contains("submit").click();
     cy.contains("Success! Your new alert has been added.");
 
     cy.get("[data-cy=error-check]").find("input").should("not.be.checked");
     cy.get("[data-cy=uptime-check]").find("input").should("be.checked");
+
+    // The uptime threshold inputs remain required on the saved alert. Ensure
+    // they hold valid integers before updating (a backend that doesn't yet
+    // round-trip the thresholds returns them empty, which the required-field
+    // UI would otherwise reject and silently block the update).
+    cy.get("[data-cy=uptime-quantity]").clear().type("3");
+    cy.get("[data-cy=uptime-timespan]").clear().type("5");
 
     cy.get("[data-cy=error-check]").click();
     cy.get("[data-cy=update-button]").contains("Update").click();
@@ -146,5 +159,7 @@ describe("Add and edit alerts", () => {
 
     cy.get("[data-cy=error-check]").find("input").should("be.checked");
     cy.get("[data-cy=uptime-check]").find("input").should("be.checked");
+    cy.get("[data-cy=uptime-quantity]").should("have.value", "3");
+    cy.get("[data-cy=uptime-timespan]").should("have.value", "5");
   });
 });

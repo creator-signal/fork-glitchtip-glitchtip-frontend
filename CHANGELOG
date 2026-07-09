@@ -10,6 +10,7 @@
 
 # 6.1.7
 
+- Feat: Uptime monitor alerts support an independent failure threshold (quantity + timespan), shown when the uptime trigger is enabled.
 - Feat: Add a "copy for AI" action to event detail, with a gated hint for the MCP endpoint.
 - Feat: Add a marketing Support page with a contact form, linked from the primary nav, that requires a license key and auto-fills the email from the URL.
 - Feat: Manage billing through the Stripe Portal via a new InstanceLicenseService, gated on paid instances.
