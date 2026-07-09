@@ -132,6 +132,12 @@ pages:
     - npm run build-marketing
     - mv dist/marketing/browser public
     - cp 404.html public/
+    # One Pages site serves both apps: marketing at the root, the component
+    # preview (style guide) at /style-guide/. A GitLab project gets a single
+    # Pages site, so the style guide ships inside this job. base-href must
+    # match the subpath or the guide's assets 404.
+    - npx ng build component-preview --configuration production --base-href /style-guide/
+    - mv dist/component-preview/browser public/style-guide
   artifacts:
     paths:
       - public
