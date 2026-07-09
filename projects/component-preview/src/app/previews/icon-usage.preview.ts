@@ -66,7 +66,7 @@ import { PreviewDocComponent } from "../docs/preview-doc.component";
         </p>
         <div class="iu-row">
           <div class="iu-item">
-            <span class="iu-inline"><mat-icon>schedule</mat-icon> Last seen</span>
+            <span class="iu-inline"><mat-icon>cached</mat-icon> Last synced</span>
             <span class="iu-item__use">Inline: matches the text</span>
           </div>
           <div class="iu-item">
@@ -148,7 +148,7 @@ export class IconUsagePreview {
     "Scale an icon up as decoration; use a container or an illustration instead",
   ];
   readonly code = `<!-- inline icon: sized to the text -->
-<span class="iu-inline"><mat-icon>schedule</mat-icon> Last seen</span>
+<span class="iu-inline"><mat-icon>cached</mat-icon> Last synced</span>
 
 <!-- icon button: two sizes, always labelled -->
 <button mat-icon-button class="small-icon-button" aria-label="Edit">

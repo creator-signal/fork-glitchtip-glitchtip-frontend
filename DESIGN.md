@@ -101,6 +101,8 @@ Required on every component page: description, example, When to use, Do, Don't, 
 
 Voice: plain and human. A verb-first instruction beats a description of one. No em or en dashes. Only essential, helpful information.
 
+Icons: a preview example may only use a Material Symbol that is in the app's self-hosted subset (the list on the Material symbols page); any other name renders as broken ligature text, not a glyph.
+
 ### Component lifecycle
 
 Every documented component carries a status, following the practice of published design systems (Polaris, USWDS, Carbon):

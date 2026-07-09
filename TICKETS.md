@@ -79,6 +79,11 @@ preview app, `feat/design-system-preview`).
 - Screenshot the guide's pages in CI (Playwright) and diff on MRs, so token and component changes show as reviewable image diffs.
 - **Done when:** an MR that changes a token shows image diffs in review.
 
+### C4 — Check preview icons against the icon subset
+- **Scope:** ci. **Effort:** 1h.
+- The preview self-hosts a Material Symbols subset; a `<mat-icon>` name outside it renders as broken ligature text (has recurred: `radio_button_*`, `schedule`). Add a check that greps every `<mat-icon>name</mat-icon>` in `projects/component-preview` against the subset list and fails on a miss.
+- **Done when:** a preview example using an out-of-subset icon fails CI.
+
 ### P18 — Fix gt-to-do-item state design
 - **Scope:** product. **Effort:** 1-2h.
 - The component distinguishes states mostly by color: an icon (`check_box`) appears only on "done", "in progress" and "not started" differ by text color alone, and "not started" is red (`#e22a46`), reading as an error. Give each state its own icon (done = check, current = filled ring in primary, not-started = empty ring, muted), make not-started neutral, emphasize the current step, and tokenize the hardcoded `#e22a46` / `#54a65a` (covers the to-do-item part of P13). The guide's To-do item page shows the target as a do/don't.

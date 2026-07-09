@@ -23,14 +23,16 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       // the app's Material Symbols subset, and this keeps the three states a
       // consistent shape.
       .td-dot {
-        position: relative;
         width: 18px;
         height: 18px;
         border-radius: 50%;
         flex: none;
         box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      // Done: filled success with a check; the label de-emphasizes, move on.
+      // Done: filled success with a centered white check; label de-emphasizes.
       .td-item--done {
         color: var(--mat-sys-on-surface-variant);
       }
@@ -39,29 +41,22 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
       }
       .td-item--done .td-dot::after {
         content: "";
-        position: absolute;
-        left: 6px;
-        top: 3px;
         width: 4px;
         height: 8px;
-        border: solid var(--on-success, #fff);
+        border: solid #fff;
         border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
+        // translateY optically centers the rotated check in the circle.
+        transform: translateY(-1px) rotate(45deg);
       }
-      // In progress: the current step, a filled primary ring, emphasized.
+      // In progress: the current step. Same progress color as done, but an
+      // open ring (not yet filled), plus a bold label to say "you are here".
+      // One accent for the whole track, no second color.
       .td-item--doing {
         color: var(--mat-sys-on-surface);
         font-weight: 600;
       }
       .td-item--doing .td-dot {
-        border: 2px solid var(--mat-sys-primary);
-      }
-      .td-item--doing .td-dot::after {
-        content: "";
-        position: absolute;
-        inset: 3px;
-        border-radius: 50%;
-        background-color: var(--mat-sys-primary);
+        border: 2px solid var(--success-color);
       }
       // Not started: a muted empty ring, never alarming.
       .td-item--todo {
