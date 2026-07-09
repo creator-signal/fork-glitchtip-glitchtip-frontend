@@ -28,12 +28,13 @@ import { ApiRow, KeyRow, PreviewDocComponent } from "../docs/preview-doc.compone
     <preview-doc
       title="Confirm dialog"
       status="stable"
+      [designNotes]="['confirm button is off-rule: a legacy raised primary; should be outlined warn per Buttons & actions']"
       description="The confirmation step in front of every destructive or irreversible action (deleting an organization, revoking a token, bulk-resolving issues). Open it with MatDialog and act on the boolean it resolves with."
       [whenToUse]="whenToUse"
       [dos]="dos"
       [donts]="donts"
       [content]="content"
-      a11y="Material's dialog traps focus, restores it on close, and closes on Escape. The confirm action is the primary button; cancel is always available and is the safe default."
+      a11y="Material's dialog traps focus, restores it on close, and closes on Escape. Cancel is always available and is the safe default."
       [keyboard]="keyboard"
       [composition]="composition"
       [api]="api"
@@ -67,6 +68,7 @@ export class ConfirmDialogPreview {
   readonly dos = [
     "Name the consequence in the message (what exactly gets deleted)",
     "Use a verb for confirmText (Delete, Revoke), not Yes/OK",
+    "Make the two actions read differently: the confirm is an outlined warn button, cancel is plain text (see Buttons & actions)",
     "Act only when the dialog resolves true",
   ];
   readonly donts = [

@@ -85,9 +85,10 @@ preview app, `feat/design-system-preview`).
 - **Scope:** product. **Effort:** 30min.
 - `webauthn.component.html` passes `[error]`; migrate to `[errors]`.
 
-### P12 — Replace the last mat-raised-button
-- **Scope:** product. **Effort:** 15min.
-- `confirm-dialog.component.html`; migrate to `mat-flat-button`. (C1 then bans it.)
+### P12 — Fix the ConfirmDialogComponent confirm button
+- **Scope:** product. **Effort:** 30min.
+- `confirm-dialog.component.html` confirm button is `mat-raised-button color="primary"` (legacy M2 elevation + filled red destructive). Change to `mat-stroked-button color="warn"` so it follows the destructive rule and reads distinctly from the plain-text cancel. Not `mat-flat-button` (that keeps it a filled red). Part of P3; C1 then bans mat-raised-button.
+- **Done when:** the confirm is an outlined warn button, visibly distinct from cancel.
 
 ### P13 — Tokenize remaining hex colors
 - **Scope:** product. **Effort:** 2-3h.
