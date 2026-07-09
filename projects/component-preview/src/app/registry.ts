@@ -29,7 +29,6 @@ import { EntryDataPreview } from "./previews/entry-data.preview";
 import { SummaryCardPreview } from "./previews/summary-card.preview";
 import { TokensCatalogPreview } from "./previews/tokens-catalog.preview";
 import { TabsPreview } from "./previews/tabs.preview";
-import { ListAppBarPreview } from "./previews/list-app-bar.preview";
 import { ToastsPreview } from "./previews/toasts.preview";
 
 /**
@@ -116,13 +115,6 @@ export const PREVIEWS: PreviewEntry[] = [
     label: "Top app bar",
     group: "Components",
     component: TopAppBarPreview,
-    status: "stable",
-  },
-  {
-    id: "list-app-bar",
-    label: "List app bar",
-    group: "Components",
-    component: ListAppBarPreview,
     status: "stable",
   },
   {

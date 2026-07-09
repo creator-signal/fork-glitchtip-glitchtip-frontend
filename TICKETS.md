@@ -105,9 +105,10 @@ preview app, `feat/design-system-preview`).
 - **Scope:** product. **Effort:** 15min.
 - Trailing icon where leading is the rule; confirm intent or align.
 
-### G2 — Render list-app-bar live
-- **Scope:** guide. **Effort:** 1-2h.
-- Provide a mock `OrganizationsService` in the preview so the page renders the real component instead of the static schematic.
+### G2 — Document list-app-bar with a live render (or not at all)
+- **Scope:** guide. **Effort:** 2-4h.
+- The page was removed: its hand-drawn schematic invented the look of `gt-project-multiselect` / `gt-time-range-select` and misrepresented the real component, which violates the guide's core promise. To bring it back it must render the REAL component, which needs a mock `OrganizationsService` (activeOrganization* signals, accessProjectWrite) plus stubs for the projected sub-components.
+- **Done when:** the page renders the real `gt-list-app-bar`, or it stays absent. No schematic.
 
 ### G3 — Shared brand-styles partial
 - **Scope:** guide+marketing. **Effort:** 1-2h.

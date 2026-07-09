@@ -90,7 +90,7 @@ export class BannersPreview {
   ];
   readonly content = [
     "Lead with the state or the offer, not the mechanism",
-    "Name the action on the button: Upgrade, Compare plans, not Learn more",
+    "Name the action on the button: Upgrade, Compare Plans, not Learn More",
     "Give numbers meaning: you have used 82% of your events",
   ];
   readonly composition = {

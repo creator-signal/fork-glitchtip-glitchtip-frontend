@@ -80,7 +80,7 @@ import { ApiRow, KeyRow, PreviewDocComponent } from "../docs/preview-doc.compone
             </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Display name</mat-label>
+            <mat-label>Display Name</mat-label>
             <input matInput type="text" formControlName="name" />
           </mat-form-field>
           <div class="demo-actions">
@@ -122,7 +122,7 @@ export class FormsPreview {
     "Gate submit by permission (see Permission gating: hide, never disable)",
   ];
   readonly content = [
-    "Label every field with a noun: Email, Display name",
+    "Label every field with a noun: Email, Display Name",
     "Write the error as an instruction: Enter a valid email address, not Invalid",
     "Say what to do, not just what is wrong",
     "Keep server messages in the same voice as the client ones",

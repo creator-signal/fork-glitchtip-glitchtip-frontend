@@ -45,7 +45,7 @@ import { ApiRow, PreviewDocComponent } from "../docs/preview-doc.component";
             [eventsAllowed]="1000"
             [limitThreshold]="100"
           />
-          <gt-summary-card title="Uptime checks" [value]="4820" [eventsAllowed]="null" [showLimits]="false" />
+          <gt-summary-card title="Uptime Checks" [value]="4820" [eventsAllowed]="null" [showLimits]="false" />
           <gt-summary-card title="Events" [value]="null" [eventsAllowed]="1000" />
           <gt-summary-card title="Events" [value]="620" [eventsAllowed]="1000" [loading]="true" />
         </div>
@@ -68,7 +68,7 @@ export class SummaryCardPreview {
     "Use it for a value with no headline number (use a stat row instead)",
   ];
   readonly content = [
-    "Title is a short noun: Events, Uptime checks",
+    "Title is a short noun: Events, Uptime Checks",
     "Let the card write the subtitle (percent of limit, Over limit, Not enough data)",
   ];
   readonly api: ApiRow[] = [

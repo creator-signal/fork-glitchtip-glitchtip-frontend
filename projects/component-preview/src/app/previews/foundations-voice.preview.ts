@@ -64,20 +64,15 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
     </div>
 
     <div class="preview-section">
-      <div class="preview-section__title">Sentence case</div>
+      <div class="preview-section__title">Capitalization</div>
       <p class="preview-section__note">
-        Use sentence case everywhere: page titles, buttons, labels, menu items,
-        table headers. Only proper nouns and product names keep their capitals.
+        Labels are Title Case, sentences are sentence case.
       </p>
-      <table class="vt-swap">
-        <thead>
-          <tr><th>Instead of</th><th>Write</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Add Monitor</td><td>Add monitor</td></tr>
-          <tr><td>Delete Project</td><td>Delete project</td></tr>
-        </tbody>
-      </table>
+      <ul class="vt-list">
+        <li>Title Case for labels: buttons, page and section titles, field labels, menu items, table headers. New Monitor, Add Project, Monitor Name.</li>
+        <li>Sentence case for full sentences: helper text, error and empty-state messages, tooltips. "Enter a valid email address."</li>
+        <li>Proper nouns and product names keep their own capitals.</li>
+      </ul>
     </div>
 
     <div class="preview-section">
@@ -104,7 +99,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
     <div class="preview-section">
       <div class="preview-section__title">Buttons and labels</div>
       <ul class="vt-list">
-        <li>Verb first, then the object: Add monitor, Delete project. See Buttons &amp; actions.</li>
+        <li>Verb first, then the object: Add Monitor, Delete Project. See Buttons &amp; actions.</li>
         <li>A bare verb is fine only when the object is obvious right beside it.</li>
         <li>Match a confirm button to its action: Delete, not Yes or OK.</li>
       </ul>
