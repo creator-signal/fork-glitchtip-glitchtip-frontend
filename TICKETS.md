@@ -79,6 +79,11 @@ preview app, `feat/design-system-preview`).
 - Screenshot the guide's pages in CI (Playwright) and diff on MRs, so token and component changes show as reviewable image diffs.
 - **Done when:** an MR that changes a token shows image diffs in review.
 
+### P18 — Fix gt-to-do-item state design
+- **Scope:** product. **Effort:** 1-2h.
+- The component distinguishes states mostly by color: an icon (`check_box`) appears only on "done", "in progress" and "not started" differ by text color alone, and "not started" is red (`#e22a46`), reading as an error. Give each state its own icon (done = check, current = filled ring in primary, not-started = empty ring, muted), make not-started neutral, emphasize the current step, and tokenize the hardcoded `#e22a46` / `#54a65a` (covers the to-do-item part of P13). The guide's To-do item page shows the target as a do/don't.
+- **Done when:** every state is distinguishable without color, not-started is neutral, and colors are tokens.
+
 ## Low priority
 
 ### P11 — Fix deprecated gt-form-error input
