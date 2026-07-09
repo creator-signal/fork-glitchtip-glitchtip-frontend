@@ -4,7 +4,7 @@ This is the source of truth for GlitchTip's visual language: the tokens, the rul
 
 The living, interactive version of this document is the **Component Preview** app (`projects/component-preview/`, run with `npm run preview`). It renders real components and reads token values live from the running theme.
 
-The preview is the **north star**: it defines how each pattern should look and behave. Where the shipped product does not yet match a rule, that is a tracked ticket in `DESIGN_AUDIT.md`, not a reason to water down the rule. Foundations (tokens, type, spacing) still read live from the theme so they cannot drift; component and pattern pages show the intended rule, and a `designNotes` chip flags any page whose ideal the product has not adopted yet.
+The preview is the **north star**: it defines how each pattern should look and behave. Where the shipped product does not yet match a rule, that is tracked as a ticket, not a reason to water down the rule. Foundations (tokens, type, spacing) still read live from the theme so they cannot drift; component and pattern pages show the intended rule, and a `designNotes` chip flags any page whose ideal the product has not adopted yet.
 
 ## Direction
 
@@ -74,7 +74,7 @@ Conventions for every component:
 ## Governance
 
 - The preview app is the **north-star rulebook**; the product aligns to it via audit tickets, not the reverse. Deliberate divergence (rule set here, product migrated via tickets) is the model; ad-hoc divergence is not.
-- Run a **style audit** per pattern to measure product drift and generate tickets. Process and the reusable audit prompt: `STYLE_AUDIT.md`. Findings land in `DESIGN_AUDIT.md`; the actionable backlog distilled from them is `TICKETS.md`.
+- Run a **style audit** per pattern to measure product drift and turn the gaps into tracked tickets.
 - Document what the product ships, not what mature systems have. A page earns its place by answering questions developers actually hit; benchmark gaps are candidates, not requirements.
 - Add a component or foundation by adding a `registry.ts` entry and, where useful, wrapping it in `preview-doc`.
 
@@ -135,7 +135,7 @@ Until it is published, run it locally with `npm run preview` (port 4300, require
 
 Direction for the system beyond the current guide, roughly in order:
 
-1. **Audit tickets.** Work through `DESIGN_AUDIT.md`: standardize submit buttons on gt-loading-button, promote gt-empty-state, fix the deprecated gt-form-error input, then the medium/low items.
+1. **Audit tickets.** Work through the tracked backlog: standardize submit buttons on gt-loading-button, promote gt-empty-state, fix the deprecated gt-form-error input, then the medium/low items.
 2. **API-table sync check.** The properties tables in the guide are hand-written; add a small check (script or agent step) that diffs each component's `input()`/`output()` signatures against its documented `api` rows so the docs cannot silently drift.
 3. **Visual regression.** Screenshot the guide's pages in CI (Playwright) and diff on merge requests, so token or component changes show up as reviewable image diffs.
 4. **Brand tokens partial.** The Brand section is live in the guide (Product | Brand toolbar tabs): marketing shares the product's Material theme and adds display typography (`.marketing-heading` scale), the `.fancy` italic accent, and two accent tokens (`--mkt-accent-blue/yellow`). Those brand styles are currently mirrored into the preview's stylesheet; extract them into a shared partial that both marketing and the preview import so there is a single source.
