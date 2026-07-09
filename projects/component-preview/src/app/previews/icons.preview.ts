@@ -58,11 +58,20 @@ import { iconDictionary } from "src/app/shared/shared.utils";
     `,
   ],
   template: `
+    <header class="preview-page-header">
+      <h1 class="preview-page-title">Icons (logos)</h1>
+      <p class="preview-lead">
+        Every entry in the app's iconDictionary: browser, OS and framework
+        logos sourced from npm packages. When a package upgrade moves an asset
+        path, the broken icon shows here in red instantly.
+      </p>
+    </header>
+
     <div
       class="icon-summary"
       [class.icon-summary--bad]="broken().length > 0"
     >
-      {{ entries.length }} icons —
+      {{ entries.length }} icons:
       @if (broken().length === 0) {
         all loaded ✓
       } @else {
