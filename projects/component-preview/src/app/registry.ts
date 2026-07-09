@@ -12,7 +12,10 @@ import { DetailPagePreview } from "./previews/detail-page.preview";
 import { PermissionGatingPreview } from "./previews/permission-gating.preview";
 import { BrandTypographyPreview } from "./previews/brand-typography.preview";
 import { BrandColorsPreview } from "./previews/brand-colors.preview";
-import { BrandComponentsPreview } from "./previews/brand-components.preview";
+import { BrandOverviewPreview } from "./previews/brand-overview.preview";
+import { BrandPricingCardPreview } from "./previews/brand-pricing-card.preview";
+import { BrandQaPreview } from "./previews/brand-qa.preview";
+import { BrandSimpleTablePreview } from "./previews/brand-simple-table.preview";
 import { ProjectCardPreview } from "./previews/project-card.preview";
 import { BannersPreview } from "./previews/banners.preview";
 import { IconsPreview } from "./previews/icons.preview";
@@ -245,6 +248,13 @@ export const PREVIEWS: PreviewEntry[] = [
     status: "stable",
   },
   {
+    id: "brand-overview",
+    label: "Overview",
+    group: "Get started",
+    section: "brand",
+    component: BrandOverviewPreview,
+  },
+  {
     id: "brand-typography",
     label: "Typography",
     group: "Foundations",
@@ -259,11 +269,27 @@ export const PREVIEWS: PreviewEntry[] = [
     component: BrandColorsPreview,
   },
   {
-    id: "brand-components",
-    label: "Marketing components",
+    id: "brand-pricing-card",
+    label: "Pricing card",
     group: "Components",
     section: "brand",
-    component: BrandComponentsPreview,
+    component: BrandPricingCardPreview,
+    status: "stable",
+  },
+  {
+    id: "brand-qa",
+    label: "Question & answer",
+    group: "Components",
+    section: "brand",
+    component: BrandQaPreview,
+    status: "stable",
+  },
+  {
+    id: "brand-simple-table",
+    label: "Simple table",
+    group: "Components",
+    section: "brand",
+    component: BrandSimpleTablePreview,
     status: "stable",
   },
   {
