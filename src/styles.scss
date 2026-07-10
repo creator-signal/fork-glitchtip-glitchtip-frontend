@@ -45,6 +45,14 @@ html {
   --issues-color: #f27121;
   --uptime-color: #8a2387;
   --logs-color: #2196f3;
+
+  // Log severity palette: AA-compliant per mode (darker on light, bright on dark)
+  --log-error-color: light-dark(#c62828, #ef4444);
+  --log-warn-color: light-dark(#a16207, #f59e0b);
+  --log-info-color: light-dark(#1d4ed8, #3b82f6);
+  --log-debug-color: light-dark(#6d28d9, #a78bfa);
+  --log-trace-color: light-dark(#4b5563, #9ca3af);
+  --log-service-color: light-dark(#047857, #10b981);
 }
 
 .light {
