@@ -24,6 +24,11 @@
       (sortByChanged)="sortByChanged($event)"
     />
   }
+  <div class="issues-loading-bar" aria-live="polite">
+    @if (loading()) {
+      <mat-progress-bar mode="indeterminate" aria-label="Loading issues" />
+    }
+  </div>
   <div class="table-container">
     @if (issues(); as issues) {
       <table
