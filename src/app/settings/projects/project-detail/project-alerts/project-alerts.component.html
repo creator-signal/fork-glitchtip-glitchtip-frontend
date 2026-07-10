@@ -111,7 +111,7 @@
                         class="recipient-action small-icon-button"
                         mat-icon-button
                         color="primary"
-                        attr.aria-label="Edit recipient"
+                        aria-label="Edit recipient"
                         (click)="
                           openEditNewRecipientDialog(recipient, recipientIndex)
                         "
@@ -292,7 +292,7 @@
                             class="recipient-action small-icon-button"
                             mat-icon-button
                             color="primary"
-                            attr.aria-label="Test recipient"
+                            aria-label="Test recipient"
                             matTooltip="Send test notification"
                             [disabled]="testAlertLoading() === recipient.id"
                             (click)="testRecipient(alert.id!, recipient.id!)"
@@ -308,7 +308,7 @@
                               class="recipient-action small-icon-button"
                               mat-icon-button
                               color="primary"
-                              attr.aria-label="Edit recipient"
+                              aria-label="Edit recipient"
                               (click)="
                                 openEditRecipientDialog(recipient, alert)
                               "
