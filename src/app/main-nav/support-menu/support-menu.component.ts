@@ -36,4 +36,16 @@ export class SupportMenuComponent {
       this.supportUrl.set(data.url);
     }
   }
+
+  openChatwoot() {
+    const chatwoot = (window as any).$chatwoot;
+    if (chatwoot) {
+      chatwoot.toggle("open");
+      console.log("Hey man I'm here")
+    } else {
+      // Chatwoot not configured / not loaded yet, then send them to the support page.
+      // This runs inside the user's click gesture, so window.open won't be popup-blocked.
+      window.open(this.supportUrl() ?? this.fallbackSupportUrl, "_blank", "noopener");
+    }
+  }
 }

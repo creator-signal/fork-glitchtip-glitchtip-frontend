@@ -12,6 +12,7 @@
     <mat-icon>developer_guide</mat-icon>
     <span i18n>Documentation</span>
   </a>
+
   <a
     mat-menu-item
     href="https://gitlab.com/glitchtip/glitchtip/-/issues"
@@ -21,6 +22,7 @@
     <mat-icon>code</mat-icon>
     <span i18n>Report a bug</span>
   </a>
+
   @if (paidForGlitchTip() === false && billingEnabled() === false) {
     <a
       mat-menu-item
@@ -32,17 +34,32 @@
       <span i18n>Sponsor on Liberapay</span>
     </a>
   }
-  @if (paidForGlitchTip() === true) {
+
+  <!-- Support flow: 
+   1. if a user has paid, but is self hosting, then they go to the support page 
+   2. if a user has paid and isn't self hosting, then they get chatwoot 
+   3. else, they get taken to the buy a plan page. -->
+  @if (paidForGlitchTip() === true && billingEnabled() === false) {
     <mat-divider />
     <a
       mat-menu-item
-      [href]="supportUrl() || fallbackSupportUrl"
+      href="https://glitchtip.com/support"
       target="_blank"
       rel="noopener"
     >
+      <mat-icon>support</mat-icon>
+      <span i18n>Get Support</span>
+    </a>
+  } @else if (paidForGlitchTip() === true) {
+    <mat-divider />
+    <button
+      mat-menu-item
+      type="button"
+      (click)="openChatwoot()"
+    >
       <mat-icon>chat</mat-icon>
       <span i18n>Open Support Chat</span>
-    </a>
+    </button>
   } @else if (paidForGlitchTip() === false && billingEnabled() === false) {
     <mat-divider />
     <a
