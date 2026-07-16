@@ -74,7 +74,7 @@ export class SupportComponent {
       if (sub && LICENSE_KEY_PATTERN.test(sub)) {
         this.contactForm.controls.licenseKey.setValue(sub);
       }
-       // Already initialized, or wait for the SDK's "chatwoot:ready" event.
+      // Already initialized, or wait for the SDK's "chatwoot:ready" event.
       if (window.$chatwoot) {
         this.chatwootReady.set(true);
       } else {
@@ -101,6 +101,7 @@ export class SupportComponent {
     // Guard in case the SDK vanished between render and click.
     if (!window.$chatwoot) return;
     window.$chatwoot.toggle("open");
+    window.$chatwoot.toggleBubbleVisibility("show");
     window.$chatwoot.setConversationCustomAttributes({
       license: licenseKey,
     });
