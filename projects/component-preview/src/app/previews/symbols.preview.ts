@@ -7,10 +7,10 @@ import { MatIconModule } from "@angular/material/icon";
  * that subset is regenerated, a symbol the app relies on can silently drop out
  * and render as its literal ligature text instead of a glyph.
  *
- * This page renders every symbol referenced by `<mat-icon>` in the **main
- * app** (`src/app`), so the subset can be eyeballed after any font/icon
- * change: a real glyph means it's in the subset; seeing the name render as a
- * plain letter/word means the glyph is missing and needs adding to the subset.
+ * This page catalogs the symbols the subset actually contains, so the glyphs
+ * can be eyeballed after any font change. A name the app references that is not
+ * in the subset renders broken; those are tracked as a ticket rather than shown
+ * here, so this stays a clean catalog of what is available.
  *
  * Scope note: the `marketing` project loads Material Symbols through its own
  * pipeline, so its icons (arrow_forward, forum, public, rss_feed, …) are
@@ -54,31 +54,41 @@ import { MatIconModule } from "@angular/material/icon";
     `,
   ],
   template: `
-    <p class="preview-section__title">
-      {{ symbols.length }} Material Symbols in the self-hosted subset
-    </p>
-    <div class="sym-grid">
-      @for (name of symbols; track name) {
-        <div class="sym-cell">
-          <mat-icon>{{ name }}</mat-icon>
-          <span class="sym-cell__name">{{ name }}</span>
-        </div>
-      }
+    <header class="preview-page-header">
+      <h1 class="preview-page-title">Material symbols</h1>
+      <p class="preview-lead">
+        The self-hosted icon subset. Only these names render; a symbol outside
+        this list shows as broken ligature text. To add one, regenerate the
+        subset font and add the name to this page's list.
+      </p>
+    </header>
+
+    <div class="preview-section">
+      <div class="preview-section__title">
+        {{ symbols.length }} symbols in the subset
+      </div>
+      <div class="sym-grid">
+        @for (name of symbols; track name) {
+          <div class="sym-cell">
+            <mat-icon>{{ name }}</mat-icon>
+            <span class="sym-cell__name">{{ name }}</span>
+          </div>
+        }
+      </div>
     </div>
   `,
 })
 export class SymbolsPreview {
-  // Mirrors every `<mat-icon>name</mat-icon>` used in the main app (src/app).
+  // Mirrors every `<mat-icon>name</mat-icon>` used in the main app (src/app)
+  // that the subset actually contains a glyph for.
   readonly symbols: string[] = [
     "account_circle",
     "account_tree",
     "add",
-    "add_circle_outline",
     "arrow_drop_down",
     "avg_pace",
     "breaking_news",
     "brightness_medium",
-    "cached",
     "check_box",
     "check_circle",
     "clear",

@@ -6,37 +6,15 @@
 
     <h2 class="marketing-subheading">Contact support</h2>
     <p class="marketing-body">
-      Send a support request to our team. A valid license key is required —
-      this form is for self-hosted operators with an active support plan.
+      Send a support request to our team. A valid license key is required — this
+      form is for self-hosted operators with an active support plan.
     </p>
 
     <form
       class="contact-form"
       [formGroup]="contactForm"
-      (submit)="$event.preventDefault(); composeSupportEmail()"
+      (submit)="$event.preventDefault()"
     >
-      <mat-form-field appearance="outline">
-        <mat-label>Your email</mat-label>
-        <input
-          matInput
-          type="email"
-          autocomplete="email"
-          formControlName="email"
-          placeholder="you@example.com"
-        />
-        @if (
-          contactForm.controls.email.touched &&
-          contactForm.controls.email.errors?.["required"]
-        ) {
-          <mat-error>Email is required.</mat-error>
-        } @else if (
-          contactForm.controls.email.touched &&
-          contactForm.controls.email.errors?.["email"]
-        ) {
-          <mat-error>Enter a valid email address.</mat-error>
-        }
-      </mat-form-field>
-
       <mat-form-field appearance="outline">
         <mat-label>License key</mat-label>
         <input
@@ -57,37 +35,33 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>What do you need help with?</mat-label>
-        <textarea
-          matInput
-          rows="5"
-          formControlName="message"
-          placeholder="Describe your issue or question…"
-        ></textarea>
-        @if (
-          contactForm.controls.message.touched &&
-          contactForm.controls.message.errors?.["required"]
-        ) {
-          <mat-error>A message is required.</mat-error>
-        } @else if (
-          contactForm.controls.message.touched &&
-          contactForm.controls.message.errors?.["minlength"]
-        ) {
-          <mat-error
-            >Please add a bit more detail (10 characters min).</mat-error
-          >
-        }
-      </mat-form-field>
+      <p id="response-disclaimer" class="marketing-caption">
+        We are a small team, so our support response times may vary. We monitor
+        our inbox Monday-Friday during US Eastern business hours and will do our
+        best to assist you as quickly as possible!
+      </p>
 
       <div class="cta-wrapper">
+        @if (chatwootReady()) {
+          <button
+            mat-flat-button
+            type="button"
+            color="primary"
+            (click)="handleChatwoot()"
+            [disabled]="contactForm.invalid"
+          >
+            Talk to us
+          </button>
+        }
+
         <button
           mat-flat-button
+          type="button"
           color="primary"
-          type="submit"
+          (click)="composeSupportEmail()"
           [disabled]="contactForm.invalid"
         >
-          Send email
+          Send an email
         </button>
       </div>
     </form>
