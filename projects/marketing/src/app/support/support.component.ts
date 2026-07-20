@@ -74,16 +74,31 @@ export class SupportComponent {
       if (sub && LICENSE_KEY_PATTERN.test(sub)) {
         this.contactForm.controls.licenseKey.setValue(sub);
       }
-       // Already initialized, or wait for the SDK's "chatwoot:ready" event.
+      // On this page the floating launcher bubble is hidden — support is
+      // driven by the "Talk to us" button (handleChatwoot), not the bubble.
+      // Needs the SDK to be ready first, so it's tied to the ready check below
+      // and restored on destroy so the bubble reappears on every other page.
+      const hideBubble = () => window.$chatwoot?.toggleBubbleVisibility("hide");
+
+      // Already initialized, or wait for the SDK's "chatwoot:ready" event.
       if (window.$chatwoot) {
         this.chatwootReady.set(true);
+        hideBubble();
       } else {
-        const onReady = () => this.chatwootReady.set(true);
+        const onReady = () => {
+          this.chatwootReady.set(true);
+          hideBubble();
+        };
         window.addEventListener("chatwoot:ready", onReady, { once: true });
         this.destroyRef.onDestroy(() =>
           window.removeEventListener("chatwoot:ready", onReady),
         );
       }
+
+      // Restore the bubble when leaving /support (no-op if the SDK never loaded).
+      this.destroyRef.onDestroy(() =>
+        window.$chatwoot?.toggleBubbleVisibility("show"),
+      );
     }
   }
 
@@ -100,6 +115,9 @@ export class SupportComponent {
     const { licenseKey } = this.contactForm.value;
     // Guard in case the SDK vanished between render and click.
     if (!window.$chatwoot) return;
+    // The bubble was hidden on entry; reveal it now that the user is engaging
+    // so they can reopen the conversation after closing the window.
+    window.$chatwoot.toggleBubbleVisibility("show");
     window.$chatwoot.toggle("open");
     window.$chatwoot.setConversationCustomAttributes({
       license: licenseKey,

@@ -4,6 +4,7 @@ declare global {
     // Only the methods this app calls are typed.
     $chatwoot?: {
       toggle(state?: "open" | "close"): void;
+      toggleBubbleVisibility(visibility: "show" | "hide"): void;
       setConversationCustomAttributes(
         attributes: Record<string, unknown>,
       ): void;
