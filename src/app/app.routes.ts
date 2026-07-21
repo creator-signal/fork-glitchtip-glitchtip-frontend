@@ -14,20 +14,21 @@ export const routes: Routes = [
   {
     path: "login",
     pathMatch: "full",
-    loadComponent: () => import("./login/login").then((m) => m.LoginComponent),
+    loadComponent: () =>
+      import("../creativesignal/auth/creator-signal-login").then(
+        (m) => m.CreatorSignalLogin,
+      ),
     canActivate: [alreadyLoggedInGuard],
     title: "Log In",
   },
   {
     path: "register",
-    loadChildren: () => import("./register/routes"),
-    canActivate: [alreadyLoggedInGuard],
-    title: "Register",
+    redirectTo: "login",
+    pathMatch: "full",
   },
   {
     path: "reset-password",
-    loadChildren: () => import("./reset-password/routes"),
-    title: "Reset Password",
+    redirectTo: "login",
   },
   {
     path: "accept/:memberId/:token",
