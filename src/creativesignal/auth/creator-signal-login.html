@@ -1,0 +1,46 @@
+<div class="auth-form-wrapper creator-signal-auth">
+  <mat-card class="auth-form creator-signal-card">
+    <mat-card-content>
+      <div class="brand" aria-label="Creator Signal">
+        <span class="brand-mark" aria-hidden="true">CS</span>
+        <span>
+          <strong>Creator Signal</strong>
+          <small>Error monitoring</small>
+        </span>
+      </div>
+
+      <h1>Sign in to GlitchTip</h1>
+      <p class="intro">
+        Use your Creator Signal account. Access is managed centrally through
+        ZITADEL.
+      </p>
+
+      @if (!settingsLoaded()) {
+        <div class="loading" role="status">
+          <mat-spinner diameter="28"></mat-spinner>
+          <span>Loading secure sign-in…</span>
+        </div>
+      } @else if (zitadel()) {
+        <button
+          mat-flat-button
+          class="zitadel-button"
+          type="button"
+          [disabled]="starting()"
+          (click)="signIn()"
+        >
+          {{ starting() ? "Opening ZITADEL…" : "Continue with ZITADEL" }}
+        </button>
+      } @else {
+        <div class="configuration-error" role="alert">
+          Secure sign-in is not configured yet. Contact the Creator Signal
+          administrator.
+        </div>
+      }
+
+      <p class="access-note">
+        Accounts are provisioned by Creator Signal. Public registration and
+        password recovery are disabled.
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
