@@ -26,10 +26,14 @@ jobs:
       - run: npm run lint
       - run: npm test -- --watch=false
       - run: npm run build-prod
+      - uses: docker/setup-buildx-action@v3
+      - name: Validate the combined-image build graph
+        run: docker buildx bake --file docker-bake.hcl --print combined >/dev/null
       - name: Keep Creator Signal changes isolated
         run: |
           test -d src/creativesignal
-          grep -Fq 'ghcr.io/creator-signal/fork-glitchtip-glitchtip-backend:master' Dockerfile.prod
+          grep -Fq 'creator-signal-backend' Dockerfile.prod
+          grep -Fq '284e8e65834ad4a4ad75f2c8d4be64e3f0e892f9' docker-bake.hcl
           ! grep -Fq 'registry.gitlab.com/glitchtip/glitchtip-backend' Dockerfile.prod
 
   image:
@@ -51,21 +55,5 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/metadata-action@v5
-        id: meta
-        with:
-          images: ghcr.io/creator-signal/fork-glitchtip-glitchtip-frontend
-          tags: |
-            type=raw,value=master,enable={{is_default_branch}}
-            type=sha
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: Dockerfile.prod
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: FRONTEND_GLITCHTIP_VERSION=${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Build and publish the combined runtime
+        run: docker buildx bake --file docker-bake.hcl combined
