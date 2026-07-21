@@ -52,6 +52,13 @@ export class CreatorSignalLogin implements OnInit {
       return;
     }
     this.starting.set(true);
-    this.auth.providerRedirect(provider.provider, "/login/finalize", "login");
+    let callbackUrl = "/login/finalize";
+    const nextUrl = this.activatedRoute.snapshot.queryParamMap.get("next");
+    if (nextUrl) {
+      const callback = new URL(callbackUrl, window.location.origin);
+      callback.searchParams.set("next", nextUrl);
+      callbackUrl = callback.pathname + callback.search;
+    }
+    this.auth.providerRedirect(provider.provider, callbackUrl, "login");
   }
 }

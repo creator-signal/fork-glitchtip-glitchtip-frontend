@@ -25,4 +25,14 @@ describe("Creator Signal authentication routes", () => {
     expect(template).not.toMatch(/<input|routerLink|Sign Up|Reset Password/);
     expect(template).toContain("Continue with ZITADEL");
   });
+
+  it("preserves protected-route destinations through the OIDC callback", () => {
+    const component = readFileSync(
+      "src/creativesignal/auth/creator-signal-login.ts",
+      "utf8",
+    );
+
+    expect(component).toContain('queryParamMap.get("next")');
+    expect(component).toContain('callback.searchParams.set("next", nextUrl)');
+  });
 });
