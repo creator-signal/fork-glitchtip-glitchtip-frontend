@@ -3,7 +3,7 @@ variable "GITHUB_SHA" {
 }
 
 target "backend" {
-  context    = "https://github.com/creator-signal/fork-glitchtip-glitchtip-backend.git#284e8e65834ad4a4ad75f2c8d4be64e3f0e892f9"
+  context    = "https://github.com/creator-signal/fork-glitchtip-glitchtip-backend.git#4f9e228c7d276d35cc67caad6328b3cd99ae5534"
   dockerfile = "Dockerfile"
   args = {
     IS_CI = "True"
