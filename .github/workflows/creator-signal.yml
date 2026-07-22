@@ -33,7 +33,7 @@ jobs:
         run: |
           test -d src/creativesignal
           grep -Fq 'creator-signal-backend' Dockerfile.prod
-          grep -Fq '4f9e228c7d276d35cc67caad6328b3cd99ae5534' docker-bake.hcl
+          grep -Fq 'ae26d355bcd81ef67dd290693d50c1eec6caf2d3' docker-bake.hcl
           ! grep -Fq 'registry.gitlab.com/glitchtip/glitchtip-backend' Dockerfile.prod
 
   image:
