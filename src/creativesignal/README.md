@@ -18,4 +18,6 @@ message and does not expose password controls.
 `docker-bake.hcl` builds that target from the pinned Creator Signal backend
 commit and feeds it directly into the frontend image, so the published image is
 the complete GlitchTip runtime without requiring cross-repository package
-credentials or falling back to the upstream GitLab backend image.
+credentials or falling back to the upstream GitLab backend image. The pinned backend also
+reconciles the six governed Creator Signal projects, including isolated Sales
+Pulse Admin browser and server projects.
