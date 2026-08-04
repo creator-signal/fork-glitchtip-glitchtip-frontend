@@ -21,3 +21,10 @@ the complete GlitchTip runtime without requiring cross-repository package
 credentials or falling back to the upstream GitLab backend image. The pinned backend also
 reconciles the six governed Creator Signal projects, including isolated Sales
 Pulse Admin browser and server projects.
+
+The combined-image layer also applies a fail-closed compatibility transform to
+the async OAuth2 client. The pinned backend can resolve aiohttp 3.13, while the
+installed allauth async client calls a helper introduced in aiohttp 3.14. The
+transform uses the supported `BasicAuth(...).encode()` path present in the
+pinned runtime and fails the image build if the expected source target changes
+or the encoded header cannot be verified.
