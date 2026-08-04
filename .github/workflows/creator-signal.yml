@@ -33,6 +33,8 @@ jobs:
         run: |
           test -d src/creativesignal
           grep -Fq 'creator-signal-backend' Dockerfile.prod
+          grep -Fq 'aiohttp.BasicAuth(' Dockerfile.prod
+          grep -Fq 'expected exactly one allauth-async aiohttp basic-auth compatibility target' Dockerfile.prod
           grep -Fq 'ae26d355bcd81ef67dd290693d50c1eec6caf2d3' docker-bake.hcl
           ! grep -Fq 'registry.gitlab.com/glitchtip/glitchtip-backend' Dockerfile.prod
 

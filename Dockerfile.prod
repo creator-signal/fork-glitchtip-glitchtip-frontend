@@ -5,4 +5,36 @@ ENV GLITCHTIP_VERSION ${FRONTEND_GLITCHTIP_VERSION}
 
 COPY dist/glitchtip-frontend/browser /code/dist
 
+USER root
+RUN python - <<'PY'
+from pathlib import Path
+import sysconfig
+
+import aiohttp
+
+path = (
+    Path(sysconfig.get_paths()["purelib"])
+    / "allauth_async/socialaccount/providers/oauth2/client.py"
+)
+source = path.read_text()
+old = '''headers["Authorization"] = aiohttp.encode_basic_auth(
+                self.consumer_key, self.consumer_secret, encoding="latin1"
+            )'''
+new = '''headers["Authorization"] = aiohttp.BasicAuth(
+                self.consumer_key, self.consumer_secret, encoding="latin1"
+            ).encode()'''
+if source.count(old) != 1:
+    raise SystemExit(
+        "expected exactly one allauth-async aiohttp basic-auth compatibility target"
+    )
+updated = source.replace(old, new)
+compile(updated, str(path), "exec")
+if aiohttp.BasicAuth("client", "secret", encoding="latin1").encode() != (
+    "Basic Y2xpZW50OnNlY3JldA=="
+):
+    raise SystemExit("aiohttp BasicAuth compatibility check failed")
+path.write_text(updated)
+PY
+USER app:app
+
 RUN SECRET_KEY=ci ./manage.py collectstatic --noinput
