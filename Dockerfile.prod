@@ -4,8 +4,18 @@ ARG FRONTEND_GLITCHTIP_VERSION=local
 ENV GLITCHTIP_VERSION ${FRONTEND_GLITCHTIP_VERSION}
 
 COPY dist/glitchtip-frontend/browser /code/dist
+COPY requirements-security.txt /tmp/requirements-security.txt
 
 USER root
+RUN python -m pip install --no-cache-dir --upgrade \
+    --requirement /tmp/requirements-security.txt && \
+    python -m pip check && \
+    rm /tmp/requirements-security.txt && \
+    rm -rf /usr/local/bin/pip* /usr/local/bin/wheel \
+    /usr/local/lib/python3.14/site-packages/_distutils_hack \
+    /usr/local/lib/python3.14/site-packages/pip* \
+    /usr/local/lib/python3.14/site-packages/setuptools* \
+    /usr/local/lib/python3.14/site-packages/wheel*
 RUN python - <<'PY'
 from pathlib import Path
 import sysconfig

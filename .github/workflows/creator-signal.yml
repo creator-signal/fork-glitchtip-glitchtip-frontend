@@ -33,6 +33,11 @@ jobs:
         run: |
           test -d src/creativesignal
           grep -Fq 'creator-signal-backend' Dockerfile.prod
+          grep -Fq 'requirements-security.txt' Dockerfile.prod
+          grep -Fq 'python -m pip check' Dockerfile.prod
+          grep -Fq '/usr/local/lib/python3.14/site-packages/setuptools*' Dockerfile.prod
+          grep -Fq 'aiohttp==3.14.3' requirements-security.txt
+          grep -Fq 'cryptography==50.0.0' requirements-security.txt
           grep -Fq 'aiohttp.BasicAuth(' Dockerfile.prod
           grep -Fq 'expected exactly one allauth-async aiohttp basic-auth compatibility target' Dockerfile.prod
           grep -Fq 'e28f8f650bb63973e25815d1b08a1908266cf356' docker-bake.hcl
@@ -59,3 +64,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and publish the combined runtime
         run: docker buildx bake --file docker-bake.hcl combined
+      - name: Scan the immutable combined runtime
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ghcr.io/creator-signal/fork-glitchtip-glitchtip-frontend:sha-${{ github.sha }}
+          version: v0.72.0
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          scanners: vuln
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
