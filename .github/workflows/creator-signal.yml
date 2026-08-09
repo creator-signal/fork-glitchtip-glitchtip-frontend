@@ -35,7 +35,7 @@ jobs:
           grep -Fq 'creator-signal-backend' Dockerfile.prod
           grep -Fq 'aiohttp.BasicAuth(' Dockerfile.prod
           grep -Fq 'expected exactly one allauth-async aiohttp basic-auth compatibility target' Dockerfile.prod
-          grep -Fq 'ae26d355bcd81ef67dd290693d50c1eec6caf2d3' docker-bake.hcl
+          grep -Fq 'e28f8f650bb63973e25815d1b08a1908266cf356' docker-bake.hcl
           ! grep -Fq 'registry.gitlab.com/glitchtip/glitchtip-backend' Dockerfile.prod
 
   image:
